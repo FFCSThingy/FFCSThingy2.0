@@ -14,8 +14,9 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 
 router.post('/processExtensionData', async (req, res, next) => {
-	// if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') 
-		// return grades.parseUserHistory(req.body.data);
+	// var data;
+	if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') 
+		res.send(await grades.parseUserHistory(req.body.data));
 	if (req.body.url == 'academics/common/Curriculum')
 		res.send(await curriculum.parseCurriculum(req.body.data));
 });
@@ -33,7 +34,15 @@ router.get('/testCurriculum', (req, res, next) => {
 });
 
 router.get('/testGrades', (req, res, next) => {
-	
+	fs.readFile(path.join(__dirname, '../samples/gradeHistory.html'), async function (error, pgResp) {
+		if (error) {
+			console.log(error);
+		} else {
+			var resp = await grades.parseUserHistory(pgResp);
+			res.send(resp);
+		}
+
+	});
 });
 
 module.exports = router;

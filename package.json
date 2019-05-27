@@ -26,11 +26,14 @@
     "body-parser": "^1.19.0",
     "cheerio": "^1.0.0-rc.3",
     "concurrently": "^4.1.0",
+    "connect-mongo": "^2.0.3",
     "express": "^4.16.4",
+    "express-session": "^1.16.1",
     "moment": "^2.24.0",
     "mongoose": "^5.5.8",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.0",
-    "passport": "^0.4.0"
+    "passport": "^0.4.0",
+    "passport-google-oauth2": "^0.2.0"
   }
 }

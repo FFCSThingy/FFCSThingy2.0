@@ -9,6 +9,8 @@ var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 
 import ext from './routes/ext';
+import user from './routes/user';
+import curriculumRoute from './routes/curriculum';
 
 const GOOGLE_CLIENT_ID = "524977778563-rqfsuge27b7se639i2n4ellt82uhtosv.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "UUNrcLqOXmnP_HweyJirA9VA";
@@ -56,7 +58,7 @@ passport.use(new GoogleStrategy({
 // and create our instances
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/FFCS");
+mongoose.connect("mongodb://localhost:27017/FFCS", { useFindAndModify: false });
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -83,17 +85,18 @@ app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
 
 app.use('/ext', ext);
+app.use('/curriculum', curriculumRoute);
 
 app.get('/', function (req, res) {
 	res.send(`Index<br>` + JSON.stringify(req.user));
 });
 
 app.get('/account', ensureAuthenticated, function (req, res) {
-	res.send(`Account<br>` + JSON.stringify(req.user));
+	res.send(`Account<br>` + req.user);
 });
 
 app.get('/login', function (req, res) {
-	res.send(`Login<br>` + JSON.stringify(req.user));
+	res.send(`Login<br>` + req.user);
 });
 
 // GET /auth/google

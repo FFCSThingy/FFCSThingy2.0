@@ -4,7 +4,7 @@ import './App.css';
 class App extends Component {
 	render() {
 		return (
-			<div classname="container">
+			<div className="container">
 				<h1>Hello World!</h1>
 				<p>I just created my first React App</p>
 			</div>

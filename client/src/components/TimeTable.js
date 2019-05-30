@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class TimeTable extends Component {
   render() {
     return (
-      <div classname="container">
+      <div className="container">
         <h1>Here will be our timetable component</h1>
       </div>
     );

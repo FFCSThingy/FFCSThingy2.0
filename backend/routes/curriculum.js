@@ -26,18 +26,9 @@ function doParseAndSaveCurriculum(filename) {
 				console.log(error);
 			} else {
 				var resp = await curriculum.parseCurriculum(pgResp);
+				resp.reg_prefix = filename;
 
-				var data = {
-					reg_prefix: filename,
-					pc: resp.pc,
-					uc: resp.uc,
-					pe: resp.pe,
-					ue: resp.ue,
-					bridge: resp.bridge,
-					todo_creds: resp.todo_creds,
-				};
-
-				Curriculum.findOneAndUpdate({ reg_prefix: filename }, data, { upsert: true, new: true },
+				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp, { upsert: true, new: true },
 					function (err, doc) {
 						if (err) return reject(err);
 						return resolve(doc);
@@ -47,7 +38,7 @@ function doParseAndSaveCurriculum(filename) {
 	});
 }
 
-router.get('/testCurriculum', (req, res, next) => {
+router.get('/updateCurriculums', (req, res, next) => {
 	var currs = ['17BCI', '17BCE'];
 	var actions = currs.map(doParseAndSaveCurriculum);
 	var results = Promise.all(actions);
@@ -76,5 +67,13 @@ router.get('/getPrefixes', (req, res, next) => {
 		}
 	);
 });
+
+router.post('/curriculumFromPrefix', (req, res, next) => {
+	Curriculum.findOne({ reg_prefix: req.body.reg_prefix }, function(err, doc) {
+		if(err) console.log(err);
+
+		else res.send(doc);
+	});
+})
 
 module.exports = router;

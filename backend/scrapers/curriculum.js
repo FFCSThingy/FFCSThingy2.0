@@ -13,18 +13,18 @@ module.exports.parseCurriculum = (html) => {
 			var curr = {};
 			var courses = [];
 			var course = {};
-			var todoCreds = {};
+			var todo_creds = {};
 
 			var page = $.root();
 			var credTable = page.find('table').eq(0);
 
 			var td = credTable.find('td');
-			todoCreds['pc'] = td.eq(6).text().trim();
-			todoCreds['pe'] = td.eq(9).text().trim();
-			todoCreds['uc'] = td.eq(12).text().trim();
-			todoCreds['ue'] = td.eq(15).text().trim();
-			console.log(todoCreds);
-			curr['todoCreds'] = todoCreds;
+			todo_creds['pc'] = td.eq(6).text().trim();
+			todo_creds['pe'] = td.eq(9).text().trim();
+			todo_creds['uc'] = td.eq(12).text().trim();
+			todo_creds['ue'] = td.eq(15).text().trim();
+			console.log(todo_creds);
+			curr['todo_creds'] = todo_creds;
 
 			var table = page.find("tbody");
 			var table_count = table.length;

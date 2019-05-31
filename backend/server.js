@@ -12,6 +12,8 @@ import ext from './routes/ext';
 import user from './routes/user';
 import curriculumRoute from './routes/curriculum';
 
+import User from './models/User';
+
 const GOOGLE_CLIENT_ID = "524977778563-rqfsuge27b7se639i2n4ellt82uhtosv.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "UUNrcLqOXmnP_HweyJirA9VA";
 
@@ -20,8 +22,10 @@ passport.serializeUser(function (user, done) {
 	done(null, user);
 });
 
-passport.deserializeUser(function (obj, done) {
-	done(null, obj);
+passport.deserializeUser(function (doc, done) {
+	User.findById(doc._id, function(err, user) {
+		done(err, user);
+	});
 });
 
 // Use the GoogleStrategy within Passport.
@@ -43,12 +47,26 @@ passport.use(new GoogleStrategy({
 	function (request, accessToken, refreshToken, profile, done) {
 		// asynchronous verification, for effect...
 		process.nextTick(function () {
+			var user_google_data = {
+				google_id: profile.id,
+				display_name: profile.displayName,
+				email: profile.email,
+				picture: profile.picture,
+			};
+			User.findOneAndUpdate(
+				{ google_id: profile.id }, 
+				user_google_data, 
+				{ upsert: true, new: true },
+				function(err, doc) {
+					if(err) return done(err, false);
+					return done(null, doc);
+				});
 
 			// To keep the example simple, the user's Google profile is returned to
 			// represent the logged-in user.  In a typical application, you would want
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
-			return done(null, profile);
+			// return done(null, profile);
 		});
 	}
 ));
@@ -88,11 +106,11 @@ app.use('/ext', ext);
 app.use('/curriculum', curriculumRoute);
 
 app.get('/', function (req, res) {
-	res.send(`Index<br>` + JSON.stringify(req.user));
+	res.send(`Index<br>` + req.user);
 });
 
 app.get('/account', ensureAuthenticated, function (req, res) {
-	res.send(`Account<br>` + req.user);
+	res.send(req.user);
 });
 
 app.get('/login', function (req, res) {

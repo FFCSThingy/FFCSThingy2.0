@@ -110,7 +110,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/account', ensureAuthenticated, function (req, res) {
-	res.send(req.user);
+	res.json(req.user);
 });
 
 app.get('/login', function (req, res) {

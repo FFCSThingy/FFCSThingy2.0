@@ -4,76 +4,60 @@ import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
 
-// Scrapers
-import grades from '../scrapers/userhistory';
-import curriculum from '../scrapers/curriculum';
-
-// Models
-import Curriculum from '../models/Curriculum';
+// Utilities
+import curriculum from '../utility/curriculumUtility';
+import user from '../utility/userUtility';
 
 const router = express.Router();
 
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-
-function doParseAndSaveCurriculum(filename) {
-	return new Promise((resolve, reject) => {
-		var filepath = path.join(__dirname, '../samples/curriculum/' + filename + '.html');
-
-		fs.readFile(filepath, async function (error, pgResp) {
-			if (error) {
-				console.log(error);
-			} else {
-				var resp = await curriculum.parseCurriculum(pgResp);
-				resp.reg_prefix = filename;
-
-				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp, { upsert: true, new: true },
-					function (err, doc) {
-						if (err) return reject(err);
-						return resolve(doc);
-					});
-			}
-		});
-	});
-}
-
 router.get('/updateCurriculums', (req, res, next) => {
 	var currs = ['17BCI', '17BCE'];
-	var actions = currs.map(doParseAndSaveCurriculum);
+	var actions = currs.map(curriculum.doParseAndSaveCurriculum);
 	var results = Promise.all(actions);
 
 	results.then(data => res.send(data))
 	.catch(err => console.log(err));
 });
 
-router.get('/getPrefixes', (req, res, next) => {
-	Curriculum.aggregate(
-		[{
-			$project: {
-				reg_prefix: 1,
-				_id: 0
-			}
-		}, {
-			$sort: {
-				reg_prefix: 1
-			}
-		}], function(err, data) {
-			if(err) console.log(err);
-			else {
-				data = data.map((dat) => dat.reg_prefix);
-				res.send(data);
-			}
-		}
-	);
+router.get('/getPrefixes', async (req, res, next) => {
+	try {
+		var prefixes = await curriculum.getCurriculumPrefixes();
+		res.json({ success: true, data: prefixes });
+	} catch(err) {
+		console.log("Error in /getPrefixes");
+		console.log(err);
+		res.status(500).json({ success: false, error: "Error in /getPrefixes" });
+	}
 });
 
-router.post('/curriculumFromPrefix', (req, res, next) => {
-	Curriculum.findOne({ reg_prefix: req.body.reg_prefix }, function(err, doc) {
-		if(err) console.log(err);
+router.post('/curriculumFromPrefix', async (req, res, next) => {
+	try {
+		var doc = await curriculum.findCurriculumFromPrefix(reg_prefix);
+		res.json({ success:true, doc: doc });
+	} catch(err) {
+		console.log("Error in /curriculumFromPrefix");
+		console.log(err);
+		res.status(500).json({ success: false, error: "Error in /curriculumFromPrefix" });
+	}
+});
 
-		else res.send(doc);
-	});
-})
+
+router.post('/selectCurriculumForUser', async (req, res, next) => {
+	try {	
+		var currDoc = await curriculum.findCurriculumFromPrefix(reg_prefix);
+		var userDoc = await user.updateUser({ google_id: req.body.google_id }, 
+			{ reg_prefix: currDoc.reg_prefix });
+
+		res.json({ succes: true, doc: userDoc });
+
+	} catch(err) {
+		console.log("Error in /selectCurriculumForUser");
+		console.log(err);
+		res.status(500).json({ success: false, error: "Error in /selectCurriculumForUser" });
+	}
+});
 
 module.exports = router;

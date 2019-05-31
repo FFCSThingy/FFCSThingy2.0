@@ -7,6 +7,9 @@ var userSchema = new mongoose.Schema({
 	email: String,
 	picture: String,
 
+	// FFCS.OOO
+	selected_curriculum: String,
+
 
 	// VTOP
 	name: String,

@@ -1,6 +1,6 @@
 .container {
-    text-align: center;
+  text-align: center;
 }
 .container > h1 {
-    color: steelblue;
+  color: steelblue;
 }

@@ -150,8 +150,13 @@ app.get('/logout', function (req, res) {
 //   the request will proceed.  Otherwise, the user will be redirected to the
 //   login page.
 function ensureAuthenticated(req, res, next) {
-	if (req.isAuthenticated()) { return next(); }
-	res.redirect('/login');
+	req.authenticated = req.isAuthenticated();
+
+	if (req.isAuthenticated()) { 
+		return next(); 
+	}
+	
+	res.status(401).json({ success: false, authenticated: false });
 }
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));

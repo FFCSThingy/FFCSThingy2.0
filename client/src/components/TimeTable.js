@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./TimeTable.css";
+import SlotElement from "./SlotElement";
 class TimeTable extends Component {
   getLabelElement = (labelName, styleClass) => {
     return (
@@ -34,6 +35,12 @@ class TimeTable extends Component {
           {this.getLabelElement("WEDNESDAY", "grayLabel wed")}
           {this.getLabelElement("TURSDAY", "grayLabel thu")}
           {this.getLabelElement("FRIDAY", "grayLabel fri")}
+          <SlotElement isEmpty="empty" slotName="A1L1" />
+          <SlotElement isEmpty="empty" slotName="B1L7" />
+          <SlotElement isEmpty="empty" slotName="C1L13" />
+          <SlotElement isEmpty="empty" slotName="D1L19" />
+          <SlotElement isEmpty="empty" slotName="E1L25" />
+          <SlotElement isEmpty="empty" slotName="F1L2" />
         </div>
         <div className=" grayLabel">
           {this.getLabelElement("L\nU\nN\nC\nH")}

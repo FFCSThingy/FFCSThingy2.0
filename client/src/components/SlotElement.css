@@ -2,22 +2,50 @@
   background-color: rgb(255, 254, 209);
   text-align: center;
   padding-top: 25%;
-  color: grey;
+  color: rgb(105, 103, 103);
   border: 1px solid black;
 }
 
-.a1l1 {
+.emptySlot:hover {
+  background-color: rgb(195, 247, 75);
+  text-align: center;
+  padding-top: 25%;
+  color: rgb(105, 103, 103);
+  border: 1px solid black;
+}
+
+.a1l1,
+.f1l2,
+.d1l2,
+.tb1l4,
+.tg1l5 {
   grid-row: 3/4;
 }
-.b1l7 {
+.b1l7,
+.g1l8,
+.e1l9,
+.tc1l10,
+.taa1l11 {
   grid-row: 4/5;
 }
-.c1l13 {
+.c1l13,
+.a1l14,
+.f1l15,
+.v1l16,
+.v2 {
   grid-row: 5/6;
 }
-.d1l19 {
+.d1l19,
+.b1l20,
+.g1l21,
+.te1l22,
+.tcc1l23 {
   grid-row: 6/7;
 }
-.e1l25 {
+.e1l25,
+.c1l26,
+.ta1l27,
+.tf1l28,
+.td1l29 {
   grid-row: 7/8;
 }

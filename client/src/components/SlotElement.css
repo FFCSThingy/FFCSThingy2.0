@@ -3,7 +3,16 @@
   text-align: center;
   padding-top: 25%;
   color: grey;
+  border: 1px solid rgb(80, 80, 80);
+}
+
+.emptySlot:hover {
+  background-color: rgb(212, 250, 125);
+  text-align: center;
+  padding-top: 25%;
+  color: rgb(105, 103, 103);
   border: 1px solid black;
+  transition: background 0.17s ease-in-out;
 }
 
 .a1l1,.f1l2,.d1l3,.tb1l4,.tg1l5,.l6{

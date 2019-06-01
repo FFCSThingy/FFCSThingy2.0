@@ -8,9 +8,10 @@ import passport from 'passport';
 var GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 
-import ext from './routes/ext';
-import user from './routes/user';
+import extRoute from './routes/ext';
+import userRoute from './routes/user';
 import curriculumRoute from './routes/curriculum';
+import courseRoute from './routes/course';
 
 import User from './models/User';
 
@@ -102,8 +103,9 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
 
-app.use('/ext', ext);
+app.use('/ext', extRoute);
 app.use('/curriculum', curriculumRoute);
+app.use('/course', courseRoute);
 
 app.get('/', function (req, res) {
 	res.send(`Index<br>` + req.user);

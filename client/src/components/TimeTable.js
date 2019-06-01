@@ -33,7 +33,7 @@ class TimeTable extends Component {
 					{this.getLabelElement("MONDAY", "grayLabel mon")}
 					{this.getLabelElement("TUESDAY", "grayLabel tue")}
 					{this.getLabelElement("WEDNESDAY", "grayLabel wed")}
-					{this.getLabelElement("TURSDAY", "grayLabel thu")}
+					{this.getLabelElement("THURSDAY", "grayLabel thu")}
 					{this.getLabelElement("FRIDAY", "grayLabel fri")}
 					<SlotElement isEmpty="empty" slotName="A1/L1" />
 					<SlotElement isEmpty="empty" slotName="B1/L7" />

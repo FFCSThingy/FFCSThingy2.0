@@ -58,7 +58,17 @@ var userSchema = new mongoose.Schema({
 		lang_distib: Number,
 		lang_reqd: Number,
 		lang_earned: Number,
-	}
+	},
+
+	selected_courses: [{
+		code: String,
+		title: String,
+		course_type: String,
+		credits: String,
+		slot: String,
+		faculty: String,
+		venue: String,
+	}]
 
 });
 

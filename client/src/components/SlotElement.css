@@ -6,18 +6,34 @@
   border: 1px solid black;
 }
 
-.a1l1 {
+.a1l1,.f1l2,.d1l3,.tb1l4,.tg1l5,.l6{
   grid-row: 3/4;
 }
-.b1l7 {
+.b1l7,.g1l8,.e1l9,.tc1l10,.taa1l11,.l12 {
   grid-row: 4/5;
 }
-.c1l13 {
+.c1l13,.a1l14,.f1l15,.v1l16,.v2 {
   grid-row: 5/6;
 }
-.d1l19 {
+.d1l19,.b1l20,.g1l21,.te1l22,.tcc1l23,.l24 {
   grid-row: 6/7;
 }
-.e1l25 {
+.e1l25,.c1l26,.ta1l27,.tf1l28,.td1l29,.l30 {
+  grid-row: 7/8;
+}
+
+.a2l31,.f2l32,.d2l33,.tb2l34,.tg2l35,.v3l36{
+  grid-row: 3/4;
+}
+.b2l37,.g2l38,.e2l39,.tc2l40,.taa2l41,.v4l42{
+  grid-row: 4/5;
+}
+.c2l43,.a2l44,.f2l45,.td2l46,.tbb2l47,.v5l48{
+  grid-row: 5/6;;
+}
+.d2l49,.b2l50,.g2l51,.te2l52,.tcc2l53,.v6l54{
+  grid-row: 6/7;
+}
+.e2l55,.c2l56,.ta2l57,.tf2l58,.tdd2l59,.v7l60{
   grid-row: 7/8;
 }

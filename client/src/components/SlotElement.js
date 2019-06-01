@@ -15,8 +15,42 @@ export default class SlotElement extends Component {
 	};
 
 	slashBreak = (name) => {
-		return name.substring(0, 2) + "/" + name.substring(2);
-	}
+		if (name.length>3){
+				var theoryletter=[];
+				var thnumindex;
+				var z=[];
+				var labletterindex;
+				for (var i=0;i<name.length;i++){
+				if (isNaN(name[i])===true)
+				{
+					theoryletter=theoryletter.concat(name[i]);
+				}
+
+				else{
+					thnumindex=i;
+					break;
+				}
+			}
+
+			for (var i=thnumindex;i<name.length;i++){
+				if(isNaN(name[i])===false){
+					z=z.concat(name[i]);
+				}
+				else{
+					labletterindex=i;
+					break;
+				}
+
+			}
+
+			return name.slice(0,labletterindex)+"/"+name.slice(labletterindex);
+
+		}
+
+		else{
+				return name;
+			}
+}
 
 	render() {
 		return (

@@ -1,0 +1,23 @@
+.emptySlot {
+  background-color: rgb(255, 254, 209);
+  text-align: center;
+  padding-top: 25%;
+  color: grey;
+  border: 1px solid black;
+}
+
+.a1l1 {
+  grid-row: 3/4;
+}
+.b1l7 {
+  grid-row: 4/5;
+}
+.c1l13 {
+  grid-row: 5/6;
+}
+.d1l19 {
+  grid-row: 6/7;
+}
+.e1l25 {
+  grid-row: 7/8;
+}

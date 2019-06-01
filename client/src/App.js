@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import "whatwg-fetch";
 // Removed logo since we don't need it anymore
-import "./App.css";
+import './App.css';
+import './components/TimeTable'
+import TimeTable from './components/TimeTable';
 class App extends Component {
 	constructor(state) {
 		super(state);
@@ -26,10 +28,7 @@ class App extends Component {
 			<div className="container">
 				<h1>Hello World!</h1>
 				<p>I just created my first React App</p>
-				<p>{ this.state.data.display_name }</p>
-				<img src={ this.state.data.picture }></img>
-
-				<p>{ this.state.error }</p>
+				<TimeTable/>
 			</div>
 		);
 	}

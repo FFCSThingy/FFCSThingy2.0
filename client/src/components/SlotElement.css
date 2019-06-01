@@ -18,34 +18,59 @@
 .f1l2,
 .d1l2,
 .tb1l4,
-.tg1l5 {
+.tg1l5,
+.a2l31,
+.f2l32,
+.d2l33,
+.tb2l34,
+.tg2l35,
+.a2l31 {
   grid-row: 3/4;
 }
 .b1l7,
 .g1l8,
 .e1l9,
 .tc1l10,
-.taa1l11 {
+.taa1l11,
+.g2l38,
+.e2l39,
+.tc2l40,
+.taa2l41,
+.b2l37 {
   grid-row: 4/5;
 }
 .c1l13,
 .a1l14,
 .f1l15,
 .v1l16,
-.v2 {
+.v2,
+.a2l44,
+.f2l45,
+.td2l46,
+.tbb2l47,
+.c2l43 {
   grid-row: 5/6;
 }
 .d1l19,
 .b1l20,
 .g1l21,
 .te1l22,
-.tcc1l23 {
+.tcc1l23,
+.b2l50,
+.g2l51,
+.te2l52,
+.tcc2l53,
+.d2l49 {
   grid-row: 6/7;
 }
 .e1l25,
-.c1l26,
+.e2l55 .c1l26,
 .ta1l27,
 .tf1l28,
-.td1l29 {
+.td1l29,
+.c2l56,
+.ta2l57,
+.tf2l58,
+.tdd2l59 {
   grid-row: 7/8;
 }

@@ -82,6 +82,36 @@ class TimeTable extends Component {
 					{this.getLabelElement("4:46PM\nTO\n5:30PM", "blueLabel lab")}
 					{this.getLabelElement("5:31PM\nTO\n6:15PM", "blueLabel lab")}
 					{this.getLabelElement("6:16PM\nTO\n7:00PM", "blueLabel lab")}
+					<SlotElement isEmpty="empty" slotName="A2/L31" />
+					<SlotElement isEmpty="empty" slotName="F2/L32" />
+					<SlotElement isEmpty="empty" slotName="D2/L33" />
+					<SlotElement isEmpty="empty" slotName="TB2/L34" />
+					<SlotElement isEmpty="empty" slotName="TG2/L35" />
+					<SlotElement isEmpty="empty" slotName="V3/L36" />
+					<SlotElement isEmpty="empty" slotName="B2/L37" />
+					<SlotElement isEmpty="empty" slotName="G2/L38" />
+					<SlotElement isEmpty="empty" slotName="E2/L39" />
+					<SlotElement isEmpty="empty" slotName="TC2/L40" />
+					<SlotElement isEmpty="empty" slotName="TAA2/L41" />
+					<SlotElement isEmpty="empty" slotName="V4/L42" />
+					<SlotElement isEmpty="empty" slotName="C2/L43" />
+					<SlotElement isEmpty="empty" slotName="A2/L44" />
+					<SlotElement isEmpty="empty" slotName="F2/L45" />
+					<SlotElement isEmpty="empty" slotName="TD2/L46" />
+					<SlotElement isEmpty="empty" slotName="TBB2/L47" />
+					<SlotElement isEmpty="empty" slotName="V5/L48" />
+					<SlotElement isEmpty="empty" slotName="D2/L49" />
+					<SlotElement isEmpty="empty" slotName="B2/L50" />
+					<SlotElement isEmpty="empty" slotName="G2/L51" />
+					<SlotElement isEmpty="empty" slotName="TE2/L52" />
+					<SlotElement isEmpty="empty" slotName="TCC2/L53" />
+					<SlotElement isEmpty="empty" slotName="V6/L54" />
+					<SlotElement isEmpty="empty" slotName="E2/L55" />
+					<SlotElement isEmpty="empty" slotName="C2/L56" />
+					<SlotElement isEmpty="empty" slotName="TA2/L57" />
+					<SlotElement isEmpty="empty" slotName="TF2/L58" />
+					<SlotElement isEmpty="empty" slotName="TDD2/L59" />
+					<SlotElement isEmpty="empty" slotName="V7/L60" />
 				</div>
 			</div>
 		);

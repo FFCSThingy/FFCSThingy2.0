@@ -35,7 +35,7 @@ router.get('/getPrefixes', async (req, res, next) => {
 
 router.post('/curriculumFromPrefix', async (req, res, next) => {
 	try {
-		var doc = await curriculum.findCurriculumFromPrefix(reg_prefix);
+		var doc = await curriculum.findCurriculumFromPrefix(req.body.reg_prefix);
 		res.json({ success:true, doc: doc });
 	} catch(err) {
 		console.log("Error in /curriculumFromPrefix");

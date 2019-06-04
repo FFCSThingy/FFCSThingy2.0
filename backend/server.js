@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import bodyParser from 'body-parser';
 import logger from 'morgan';
 import mongoose from 'mongoose';
@@ -99,6 +100,9 @@ app.use(passport.session());
 // set our port to either a predetermined port number if you have set it up, or 3001
 const API_PORT = process.env.API_PORT || 3001;
 
+app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
+
+
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
@@ -107,16 +111,8 @@ app.use('/ext', extRoute);
 app.use('/curriculum', curriculumRoute);
 app.use('/course', courseRoute);
 
-app.get('/', function (req, res) {
-	res.send(`Index<br>` + req.user);
-});
-
 app.get('/account', ensureAuthenticated, function (req, res) {
 	res.json(req.user);
-});
-
-app.get('/login', function (req, res) {
-	res.send(`Login<br>` + req.user);
 });
 
 // GET /auth/google
@@ -145,6 +141,9 @@ app.get('/logout', function (req, res) {
 	res.redirect('/');
 });
 
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+});
 
 // Simple route middleware to ensure user is authenticated.
 //   Use this route middleware on any resource that needs to be protected.  If

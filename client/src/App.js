@@ -14,15 +14,15 @@ class App extends Component {
 		};
 	}
 
-	async componentWillMount() {
-		var res = await fetch("/account");
-		var parsed = await res.json();
+	// async componentWillMount() {
+	// 	var res = await fetch("/account");
+	// 	var parsed = await res.json();
 
-		if(parsed.authenticated)
-			this.setState({ data: parsed });
-		else
-			this.setState({ error: "Not Authenticated" });	
-	}
+	// 	if(parsed.authenticated)
+	// 		this.setState({ data: parsed });
+	// 	else
+	// 		this.setState({ error: "Not Authenticated" });	
+	// }
 
 	render() {
 		return (

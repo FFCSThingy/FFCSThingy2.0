@@ -4,6 +4,7 @@ import "whatwg-fetch";
 import './App.css';
 import './components/TimeTable'
 import TimeTable from './components/TimeTable';
+import SlotTable from './components/slotTable';
 class App extends Component {
 	constructor(state) {
 		super(state);
@@ -28,7 +29,11 @@ class App extends Component {
 			<div className="container">
 				<h1>Hello World!</h1>
 				<p>I just created my first React App</p>
+				
+				<SlotTable/>
 				<TimeTable/>
+				
+
 			</div>
 		);
 	}

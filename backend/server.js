@@ -58,7 +58,7 @@ passport.use(new GoogleStrategy({
 			User.findOneAndUpdate(
 				{ google_id: profile.id }, 
 				user_google_data, 
-				{ upsert: true, new: true },
+				{ upsert: true, new: true, setDefaultsOnInsert: true },
 				function(err, doc) {
 					if(err) return done(err, false);
 					return done(null, doc);

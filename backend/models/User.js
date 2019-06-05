@@ -9,6 +9,7 @@ var userSchema = new mongoose.Schema({
 
 	// FFCS.OOO
 	selected_curriculum: String,
+	timestamp: { type: Date, default: Date.now() },
 
 
 	// VTOP
@@ -68,6 +69,17 @@ var userSchema = new mongoose.Schema({
 		slot: String,
 		faculty: String,
 		venue: String,
+	}],
+
+	previous_timetables: [{
+		code: String,
+		title: String,
+		course_type: String,
+		credits: String,
+		slot: String,
+		faculty: String,
+		venue: String,
+		semester: String
 	}]
 
 });

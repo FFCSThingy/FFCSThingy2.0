@@ -4,7 +4,7 @@ var courseSchema = mongoose.Schema({	// From the data given in the sheet
 	code: String,
 	title: String,
 	course_type: String,
-	credits: String,
+	credits: Number,
 	slot: String, 
 	faculty: String,
 	venue: String,

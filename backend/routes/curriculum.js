@@ -33,10 +33,10 @@ router.get('/getPrefixes', async (req, res, next) => {
 	}
 });
 
-router.post('/curriculumFromPrefix', async (req, res, next) => {
+router.get('/getCurriculumFromPrefix/:prefix', async (req, res, next) => {
 	try {
-		var doc = await curriculum.findCurriculumFromPrefix(reg_prefix);
-		res.json({ success:true, doc: doc });
+		var doc = await curriculum.findCurriculumFromPrefix(req.params.prefix);
+		res.json({ success:true, data: doc });
 	} catch(err) {
 		console.log("Error in /curriculumFromPrefix");
 		console.log(err);
@@ -51,7 +51,7 @@ router.post('/selectCurriculumForUser', async (req, res, next) => {
 		var userDoc = await user.updateUser({ google_id: req.body.google_id }, 
 			{ reg_prefix: currDoc.reg_prefix });
 
-		res.json({ succes: true, doc: userDoc });
+		res.json({ succes: true, data: userDoc });
 
 	} catch(err) {
 		console.log("Error in /selectCurriculumForUser");

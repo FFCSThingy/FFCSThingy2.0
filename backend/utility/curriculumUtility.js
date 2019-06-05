@@ -21,7 +21,7 @@ module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(file
 				var resp = await curriculum.parseCurriculum(pgResp);
 				resp.reg_prefix = filename;
 
-				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp, { upsert: true, new: true },
+				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp, { upsert: true, new: true, setDefaultsOnInsert: true },
 					function (err, doc) {
 						if (err) return reject(err);
 						return resolve(doc);

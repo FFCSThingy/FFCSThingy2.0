@@ -3,8 +3,7 @@ import bodyParser from 'body-parser';
 import fs from 'fs';
 import path from 'path';
 
-import grades from '../scrapers/userhistory';
-import curriculum from '../scrapers/curriculum';
+import user from '../utility/userUtility';
 
 
 const router = express.Router();
@@ -12,7 +11,30 @@ const router = express.Router();
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
+router.get('/getSelectedCourses', async (req, res, next) => {
+	try {
+		var data = await user.getSelectedCourses(req.user._id);
+		res.json({ success: true, data: data });
+	} catch (err) {
+		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });
+		console.log(err);
+	}
+});
 
+router.post('/updateSelectedCoursesBulk', async (req, res, next) => {
+	try {
+		var queryData = { _id: req.user.id }
+		var updateData = { selected_courses: req.body.selected_courses };
+
+		var data = await user.updateUser(queryData, updateData);
+		res.json({ success: true, data: data });
+	} catch (err) {
+		res.status(500).json({ success: false, message: '/updateSelectedCoursesBulk failed' });
+		console.log(err);
+	}
+});
+
+// router.post('/')
 
 
 module.exports = router;

@@ -11,3 +11,228 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
+#root {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+
+#courseselection{
+  display: block;
+  width:27%;
+  margin-top: 12%;
+  margin-left: 5%;
+  margin-right:auto;
+  padding:1.1em;
+  height:0.5em;
+  border-radius: 5em;
+  border:2px solid #B4CEFB;
+  text-align:center;
+  font-family: 'Montserrat', sans-serif;
+}
+input::placeholder {
+  opacity:0.7;
+  font-size: relative;
+  text-align: center;
+}
+
+
+#filter{
+  display: block;
+  width: 12%;
+  margin-left:37%;
+  margin-top:0.8em;
+  z-index: 11;
+}
+ .courseTable{
+  margin-top:2%;  
+  border:2px black solid;
+  width:100%;
+  float:left;
+  margin-left:1%;
+   border-collapse: collapse;   
+}
+
+.lefthead{
+  border:2px black solid;
+
+}
+.leftdata{
+  border:2px green solid;
+  text-align:center;
+} 
+.slotTable{
+border:2px black inset;
+width:60%;
+height:620px;
+display:block;  
+margin-top:2%; 
+float:left; 
+margin-left:2%; 
+max-height:100%;
+}
+
+
+/* h1{
+  border:black 2px solid;
+} */
+
+button{
+  border:none;
+  margin:0.7%;
+  font-size:15px;
+  padding: 0.7%;
+  background:none;
+}
+button:active{
+  border:#eee 2px inset;
+}
+
+.venue{
+  margin-left:60%;
+}
+.hide{
+  opacity:0;
+}
+.show{
+  opacity:1;
+  margin-top:2%;
+  margin-left: auto;
+  margin-right: auto;
+}
+#one{
+  margin-left:7%;
+  margin-right:7%;
+  text-decoration: none;
+  color:black;
+}
+#one:hover{
+  border :#eee solid;
+  border-radius:20px;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+.after span{
+  display:inline-block;
+  margin:5%;
+  margin-top:7%;
+  margin-bottom:7%;
+    
+  
+}
+.before{
+ 
+  display:none;
+ 
+}
+
+.after{
+ /* height:25%; */
+ position: absolute;
+  border:black 2px solid;
+  z-index:1;
+  top:25%;  
+  width:30%;
+  display:block;
+  left:50%;
+  animation: pop 0.3s both ease-out;
+}
+
+@keyframes pop { 
+  0%{transform:translateY(-100px);}
+  50%{transform:translateY(0px);} 
+  75%{transform:translateY(-10px);}
+  100%{transform:translateY(0px);}
+}
+
+
+
+#courseListTbl{
+  width:100%;
+  border:solid black solid;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.FinalCT{
+  margin-top:1%;
+}
+
+.slottable{
+  width:95%;
+  margin-left:auto;
+  margin-right: auto;
+  padding-top:5%;
+  margin-bottom:5%;
+  clear:left; 
+  text-align:center;
+}
+.ColumnOneDays{
+  width:7.9%;
+}
+.TheoryHours{
+  width:7.9%;
+}
+
+.LabHours{
+  width: 7.9%;
+}
+
+td{
+  white-space: nowrap;
+  border-collapse: collapse;
+  border: 1px solid; 
+  font-family: 'Maven Pro', sans-serif;
+}
+tr{
+  white-space:nowrap; 
+  border-collapse: collapse;
+  border:grey 1px solid;
+  font-family: 'Maven Pro', sans-serif;
+}
+th{
+  white-space: nowrap;
+  border-collapse: collapse;  
+  border:grey 1px solid;
+  font-family: 'Maven Pro', sans-serif;
+}
+.table-table-bordered{
+  border-collapse: collapse;
+  border:none ;
+  border:grey 1px solid; 
+  height:450px;
+  font-family: 'Maven Pro', sans-serif;
+}
+#data{
+  cursor:pointer;
+  background:#FBF1E3;
+  color:#595959; 
+}
+#data:hover{
+  background:lightseagreen;
+} 
+
+.courselist{
+  margin-top:1.4%;
+  max-height:650px;
+  clear:both;
+  overflow: scroll;
+  width:35%;
+  float:left;
+  padding-right: 15px;  
+
+} 
+.courselist::-webkit-scrollbar { width: 0 !important }
+
+#newdiv{
+ float:left;
+
+}
+
+#newouterdiv{
+text-align:center;
+}

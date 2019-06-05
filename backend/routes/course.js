@@ -66,7 +66,13 @@ router.get('/getCourseByDetails/:code/:type/:faculty/:venue', async (req, res, n
 			venue: req.params.venue
 		};
 
-		res.json(await course.getCourseDetails(data));
+		var doc = await course.getCourseDetails(data)
+
+		if(doc)
+			res.json({ success: true, data: doc });
+		else
+			res.status(404).json({ success: false, message: 'Not found' });
+		
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByDetails failed' });
 		console.log(err);
@@ -79,7 +85,13 @@ router.get('/getCourseByID/:id', async (req, res, next) => {
 			_id: req.params.id,
 		};
 
-		res.json(await course.getCourseDetails(data));
+		var doc = await course.getCourseDetails(data)
+
+		if (doc)
+			res.json({ success: true, data: doc });
+		else
+			res.status(404).json({ success: false, message: 'Not found' });
+			
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByID failed' });
 		console.log(err);

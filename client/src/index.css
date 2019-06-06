@@ -24,7 +24,7 @@ code {
   display: block;
   width:27%;
   margin-top: 12%;
-  margin-left: 5%;
+  margin-left: 3.5%;
   margin-right:auto;
   padding:1.1em;
   height:0.5em;
@@ -39,14 +39,6 @@ input::placeholder {
   text-align: center;
 }
 
-
-#filter{
-  display: block;
-  width: 12%;
-  margin-left:37%;
-  margin-top:0.8em;
-  z-index: 11;
-}
  .courseTable{
   margin-top:2%;  
   border:2px black solid;
@@ -123,23 +115,6 @@ button:active{
   margin-bottom:7%;
     
   
-}
-.before{
- 
-  display:none;
- 
-}
-
-.after{
- /* height:25%; */
- position: absolute;
-  border:black 2px solid;
-  z-index:1;
-  top:25%;  
-  width:30%;
-  display:block;
-  left:50%;
-  animation: pop 0.3s both ease-out;
 }
 
 @keyframes pop { 
@@ -218,7 +193,7 @@ th{
 
 .courselist{
   margin-top:1.4%;
-  max-height:650px;
+  max-height:480px;
   clear:both;
   overflow: scroll;
   width:35%;
@@ -235,4 +210,9 @@ th{
 
 #newouterdiv{
 text-align:center;
+}
+#search-bar a{
+  position:absolute;
+  top:24.6%;
+  left:30.5%;
 }

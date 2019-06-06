@@ -27,7 +27,7 @@ handleclick=(e)=>{
                 x.appendChild(y);
                 y.textContent=e.target.textContent;
                 y.href="#";
-                y.setAttribute(y,"{this.handleaddedfilters}");
+                y.setAttribute("onClick","{this.handleaddedfilters}");
             }
 
 

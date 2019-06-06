@@ -51,18 +51,9 @@ render() {
         <form onSubmit={this.handleSubmit}>
         <input onChange={this.handleChange} placeholder="Search By Course Code/ Title / Slot" type="text" id="courseselection" />
         </form>
-        <a href="#"><i class="fas fa-filter" id="filter" onClick={this.handleClick}></i></a>
+        <a href="#"><i class="material-icons" onClick={this.handleSubmit}>search</i></a>
 
-        <div className="before" id="LTJPC" >
-            
-           <a onClick={this.handleclickevent} href="#"><span>Theory Only</span></a>
-            <a onClick={this.handleclickevent} href="#"><span>Lab Only</span></a>
-            <a onClick={this.handleclickevent} href="#"><span>Theory+Lab</span></a>
-            <a onClick={this.handleclickevent} href="#"><span>Theory+Project</span></a>
-            <a onClick={this.handleclickevent} href="#"><span>Theory+Lab+Project</span></a>
-
-        </div>
-
+ 
    </div>
 
   )

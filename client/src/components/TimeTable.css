@@ -3,6 +3,7 @@
   grid-template-columns: 12fr 1fr 10fr;
   text-align: center;
   grid-column-gap: 2px;
+  width:100%;
 }
 
 .sectionGridMorning {

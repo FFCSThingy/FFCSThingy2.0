@@ -30,13 +30,13 @@ class App extends React.Component {
 	}
 	
 	
-//	constructor(state) {
-//		super(state);
-//		this.state = {
-//			data: {},
-//			error: null
-//		};
-//	}
+	// constructor(state) {
+	// 	super(state);
+	// 	this.state = {
+	// 		data: {},
+	// 		error: null
+	// 	};
+	// }
 
 	// async componentWillMount() {
 	// 	var res = await fetch("/account");

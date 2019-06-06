@@ -93,7 +93,8 @@ module.exports.addCourseToDB = (course) => {
 			slot: course.slot,
 			faculty: course.faculty,
 			credits: course.credits,
-			title: course.title
+			title: course.title,
+			timestamp: Date.now()
 		}
 
 		Course.findOneAndUpdate(queryData, updateData, 

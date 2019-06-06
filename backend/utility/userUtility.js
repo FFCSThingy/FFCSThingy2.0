@@ -30,9 +30,13 @@ module.exports.findUserByID = (id) => {
 	});
 }
 
-module.exports.updateUser = function updateUser(query, update, upsert=false, newVal=true) {
+module.exports.updateUser = function updateUser(query, update, 
+	upsert=false, newVal=true, setDefaultsVal=true) {
+		
 	return new Promise((resolve, reject) => {
-		User.findOneAndUpdate(query, update, { upsert: upsert, new: newVal },
+		update.timestamp = Date.now();
+		User.findOneAndUpdate(query, update, 
+			{ upsert: upsert, new: newVal, setDefaultsOnInsert: setDefaultsVal},
 			function (err, doc) {
 				if(err) return reject(err);
 				return resolve(doc);

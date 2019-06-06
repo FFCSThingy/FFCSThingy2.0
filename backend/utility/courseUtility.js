@@ -7,6 +7,8 @@ import Curriculum from '../models/Curriculum';
 import User from '../models/User';
 import Course from '../models/Course';
 
+import system from './systemUtility';
+
 // Files
 const xlsxInputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.xlsx');
 const jsonOutputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.json');
@@ -103,5 +105,14 @@ module.exports.addCourseToDB = (course) => {
 				if(err) return reject(err);
 				return resolve(doc._id);
 			});
+	});
+}
+
+module.exports.cleanCoursesAfterRepopulate = (time) => {
+	return new Promise((resolve, reject) => {
+		Course.deleteMany({ timestamp: { $lt: time } }, function(err, details, docs) {
+			if(err) return reject(err);
+			return resolve(details);
+		});
 	});
 }

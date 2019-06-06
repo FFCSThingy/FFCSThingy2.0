@@ -16,6 +16,8 @@ import courseRoute from './routes/course';
 
 import User from './models/User';
 
+import user from './utility/userUtility';
+
 const GOOGLE_CLIENT_ID = "524977778563-rqfsuge27b7se639i2n4ellt82uhtosv.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "UUNrcLqOXmnP_HweyJirA9VA";
 
@@ -24,10 +26,16 @@ passport.serializeUser(function (user, done) {
 	done(null, user);
 });
 
-passport.deserializeUser(function (doc, done) {
-	User.findById(doc._id, function(err, user) {
-		done(err, user);
-	});
+passport.deserializeUser(async function (doc, done) {
+	try {
+		var userDoc = await user.findUserByID(doc._id);
+		return done(null, userDoc);
+	} catch(err) {
+		return done(err, false);
+	}
+	// User.findById(doc._id, function(err, user) {
+	// 	done(err, user);
+	// });
 });
 
 // Use the GoogleStrategy within Passport.
@@ -48,21 +56,31 @@ passport.use(new GoogleStrategy({
 },
 	function (request, accessToken, refreshToken, profile, done) {
 		// asynchronous verification, for effect...
-		process.nextTick(function () {
-			var user_google_data = {
+		process.nextTick(async function () {
+			var update_data = {
 				google_id: profile.id,
 				display_name: profile.displayName,
 				email: profile.email,
 				picture: profile.picture,
+				timestamp: Date.now()
 			};
-			User.findOneAndUpdate(
-				{ google_id: profile.id }, 
-				user_google_data, 
-				{ upsert: true, new: true, setDefaultsOnInsert: true },
-				function(err, doc) {
-					if(err) return done(err, false);
-					return done(null, doc);
-				});
+
+			var query_data = { google_id: profile.id }
+			
+			try {
+				var newDoc = await user.updateUser(query_data, update_data, true, true, true);
+				return done(null, newDoc);
+			} catch(err) {
+				if(err) return done(err, false);
+			}
+			// User.findOneAndUpdate(
+			// 	query_data, 
+			// 	update_data, 
+			// 	{ upsert: true, new: true, setDefaultsOnInsert: true },
+			// 	function(err, doc) {
+			// 		if(err) return done(err, false);
+			// 		return done(null, doc);
+			// 	});
 
 			// To keep the example simple, the user's Google profile is returned to
 			// represent the logged-in user.  In a typical application, you would want

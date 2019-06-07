@@ -29,23 +29,46 @@ module.exports.getCourseList = () => {
 				$group: {
 					_id: {
 						code: "$code",
-						title: "$title",
-						credits: "$credits"
-					}
+						// title: "$title",
+						// credits: "$credits"
+					},
+					title: { $addToSet: "$title" },
+					lengths: { $addToSet: { $strLenCP: "$title" } }
 				}
 			}, {
 				$project: {
 					code: "$_id.code",
-					title: "$_id.title",
-					credits: "$_id.credits",
+					title: "$title",
+					maxLength: { $max: "$lengths" },
+					lengths: "$lengths",
+					// credits: "$_id.credits",
 					_id: 0
 				}
-			},{
+			}, {
+				$project: {
+					code: 1,
+					title: 1,
+					maxLength: 1,
+					lengths: 1,
+					index: { $indexOfArray: [ "$lengths", "$maxLength" ] },
+				}
+			}, {
+				$project: {
+					code: 1,
+					// title: 1,
+					// maxLength: 1,
+					// lengths: 1,
+					// index: 1,
+					// longestTitle: { $arrayElemAt: [ "$title", "$index" ] },
+					title: { $arrayElemAt: ["$title", "$index"] },
+				}
+			}, {
 				$sort: {
 					code: 1
 				}
 			}
 		], function(err, doc) {
+			console.log(err);
 			if(err) return reject(err);
 			return resolve(doc);
 		})

@@ -29,13 +29,15 @@ module.exports.getCourseList = () => {
 				$group: {
 					_id: {
 						code: "$code",
-						title: "$title"
+						title: "$title",
+						credits: "$credits"
 					}
 				}
 			}, {
 				$project: {
 					code: "$_id.code",
 					title: "$_id.title",
+					credits: "$_id.credits",
 					_id: 0
 				}
 			},{

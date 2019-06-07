@@ -3,17 +3,19 @@ constructor function(line 33) is commented for now.
 gives error when enabled.
 */
 
+// 'Course' is now 'CourseSelect' to avoid confusion (left table)
+// 'CourseTable' is the final bottom table for regisered courses
+
 import React from 'react';
 import Search from './components/searchBar';
-import Course from './components/course.js';
-//import Table from './components/table';
+import CourseSelect from './components/course-select-table';
+import SlotTable from './components/slotTable';
+import TimeTable from './components/TimeTable';
 import CourseTable from './components/coursetable';
 import "whatwg-fetch";
-// Removed logo since we don't need it anymore
 import './App.css';
 import './components/TimeTable'
-import TimeTable from './components/TimeTable';
-import SlotTable from './components/slotTable';
+
 class App extends React.Component {
 	
 	state={
@@ -50,9 +52,9 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div class="container">
 			<Search addCourse={this.addCourse}/>
-			<Course array={this.state.array}/>
+			<CourseSelect array={this.state.array}/>
 			<SlotTable/>
 			<TimeTable/>
 			<CourseTable/>   

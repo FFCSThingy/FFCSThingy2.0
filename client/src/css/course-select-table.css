@@ -1,0 +1,59 @@
+/*
+TODO------
+-fix word-wrap for long course titles
+-set alignment with search bar
+-fix row margin
+*/
+
+.courseTable {  
+    margin: 0 0 0 10%;
+    border-radius: 30px;
+    border: 2px solid #B4CEFB;
+    width: 84%;
+    float:left;
+    padding: 9px 20px;
+    table-layout: fixed;
+}
+    
+.code-head, .title-head {
+    border:none;
+    font-family: 'Montserrat', sans-serif;
+    width:20px;
+    padding-bottom: 20px;
+    padding-top: 9px;
+}
+
+.courses {
+    border-radius: 5em;
+    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    transition: box-shadow 0.17s ease-in-out;
+}
+
+.courses:hover {
+    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
+    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
+    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
+    transition: box-shadow 0.17s ease-in-out;
+}
+
+.course-code {
+    font-family: 'Montserrat', sans-serif;
+    word-wrap: break-word;
+    border:none;
+    text-align:center;
+    position: relative;
+    right: -1px;
+}
+
+.course-title {
+    font-family: 'Montserrat', sans-serif;
+    word-wrap: break-word;
+    border:none;
+    text-align:center;
+    padding: 20px;
+    margin-bottom: 2em;
+    position: relative;
+    left: -1px;
+}

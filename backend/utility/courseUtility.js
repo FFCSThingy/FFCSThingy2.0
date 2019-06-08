@@ -50,7 +50,24 @@ module.exports.getCourseList = () => {
 					code: "$_id.code",
 					credits: { $sum: "$credits" },
 					types: 1,
+					titles: "$_id.title",
 					title: { $arrayElemAt: ["$_id.title", { $indexOfArray: [ "$_id.lengths", { $max: "$_id.lengths" } ] } ] },
+					_id: 0
+				}
+			}, {
+				$group: {
+					_id: {
+						code: "$code"
+					},
+					titles: { $addToSet: "$title" },
+					lengths: { $addToSet: { $strLenCP: "$title" } },
+					credits: { $sum: "$credits" },
+				}
+			}, {
+				$project: {
+					code: "$_id.code",
+					credits: { $sum: "$credits" },
+					title: { $arrayElemAt: ["$titles", { $indexOfArray: ["$lengths", { $max: "$lengths" }] }] },
 					_id: 0
 				}
 			}, {

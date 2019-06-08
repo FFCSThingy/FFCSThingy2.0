@@ -22,10 +22,12 @@ class TimeTable extends Component {
 		}
 
 		for(var i=0;i<slots.length;i++){
-				var slotClass = document.getElementsByClassName(slots[i])[0];
-				slotClass.style.background="yellowgreen";
-				slotClass.style.color="black";
+				var slotClass = document.getElementsByClassName(slots[i]);
+				for(var j=0;j<slotClass.length;j++){
+					slotClass[j].style.background="yellowgreen";
+					slotClass[j].style.color="black";
 		}
+	}
 		
 		return (
 			<div className="containerGrid">

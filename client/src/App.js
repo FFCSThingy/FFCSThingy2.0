@@ -10,6 +10,7 @@ import CourseTable from './components/coursetable';
 import "whatwg-fetch";
 import './App.css';
 import './components/TimeTable'
+import axios from 'axios';
 
 class App extends React.Component {
 
@@ -24,14 +25,25 @@ class App extends React.Component {
 	}
 
 	async componentWillMount() {
-		var res = await fetch("/course/getCourseList");
-		var parsed = await res.json();
+		axios.get("/course/getCourseList")
+		.then(res=>{
+			if(res.data.success)
+				this.setState({ data: res.data.data })
+			else{
+				this.setState({ error: res.data.message })
+			}
+		})
+		// var res = await fetch("/course/getCourseList");
+		// var parsed = await res.json();
 
-		if (parsed.success)
-			this.setState({ data: parsed.data });
-		else
-			this.setState({ error: parsed.message});
-	}
+		// if (parsed.success)
+		// 	this.setState({ courseList: parsed.data });
+			
+		// else{
+		// 	this.setState({ error: parsed.message});
+	//}
+}
+	
 
 	fillSlots=(slot,list)=>{
 		var copyList=[...this.state.list,list];

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../css/course-select-table.css';
 
-const Course = ({ data }) => {
+const CourseSelect = ({ data }) => {
 
 	var courselist = data.map(value => {
 		return (
@@ -30,7 +30,7 @@ const Course = ({ data }) => {
 
 
 
-export default Course;
+export default CourseSelect;
 
 
 

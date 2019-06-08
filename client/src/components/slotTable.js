@@ -4,21 +4,20 @@ import './slotTable.css';
 
 class SlotTable extends Component {
 	state = {
-		heatmap: [] || localStorage.getItem('heatmap'),
+		heatmap: [],
+		timestamp: null || localStorage.getItem('heatmapTimestamp'),
 		error: null,
 	}
 	componentWillMount() {
-		// TODO: Add heatmap timestamp and its relevant storage once updated on backend. 
-		// Use this for further requests. 
-		axios.get('/course/getFullHeatmap')
+		axios.get("/course/getFullHeatmap")
 			.then(res => {
-				// console.log(res.status);
 				if (res.data.success) {
 					if (res.status == 304)
-						this.setState({ heatmap: localStorage.getItem('heatmap') })
+						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
 					else {
-						this.setState({ heatmap: res.data.data });
-						localStorage.setItem('heatmap', JSON.stringify(res.data.data));
+						this.setState({ heatmap: res.data.data.heatmap });
+						localStorage.setItem('heatmapTimestamp', JSON.stringify(res.data.data.heatmap));
+						localStorage.setItem('heatmap', JSON.stringify(res.data.data.timestamp));
 					}
 
 				} else

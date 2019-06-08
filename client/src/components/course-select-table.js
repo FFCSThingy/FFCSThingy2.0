@@ -6,23 +6,23 @@ class CourseSelect extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			courseList: [] || localStorage.getItem('courseList'),
+			courseList: [],
+			timestamp: null || localStorage.getItem('courseListTimestamp'),
 			error: null
 		}
 	}
 
 	async componentWillMount() {
-		// TODO: Add courseList timestamp and its relevant storage once updated on backend. 
-		// Use this for further requests. 
 		axios.get("/course/getCourseList")
 			.then(res => {
-				// console.log(res.status);
 				if (res.data.success) {
-					if (res.status == 304)
-						this.setState({ courseList: localStorage.getItem('courseList') })
-					else {
-						this.setState({ courseList: res.data.data });
-						localStorage.setItem('courseList', JSON.stringify(res.data.data));
+					if (res.status == 304) {
+						var courses = JSON.parse(localStorage.getItem('courseList'));
+						this.setState({ courseList: courses });
+					} else {
+						this.setState({ courseList: res.data.data.courseList });
+						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
+						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
 					}
 
 				} else

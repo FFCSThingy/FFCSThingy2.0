@@ -12,7 +12,21 @@ class TimeTable extends Component {
 		);
 	};
 
+
 	render() {
+		var {slotFilled} = this.props;
+		var slots=[];
+
+		for(var i=0;i<slotFilled.length;i++){
+			slots=slots.concat(slotFilled[i].toLowerCase().split('+'));
+		}
+
+		for(var i=0;i<slots.length;i++){
+				var slotClass = document.getElementsByClassName(slots[i])[0];
+				slotClass.style.background="yellowgreen";
+				slotClass.style.color="black";
+		}
+		
 		return (
 			<div className="containerGrid">
 				<div className="sectionGridMorning">

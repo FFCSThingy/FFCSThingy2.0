@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import './slotTable.css';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+
 class SlotTable extends Component {
 	state = {
 		heatmap: []
 	}
 	componentWillMount() {
 		axios.get('/course/getFullHeatmap')
-			.then(res => this.setState({ heatmap: res.data.data }))
+			.then(res => this.setState({ heatmap: res.data.data}))
 	}
 
 
@@ -54,7 +54,7 @@ class SlotTable extends Component {
 	render() {
 		var courses = this.state.heatmap.map(value => {
 			return (
-				<div className="slots" key={value._id}>
+				<div className="slots" key={value._id} onClick={()=>{this.props.fillSlots(value.slot,[value.slot,value.code,value.title,value.faculty,value.venue,value.credits,value._id])}}>
 					<h4>{value.slot}</h4>
 					<h5>{value.faculty}</h5>
 					<p>{value.venue} - {value.course_type}</p>

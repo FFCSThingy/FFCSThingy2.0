@@ -1,8 +1,3 @@
-/*Components Merged
-constructor function(line 33) is commented for now.
-gives error when enabled.
-*/
-
 // 'Course' is now 'CourseSelect' to avoid confusion (left table)
 // 'CourseTable' is the final bottom table for regisered courses
 
@@ -22,7 +17,9 @@ class App extends React.Component {
 		super(state);
 		this.state = {
 			data: [],
-			error: null
+			error: null,
+			slotFilled:[],
+			list:[]
 		};
 	}
 
@@ -33,7 +30,16 @@ class App extends React.Component {
 		if (parsed.success)
 			this.setState({ data: parsed.data });
 		else
-			this.setState({ error: parsed.message });
+			this.setState({ error: parsed.message});
+	}
+
+	fillSlots=(slot,list)=>{
+		var copyList=[...this.state.list,list];
+		var copyslotFilled=[...this.state.slotFilled,slot];
+		this.setState({
+				slotFilled:copyslotFilled,
+				list:copyList
+		})
 	}
 
 	render() {
@@ -41,9 +47,9 @@ class App extends React.Component {
 			<div class="container">
 				<Search addCourse={this.addCourse} />
 				<CourseSelect data={this.state.data} />
-				<SlotTable />
-				<TimeTable />
-				<CourseTable />
+				<SlotTable fillSlots={this.fillSlots}/>
+				<TimeTable slotFilled={this.state.slotFilled}/>
+				<CourseTable list={this.state.list}/>
 			</div>
 		);
 	}

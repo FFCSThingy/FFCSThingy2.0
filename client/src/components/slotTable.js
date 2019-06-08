@@ -5,12 +5,12 @@ import './slotTable.css';
 class SlotTable extends Component {
 	state = {
 		heatmap: [],
-		error: null
+		error: null,
 	}
 	componentWillMount() {
 		axios.get('/course/getFullHeatmap')
 			.then(res => {
-				if(res.data.success)
+				if (res.data.success)
 					this.setState({ heatmap: res.data.data })
 				else
 					this.setState({ error: res.data.message })
@@ -58,15 +58,16 @@ class SlotTable extends Component {
 	}
 
 	render() {
-		var courses = this.state.heatmap.map(value => {
-			return (
-				<div className="slots" key={value._id} onClick={()=>{this.props.fillSlots(value.slot,[value.slot,value.code,value.title,value.faculty,value.venue,value.credits,value._id])}}>
-					<h4>{value.slot}</h4>
-					<h5>{value.faculty}</h5>
-					<p>{value.venue} - {value.course_type}</p>
-				</div>
-			)
-		})
+		var courses = this.state.heatmap.filter(course => course.code == this.props.selectedCourse)
+			.map(value => {
+				return (
+					<div className="slots" key={value._id} onClick={() => { this.props.fillSlots(value.slot, [value.slot, value.code, value.title, value.faculty, value.venue, value.credits, value._id]) }}>
+						<h4>{value.slot}</h4>
+						<h5>{value.faculty}</h5>
+						<p>{value.venue} - {value.course_type}</p>
+					</div>
+				)
+			})
 		return (
 
 			<div className="righttable">

@@ -12,13 +12,13 @@ class SlotTable extends Component {
 		// Use this for further requests. 
 		axios.get('/course/getFullHeatmap')
 			.then(res => {
-				console.log(res.status);
+				// console.log(res.status);
 				if (res.data.success) {
-					if(res.status == 304)
+					if (res.status == 304)
 						this.setState({ heatmap: localStorage.getItem('heatmap') })
 					else {
 						this.setState({ heatmap: res.data.data });
-						localStorage.setItem('heatmap', res.data.data);
+						localStorage.setItem('heatmap', JSON.stringify(res.data.data));
 					}
 
 				} else

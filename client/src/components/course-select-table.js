@@ -6,24 +6,32 @@ class CourseSelect extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			courses: [],
+			courseList: [] || localStorage.getItem('courseList'),
 			error: null
 		}
 	}
 
 	async componentWillMount() {
+		// TODO: Add courseList timestamp and its relevant storage once updated on backend. 
+		// Use this for further requests. 
 		axios.get("/course/getCourseList")
 			.then(res => {
-				if (res.data.success)
-					this.setState({ courses: res.data.data })
-				else {
+				// console.log(res.status);
+				if (res.data.success) {
+					if (res.status == 304)
+						this.setState({ courseList: localStorage.getItem('courseList') })
+					else {
+						this.setState({ courseList: res.data.data });
+						localStorage.setItem('courseList', JSON.stringify(res.data.data));
+					}
+
+				} else
 					this.setState({ error: res.data.message })
-				}
-			})
+			});
 	}
 
 	render() {
-		var courselist = this.state.courses.map(value => {
+		var courses = this.state.courseList.map(value => {
 			return (
 				<tr className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
 					<td className="course-code">{value.code}</td>
@@ -42,7 +50,7 @@ class CourseSelect extends React.Component {
 						<th className="title-head">Course Title</th>
 						<th className="title-head">Credits</th>
 					</tr>
-					{courselist}
+					{courses}
 				</table>
 			</div>
 		);

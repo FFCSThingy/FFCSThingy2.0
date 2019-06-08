@@ -4,11 +4,17 @@ import './slotTable.css';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 class SlotTable extends Component {
 	state = {
-		heatmap: []
+		heatmap: [],
+		error: null
 	}
 	componentWillMount() {
 		axios.get('/course/getFullHeatmap')
-			.then(res => this.setState({ heatmap: res.data.data }))
+			.then(res => {
+				if(res.data.success)
+					this.setState({ heatmap: res.data.data })
+				else
+					this.setState({ error: res.data.message })
+			});
 	}
 
 

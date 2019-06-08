@@ -17,47 +17,33 @@ import './App.css';
 import './components/TimeTable'
 
 class App extends React.Component {
-	
-	state={
-		array:[{code:"Course Code",key:1,code2:"Course Title"}],i:0
-	}
-	
-	
-	addCourse=(course)=>{
-		course.code2="undefined";
-		let a=[...this.state.array,course];
-			this.setState({
-				array: a  
-		});
-	}
-	
-	
-	// constructor(state) {
-	// 	super(state);
-	// 	this.state = {
-	// 		data: {},
-	// 		error: null
-	// 	};
-	// }
 
-	// async componentWillMount() {
-	// 	var res = await fetch("/account");
-	// 	var parsed = await res.json();
+	constructor(state) {
+		super(state);
+		this.state = {
+			data: [],
+			error: null
+		};
+	}
 
-	// 	if(parsed.authenticated)
-	// 		this.setState({ data: parsed });
-	// 	else
-	// 		this.setState({ error: "Not Authenticated" });	
-	// }
+	async componentWillMount() {
+		var res = await fetch("/course/getCourseList");
+		var parsed = await res.json();
+
+		if (parsed.success)
+			this.setState({ data: parsed.data });
+		else
+			this.setState({ error: parsed.message });
+	}
 
 	render() {
 		return (
 			<div class="container">
-			<Search addCourse={this.addCourse}/>
-			<CourseSelect array={this.state.array}/>
-			<SlotTable/>
-			<TimeTable/>
-			<CourseTable/>   
+				<Search addCourse={this.addCourse} />
+				<CourseSelect data={this.state.data} />
+				<SlotTable />
+				<TimeTable />
+				<CourseTable />
 			</div>
 		);
 	}

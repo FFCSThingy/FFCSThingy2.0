@@ -3,16 +3,6 @@ import '../css/course-select-table.css';
 
 const Course = ({ data }) => {
 
-	var tableHeaders = data.slice(0, 1).map(value => {
-		return (
-			<tr>
-				<th className="code-head">Course Code</th>
-				<th className="title-head">Course Title</th>
-				<th className="title-head">Credits</th>
-			</tr>
-		)
-	})
-
 	var courselist = data.slice(1).map(value => {
 		return (
 			<tr className="courses" key={value.key}>
@@ -27,7 +17,11 @@ const Course = ({ data }) => {
 	return (
 		<div className="courselist">
 			<table className="courseTable" >
-				{tableHeaders}
+				<tr>
+					<th className="code-head">Course Code</th>
+					<th className="title-head">Course Title</th>
+					<th className="title-head">Credits</th>
+				</tr>
 				{courselist}
 			</table>
 		</div>

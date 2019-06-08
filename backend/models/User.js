@@ -69,6 +69,7 @@ var userSchema = new mongoose.Schema({
 		slot: String,
 		faculty: String,
 		venue: String,
+		timetableName: String
 	}],
 
 	previous_timetables: [{

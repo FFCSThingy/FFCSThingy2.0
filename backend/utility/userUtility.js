@@ -10,18 +10,7 @@ import Curriculum from '../models/Curriculum';
 import User from '../models/User';
 
 
-module.exports.getSelectedCourses = (id) => {
-	return new Promise(async (resolve, reject) => {
-		var user = await findUserByID(id);
-
-		if(user.selected_courses)
-			return resolve(user.selected_courses);
-		
-		return resolve([]);
-	});
-}
-
-module.exports.findUserByID = (id) => {
+module.exports.findUserByID = function findUserByID(id) {
 	return new Promise((resolve, reject) => {
 		User.findById(id, function(err, doc) {
 			if(err) return reject(err);
@@ -30,8 +19,8 @@ module.exports.findUserByID = (id) => {
 	});
 }
 
-module.exports.updateUser = function updateUser(query, update, 
-	upsert=false, newVal=true, setDefaultsVal=true) {
+module.exports.updateUser = (query, update, 
+	upsert=false, newVal=true, setDefaultsVal=true) => {
 		
 	return new Promise((resolve, reject) => {
 		update.timestamp = Date.now();

@@ -22,8 +22,10 @@ Responds with User data
 
 # Route: /course
 
-## GET /getFullHeatmap
+## GET /getFullHeatmap/:timestamp?
 Responds with full course DB
+
+Timestamp is optional
 ### Response:
 ```
 {
@@ -46,7 +48,7 @@ Responds with full course DB
 ```
 
 ## GET /getCourseList
-Responds with list of course codes and titles
+Responds with list of course codes, titles, credits, types included in course
 ### Response:
 ```
 {

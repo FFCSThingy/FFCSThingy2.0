@@ -67,13 +67,14 @@ router.get('/addCoursesToDB', async (req, res, next) => {
 	}
 });
 
-router.get('/getCourseByDetails/:code/:type/:faculty/:venue', async (req, res, next) => {
+router.get('/getCourseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res, next) => {
 	try {
 		var data = {
 			code: req.params.code,
 			course_type: req.params.type,
 			faculty: req.params.faculty,
-			venue: req.params.venue
+			venue: req.params.venue,
+			slot: req.params.slot
 		};
 
 		var doc = await course.getCourseDetails(data)

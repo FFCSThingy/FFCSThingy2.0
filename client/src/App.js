@@ -21,7 +21,7 @@ class App extends React.Component {
 	constructor(state) {
 		super(state);
 		this.state = {
-			data: [],
+			courseList: [],
 			error: null
 		};
 	}
@@ -31,7 +31,7 @@ class App extends React.Component {
 		var parsed = await res.json();
 
 		if (parsed.success)
-			this.setState({ data: parsed.data });
+			this.setState({ courseList: parsed.data });
 		else
 			this.setState({ error: parsed.message });
 	}
@@ -40,7 +40,7 @@ class App extends React.Component {
 		return (
 			<div class="container">
 				<Search addCourse={this.addCourse} />
-				<CourseSelect data={this.state.data} />
+				<CourseSelect courses={this.state.courseList} />
 				<SlotTable />
 				<TimeTable />
 				<CourseTable />

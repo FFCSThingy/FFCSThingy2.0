@@ -1,9 +1,9 @@
 import React from 'react';
 import '../css/course-select-table.css';
 
-const Course = ({ data }) => {
+const Course = ({ courses }) => {
 
-	var courselist = data.map(value => {
+	var courselist = courses.map(value => {
 		return (
 			<tr className="courses" key={value.key}>
 				<td className="course-code">{value.code}</td>

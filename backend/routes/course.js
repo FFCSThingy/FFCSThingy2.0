@@ -12,37 +12,76 @@ router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.get('/getFullHeatmap/:timestamp?', async (req, res, next) => {
-	if (!req.params.timestamp)
-		return res.json({ success: true, data: await course.getFullHeatmap() });
+	try {
+		var systemTimestamp = new Date(await system.getHeatmapUpdateTime());
+		if (!req.params.timestamp)
+			return res.json({
+				success: true,
+				data: {
+					heatmap: await course.getFullHeatmap(),
+					timestamp: await system.getHeatmapUpdateTime()
+				}
+			});
 
-	var reqTimestamp = new Date(req.params.timestamp)
-	var systemTimestamp = new Date(await system.getRepopulateTime());
+		var reqTimestamp = new Date(req.params.timestamp)
 
-	if (reqTimestamp < systemTimestamp)
-		res.json({ success: true, data: await course.getFullHeatmap() });
-	else
-		res.status(304).json({ success: true, message: "Up To Date" });
+
+		if (reqTimestamp < systemTimestamp)
+			return res.json({
+				success: true,
+				data: {
+					heatmap: await course.getFullHeatmap(),
+					timestamp: await system.getHeatmapUpdateTime()
+				}
+			});
+		else
+			res.status(304).json({ success: true, message: "Up To Date" });
+	} catch (err) {
+		res.status(500).json({ success: false, message: '/getFullHeatmap failed' });
+	}
+
 });
 
-router.get('/getCourseList', async (req, res, next) => {
+router.get('/getCourseList/:timestamp?', async (req, res, next) => {
 	try {
-		var data = await course.getCourseList();
-		res.json({ success: true, data: data });
-	} catch(err) {
+		var systemTimestamp = new Date(await system.getRepopulateTime());
+
+		if (!req.params.timestamp)
+			return res.json({
+				success: true,
+				data: {
+					courseList: await course.getCourseList(),
+					timestamp: systemTimestamp
+				}
+			});
+
+		var reqTimestamp = new Date(req.params.timestamp)
+
+		if (reqTimestamp < systemTimestamp)
+			return res.json({
+				success: true,
+				data: {
+					courseList: await course.getCourseList(),
+					timestamp: systemTimestamp
+				}
+			});
+		else
+			res.status(304).json({ success: true, message: "Up To Date" });
+	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseList failed' });
 	}
 });
 
 router.post('/parseCourses', async (req, res, next) => {
-	if(req.body.password != "SuckOnDeezNumbNutz")
-		res.status(403).json({ success: false, message: "Get the password right, bitchface." });	
+	if (req.body.password != "SuckOnDeezNumbNutz")
+		res.status(403).json({ success: false, message: "Get the password right, bitchface." });
 });
 
 router.get('/parseCourses', async (req, res, next) => {
 	try {
 		var parsedData = await course.parseXLSX();
 		res.json(parsedData);
-	} catch(err) {
+	} catch (err) {
 		res.status(500).json({ success: false, message: '/parseCourses failed' });
 		console.log(err);
 	}
@@ -54,6 +93,9 @@ router.get('/addCoursesToDB', async (req, res, next) => {
 
 		var repopTime = await system.updateRepopulateTime();
 
+		// TODO: Replace this with the user timetable scrolling, verifying thing and update heatmap
+		system.updateHeatmapUpdateTime();
+
 		var actions = courses.map(course.addCourseToDB);
 		var results = await Promise.all(actions);
 
@@ -61,7 +103,7 @@ router.get('/addCoursesToDB', async (req, res, next) => {
 
 		res.json({ updates: results, deletes: deletes });
 
-	} catch(err) {
+	} catch (err) {
 		res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
 		console.log(err);
 	}
@@ -79,11 +121,11 @@ router.get('/getCourseByDetails/:code/:type/:faculty/:venue/:slot', async (req, 
 
 		var doc = await course.getCourseDetails(data)
 
-		if(doc)
+		if (doc)
 			res.json({ success: true, data: doc });
 		else
 			res.status(404).json({ success: false, message: 'Not found' });
-		
+
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByDetails failed' });
 		console.log(err);
@@ -102,7 +144,7 @@ router.get('/getCourseByID/:id', async (req, res, next) => {
 			res.json({ success: true, data: doc });
 		else
 			res.status(404).json({ success: false, message: 'Not found' });
-			
+
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByID failed' });
 		console.log(err);

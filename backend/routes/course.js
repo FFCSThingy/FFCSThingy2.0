@@ -4,6 +4,7 @@ import express from 'express';
 import curriculum from '../utility/curriculumUtility';
 import user from '../utility/userUtility';
 import course from '../utility/courseUtility';
+import system from '../utility/systemUtility';
 
 const router = express.Router();
 
@@ -46,10 +47,14 @@ router.get('/addCoursesToDB', async (req, res, next) => {
 	try {
 		var courses = await course.parseXLSX();
 
-		var actions = courses.map(course.addCourseToDB);
-		var results = Promise.all(actions);
+		var repopTime = await system.updateRepopulateTime();
 
-		res.json(await results);
+		var actions = courses.map(course.addCourseToDB);
+		var results = await Promise.all(actions);
+
+		var deletes = await course.cleanCoursesAfterRepopulate(repopTime);
+
+		res.json({ updates: results, deletes: deletes });
 
 	} catch(err) {
 		res.status(500).json({ success: false, message: '/addCoursesToDB failed' });

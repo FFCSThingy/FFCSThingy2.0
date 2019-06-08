@@ -128,6 +128,7 @@ app.use(logger('dev'));
 app.use('/ext', extRoute);
 app.use('/curriculum', curriculumRoute);
 app.use('/course', courseRoute);
+app.use('/user', userRoute);
 
 app.get('/account', ensureAuthenticated, function (req, res) {
 	res.json(req.user);

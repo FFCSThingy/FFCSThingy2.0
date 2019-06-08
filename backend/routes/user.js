@@ -13,7 +13,12 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.get('/getSelectedCourses', async (req, res, next) => {
 	try {
-		var data = await user.getSelectedCourses(req.user._id);
+		var userData = await user.findUserByID(req.user._id);
+
+		if(!userData)
+			res.status(404).json({ success: false, message: 'User not found' });
+
+		var data = userData.selected_courses;
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });
@@ -34,7 +39,23 @@ router.post('/updateSelectedCoursesBulk', async (req, res, next) => {
 	}
 });
 
-// router.post('/')
+router.post('/selectCourse', async (req, res, next) => {
+	
+});
+
+router.post('/setSelectedCurriculum', async (req, res, next) => {
+	try {
+		var queryData = { _id: req.user.id };
+		var updateData = { selected_curriculum: req.body.selected_curriculum };
+
+		var data = await user.updateUser(queryData, updateData);
+		res.json({ success: true, data: data });
+	} catch (err) {
+		res.status(500).json({ success: false, message: '/setSelectedCurriculum failed' });
+		console.log(err);
+	}
+});
+
 
 
 module.exports = router;

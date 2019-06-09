@@ -1,26 +1,33 @@
 /*
 TODO------
--fix word-wrap for long course titles
--set alignment with search bar
--fix row margin
+-add nav buttons
+-fix font size for long course titles
 */
 
-.courseTable {  
-    margin: 0 0 0 10%;
-    border-radius: 30px;
+.courseTable { 
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: minmax(10em, auto);
+    grid-gap: 2em;
+    margin: 2% 0 0 3.5%;
+    border-radius: 25px;
     border: 2px solid #B4CEFB;
-    width: 84%;
-    float:left;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    float: left;
     padding: 9px 20px;
-    table-layout: fixed;
-}
-    
-.code-head, .title-head {
-    border:none;
+    max-width: 26%;
+    height: 520px;
     font-family: 'Montserrat', sans-serif;
-    width:20px;
-    padding-bottom: 20px;
-    padding-top: 9px;
+}
+
+.courseTable::-webkit-scrollbar { 
+    width: 0 !important 
+}
+
+.courseTable div {
+    /* max-width: 22em; */
+    height: 80px;
 }
 
 .courses {
@@ -38,22 +45,43 @@ TODO------
     transition: box-shadow 0.17s ease-in-out;
 }
 
-.course-code {
-    font-family: 'Montserrat', sans-serif;
-    word-wrap: break-word;
-    border:none;
-    text-align:center;
-    position: relative;
-    right: -1px;
+.container-left {
+    padding: 4% 0 0 8%;
+    width: 50%;
+    margin: 0;
 }
 
-.course-title {
-    font-family: 'Montserrat', sans-serif;
-    word-wrap: break-word;
-    border:none;
-    text-align:center;
-    padding: 20px;
-    margin-bottom: 2em;
-    position: relative;
-    left: -1px;
+.container-left > h1 {
+    margin:0;
+    font-size: 1.05em;
+    font-weight: bold;
+    line-height: 1.5em;
+}
+
+.container-right {
+    float: right;
+    margin: -4.8em 1.5em 0 0;
+}
+
+ul {
+    margin: 0;
+}
+
+.container-right > ul >li {
+    list-style-type: none;
+    margin: 0 0 0.33em 0;
+}
+
+.container-right-head > ul {
+    padding-inline-end: 12px;
+}
+
+.container-right-head > ul >li {
+    list-style-type: none;
+    margin: 0 0 0.33em 0;
+}
+
+.container-right-head {
+    float: right;
+    margin: -4.8em 1.5em 0 0;
 }

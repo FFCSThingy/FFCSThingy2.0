@@ -2,7 +2,6 @@
 TODO-----
 fix search button position
 maybe add input text clear on pressing enter(js)
-maybe add animation to extend towards right when on focus
 maybe add placeholder text highlight when hover
 */
 
@@ -15,8 +14,9 @@ maybe add placeholder text highlight when hover
     height:0.5em;
     border-radius: 5em;
     border:2px solid #B4CEFB;
-    text-align:center;
+    text-align: left;
     font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
     outline: 0 none;
     transition: box-shadow 0.17s ease-in-out;
 }
@@ -26,6 +26,7 @@ maybe add placeholder text highlight when hover
     -moz-box-shadow: 0px 4px 9px -3px rgba(0,0,0,0.2);
     box-shadow: 0px 4px 9px -3px rgba(0,0,0,0.2);
     transition: box-shadow 0.17s ease-in-out;
+    text-align: left;
 }
 
 #search-bar-placeholder:hover {
@@ -39,7 +40,8 @@ input::-webkit-input-placeholder {
     font-size: 14px;
     opacity:0.7;
     font-size: relative;
-    text-align: center;
+    text-align: left;
+    padding-left: 0.8em;
 }
 
 #search-bar-placeholder:focus::-webkit-input-placeholder{

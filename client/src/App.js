@@ -18,11 +18,12 @@ class App extends React.Component {
 		super(state);
 		this.state = {
 			error: null,
-			slotFilled: [],
-			list: [],
+			filledSlots: [],
+			timetable: [],
 			selectedCourse: '',
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			timestamp: localStorage.getItem('heatmapTimestamp') || null,
+			creditCount: 0,
 		};
 	}
 
@@ -75,13 +76,18 @@ class App extends React.Component {
 
 
 
-	fillSlots = (slot, list) => {
-		var copyList = [...this.state.list, list];
-		var copyslotFilled = [...this.state.slotFilled, slot];
-		this.setState({
-			slotFilled: copyslotFilled,
-			list: copyList
-		})
+	selectSlots = (course) => {
+		if(course.slot !== 'NIL')
+			this.setState(prevState => ({
+				filledSlots: [...prevState.filledSlots, ...course.slot.split("+")],
+				timetable: [...prevState.timetable, course],
+				creditCount: prevState.creditCount + course.credits
+			}));
+		else 
+			this.setState(prevState => ({
+				timetable: [...prevState.timetable, course],
+				creditCount: prevState.creditCount + course.credits
+			}));
 	}
 
 	selectCourse = (code) => {
@@ -98,7 +104,7 @@ class App extends React.Component {
 				<CourseSelect selectCourse={this.selectCourse} />
 
 				<SlotTable 
-					fillSlots={this.fillSlots} 
+					selectSlots={this.selectSlots} 
 					slots={this.filterCourse()} 
 					types={this.findAvailableCourseTypes()}
 					theoryVenues={this.findAvailableVenues('Theory')}
@@ -106,8 +112,11 @@ class App extends React.Component {
 					projectVenues={this.findAvailableVenues('Project')}
 				/>
 				
-				<TimeTable slotFilled={this.state.slotFilled} />
-				<CourseTable list={this.state.list} />
+				<TimeTable filledSlots={this.state.filledSlots} />
+				<CourseTable 
+					timetable={ this.state.timetable } 
+					creditCount={ this.state.creditCount }
+				/>
 			</div>
 		);
 	}

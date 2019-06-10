@@ -5,8 +5,11 @@ import './slotTable.css';
 class SlotTable extends Component {
 	state = {
 		heatmap: [],
-		timestamp: null || localStorage.getItem('heatmapTimestamp'),
+		timestamp: null || JSON.parse(localStorage.getItem('heatmapTimestamp')),
 		error: null,
+		currentCourses: [],
+		course_type: [],
+		venue: [],
 	}
 	componentWillMount() {
 		axios.get("/course/getFullHeatmap")
@@ -16,13 +19,36 @@ class SlotTable extends Component {
 						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
 					else {
 						this.setState({ heatmap: res.data.data.heatmap });
-						localStorage.setItem('heatmapTimestamp', JSON.stringify(res.data.data.heatmap));
-						localStorage.setItem('heatmap', JSON.stringify(res.data.data.timestamp));
+						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
+						localStorage.setItem('heatmapTimestamp', JSON.stringify(res.data.data.timestamp));
 					}
 
 				} else
 					this.setState({ error: res.data.message })
 			});
+	}
+
+	doFilter = () => {
+		// Filter on Course-Code
+		return this.state.heatmap.filter(course => {
+			return course.code == this.props.selectedCourse
+		}).filter(course => {	// Filter on course_type
+			if (['TH', 'ETH', 'SS'].includes(course.course_type)) course.course_type = 'Theory'
+			if (['LO', 'ELA'].includes(course.course_type)) course.course_type = 'Lab'
+			if (['PJT', 'EPJ'].includes(course.course_type)) course.course_type = 'Project'
+
+			if (this.state.course_type != []) {
+				return this.state.course_type.reduce((a, v) => {
+					console.log(a + ", " + v);
+					return (a || (course.course_type === v));
+				}, false);
+			}
+			return true;
+		}).filter(course => {	// Filter on Venue
+			if (this.state.venue.length === 0) return true;
+			else if (this.state.course_type.includes('Project') && course.course_type === 'Project') return true;
+			else return this.state.venue.reduce((a, v) => (a || (course.venue.startsWith(v))), false);
+		});
 	}
 
 
@@ -35,10 +61,17 @@ class SlotTable extends Component {
 	handleclick = (e) => {
 		var x = document.getElementById("selectedFilter");
 		var y = document.createElement("a");
+		var text = e.target.textContent
 		x.appendChild(y);
 		y.textContent = e.target.textContent;
 		y.href = "#";
 		y.setAttribute("onClick", "{this.handleAddedFilters}");
+
+		if (!this.state.course_type.includes(text)) {
+			this.setState(prevState => ({
+				course_type: [...prevState.course_type, text]
+			}))
+		}
 	}
 
 
@@ -60,28 +93,34 @@ class SlotTable extends Component {
 	handleVenues = (e) => {
 		var x = document.getElementById("selectedFilter");
 		var y = document.createElement("a");
+		var text = e.target.textContent
 		x.appendChild(y);
 		y.textContent = e.target.textContent;
 		y.href = "#";
+
+		if (!this.state.venue.includes(text)) {
+			this.setState(prevState => ({
+				venue: [...prevState.venue, text]
+			}))
+		}
 	}
 
 	render() {
-		var courses = this.state.heatmap.filter(course => course.code == this.props.selectedCourse)
-			.map(value => {
-				return (
-					<div className="slots" key={value._id} onClick={() => { this.props.fillSlots(value.slot, [value.slot, value.code, value.title, value.faculty, value.venue, value.credits, value._id]) }}>
-						<h4>{value.slot}</h4>
-						<h5>{value.faculty}</h5>
-						<p>{value.venue} - {value.course_type}</p>
-					</div>
-				)
-			})
+		var courses = this.doFilter().map(value => {
+			return (
+				<div className="slots" key={value._id} onClick={() => { this.props.fillSlots(value.slot, [value.slot, value.code, value.title, value.faculty, value.venue, value.credits, value._id]) }}>
+					<h4>{value.slot}</h4>
+					<h5>{value.faculty}</h5>
+					<p>{value.venue} - {value.course_type}</p>
+				</div>
+			)
+		})
 		return (
 
 			<div className="righttable">
 				<div className="tiles">
 					<button onClick={this.handleclick} className="notclicked">Lab</button>
-					<button onClick={this.handleclick} className="notclicked">Theory </button>
+					<button onClick={this.handleclick} className="notclicked">Theory</button>
 					<button onClick={this.handleclick} className="notclicked">Project</button>
 					<a href="#" id="venuefilter" onClick={this.handleClick}><span>Filter by Venue</span><i class="fas fa-filter" id="filter"></i></a>
 					<div className="hide" id="data">

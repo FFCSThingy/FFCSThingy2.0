@@ -14,12 +14,8 @@ class TimeTable extends Component {
 
 
 	render() {
-		var {slotFilled} = this.props;
-		var slots=[];
-
-		for(var i=0;i<slotFilled.length;i++){
-			slots=slots.concat(slotFilled[i].toLowerCase().split('+'));
-		}
+		var {filledSlots} = this.props;
+		var slots=[...filledSlots];
 
 		for(var i=0;i<slots.length;i++){
 				var slotClass = document.getElementsByClassName(slots[i]);
@@ -51,36 +47,40 @@ class TimeTable extends Component {
 					{this.getLabelElement("WEDNESDAY", "grayLabel wed")}
 					{this.getLabelElement("THURSDAY", "grayLabel thu")}
 					{this.getLabelElement("FRIDAY", "grayLabel fri")}
-					<SlotElement isEmpty="empty" slotName="A1/L1" />
-					<SlotElement isEmpty="empty" slotName="B1/L7" />
-					<SlotElement isEmpty="empty" slotName="C1/L13" />
-					<SlotElement isEmpty="empty" slotName="D1/L19" />
-					<SlotElement isEmpty="empty" slotName="E1/L25" />
-					<SlotElement isEmpty="empty" slotName="F1/L2" />
-					<SlotElement isEmpty="empty" slotName="D1/L3" />
-					<SlotElement isEmpty="empty" slotName="TB1/L4" />
-					<SlotElement isEmpty="empty" slotName="TG1/L5" />
-					<SlotElement isEmpty="empty" slotName="L6" />
-					<SlotElement isEmpty="empty" slotName="G1/L8" />
-					<SlotElement isEmpty="empty" slotName="E1/L9" />
-					<SlotElement isEmpty="empty" slotName="TC1/L10" />
-					<SlotElement isEmpty="empty" slotName="TAA1/L11" />
-					<SlotElement isEmpty="empty" slotName="L12" />
-					<SlotElement isEmpty="empty" slotName="A1/L14" />
-					<SlotElement isEmpty="empty" slotName="F1/L15" />
-					<SlotElement isEmpty="empty" slotName="V1/L16" />
-					<SlotElement isEmpty="empty" slotName="V2" />
-					<SlotElement isEmpty="empty" slotName="EXTM" />
-					<SlotElement isEmpty="empty" slotName="B1/L20" />
-					<SlotElement isEmpty="empty" slotName="G1/L21" />
-					<SlotElement isEmpty="empty" slotName="TE1/L22" />
-					<SlotElement isEmpty="empty" slotName="TCC1/L23" />
-					<SlotElement isEmpty="empty" slotName="L24" />
-					<SlotElement isEmpty="empty" slotName="C1/L26" />
-					<SlotElement isEmpty="empty" slotName="TA1/L27" />
-					<SlotElement isEmpty="empty" slotName="TF1/L28" />
-					<SlotElement isEmpty="empty" slotName="TD1/L29" />
-					<SlotElement isEmpty="empty" slotName="L30" />
+					<SlotElement isEmpty="empty" slotName="A1/L1" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="F1/L2" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="D1/L3" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TB1/L4" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TG1/L5" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="L6" slotData={null}/>
+
+					<SlotElement isEmpty="empty" slotName="B1/L7" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="G1/L8" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="E1/L9" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TC1/L10" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TAA1/L11" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="L12" slotData={null}/>
+
+					<SlotElement isEmpty="empty" slotName="C1/L13" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="A1/L14" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="F1/L15" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="V1/L16" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="V2" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="EXTM" slotData={null}/>
+
+					<SlotElement isEmpty="empty" slotName="D1/L19" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="B1/L20" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="G1/L21" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TE1/L22" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TCC1/L23" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="L24" slotData={null}/>
+					
+					<SlotElement isEmpty="empty" slotName="E1/L25" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="C1/L26" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TA1/L27" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TF1/L28" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TD1/L29" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="L30" slotData={null}/>
 				</div>
 				<div className=" grayLabel">
 					{this.getLabelElement("L\nU\nN\nC\nH")}
@@ -98,36 +98,40 @@ class TimeTable extends Component {
 					{this.getLabelElement("4:46PM\nTO\n5:30PM", "blueLabel lab")}
 					{this.getLabelElement("5:31PM\nTO\n6:15PM", "blueLabel lab")}
 					{this.getLabelElement("6:16PM\nTO\n7:00PM", "blueLabel lab")}
-					<SlotElement isEmpty="empty" slotName="A2/L31" />
-					<SlotElement isEmpty="empty" slotName="F2/L32" />
-					<SlotElement isEmpty="empty" slotName="D2/L33" />
-					<SlotElement isEmpty="empty" slotName="TB2/L34" />
-					<SlotElement isEmpty="empty" slotName="TG2/L35" />
-					<SlotElement isEmpty="empty" slotName="V3/L36" />
-					<SlotElement isEmpty="empty" slotName="B2/L37" />
-					<SlotElement isEmpty="empty" slotName="G2/L38" />
-					<SlotElement isEmpty="empty" slotName="E2/L39" />
-					<SlotElement isEmpty="empty" slotName="TC2/L40" />
-					<SlotElement isEmpty="empty" slotName="TAA2/L41" />
-					<SlotElement isEmpty="empty" slotName="V4/L42" />
-					<SlotElement isEmpty="empty" slotName="C2/L43" />
-					<SlotElement isEmpty="empty" slotName="A2/L44" />
-					<SlotElement isEmpty="empty" slotName="F2/L45" />
-					<SlotElement isEmpty="empty" slotName="TD2/L46" />
-					<SlotElement isEmpty="empty" slotName="TBB2/L47" />
-					<SlotElement isEmpty="empty" slotName="V5/L48" />
-					<SlotElement isEmpty="empty" slotName="D2/L49" />
-					<SlotElement isEmpty="empty" slotName="B2/L50" />
-					<SlotElement isEmpty="empty" slotName="G2/L51" />
-					<SlotElement isEmpty="empty" slotName="TE2/L52" />
-					<SlotElement isEmpty="empty" slotName="TCC2/L53" />
-					<SlotElement isEmpty="empty" slotName="V6/L54" />
-					<SlotElement isEmpty="empty" slotName="E2/L55" />
-					<SlotElement isEmpty="empty" slotName="C2/L56" />
-					<SlotElement isEmpty="empty" slotName="TA2/L57" />
-					<SlotElement isEmpty="empty" slotName="TF2/L58" />
-					<SlotElement isEmpty="empty" slotName="TDD2/L59" />
-					<SlotElement isEmpty="empty" slotName="V7/L60" />
+					<SlotElement isEmpty="empty" slotName="A2/L31" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="F2/L32" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="D2/L33" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TB2/L34" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TG2/L35" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="V3/L36" slotData={null}/>
+
+					<SlotElement isEmpty="empty" slotName="B2/L37" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="G2/L38" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="E2/L39" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TC2/L40" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TAA2/L41" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="V4/L42" slotData={null}/>
+
+					<SlotElement isEmpty="empty" slotName="C2/L43" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="A2/L44" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="F2/L45" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TD2/L46" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TBB2/L47" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="V5/L48" slotData={null}/>
+
+					<SlotElement isEmpty="empty" slotName="D2/L49" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="B2/L50" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="G2/L51" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TE2/L52" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TCC2/L53" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="V6/L54" slotData={null}/>
+
+					<SlotElement isEmpty="empty" slotName="E2/L55" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="C2/L56" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TA2/L57" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TF2/L58" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="TDD2/L59" slotData={null}/>
+					<SlotElement isEmpty="empty" slotName="V7/L60" slotData={null}/>
 				</div>
 			</div>
 		);

@@ -24,6 +24,9 @@ class App extends React.Component {
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			timestamp: localStorage.getItem('heatmapTimestamp') || null,
 			creditCount: 0,
+			clashMap: {
+				
+			}
 		};
 	}
 
@@ -112,7 +115,7 @@ class App extends React.Component {
 					projectVenues={this.findAvailableVenues('Project')}
 				/>
 				
-				<TimeTable filledSlots={this.state.filledSlots} />
+				<TimeTable filledSlots={this.state.filledSlots} timetable={this.state.timetable}/>
 				<CourseTable 
 					timetable={ this.state.timetable } 
 					creditCount={ this.state.creditCount }

@@ -4,8 +4,8 @@ import './slotTable.css';
 
 class SlotTable extends Component {
 	state = {
-		heatmap: [],
-		timestamp: null || JSON.parse(localStorage.getItem('heatmapTimestamp')),
+		heatmap: [] || JSON.parse(localStorage.getItem('heatmap')),
+		timestamp: null || localStorage.getItem('heatmapTimestamp'),
 		error: null,
 		currentCourses: [],
 		course_type: [],
@@ -20,7 +20,7 @@ class SlotTable extends Component {
 					else {
 						this.setState({ heatmap: res.data.data.heatmap });
 						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
-						localStorage.setItem('heatmapTimestamp', JSON.stringify(res.data.data.timestamp));
+						localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
 					}
 
 				} else

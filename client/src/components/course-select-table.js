@@ -6,7 +6,7 @@ class CourseSelect extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			courseList: [],
+			courseList: [] || JSON.parse(localStorage.getItem('courseList')),
 			timestamp: null || localStorage.getItem('courseListTimestamp'),
 			error: null
 		}

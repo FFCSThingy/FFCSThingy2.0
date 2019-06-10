@@ -20,8 +20,33 @@ class App extends React.Component {
 			error: null,
 			slotFilled: [],
 			list: [],
-			selectedCourse: ''
+			selectedCourse: '',
+			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
+			timestamp: localStorage.getItem('heatmapTimestamp') || null,
 		};
+	}
+
+	componentDidMount() {
+		axios.get("/course/getFullHeatmap")
+			.then(res => {
+				if (res.data.success) {
+					if (res.status == 304)
+						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
+					else {
+						this.setState({ heatmap: res.data.data.heatmap });
+						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
+						localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
+					}
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				console.log(err);
+				this.setState({ error: err })
+			});
+	}
+
+	filterCourse() {
+		return this.state.heatmap.filter(course => course.code === this.state.selectedCourse);
 	}
 
 	fillSlots = (slot, list) => {
@@ -45,7 +70,7 @@ class App extends React.Component {
 				<p>Selected Course: {this.state.selectedCourse}</p>
 				<Search addCourse={this.addCourse} />
 				<CourseSelect selectCourse={this.selectCourse} />
-				<SlotTable fillSlots={this.fillSlots} selectedCourse={this.state.selectedCourse} />
+				<SlotTable fillSlots={this.fillSlots} slots={this.filterCourse()}/>
 				<TimeTable slotFilled={this.state.slotFilled} />
 				<CourseTable list={this.state.list} />
 			</div>

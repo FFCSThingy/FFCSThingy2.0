@@ -4,35 +4,14 @@ import './slotTable.css';
 
 class SlotTable extends Component {
 	state = {
-		heatmap: [] || JSON.parse(localStorage.getItem('heatmap')),
-		timestamp: null || localStorage.getItem('heatmapTimestamp'),
 		error: null,
 		currentCourses: [],
 		course_type: [],
 		venue: [],
 	}
-	componentWillMount() {
-		axios.get("/course/getFullHeatmap")
-			.then(res => {
-				if (res.data.success) {
-					if (res.status == 304)
-						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
-					else {
-						this.setState({ heatmap: res.data.data.heatmap });
-						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
-						localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
-					}
-
-				} else
-					this.setState({ error: res.data.message })
-			});
-	}
 
 	doFilter = () => {
-		// Filter on Course-Code
-		return this.state.heatmap.filter(course => {
-			return course.code == this.props.selectedCourse
-		}).filter(course => {	// Filter on course_type
+		return this.props.slots.filter(course => {	// Filter on course_type
 			if (['TH', 'ETH', 'SS'].includes(course.course_type)) course.course_type = 'Theory'
 			if (['LO', 'ELA'].includes(course.course_type)) course.course_type = 'Lab'
 			if (['PJT', 'EPJ'].includes(course.course_type)) course.course_type = 'Project'

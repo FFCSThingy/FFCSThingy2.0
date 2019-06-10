@@ -19,6 +19,8 @@ TODO------
     max-width: 26%;
     height: 520px;
     font-family: 'Montserrat', sans-serif;
+    margin-right: 5%;
+    margin-bottom: 3%;
 }
 
 .courseTable::-webkit-scrollbar { 
@@ -49,6 +51,7 @@ TODO------
     padding: 4% 0 0 8%;
     width: 50%;
     margin: 0;
+    cursor: pointer;    
 }
 
 .container-left > h1 {

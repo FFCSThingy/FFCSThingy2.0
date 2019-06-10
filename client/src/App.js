@@ -25,7 +25,7 @@ class App extends React.Component {
 			timestamp: localStorage.getItem('heatmapTimestamp') || null,
 			creditCount: 0,
 			clashMap: {
-				
+
 			}
 		};
 	}
@@ -50,31 +50,38 @@ class App extends React.Component {
 	}
 
 	filterCourse() {
-		return this.state.heatmap.filter(course => course.code === this.state.selectedCourse);
+		return this.state.heatmap.filter(course => course.code === this.state.selectedCourse)
+			.map(course => {
+				if (['TH', 'ETH', 'SS'].includes(course.course_type)) course.simple_type = 'Theory';
+				if (['LO', 'ELA'].includes(course.course_type)) course.simple_type = 'Lab';
+				if (['PJT', 'EPJ'].includes(course.course_type)) course.simple_type = 'Project';
+
+				return course;
+			});
 	}
 
 	findAvailableCourseTypes() {
-		return new Set(
+		return Array.from(new Set(
 			this.filterCourse()
-				.map(course => {
-					if (['TH', 'ETH', 'SS'].includes(course.course_type)) return 'Theory'
-					if (['LO', 'ELA'].includes(course.course_type)) return 'Lab'
-					if (['PJT', 'EPJ'].includes(course.course_type)) return 'Project'
-				})
-		);
+				.map(course => course.simple_type)
+		)).sort();
 	}
 
 	findAvailableVenues(type=null) {
 		var venueRegex = /^[A-Z]+/;
-		return new Set(
+		return Array.from(new Set(
 			this.filterCourse()
 				.filter(c => !(c.venue === 'NIL'))
 				.filter(c => {
-					if(!type) return true; 
-					return c.type === type
+					if(type) return c.simple_type === type;
+					else return true;
 				})
-				.map(course => course.venue.match(venueRegex)[0])
-		);
+				.map(course => {
+					var s = course.venue.match(venueRegex)[0]; 
+					if(s.endsWith('G')) return s.slice(0, -1)
+					else return s;
+				})
+		)).sort();
 	}
 
 
@@ -110,6 +117,7 @@ class App extends React.Component {
 					selectSlots={this.selectSlots} 
 					slots={this.filterCourse()} 
 					types={this.findAvailableCourseTypes()}
+					venues={this.findAvailableVenues()}
 					theoryVenues={this.findAvailableVenues('Theory')}
 					labVenues={this.findAvailableVenues('Lab')}
 					projectVenues={this.findAvailableVenues('Project')}

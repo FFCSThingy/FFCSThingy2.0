@@ -96,7 +96,16 @@ class App extends React.Component {
 				<p>Selected Course: {this.state.selectedCourse}</p>
 				<Search addCourse={this.addCourse} />
 				<CourseSelect selectCourse={this.selectCourse} />
-				<SlotTable fillSlots={this.fillSlots} slots={this.filterCourse()} types={this.findAvailableCourseTypes()} venues={this.findAvailableVenues()}/>
+
+				<SlotTable 
+					fillSlots={this.fillSlots} 
+					slots={this.filterCourse()} 
+					types={this.findAvailableCourseTypes()}
+					theoryVenues={this.findAvailableVenues('Theory')}
+					labVenues={this.findAvailableVenues('Lab')}
+					projectVenues={this.findAvailableVenues('Project')}
+				/>
+				
 				<TimeTable slotFilled={this.state.slotFilled} />
 				<CourseTable list={this.state.list} />
 			</div>

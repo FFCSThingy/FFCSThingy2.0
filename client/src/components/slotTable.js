@@ -3,6 +3,7 @@ import axios from 'axios';
 import './slotTable.css';
 
 class SlotTable extends Component {
+
 	state = {
 		error: null,
 		currentCourses: [],
@@ -12,16 +13,8 @@ class SlotTable extends Component {
 
 	doFilter = () => {
 		return this.props.slots.filter(course => {	// Filter on course_type
-			if (['TH', 'ETH', 'SS'].includes(course.course_type)) course.course_type = 'Theory'
-			if (['LO', 'ELA'].includes(course.course_type)) course.course_type = 'Lab'
-			if (['PJT', 'EPJ'].includes(course.course_type)) course.course_type = 'Project'
-
-			if (this.state.course_type != []) {
-				return this.state.course_type.reduce((a, v) => {
-					console.log(a + ", " + v);
-					return (a || (course.course_type === v));
-				}, false);
-			}
+			if (this.state.course_type.length === 0)
+				return this.state.course_type.reduce((a, v) => (a || (course.course_type === v)), false);
 			return true;
 		}).filter(course => {	// Filter on Venue
 			if (this.state.venue.length === 0) return true;

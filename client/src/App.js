@@ -49,6 +49,32 @@ class App extends React.Component {
 		return this.state.heatmap.filter(course => course.code === this.state.selectedCourse);
 	}
 
+	findAvailableCourseTypes() {
+		return new Set(
+			this.filterCourse()
+				.map(course => {
+					if (['TH', 'ETH', 'SS'].includes(course.course_type)) return 'Theory'
+					if (['LO', 'ELA'].includes(course.course_type)) return 'Lab'
+					if (['PJT', 'EPJ'].includes(course.course_type)) return 'Project'
+				})
+		);
+	}
+
+	findAvailableVenues(type=null) {
+		var venueRegex = /^[A-Z]+/;
+		return new Set(
+			this.filterCourse()
+				.filter(c => !(c.venue === 'NIL'))
+				.filter(c => {
+					if(!type) return true; 
+					return c.type === type
+				})
+				.map(course => course.venue.match(venueRegex)[0])
+		);
+	}
+
+
+
 	fillSlots = (slot, list) => {
 		var copyList = [...this.state.list, list];
 		var copyslotFilled = [...this.state.slotFilled, slot];
@@ -70,7 +96,7 @@ class App extends React.Component {
 				<p>Selected Course: {this.state.selectedCourse}</p>
 				<Search addCourse={this.addCourse} />
 				<CourseSelect selectCourse={this.selectCourse} />
-				<SlotTable fillSlots={this.fillSlots} slots={this.filterCourse()}/>
+				<SlotTable fillSlots={this.fillSlots} slots={this.filterCourse()} types={this.findAvailableCourseTypes()} venues={this.findAvailableVenues()}/>
 				<TimeTable slotFilled={this.state.slotFilled} />
 				<CourseTable list={this.state.list} />
 			</div>

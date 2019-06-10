@@ -6,7 +6,7 @@
     overflow: scroll;
     margin-top:-3%;
     margin-bottom:4%;
-    text-align: left;
+    text-align:center;
     
 }
 .righttable::-webkit-scrollbar { width: 0 !important }
@@ -76,24 +76,6 @@ button:hover{
     top:40%;
 }
 
-@keyframes pop{
-    0%{top:-40%;}
-    /* 80%{top:40%;} */
-    /* 95%{top:35%;} */
-    100%{top:40%;}
-    /* 99%{top:38%;}
-    100%{top:40%;} */
-}
-#cross{
-   color: white;
-   border-radius:50%;
-   position: absolute;
-   top:2%;
-   left:390px; 
-}
-#cross:hover{
-    color:red;
-}
 .filtersAdded{
     margin-top:2%;
     margin-bottom:2%;
@@ -122,4 +104,39 @@ button:hover{
 #selectedFilter a{
     margin-left:1%;
     font-family:inherit;
+}
+hr{
+    clear:both;
+}
+.courseType{
+    float:left; 
+    width:25%;
+    margin-bottom:1.3%;
+}
+.venueFilter{
+    float:right;
+    width:50%;
+}
+.selectFilter{
+    font-size: 30px;
+    text-align:center;
+   font-family: inherit;
+
+}
+.slotsFiltered{
+    clear:both;
+    margin-top:3%;
+}
+.clicked{
+    font-family:inherit;
+    border:#fafafa solid 1px;
+    margin:0.5%;  
+    color:#fafafa;  
+    background:#4388d6 ;
+    font-size: 15px;
+    padding: 10px;
+    padding-left:20px;
+    padding-right:20px;
+    border-radius:3px;
+    clear:both;
 }

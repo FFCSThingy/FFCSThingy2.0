@@ -24,11 +24,6 @@ class SlotTable extends Component {
 	}
 
 
-	handleAddedFilters = (e) => {
-		var x = document.getElementById("selectedFilter");
-		console.log(x);
-		x.removeChild(e.target);
-	}
 
 	handleclick = (e) => {
 		var x = document.getElementById("selectedFilter");
@@ -37,8 +32,13 @@ class SlotTable extends Component {
 		x.appendChild(y);
 		y.textContent = e.target.textContent;
 		y.href = "#";
-		y.setAttribute("onClick", "{this.handleAddedFilters}");
 
+		if(e.target.className=="notclicked"){
+			e.target.className="clicked";
+		}
+		else{
+			e.target.className="notclicked";
+		}
 		if (!this.state.course_type.includes(text)) {
 			this.setState(prevState => ({
 				course_type: [...prevState.course_type, text]
@@ -57,25 +57,21 @@ class SlotTable extends Component {
 		}
 	}
 
-	handleCross = (e) => {
-		var data = document.getElementById("data");
-		data.className = "hide";
-	}
 
-	handleVenues = (e) => {
-		var x = document.getElementById("selectedFilter");
-		var y = document.createElement("a");
-		var text = e.target.textContent
-		x.appendChild(y);
-		y.textContent = e.target.textContent;
-		y.href = "#";
+	// handleVenues = (e) => {
+	// 	var x = document.getElementById("selectedFilter");
+	// 	var y = document.createElement("a");
+	// 	var text = e.target.textContent
+	// 	x.appendChild(y);
+	// 	y.textContent = e.target.textContent;
+	// 	y.href = "#";
 
-		if (!this.state.venue.includes(text)) {
-			this.setState(prevState => ({
-				venue: [...prevState.venue, text]
-			}))
-		}
-	}
+	// 	if (!this.state.venue.includes(text)) {
+	// 		this.setState(prevState => ({
+	// 			venue: [...prevState.venue, text]
+	// 		}))
+	// 	}
+	// }
 
 	render() {
 		var courses = this.doFilter().map(value => {
@@ -90,13 +86,39 @@ class SlotTable extends Component {
 		return (
 
 			<div className="righttable">
+			<hr></hr>
+				<span className="selectFilter">	Select Filters	</span>
+			<hr></hr>
 				<div className="tiles">
+					<div className="courseType">
 					<button onClick={this.handleclick} className="notclicked">Lab</button>
 					<button onClick={this.handleclick} className="notclicked">Theory</button>
 					<button onClick={this.handleclick} className="notclicked">Project</button>
-					<a href="#" id="venuefilter" onClick={this.handleClick}><span>Filter by Venue</span><i class="fas fa-filter" id="filter"></i></a>
+					</div>
+					<div className="venueFilter">
+					<button onClick={this.handleclick} className="notclicked">SJT</button>
+					<button onClick={this.handleclick} className="notclicked">TT</button>
+					<button onClick={this.handleclick} className="notclicked">MB</button>
+					<button onClick={this.handleclick} className="notclicked">SMV</button>
+					<button onClick={this.handleclick} className="notclicked">GDN</button>
+					<button onClick={this.handleclick} className="notclicked">CDMM</button>
+					<button onClick={this.handleclick} className="notclicked">CBMR</button>
+					<button onClick={this.handleclick} className="notclicked">LIB</button>
+					</div>
+					{/* <a href="#" id="venuefilter" onClick={this.handleClick}><span>Filter by Venue</span><i class="fas fa-filter" id="filter"></i></a>
 					<div className="hide" id="data">
 						<div className="venues">Venue Filters</div>
+						<form>
+							<label className="SJT">SJT:</label>
+						<input type="checkbox" name="SJT" onClick={this.handleVenues}></input>
+						<label className="TT">TT:</label>
+						<input type="checkbox" name="TT" onClick={this.handleVenues}/>
+						<label className="GDN">GDN:</label>
+						<input type="checkbox" name="GDN" onClick={this.handleVenues}/>
+						<label className="MB">MB</label>
+						<input type="checkbox" name="MB" onClick={this.handleVenues}/>
+						<label className="SMV">SMV</label>
+						<input type="checkbox" name="SMV" onClick={this.handleVenues}/>
 						<a href="#" onClick={this.handleVenues}><span>SJT</span></a>
 						<a href="#" onClick={this.handleVenues}><span>TT</span></a>
 						<a href="#" onClick={this.handleVenues}><span>GDN</span></a>
@@ -105,14 +127,17 @@ class SlotTable extends Component {
 						<a href="#" onClick={this.handleCross}><i class="material-icons" id="cross" >
 							clear
                     </i></a>
+					</form>
+					</div> */}
+					
+					<hr></hr>
+					<div className="hide">
+					<div className="filtersAdded" id="selectedFilter"></div>
 					</div>
-					<hr></hr>
-					<div className="filtersAdded" id="selectedFilter">Filters Added:</div>
-					<hr></hr>
 				</div>
-
+					<div className="slotsFiltered">
 				{courses}
-
+				</div>
 			</div>
 
 		)

@@ -52,32 +52,7 @@ class Search extends React.Component {
 
 
 	render() {
-		var curriculumChoices = this.state.curriculumList.map(v => <option value={v}>{v}</option>);
-
-		return (
-			<Container fluid={true}>
-				<Row>
-					<Col xs={5} md={5}>
-						<Form.Control as='select'>
-							{ curriculumChoices }
-						</Form.Control>
-					</Col>
-					<Col xs={7} md={7}>
-						<Form.Control type='text' placeholder='Search'/>
-					</Col>
-				</Row>
-			</Container>
-
-			// <div id="search-bar">
-			// 	<form onSubmit={this.handleSubmit}>
-			// 		<input onChange={this.handleChange} placeholder="Search By Course Code / Title / Slot"
-			// 			type="text" spellcheck="false" autocomplete="off"
-			// 			id="search-bar-placeholder" />
-			// 	</form>
-			// 	<a href="#"><i class="material-icons" onClick={this.handleSubmit}>search</i></a>
-			// </div>
-
-		)
+		return <div></div>
 
 	}
 }

@@ -26,7 +26,7 @@ class App extends React.Component {
 			timetable: [],
 			selectedCourse: '',
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
-			timestamp: localStorage.getItem('heatmapTimestamp') || null,
+			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
 			creditCount: 0,
 			clashMap: {
 
@@ -41,7 +41,7 @@ class App extends React.Component {
 					if (res.status === 304)
 						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
 					else {
-						this.setState({ heatmap: res.data.data.heatmap });
+						this.setState({ heatmap: res.data.data.heatmap, heatmapTimestamp: res.data.data.timestamp });
 						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
 						localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
 					}
@@ -118,10 +118,13 @@ class App extends React.Component {
 				<Row>
 					<p>Selected Course: {this.state.selectedCourse}</p>
 				</Row>
-				
+
 				<Row>
 					<Col xs={12} md={4}>
-						<CourseSelect selectCourse={this.selectCourse} />
+						<CourseSelect 
+							selectCourse={this.selectCourse} 
+							heatmap={this.state.heatmap}
+						/>
 					</Col>
 
 					<Col xs={12} md={8}>

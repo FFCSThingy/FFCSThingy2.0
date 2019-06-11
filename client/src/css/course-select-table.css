@@ -16,8 +16,8 @@ TODO------
     overflow-x: hidden;
     float: left;
     padding: 9px 20px;
-    max-width: 26%;
-    height: 520px;
+    /* max-width: 26%; */
+    max-height: 80vh;
     font-family: 'Montserrat', sans-serif;
     margin-right: 5%;
     margin-bottom: 3%;

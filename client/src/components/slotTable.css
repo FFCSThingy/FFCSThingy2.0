@@ -1,6 +1,6 @@
 .righttable{
-    width:60%;
-    max-height:600px;
+    /* width:60%; */
+    max-height:80vh;
     border-right:#eee solid 2px;
     border-left:#eee solid 2px;
     overflow: scroll;

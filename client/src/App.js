@@ -2,6 +2,10 @@
 // 'CourseTable' is the final bottom table for regisered courses
 
 import React from 'react';
+
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col } from 'react-bootstrap';
+
 import Search from './components/searchBar';
 import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
@@ -67,18 +71,18 @@ class App extends React.Component {
 		)).sort();
 	}
 
-	findAvailableVenues(type=null) {
+	findAvailableVenues(type = null) {
 		var venueRegex = /^[A-Z]+/;
 		return Array.from(new Set(
 			this.filterCourse()
 				.filter(c => !(c.venue === 'NIL'))
 				.filter(c => {
-					if(type) return c.simple_type === type;
+					if (type) return c.simple_type === type;
 					else return true;
 				})
 				.map(course => {
-					var s = course.venue.match(venueRegex)[0]; 
-					if(s.endsWith('G')) return s.slice(0, -1)
+					var s = course.venue.match(venueRegex)[0];
+					if (s.endsWith('G')) return s.slice(0, -1)
 					else return s;
 				})
 		)).sort();
@@ -87,13 +91,13 @@ class App extends React.Component {
 
 
 	selectSlots = (course) => {
-		if(course.slot !== 'NIL')
+		if (course.slot !== 'NIL')
 			this.setState(prevState => ({
 				filledSlots: [...prevState.filledSlots, ...course.slot.split("+")],
 				timetable: [...prevState.timetable, course],
 				creditCount: prevState.creditCount + course.credits
 			}));
-		else 
+		else
 			this.setState(prevState => ({
 				timetable: [...prevState.timetable, course],
 				creditCount: prevState.creditCount + course.credits
@@ -108,27 +112,47 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div class="container">
-				<p>Selected Course: {this.state.selectedCourse}</p>
-				<Search addCourse={this.addCourse} />
-				<CourseSelect selectCourse={this.selectCourse} />
+			<Container fluid={true}>
+				<Row>
+					<p>Selected Course: {this.state.selectedCourse}</p>
+				</Row>
 
-				<SlotTable 
-					selectSlots={this.selectSlots} 
-					slots={this.filterCourse()} 
-					types={this.findAvailableCourseTypes()}
-					venues={this.findAvailableVenues()}
-					theoryVenues={this.findAvailableVenues('Theory')}
-					labVenues={this.findAvailableVenues('Lab')}
-					projectVenues={this.findAvailableVenues('Project')}
-				/>
-				
-				<TimeTable filledSlots={this.state.filledSlots} timetable={this.state.timetable}/>
-				<CourseTable 
-					timetable={ this.state.timetable } 
-					creditCount={ this.state.creditCount }
-				/>
-			</div>
+				<Row>
+					<Search addCourse={this.addCourse} />
+				</Row>
+
+				<Row>
+					<Col xs={12} md={4}>
+						<CourseSelect selectCourse={this.selectCourse} />
+					</Col>
+
+					<Col xs={12} md={8}>
+						<SlotTable
+							selectSlots={this.selectSlots}
+							slots={this.filterCourse()}
+							types={this.findAvailableCourseTypes()}
+							venues={this.findAvailableVenues()}
+							theoryVenues={this.findAvailableVenues('Theory')}
+							labVenues={this.findAvailableVenues('Lab')}
+							projectVenues={this.findAvailableVenues('Project')}
+						/>
+					</Col>
+				</Row>
+
+				<Row>
+					<TimeTable 
+						filledSlots={this.state.filledSlots} 
+						timetable={this.state.timetable} 
+					/>
+				</Row>
+
+				<Row>
+					<CourseTable
+						timetable={this.state.timetable}
+						creditCount={this.state.creditCount}
+					/>
+				</Row>
+			</Container>
 		);
 	}
 }

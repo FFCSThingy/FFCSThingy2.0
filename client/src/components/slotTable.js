@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+
+import { Card, CardDeck, CardColumns, Container } from 'react-bootstrap';
+
 import axios from 'axios';
 import './slotTable.css';
 
@@ -59,11 +62,25 @@ class SlotTable extends Component {
 	render() {
 		var courses = this.doFilter().map(value => {
 			return (
-				<div className="slots" key={value._id} onClick={() => this.props.selectSlots(value)}>
-					<h4>{value.slot}</h4>
-					<h5>{value.faculty}</h5>
-					<p>{value.venue} - {value.course_type}</p>
-				</div>
+				// <div className="slots" key={value._id} onClick={() => this.props.selectSlots(value)}>
+				// 	<h4>{value.slot}</h4>
+				// 	<h5>{value.faculty}</h5>
+				// 	<p>{value.venue} - {value.course_type}</p>
+				// </div>
+
+				<Card 
+					bg="light" 
+					style={{ width: '18rem' }}
+					key={value._id} 
+					onClick={() => this.props.selectSlots(value)} >
+
+					<Card.Header>{ value.slot }</Card.Header>
+					<Card.Body>
+						<Card.Title>{ value.faculty }</Card.Title>
+						<Card.Text>{ value.venue } - { value.course_type }</Card.Text>
+					</Card.Body>
+
+				</Card>
 			)
 		});
 
@@ -109,9 +126,12 @@ class SlotTable extends Component {
 						<div className="filtersAdded" id="selectedFilter"></div>
 					</div>
 				</div>
-				<div className="slotsFiltered">
-					{courses}
-				</div>
+				
+				<Container>	
+					<CardColumns>
+						{courses}
+					</CardColumns>
+				</Container>
 			</div>
 
 		)

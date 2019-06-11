@@ -1,8 +1,9 @@
 import React from 'react';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row, Col, Card, CardColumns } from 'react-bootstrap';
 import '../css/course-select-table.css';
 import axios from 'axios';
-import { Container, Row, Col, Card, CardColumns} from 'react-bootstrap';
+import Search from './searchBar';
 
 class CourseSelect extends React.Component {
 	constructor(props) {
@@ -62,28 +63,16 @@ class CourseSelect extends React.Component {
 		})
 
 		return (
-			<div className="scrollHide">
+			<Container>
+				<Card className="cardOne">
+					<Card.Header className="cardOneHeader">
+						<Search />
+					</Card.Header>
+				</Card>
 				<div className="courseTable">
-					
-						<Card className="cardOne">
-							<Card.Header className="cardOneHeader">
-								<div className="courseTitle">Course Title</div>
-								<div className="courseCode">Course Code</div>
-								<div className="courseCredits">Total Credits</div>
-							</Card.Header>
-						</Card>
-					{/* <div className="container-left">
-						<h1 className="title-head">Course Title</h1>
-					</div><div className="container-right-head">
-						<ul>
-							<li className="code-head">Code</li>
-							<li className="credits-head">Credits</li>
-						</ul>
-					</div>
-				</div> */}
-				{courses}
+					{courses}
 				</div>
-			</div>
+			</Container>
 		);
 	}
 }

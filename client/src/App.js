@@ -110,17 +110,15 @@ class App extends React.Component {
 		})
 	}
 
+	addCourse(){}
+
 	render() {
 		return (
 			<Container fluid={true}>
 				<Row>
 					<p>Selected Course: {this.state.selectedCourse}</p>
 				</Row>
-
-				<Row>
-					<Search addCourse={this.addCourse} />
-				</Row>
-
+				
 				<Row>
 					<Col xs={12} md={4}>
 						<CourseSelect selectCourse={this.selectCourse} />

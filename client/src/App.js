@@ -38,7 +38,7 @@ class App extends React.Component {
 		axios.get("/course/getFullHeatmap")
 			.then(res => {
 				if (res.data.success) {
-					if (res.status == 304)
+					if (res.status === 304)
 						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
 					else {
 						this.setState({ heatmap: res.data.data.heatmap });

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 
-import { Card, CardDeck, CardColumns, Container } from 'react-bootstrap';
+import { Card, Col, CardColumns, Container, ToggleButtonGroup, ToggleButton, Row } from 'react-bootstrap';
 
-import axios from 'axios';
 import './slotTable.css';
 
 class SlotTable extends Component {
@@ -25,59 +24,26 @@ class SlotTable extends Component {
 		});
 	}
 
-	handleTypeClick = (e) => {
-		var text = e.target.textContent
-		if (e.target.className == "notclicked") {
-			e.target.className = "clicked";
-			if (!this.state.typeFilters.includes(text)) {
-				this.setState(prevState => ({
-					typeFilters: [...prevState.typeFilters, text]
-				}))
-			}
-		} else {
-			e.target.className = "notclicked";
-			this.setState(prevState => ({
-				typeFilters: prevState.typeFilters.filter(v => (v !== text))
-			}));
-		}
+	handleTypeChange = (value, event) => {
+		this.setState({ typeFilters: value });
 	}
 
-	handleVenueClick = (e) => {
-		var text = e.target.textContent
-		if (e.target.className == "notclicked") {
-			e.target.className = "clicked";
-			if (!this.state.venueFilters.includes(text)) {
-				this.setState(prevState => ({
-					venueFilters: [...prevState.venueFilters, text]
-				}))
-			}
-		} else {
-			e.target.className = "notclicked";
-			this.setState(prevState => ({
-				venueFilters: prevState.venueFilters.filter(v => (v !== text))
-			}));
-		}
+	handleVenueChange = (value, event) => {
+		this.setState({ venueFilters: value });
 	}
 
 	render() {
 		var courses = this.doFilter().map(value => {
 			return (
-				// <div className="slots" key={value._id} onClick={() => this.props.selectSlots(value)}>
-				// 	<h4>{value.slot}</h4>
-				// 	<h5>{value.faculty}</h5>
-				// 	<p>{value.venue} - {value.course_type}</p>
-				// </div>
-
 				<Card 
-					bg="light" 
-					style={{ width: '18rem' }}
-					key={value._id} 
+					bg="light"
+					key={ value._id } 
 					onClick={() => this.props.selectSlots(value)} >
 
-					<Card.Header>{ value.slot }</Card.Header>
 					<Card.Body>
+						<Card.Text>{ value.slot }</Card.Text>
 						<Card.Title>{ value.faculty }</Card.Title>
-						<Card.Text>{ value.venue } - { value.course_type }</Card.Text>
+						<Card.Subtitle>{ value.venue } - { value.course_type }</Card.Subtitle>
 					</Card.Body>
 
 				</Card>
@@ -92,48 +58,46 @@ class SlotTable extends Component {
 
 
 		var venueButtons = Array.from(new Set(applicableVenues)).sort().map(v => {
-			var initClass;
-			if (this.state.venueFilters.includes(v)) initClass = 'clicked';
-			else initClass = 'notclicked';
-
-			return <button onClick={this.handleVenueClick} className={initClass}>{v}</button>
+			return <ToggleButton value={v} className='toggleCustom'>{v}</ToggleButton>
 		});
 
-		var LTPButtons = this.props.types.map(v => {
-			var initClass;
-			if (this.state.typeFilters.includes(v)) initClass = 'clicked';
-			else initClass = 'notclicked';
-
-			return <button onClick={this.handleTypeClick} className={initClass}>{v}</button>
+		var typeButtons = this.props.types.map(v => {
+			return <ToggleButton value={v} className='toggleCustom'>{v}</ToggleButton>
 		});
 
 		return (
 
-			<div className="righttable">
-				<hr></hr>
-				<span className="selectFilter">Select Filters</span>
-				<hr></hr>
-				<div className="tiles">
-					<div className="courseType">
-						{LTPButtons}
-					</div>
-					<div className="venueFilter">
-						{venueButtons}
-					</div>
+			<Container>
+				<Card style={{ 'max-height': '80vh', 'overflow-y': 'auto' }}>
+					<Card.Header>
+						<Row>
+							<Col xs={12} sm={4}>
+								<ToggleButtonGroup
+									type='checkbox'
+									value={this.state.typeFilters}
+									onChange={this.handleTypeChange} >
+									{typeButtons}
+								</ToggleButtonGroup>
+							</Col>
 
-					<hr></hr>
-					<div className="hide">
-						<div className="filtersAdded" id="selectedFilter"></div>
-					</div>
-				</div>
-				
-				<Container>	
-					<CardColumns>
-						{courses}
-					</CardColumns>
-				</Container>
-			</div>
+							<Col xs={12} sm={8}>
+								<ToggleButtonGroup
+									type='checkbox'
+									value={this.state.venueFilters}
+									onChange={this.handleVenueChange} >
+									{venueButtons}
+								</ToggleButtonGroup>
+							</Col>
+						</Row>
+					</Card.Header>
+					<Card.Body>
+						<CardColumns>
+							{courses}
+						</CardColumns>
+					</Card.Body>
+				</Card>
 
+			</Container>
 		)
 	}
 }

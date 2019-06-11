@@ -140,3 +140,13 @@ hr{
     border-radius:3px;
     clear:both;
 }
+
+.toggleCustom {
+	background: #888888 !important;
+	border: none !important;
+}
+
+.toggleCustom.active {
+	background: #42f46b !important;
+}
+

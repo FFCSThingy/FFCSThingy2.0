@@ -10,6 +10,8 @@ class CourseSelect extends React.Component {
 		courseList: JSON.parse(localStorage.getItem('courseList')) || [],
 		timestamp: localStorage.getItem('courseListTimestamp') || null,
 		curriculumList: [],
+		curriculum: {},
+		selectedCategory: 'ALL',
 		searchString: '',
 		filteredCourses: [],
 		selectedCurriculum: '',
@@ -37,10 +39,19 @@ class CourseSelect extends React.Component {
 		axios.get("/curriculum/getPrefixes")
 			.then(res => {
 				if (res.data.success) {
-					this.setState({ curriculumList: res.data.data, selectedCurriculum: res.data.data[0] });
+					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCI' });
 				} else
 					this.setState({ error: res.data.message })
 			});
+
+		axios.get("/curriculum/getCurriculumFromPrefix/17BCI")
+			.then(res => {
+				if (res.data.success) {
+					this.setState({ curriculum: res.data.data });
+					localStorage.setItem('17BCI', JSON.stringify(res.data.data));
+				} else
+					this.setState({ error: res.data.message })
+			});	
 	}
 
 	handleChange(event) {
@@ -49,6 +60,7 @@ class CourseSelect extends React.Component {
 		this.setState({ [fieldName]: fleldVal })
 
 		if (event.target.name === 'searchString') this.doSearch();
+		if (event.target.name === 'selectedCurriculum') this.doCurriculumFetch(event.target.value);
 	}
 
 	getCourseSlotsList() {
@@ -67,6 +79,18 @@ class CourseSelect extends React.Component {
 			.reduce((a, v) => [...a, {code: v, slots: Array.from(new Set(courseSlots[v].slots)), title: courseSlots[v].title }], []);
 		return courseSlots;
 		// this.setState({ courseSlotList: courseSlots });
+	}
+
+	doCurriculumFetch(prefix) {
+		console.log('Changed to: ' + prefix)
+		axios.get("/curriculum/getCurriculumFromPrefix/" + prefix)
+			.then(res => {
+				if (res.data.success) {
+					this.setState({ curriculum: res.data.data });
+					localStorage.setItem(prefix, JSON.stringify(res.data.data));
+				} else
+					this.setState({ error: res.data.message })
+			});	
 	}
 
 	doSearch() {
@@ -107,7 +131,7 @@ class CourseSelect extends React.Component {
 		});
 
 		this.setState({filteredCourses: filteredCourses });
-		
+
 		return filteredCourses;
 	}
 
@@ -120,7 +144,7 @@ class CourseSelect extends React.Component {
 						<Form.Control
 							as='select'
 							name='selectedCurriculum'
-							defaultValue={this.state.selectedCurriculum}
+							// defaultValue={this.state.selectedCurriculum}
 							onChange={this.handleChange.bind(this)}
 						>
 							{curriculumChoices}
@@ -143,11 +167,19 @@ class CourseSelect extends React.Component {
 	renderCourses() {
 		var list = this.state.courseList;
 		if(this.state.searchString !== '') list = this.state.filteredCourses;
+
+		// console.log(this.state.selectedCategory.toLowerCase());
 		
-		return list.filter(v => {
-			return true;
-			})
-			.map(value => {
+		if (this.state.selectedCategory !== 'ALL' && Object.keys(this.state.curriculum).length) {
+			var cat = this.state.selectedCategory.toLowerCase();
+			var currCourses = this.state.curriculum[cat].map(c => c.code);
+		
+			list = list.filter(v => {
+				return currCourses.includes(v.code);
+			});
+		}	
+
+		return list.map(value => {
 				return (
 					<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
 						<CardColumns className="courseList">

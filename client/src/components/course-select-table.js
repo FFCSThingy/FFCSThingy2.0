@@ -1,6 +1,8 @@
 import React from 'react';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/course-select-table.css';
 import axios from 'axios';
+import { Container, Row, Col, Card, CardColumns} from 'react-bootstrap';
 
 class CourseSelect extends React.Component {
 	constructor(props) {
@@ -33,41 +35,44 @@ class CourseSelect extends React.Component {
 	render() {
 		var courses = this.state.courseList.map(value => {
 			return (
-				// <tr className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
-				// 	<td className="course-code">{value.code}</td>
-				// 	<td className="course-title">{value.title}</td>
-				// 	<td className="course-title">{value.credits}</td>
-				// </tr>
+			// <div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
+			// 	<div class="container-left">
+			// 		<h1 className="course-title">{value.title}</h1>
+			// 	</div>
+			// 	<div class="container-right">
+			// 		<ul>
+			// 			<li className="course-code">{value.code}</li>
+			// 			<li className="credits">{value.credits}</li>
+			// 		</ul>
+			// 	</div>
+			// </div>
 
 			<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
-				<div class="container-left">
-					<h1 className="course-title">{value.title}</h1>
-				</div>
-				<div class="container-right">
-					<ul>
-						<li className="course-code">{value.code}</li>
-						<li className="credits">{value.credits}</li>
-					</ul>
-				</div>
+				<CardColumns className="courseList">
+					<Card className="courseCard">
+						<Card.Body>
+							<Card.Title>{value.title}</Card.Title>
+							<Card.Text>{value.code} <div className="courseCredits">{value.credits} Credits</div>
+							</Card.Text>
+						</Card.Body>
+					</Card>
+				</CardColumns>
 			</div>
-
 			)
 		})
 
 		return (
-			// <div className="courselist">
-			// 	<table className="courseTable" >
-			// 		<tr>
-			// 			<th className="code-head">Course Code</th>
-			// 			<th className="title-head">Course Title</th>
-			// 			<th className="title-head">Credits</th>
-			// 		</tr>
-			// 		{courses}
-			// 	</table>
-			// </div>
-			<div className="courseTable">
-				<div className="table-head">
-					<div className="container-left">
+			<div className="scrollHide">
+				<div className="courseTable">
+					
+						<Card className="cardOne">
+							<Card.Header className="cardOneHeader">
+								<div className="courseTitle">Course Title</div>
+								<div className="courseCode">Course Code</div>
+								<div className="courseCredits">Total Credits</div>
+							</Card.Header>
+						</Card>
+					{/* <div className="container-left">
 						<h1 className="title-head">Course Title</h1>
 					</div><div className="container-right-head">
 						<ul>
@@ -75,8 +80,9 @@ class CourseSelect extends React.Component {
 							<li className="credits-head">Credits</li>
 						</ul>
 					</div>
-				</div>
+				</div> */}
 				{courses}
+				</div>
 			</div>
 		);
 	}

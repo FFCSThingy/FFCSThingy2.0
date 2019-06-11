@@ -3,7 +3,7 @@ TODO------
 -add nav buttons
 -fix font size for long course titles
 */
-
+/* 
 .courseTable { 
     display: grid;
     grid-template-rows: repeat(5, 1fr);
@@ -16,7 +16,7 @@ TODO------
     overflow-x: hidden;
     float: left;
     padding: 9px 20px;
-    /* max-width: 26%; */
+    max-width: 26%; comm
     max-height: 80vh;
     font-family: 'Montserrat', sans-serif;
     margin-right: 5%;
@@ -28,7 +28,7 @@ TODO------
 }
 
 .courseTable div {
-    /* max-width: 22em; */
+    max-width: 22em; comm
     height: 80px;
 }
 
@@ -87,4 +87,91 @@ ul {
 .container-right-head {
     float: right;
     margin: -4.8em 1.5em 0 0;
+} */
+
+
+.scrollHide {
+    overflow: hidden;
+}
+
+.courseTable {
+    max-height: 80vh;
+    overflow: auto;
+    border-radius: .7rem;
+    background-color: white;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+}
+
+.courseTable::-webkit-scrollbar { 
+    width: 0 !important 
+}
+
+.card {
+    border: none !important;
+
+}
+
+.card-header {
+    border: none !important;
+}
+
+.courseList {
+    column-count: 1;
+}
+
+.cardOneHeader {
+    background-color: #6D79DF;
+    color: white;
+    padding: 0.75rem 2.3rem !important;
+}
+
+.courses {
+    padding: 1rem 1rem 0 1rem;
+}
+
+.courseCard {
+    border-radius: 0.7rem;
+    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    transition: box-shadow 0.17s ease-in-out;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.courseCard:hover {
+    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
+    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
+    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
+    background-color: #ECEBFE;
+    transition: box-shadow 0.17s ease-in-out;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.card-title {
+    font-size: 1.05em;
+    font-weight: bold;
+    margin:0 !important;
+}
+
+.card-text {
+    margin:0 !important;
+}
+
+.cardOneHeader > .courseTitle {
+    font-size: 1.3em !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+}
+
+.cardOneHeader > .courseCode {
+    margin: 0 !important;
+}
+
+.cardOneHeader > .courseCredits {
+    margin: 0 !important;
+}
+
+.courseCredits {
+    float: right;
 }

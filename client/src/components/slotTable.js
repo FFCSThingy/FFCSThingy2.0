@@ -13,6 +13,13 @@ class SlotTable extends Component {
 		venueFilters: [],
 	}
 
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			typeFilters: [],
+			venueFilters: [] 
+		});
+	}
+
 	doFilter = () => {
 		return this.props.slots.filter(course => {	// Filter on course_type
 			if (this.state.typeFilters.length === 0) return true;
@@ -35,15 +42,15 @@ class SlotTable extends Component {
 	render() {
 		var courses = this.doFilter().map(value => {
 			return (
-				<Card 
+				<Card
 					bg="light"
-					key={ value._id } 
+					key={value._id}
 					onClick={() => this.props.selectSlots(value)} >
 
 					<Card.Body>
-						<Card.Text>{ value.slot }</Card.Text>
-						<Card.Title>{ value.faculty }</Card.Title>
-						<Card.Subtitle>{ value.venue } - { value.course_type }</Card.Subtitle>
+						<Card.Text>{value.slot}</Card.Text>
+						<Card.Title>{value.faculty}</Card.Title>
+						<Card.Subtitle>{value.venue} - {value.course_type}</Card.Subtitle>
 					</Card.Body>
 
 				</Card>
@@ -56,8 +63,11 @@ class SlotTable extends Component {
 		if (this.state.typeFilters.includes('Project')) applicableVenues = [...applicableVenues, ...this.props.projectVenues]
 		if (this.state.typeFilters.length === 0) applicableVenues = this.props.venues;
 
+		applicableVenues = Array.from(new Set(applicableVenues)).sort();
 
-		var venueButtons = Array.from(new Set(applicableVenues)).sort().map(v => {
+		var venueButtons = applicableVenues.map(v => {
+			if(applicableVenues.length > 4)
+				return <ToggleButton value={v} className='toggleCustom' size='sm'>{v}</ToggleButton>
 			return <ToggleButton value={v} className='toggleCustom'>{v}</ToggleButton>
 		});
 
@@ -66,8 +76,8 @@ class SlotTable extends Component {
 		});
 
 		return (
-
 			<Container>
+
 				<Card style={{ 'max-height': '80vh', 'overflow-y': 'auto' }}>
 					<Card.Header>
 						<Row>
@@ -79,8 +89,8 @@ class SlotTable extends Component {
 									{typeButtons}
 								</ToggleButtonGroup>
 							</Col>
-
-							<Col xs={12} sm={8}>
+							
+							<Col xs={12} sm={8} style={{ 'text-align': 'right' }}>
 								<ToggleButtonGroup
 									type='checkbox'
 									value={this.state.venueFilters}

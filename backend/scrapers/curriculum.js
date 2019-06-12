@@ -18,6 +18,9 @@ module.exports.parseCurriculum = (html) => {
 			var page = $.root();
 			var credTable = page.find('table').eq(0);
 
+			curr.reg_prefix = page.find('span.VTopHeaderStyle span').text().trim().slice(0, 5);
+			// console.log(regNo);
+
 			var td = credTable.find('td');
 			todo_creds['pc'] = td.eq(6).text().trim();
 			todo_creds['pe'] = td.eq(9).text().trim();
@@ -28,10 +31,11 @@ module.exports.parseCurriculum = (html) => {
 
 			var table = page.find("tbody");
 			var table_count = table.length;
+			console.log(table_count)
 			
 			for (var i = 1; i < table_count; i++) {
 				courses = [];
-				var tr = table.eq(i).find("tr.odd");
+				var tr = table.eq(i).find("tr");
 				var tr_count = tr.length;
 
 				for (var j = 0; j < tr_count; j++) {

@@ -43,16 +43,18 @@ class SlotTable extends Component {
 		var courses = this.doFilter().map(value => {
 			return (
 				<Card
+					className="cardContainer"
 					bg="light"
 					key={value._id}
 					onClick={() => this.props.selectSlots(value)} >
 
-					<Card.Body>
+					<Card.Body className="cardBody">
 						<Card.Text>{value.slot}</Card.Text>
 						<Card.Title>{value.faculty}</Card.Title>
-						<Card.Subtitle>{value.venue} - {value.course_type}</Card.Subtitle>
+						<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
+						</Card.Subtitle>
 					</Card.Body>
-
+					
 				</Card>
 			)
 		});
@@ -76,13 +78,12 @@ class SlotTable extends Component {
 		});
 
 		return (
-			<Container>
-
-				<Card style={{ 'max-height': '80vh', 'overflow-y': 'auto' }}>
-					<Card.Header>
+			<Container clssName="scrollHide">
+				<Card className="slotTableContainer">
+					<Card.Header className="slotTableHeader">
 						<Row>
 							<Col xs={12} sm={4}>
-								<ToggleButtonGroup
+								<ToggleButtonGroup className="slotFilter"
 									type='checkbox'
 									value={this.state.typeFilters}
 									onChange={this.handleTypeChange} >
@@ -90,8 +91,8 @@ class SlotTable extends Component {
 								</ToggleButtonGroup>
 							</Col>
 							
-							<Col xs={12} sm={8} style={{ 'text-align': 'right' }}>
-								<ToggleButtonGroup
+							<Col xs={12} sm={8} className="slotFilterContainer">
+								<ToggleButtonGroup className="slotFilter"
 									type='checkbox'
 									value={this.state.venueFilters}
 									onChange={this.handleVenueChange} >
@@ -100,7 +101,7 @@ class SlotTable extends Component {
 							</Col>
 						</Row>
 					</Card.Header>
-					<Card.Body>
+					<Card.Body className="slotTableBody">
 						<CardColumns>
 							{courses}
 						</CardColumns>

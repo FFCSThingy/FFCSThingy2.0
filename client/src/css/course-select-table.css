@@ -97,7 +97,7 @@ ul {
 .courseTable {
     max-height: 80vh;
     overflow: auto;
-    border-radius: .7rem;
+    border-radius:  0 0 .7rem .7rem;
     background-color: white;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
@@ -120,7 +120,12 @@ ul {
     column-count: 1;
 }
 
+.cardOne {
+	border-radius: 7rem !important;
+}
+
 .cardOneHeader {
+	border-radius: .7rem .7rem 0 0 !important;
     background-color: #6D79DF;
     color: white;
     padding: 0.75rem 2.3rem !important;

@@ -14,7 +14,7 @@ router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.get('/updateCurriculums', (req, res, next) => {
-	var currs = ['17BCI', '17BCE', '18BCB'];
+	var currs = ['17BCI', '17BCE'];
 	var actions = currs.map(curriculum.doParseAndSaveCurriculum);
 	var results = Promise.all(actions);
 

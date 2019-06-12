@@ -23,7 +23,7 @@ class CourseSelect extends React.Component {
 		axios.get("/course/getCourseList")
 			.then(res => {
 				if (res.data.success) {
-					if (res.status == 304) {
+					if (res.status === 304) {
 						var courses = JSON.parse(localStorage.getItem('courseList'));
 						this.setState({ courseList: courses });
 					} else {
@@ -44,11 +44,11 @@ class CourseSelect extends React.Component {
 					this.setState({ error: res.data.message })
 			});
 
-		axios.get("/curriculum/getCurriculumFromPrefix/17BCI")
+		axios.get("/curriculum/getCurriculumFromPrefix/17BCE")
 			.then(res => {
 				if (res.data.success) {
 					this.setState({ curriculum: res.data.data });
-					localStorage.setItem('17BCI', JSON.stringify(res.data.data));
+					localStorage.setItem('17BCE', JSON.stringify(res.data.data));
 				} else
 					this.setState({ error: res.data.message })
 			});	
@@ -95,6 +95,10 @@ class CourseSelect extends React.Component {
 
 	doSearch() {
 		var searchString = this.state.searchString.toUpperCase();
+		
+		if(searchString === '') return this.state.courseList;
+		if(searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length -1)
+		
 		var searchBySlots = true;
 		var slots_title = new Set(["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2", "E1", "E2", "F1", "F2", "G1", "G2", "L1", "L10", "L11", "L12", "L13", "L14", "L15", "L16", "L19", "L2", "L20", "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L3", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39", "L4", "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L5", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58", "L59", "L6", "L60", "L7", "L71", "L72", "L73", "L74", "L75", "L76", "L77", "L78", "L79", "L8", "L80", "L81", "L82", "L83", "L84", "L85", "L86", "L87", "L88", "L89", "L9", "L90", "L91", "L92", "L93", "L94", "TA1", "TA2", "TAA1", "TAA2", "TB1", "TB2", "TBB2", "TC1", "TC2", "TCC1", "TCC2", "TD1", "TD2", "TDD2", "TE1", "TE2", "TF1", "TF2", "TG1", "TG2", "V1", "V10", "V11", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "W2", "X1", "X2", "Y1", "Y2", "Z", ""]);
 
@@ -105,11 +109,8 @@ class CourseSelect extends React.Component {
 
 		var searchStringSlots = searchString.toUpperCase().split("+");
 		var search_val_type = new Set(searchString.toUpperCase().split("*"));
-		for (var i in searchStringSlots) {
-			if (!(slots_title.has(searchStringSlots[i]))) {
-				searchBySlots = false;
-			}
-		}
+
+		var searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), searchBySlots);
 
 		var filteredCodes = [];
 		if(searchBySlots) {
@@ -120,7 +121,6 @@ class CourseSelect extends React.Component {
 			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code)
 		}
 
-		// return filteredCodes;
 		var filteredCourses = this.state.courseList.filter(v => {
 			return filteredCodes.includes(v.code);
 		});
@@ -129,8 +129,6 @@ class CourseSelect extends React.Component {
 		filteredCourses.sort(function (a, b) {
 			return b.title.indexOf(searchString) - a.title.indexOf(searchString) + b.code.indexOf(searchString) - a.code.indexOf(searchString);
 		});
-
-		this.setState({filteredCourses: filteredCourses });
 
 		return filteredCourses;
 	}
@@ -144,7 +142,7 @@ class CourseSelect extends React.Component {
 						<Form.Control
 							as='select'
 							name='selectedCurriculum'
-							// defaultValue={this.state.selectedCurriculum}
+							value={this.state.selectedCurriculum}
 							onChange={this.handleChange.bind(this)}
 						>
 							{curriculumChoices}
@@ -164,11 +162,24 @@ class CourseSelect extends React.Component {
 		)
 	}
 
-	renderCourses() {
-		var list = this.state.courseList;
-		if(this.state.searchString !== '') list = this.state.filteredCourses;
+	renderNormalCard(value) {
+		return (
+			<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
+				<CardColumns className="courseList">
+					<Card className="courseCard">
+						<Card.Body>
+							<Card.Title>{value.title}</Card.Title>
+							<Card.Text>{value.code} <div className="courseCredits">{value.credits} Credits</div>
+							</Card.Text>
+						</Card.Body>
+					</Card>
+				</CardColumns>
+			</div>
+		)
+	}
 
-		// console.log(this.state.selectedCategory.toLowerCase());
+	renderCourses() {
+		var list =  this.doSearch();
 		
 		if (this.state.selectedCategory !== 'ALL' && Object.keys(this.state.curriculum).length) {
 			var cat = this.state.selectedCategory.toLowerCase();
@@ -180,25 +191,11 @@ class CourseSelect extends React.Component {
 		}	
 
 		return list.map(value => {
-				return (
-					<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
-						<CardColumns className="courseList">
-							<Card className="courseCard">
-								<Card.Body>
-									<Card.Title>{value.title}</Card.Title>
-									<Card.Text>{value.code} <div className="courseCredits">{value.credits} Credits</div>
-									</Card.Text>
-								</Card.Body>
-							</Card>
-						</CardColumns>
-					</div>
-				)
+				return this.renderNormalCard(value)
 			});
 	}
 
 	render() {
-
-
 		return (
 			<Container>
 				<Card className="cardOne">

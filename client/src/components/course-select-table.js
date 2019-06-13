@@ -145,6 +145,7 @@ class CourseSelect extends React.Component {
 				<Row>
 					<Col xs={5} md={5}>
 						<DropdownButton 
+							className="curriculumDropdown"
 							as={ButtonGroup} 
 							title={this.state.selectedCurriculum}
 							onSelect={this.handleCurriculumChange}

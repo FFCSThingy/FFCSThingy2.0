@@ -15,7 +15,7 @@ import './App.css';
 import './css/nav-bar.css'
 import './components/TimeTable'
 
-import navbarImage from './images/favicon.ico';
+import navbarImage from './images/logo.png';
 
 import axios from 'axios';
 
@@ -591,13 +591,13 @@ class App extends React.Component {
 			<Container fluid={true}>
 				<Row>
 					<Navbar className="navBar" bg="light">
-						<a href="#home" class="navbar-left"><img src={navbarImage}></img></a>
+						<a  href="#home" class="navbar-left"><img className="logo" src={navbarImage}></img></a>
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
-						<Navbar.Collapse id="basic-navbar-nav">
+						<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 							<Nav className="mr-auto">
 							<Nav.Link className="navLink" href="#home">Home</Nav.Link>
 							<Nav.Link className="navLink" href="#about">About</Nav.Link>
-							<Dropdown>
+							<Dropdown className="navDropContainer">
 								<Dropdown.Toggle className="navDrop" variant="success" id="dropdown-basic">
 									Profile
 								</Dropdown.Toggle>
@@ -608,6 +608,7 @@ class App extends React.Component {
 							</Nav>
 						</Navbar.Collapse>
 					</Navbar>
+					
 				</Row>
 
 				<Row>

@@ -1,10 +1,10 @@
 .navBar {
     width: 100%;
+    height: 5em;
     background-color: #6D79DF !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    position: sticky;
-
+    padding-left: 2em;
 }
 
 .navLink {
@@ -36,17 +36,25 @@
     box-shadow: none !important;
 }
 
+.linksContainer {
+    padding-top: 2rem;
+    padding-left: 2rem;
+}
+
 
 
 .logo {
-    width: 130px;
+    width: 190px;
 }
 
-.brand {
-    width: 40px;
-    height: 40px;
+
+.mr-auto {
+    margin-right: 0 !important;
 }
 
-.profile {
-    text-align: right !important;
+.navDropContainer {
+    padding-top: 0.13rem; 
+    margin-top: 0;
+    /* padding-left: 30rem;
+    padding-right: 10%; */
 }

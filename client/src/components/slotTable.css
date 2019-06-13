@@ -75,6 +75,11 @@
 	color: red
 }
 
+.cardSelectedSubtitle {
+	margin-top: 0 !important;
+	color: green;
+}
+
 .cardBody {
 	border-radius: 0.7rem;
 	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);

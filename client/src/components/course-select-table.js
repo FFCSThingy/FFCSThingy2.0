@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React from 'react';
-import { Card, CardColumns, Col, Container, Form, Row, Nav } from 'react-bootstrap';
+import { Card, CardColumns, Col, Container, Form, Row, Nav, DropdownButton, ButtonGroup, Dropdown } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/course-select-table.css';
 // import Search from './searchBar';
@@ -54,13 +54,18 @@ class CourseSelect extends React.Component {
 			});
 	}
 
-	handleChange(event) {
+	handleChange = (event) => {
 		let fieldName = event.target.name;
 		let fleldVal = event.target.value;
 		this.setState({ [fieldName]: fleldVal })
 
 		if (event.target.name === 'searchString') this.doSearch();
-		if (event.target.name === 'selectedCurriculum') this.doCurriculumFetch(event.target.value);
+		// if (event.target.name === 'selectedCurriculum') 
+	}
+
+	handleCurriculumChange = (val) => {
+		this.doCurriculumFetch(val);
+		this.setState({ selectedCurriculum: val });
 	}
 
 	getCourseSlotsList() {
@@ -134,20 +139,19 @@ class CourseSelect extends React.Component {
 	}
 
 	renderSearchBar() {
-		var curriculumChoices = this.state.curriculumList.map(v => <option value={v}>{v}</option>);
+		var curriculumChoices = this.state.curriculumList.map(v => <Dropdown.Item eventKey={v}>{v}</Dropdown.Item>);
 		return (
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>
 					<Col xs={5} md={5}>
-						<Form.Control
+						<DropdownButton 
 							className="curriculumDropdown"
-							as='select'
-							name='selectedCurriculum'
-							// value={this.state.selectedCurriculum}
-							onChange={this.handleChange.bind(this)}
+							as={ButtonGroup} 
+							title={this.state.selectedCurriculum}
+							onSelect={this.handleCurriculumChange}
 						>
 							{curriculumChoices}
-						</Form.Control>
+						</DropdownButton>
 					</Col>
 					<Col className="searchColumn" xs={7} md={7}>
 						<Form.Control
@@ -156,13 +160,14 @@ class CourseSelect extends React.Component {
 							type='text'
 							placeholder='Search here'
 							spellCheck='false'
+							autoComplete='off'
 							defaultValue={this.state.searchString}
 							onChange={this.handleChange.bind(this)}
 						/>
 					</Col>
 				</Row>
 
-				<Row style={{'padding': '2vh 2vh 0 2vh'}}>
+				<Row style={{'padding': '2vh 2vh 1px 2vh'}}>
 					<Nav className="courseTypeFilter"
 						variant="tabs" 
 						defaultActiveKey='ALL'

@@ -14,6 +14,9 @@ import "whatwg-fetch";
 import './App.css';
 import './css/nav-bar.css'
 import './components/TimeTable'
+
+import navbarImage from './images/logo.png';
+
 import axios from 'axios';
 import Generator from './components/magicFill';
 
@@ -513,6 +516,10 @@ class App extends React.Component {
 		}).reduce((a, v) => a || v, false);
 	}
 
+	checkSelected = (course) => {
+		return this.state.timetable.reduce((a,v) => a || (course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === this.state.activeTimetable), false)
+	}
+
 	getFilledSlots = () => {
 		return Object.keys(this.state.clashMap).reduce((a,v) => {
 			if(this.state.clashMap[v].isFilled)	a = [...a, v];
@@ -520,9 +527,21 @@ class App extends React.Component {
 		}, [])
 	}
 
+	checkAndSelectProject = (course) => {
+		var reqdCourse = this.state.heatmap.filter(v => (course.code === v.code && course.faculty === v.faculty && ['PJT', 'EPJ'].includes(v.course_type)));
+
+		if(reqdCourse.length === 0) return;
+		else if(!this.checkSelected(reqdCourse[0])){
+			reqdCourse = reqdCourse[0];
+			reqdCourse.simple_type = 'Project';
+			this.selectSlots(reqdCourse);
+		}
+		
+	}
+
 	selectSlots = (course) => {
 		course.timetableName = this.state.activeTimetable
-
+		console.log(course);
 
 		if (course.slot !== 'NIL') {
 			course.slot.split('+').map(v => this.setState(prevState => {
@@ -531,17 +550,33 @@ class App extends React.Component {
 				return { clashMap };
 			}));
 
-			this.setState(prevState => ({
-				timetable: [...prevState.timetable, course],
-				creditCount: prevState.creditCount + course.credits,
-			}));
-		}	
-		else {
-			this.setState(prevState => ({
-				timetable: [...prevState.timetable, course],
-				creditCount: prevState.creditCount + course.credits
-			}));
+			if(course.simple_type !== 'Project')
+				this.checkAndSelectProject(course);
 		}
+			
+		this.setState(prevState => ({
+			timetable: [...prevState.timetable, course],
+			creditCount: prevState.creditCount + course.credits
+		}));
+	}
+
+	unselectSlots = (course) => {
+		course.timetableName = this.state.activeTimetable
+		if (course.slot !== 'NIL') {
+			course.slot.split('+').map(v => this.setState(prevState => {
+					let clashMap = { ...prevState.clashMap };
+					clashMap[v].isFilled = false;
+					return { clashMap };
+				}));
+		}
+
+		this.setState(prevState => ({
+			timetable: prevState.timetable.filter(v => !(
+				course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable
+				)
+			),
+			creditCount: prevState.creditCount - course.credits,
+		}));
 	}
 
 	selectCourse = (code) => {
@@ -557,13 +592,13 @@ class App extends React.Component {
 			<Container fluid={true}>
 				<Row>
 					<Navbar className="navBar" bg="light">
-						<a href="#home" class="navbar-left"><img src="/logo.svg"></img></a>
+						<a  href="#home" class="navbar-left"><img className="logo" src={navbarImage}></img></a>
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
-						<Navbar.Collapse id="basic-navbar-nav">
+						<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 							<Nav className="mr-auto">
 							<Nav.Link className="navLink" href="#home">Home</Nav.Link>
 							<Nav.Link className="navLink" href="#about">About</Nav.Link>
-							<Dropdown>
+							<Dropdown className="navDropContainer">
 								<Dropdown.Toggle className="navDrop" variant="success" id="dropdown-basic">
 									Profile
 								</Dropdown.Toggle>
@@ -574,6 +609,7 @@ class App extends React.Component {
 							</Nav>
 						</Navbar.Collapse>
 					</Navbar>
+					
 				</Row>
 
 				<Row>
@@ -589,6 +625,7 @@ class App extends React.Component {
 						<SlotTable
 							selectSlots={this.selectSlots}
 							checkClash={this.checkClash}
+							checkSelected={this.checkSelected}
 							slots={this.filterCourse()}
 
 							types={this.findAvailableCourseTypes()}
@@ -616,6 +653,7 @@ class App extends React.Component {
 					<CourseTable
 						timetable={this.state.timetable}
 						creditCount={this.state.creditCount}
+						unselectSlot={this.unselectSlots}
 					/>
 				</Row>
 			</Container>

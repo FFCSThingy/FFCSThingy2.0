@@ -168,7 +168,8 @@ TODO------
     height: 1.1em !important;
     font-weight: bold;
     font-size: 1.3em;
-    text-align: right;
+	text-align: right;
+	text-transform: uppercase;
 }
 
 ::placeholder {

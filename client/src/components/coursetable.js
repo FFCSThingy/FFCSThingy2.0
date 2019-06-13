@@ -6,9 +6,18 @@ import '../css/courseTable.css';
 
 class CourseTable extends React.Component {
 	
+	sortTimetable = ((a, b) => {
+		return a.code.localeCompare(b.code)
+		// if (a.simpleType === 'Theory' && (b.simpleType === 'Lab' || b.simpleType === 'Project')) return -1;
+		// if (a.simpleType === 'Lab' && b.simpleType === 'Project') return -1;
+		// // if (a.simpleType === 'Lab' && b.simpleType === 'Theory') return 1;
+		// if (a.faculty.localeCompare(b.faculty) < 1) return -1;
+		// if (a.slot.localeCompare(b.slot) < 1) return -1;
+
+	});
+
 	render() {
-		var { timetable } = this.props;
-		var appendList = timetable.map(value => {
+		var appendList = this.props.timetable.sort(this.sortTimetable).map(value => {
 			return (
 				<tr key={value._id}>
 					<td>{value.slot}</td>

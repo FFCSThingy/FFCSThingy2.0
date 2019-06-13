@@ -117,27 +117,45 @@ TODO------
 .curriculumDropdown {
     font-family: 'Montserrat', sans-serif;
     background-color: #6D79DF !important;
-    border-radius: 0.75rem !important;
+    border-radius: 0.25rem !important;
     border: 1px solid white;
     color: white;
-    transition: none;
     padding: 0.1rem 0.1rem;
     height: 1.6em;
     width: 85%;
+    margin:0;
 }
 
 .curriculumDropdown:focus {
     color: white !important;
     box-shadow: none !important;
-    border: 1px solid white;
-    transition: none;
 }
 
 .curriculumDropdown:active {
     color: white !important;
-    border: 1px solid white;
     box-shadow: none !important;
-    transition: none;
+}
+
+.curriculumDropdown > .btn-primary {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0;
+}
+
+.curriculumDropdown > .dropdown-menu {
+    padding: 0 !important;
+    min-width: 102% !important;
+    border: 1px solid hsl(234, 40%, 50%);
+    border-radius: 0.25rem !important;
+    margin-top: 0.17rem !important;
+    margin-left: -0.17rem !important;
+}
+
+.curriculumDropdown > .dropdown-menu > .dropdown-item {
+    padding: 0.1rem 0.5rem !important;
+    background-color: white !important;
+    border-radius: 0.25rem !important;
 }
 
 .searchBar {

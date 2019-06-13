@@ -24,7 +24,6 @@ class App extends React.Component {
 			error: null,
 			activeTimetable: 'Default',
 
-			filledSlots: [],
 			timetable: [],
 			creditCount: 0,
 			
@@ -466,7 +465,7 @@ class App extends React.Component {
 			});
 	}
 
-	filterCourse() {
+	filterCourse = () => {
 		return this.state.heatmap.filter(course => course.code === this.state.selectedCourse)
 			.map(course => {
 				if (['TH', 'ETH', 'SS'].includes(course.course_type)) course.simple_type = 'Theory';
@@ -477,14 +476,14 @@ class App extends React.Component {
 			});
 	}
 
-	findAvailableCourseTypes() {
+	findAvailableCourseTypes = () => {
 		return Array.from(new Set(
 			this.filterCourse()
 				.map(course => course.simple_type)
 		)).sort();
 	}
 
-	findAvailableVenues(type = null) {
+	findAvailableVenues = (type = null) => {
 		var venueRegex = /^[A-Z]+/;
 		return Array.from(new Set(
 			this.filterCourse()
@@ -502,31 +501,46 @@ class App extends React.Component {
 	}
 
 	checkClash = (slot) => {
+		var filledSlots = this.getFilledSlots();
 		if(slot === 'NIL') return false;
-		if(this.state.filledSlots.length === 0) return false;
-		
-		return this.state.filledSlots.map(v => {
+		if(filledSlots.length === 0) return false;
+
+		return filledSlots.map(v => {
 			return slot.split('+')
 				.map(s => this.state.clashMap[s].clashesWith.includes(v))
 				.reduce((a, v) => a || v, false)
 		}).reduce((a, v) => a || v, false);
 	}
 
-
+	getFilledSlots = () => {
+		return Object.keys(this.state.clashMap).reduce((a,v) => {
+			if(this.state.clashMap[v].isFilled)	a = [...a, v];
+			return a;
+		}, [])
+	}
 
 	selectSlots = (course) => {
 		course.timetableName = this.state.activeTimetable
-		if (course.slot !== 'NIL')
+
+
+		if (course.slot !== 'NIL') {
+			course.slot.split('+').map(v => this.setState(prevState => {
+				let clashMap = { ...prevState.clashMap };
+				clashMap[v].isFilled = true;
+				return { clashMap };
+			}));
+
 			this.setState(prevState => ({
-				filledSlots: [...prevState.filledSlots, ...course.slot.split("+")],
+				timetable: [...prevState.timetable, course],
+				creditCount: prevState.creditCount + course.credits,
+			}));
+		}	
+		else {
+			this.setState(prevState => ({
 				timetable: [...prevState.timetable, course],
 				creditCount: prevState.creditCount + course.credits
 			}));
-		else
-			this.setState(prevState => ({
-				timetable: [...prevState.timetable, course],
-				creditCount: prevState.creditCount + course.credits
-			}));
+		}
 	}
 
 	selectCourse = (code) => {
@@ -591,7 +605,7 @@ class App extends React.Component {
 
 				<Row>
 					<TimeTable 
-						filledSlots={this.state.filledSlots} 
+						filledSlots={this.getFilledSlots()} 
 						timetable={this.state.timetable} 
 					/>
 				</Row>

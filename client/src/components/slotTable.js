@@ -78,9 +78,10 @@ class SlotTable extends Component {
 
 	render() {
 		var courses = this.doFilter().map(value => {
-			var clash = value.slot.split('+').reduce((a, v) => a || this.props.checkClash(v), false);
+			var clash = this.props.checkClash(value.slot);
+			
 			if(clash) return this.renderClashCard(value);
-			return this.renderNormalCard(value);
+			else return this.renderNormalCard(value);
 		});
 
 		var applicableVenues = [];

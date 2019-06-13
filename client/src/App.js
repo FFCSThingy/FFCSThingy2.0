@@ -504,8 +504,12 @@ class App extends React.Component {
 	checkClash = (slot) => {
 		if(slot === 'NIL') return false;
 		if(this.state.filledSlots.length === 0) return false;
-		return this.state.filledSlots.map(v => this.state.clashMap[slot].clashesWith.includes(v))
-			.reduce((a, v) => a || v, false);
+		
+		return this.state.filledSlots.map(v => {
+			return slot.split('+')
+				.map(s => this.state.clashMap[s].clashesWith.includes(v))
+				.reduce((a, v) => a || v, false)
+		}).reduce((a, v) => a || v, false);
 	}
 
 

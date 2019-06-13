@@ -4,7 +4,7 @@
 import React from 'react';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, NavbarBrand } from 'react-bootstrap';
 
 import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
@@ -27,14 +27,16 @@ class App extends React.Component {
 			error: null,
 			activeTimetable: 'Default',
 
+			user: {},
+
 			timetable: [],
 			creditCount: 0,
-			
+
 			selectedCourse: '',
-			
+
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
-			
+
 			clashMap: {
 				A1: {
 					clashesWith: ['A1', 'L1', 'L2', 'L14', 'L15'],
@@ -450,6 +452,22 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
+		axios.get("/account")
+			.then(res => {
+				if (res.data) {
+					if (res.status === 304);
+					// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
+					else if (res.status === 301) { } // Do Logout
+					else {
+						this.setState({ user: res.data });
+					}
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				console.log(err);
+				this.setState({ error: err })
+			});
+
 		axios.get("/course/getFullHeatmap")
 			.then(res => {
 				if (res.data.success) {
@@ -505,8 +523,8 @@ class App extends React.Component {
 
 	checkClash = (slot) => {
 		var filledSlots = this.getFilledSlots();
-		if(slot === 'NIL') return false;
-		if(filledSlots.length === 0) return false;
+		if (slot === 'NIL') return false;
+		if (filledSlots.length === 0) return false;
 
 		return filledSlots.map(v => {
 			return slot.split('+')
@@ -516,12 +534,12 @@ class App extends React.Component {
 	}
 
 	checkSelected = (course) => {
-		return this.state.timetable.reduce((a,v) => a || (course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === this.state.activeTimetable), false)
+		return this.state.timetable.reduce((a, v) => a || (course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === this.state.activeTimetable), false)
 	}
 
 	getFilledSlots = () => {
-		return Object.keys(this.state.clashMap).reduce((a,v) => {
-			if(this.state.clashMap[v].isFilled)	a = [...a, v];
+		return Object.keys(this.state.clashMap).reduce((a, v) => {
+			if (this.state.clashMap[v].isFilled) a = [...a, v];
 			return a;
 		}, [])
 	}
@@ -529,13 +547,13 @@ class App extends React.Component {
 	checkAndSelectProject = (course) => {
 		var reqdCourse = this.state.heatmap.filter(v => (course.code === v.code && course.faculty === v.faculty && ['PJT', 'EPJ'].includes(v.course_type)));
 
-		if(reqdCourse.length === 0) return;
-		else if(!this.checkSelected(reqdCourse[0])){
+		if (reqdCourse.length === 0) return;
+		else if (!this.checkSelected(reqdCourse[0])) {
 			reqdCourse = reqdCourse[0];
 			reqdCourse.simple_type = 'Project';
 			this.selectSlots(reqdCourse);
 		}
-		
+
 	}
 
 	selectSlots = (course) => {
@@ -549,10 +567,10 @@ class App extends React.Component {
 				return { clashMap };
 			}));
 
-			if(course.simple_type !== 'Project')
+			if (course.simple_type !== 'Project')
 				this.checkAndSelectProject(course);
 		}
-			
+
 		this.setState(prevState => ({
 			timetable: [...prevState.timetable, course],
 			creditCount: prevState.creditCount + course.credits
@@ -563,16 +581,16 @@ class App extends React.Component {
 		course.timetableName = this.state.activeTimetable
 		if (course.slot !== 'NIL') {
 			course.slot.split('+').map(v => this.setState(prevState => {
-					let clashMap = { ...prevState.clashMap };
-					clashMap[v].isFilled = false;
-					return { clashMap };
-				}));
+				let clashMap = { ...prevState.clashMap };
+				clashMap[v].isFilled = false;
+				return { clashMap };
+			}));
 		}
 
 		this.setState(prevState => ({
 			timetable: prevState.timetable.filter(v => !(
 				course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable
-				)
+			)
 			),
 			creditCount: prevState.creditCount - course.credits,
 		}));
@@ -584,37 +602,45 @@ class App extends React.Component {
 		})
 	}
 
-	addCourse(){}
+	renderNavbar = () => {
+		return (
+			<Navbar className="navBar" bg="light" fixed="top" expand="md">
+				<NavbarBrand href="#home" class="navbar-left">
+					{/* <img className="logo" alt="FFCSThingy" src={navbarImage}></img> */}
+					FFCSThingy
+				</NavbarBrand>
+				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
+					<Nav className="mr-auto">
+						<Nav.Link className="navLink">Home</Nav.Link>
+						<Nav.Link className="navLink">About</Nav.Link>
+					</Nav>
+
+					<Nav>	
+						<Nav.Link className="navLink" disabled>
+							Credits: {this.state.creditCount}
+						</Nav.Link>
+						<NavDropdown title="Profile" className="navDropContainer">
+							<NavDropdown.Item disabled>{this.state.user.display_name}</NavDropdown.Item>
+							<NavDropdown.Item>Logout</NavDropdown.Item>
+						</NavDropdown>
+					</Nav>
+				</Navbar.Collapse>
+			</Navbar>
+		)
+	}
 
 	render() {
 		return (
 			<Container fluid={true}>
-				<Row>
-					<Navbar className="navBar" bg="light">
-						<a  href="#home" class="navbar-left"><img className="logo" src={navbarImage}></img></a>
-						<Navbar.Toggle aria-controls="basic-navbar-nav" />
-						<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
-							<Nav className="mr-auto">
-							<Nav.Link className="navLink" href="#home">Home</Nav.Link>
-							<Nav.Link className="navLink" href="#about">About</Nav.Link>
-							<Dropdown className="navDropContainer">
-								<Dropdown.Toggle className="navDrop" variant="success" id="dropdown-basic">
-									Profile
-								</Dropdown.Toggle>
-								<Dropdown.Menu>
-									<Dropdown.Item className="navLink" href="#/action-1">Logout</Dropdown.Item>
-								</Dropdown.Menu>
-								</Dropdown>
-							</Nav>
-						</Navbar.Collapse>
-					</Navbar>
-					
+				<Row className='navBarRow'>
+					{this.renderNavbar()}
 				</Row>
 
 				<Row>
 					<Col xs={12} md={4}>
-						<CourseSelect 
-							selectCourse={this.selectCourse} 
+						<CourseSelect
+							selectCourse={this.selectCourse}
 							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}
 						/>
@@ -637,13 +663,9 @@ class App extends React.Component {
 				</Row>
 
 				<Row>
-					<p>Selected Course: {this.state.selectedCourse}</p>
-				</Row>
-
-				<Row>
-					<TimeTable 
-						filledSlots={this.getFilledSlots()} 
-						timetable={this.state.timetable} 
+					<TimeTable
+						filledSlots={this.getFilledSlots()}
+						timetable={this.state.timetable}
 					/>
 				</Row>
 

@@ -31,3 +31,17 @@
 - Heatmaps/Popularity
 - Credit calculation from parsed data
 - TTGen
+
+
+## Setting Up:
+- Install Node, Mongo
+- Run ```mongod``` in a terminal somewhere (Not required if it's running as a service)
+- In root, run ```npm i```
+- ```npm i -g express nodemon concurrently babel-cli```
+- In client, run ```npm i```
+- In root, run ```npm run start:server```
+- Navigate to: 
+	-  ```http://localhost:3001/course/addCoursesToDB```    
+    -  ```http://localhost:3001/curriculum/updateCurriculums```
+- ```Ctrl+C``` out of the npm run command
+- ```npm run start:dev```  and you'll be up and running   

@@ -1,14 +1,15 @@
 .navBar {
     width: 100%;
-    height: 5em;
+    /* height: 5em; */
     background-color: #6D79DF !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
-    padding-left: 2em;
+	padding-left: 2em;
 }
 
 .navLink {
-    color:white !important;
+	color:white !important;
+	/* margin-bottom: 2rem !important; */
 }
 
 .navDrop {
@@ -37,7 +38,7 @@
 }
 
 .linksContainer {
-    padding-top: 2rem;
+    /* padding-top: 2rem; */
     padding-left: 2rem;
 }
 
@@ -53,7 +54,7 @@
 }
 
 .navDropContainer {
-    padding-top: 0.13rem; 
+    /* padding-top: 0.13rem;  */
     margin-top: 0;
     /* padding-left: 30rem;
     padding-right: 10%; */

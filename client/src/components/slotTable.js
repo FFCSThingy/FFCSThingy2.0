@@ -76,11 +76,31 @@ class SlotTable extends Component {
 		)
 	}
 
+	renderSelectedCard(value) {
+		return (
+			<Card
+				className="cardContainer"
+				bg="light"
+				key={value._id}
+			>
+
+				<Card.Body className="cardBody">
+					<Card.Text>{value.slot}</Card.Text>
+					<Card.Title>{value.faculty}</Card.Title>
+					<Card.Subtitle className="cardSelectedSubtitle">Already Selected</Card.Subtitle>
+				</Card.Body>
+
+			</Card>
+		)
+	}
+
 	render() {
 		var courses = this.doFilter().map(value => {
 			var clash = this.props.checkClash(value.slot);
+			var selected = this.props.checkSelected(value);
 			
-			if(clash) return this.renderClashCard(value);
+			if(selected) return this.renderSelectedCard(value);
+			else if(clash) return this.renderClashCard(value);
 			else return this.renderNormalCard(value);
 		});
 

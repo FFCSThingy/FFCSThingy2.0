@@ -515,6 +515,10 @@ class App extends React.Component {
 		}).reduce((a, v) => a || v, false);
 	}
 
+	checkSelected = (course) => {
+		return this.state.timetable.reduce((a,v) => a || (course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === this.state.activeTimetable), false)
+	}
+
 	getFilledSlots = () => {
 		return Object.keys(this.state.clashMap).reduce((a,v) => {
 			if(this.state.clashMap[v].isFilled)	a = [...a, v];
@@ -522,8 +526,21 @@ class App extends React.Component {
 		}, [])
 	}
 
+	checkAndSelectProject = (course) => {
+		var reqdCourse = this.state.heatmap.filter(v => (course.code === v.code && course.faculty === v.faculty && ['PJT', 'EPJ'].includes(v.course_type)));
+
+		if(reqdCourse.length === 0) return;
+		else if(!this.checkSelected(reqdCourse[0])){
+			reqdCourse = reqdCourse[0];
+			reqdCourse.simple_type = 'Project';
+			this.selectSlots(reqdCourse);
+		}
+		
+	}
+
 	selectSlots = (course) => {
 		course.timetableName = this.state.activeTimetable
+		console.log(course);
 
 		if (course.slot !== 'NIL') {
 			course.slot.split('+').map(v => this.setState(prevState => {
@@ -531,6 +548,9 @@ class App extends React.Component {
 				clashMap[v].isFilled = true;
 				return { clashMap };
 			}));
+
+			if(course.simple_type !== 'Project')
+				this.checkAndSelectProject(course);
 		}
 			
 		this.setState(prevState => ({
@@ -603,6 +623,7 @@ class App extends React.Component {
 						<SlotTable
 							selectSlots={this.selectSlots}
 							checkClash={this.checkClash}
+							checkSelected={this.checkSelected}
 							slots={this.filterCourse()}
 
 							types={this.findAvailableCourseTypes()}

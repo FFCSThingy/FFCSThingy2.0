@@ -103,11 +103,9 @@ class SlotTable extends Component {
 					</Card.Header>
 				</Card>
 				<Card className="slotTableBody">
-					<Card.Body>
 						<CardColumns>
 							{courses}
 						</CardColumns>
-					</Card.Body>
 				</Card>
 
 			</Container>

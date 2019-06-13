@@ -63,6 +63,7 @@
 	font-family: 'Montserrat', sans-serif;
 	cursor: pointer;
 	scrollbar-width: none;
+	padding: 0 1rem;
 }
 
 .cardSubtitle {
@@ -95,6 +96,7 @@
 
 .cardContainer {
 	margin-bottom: 1rem !important;
+	margin-top: 1rem !important;
 }
 
 .slotFilterContainer {

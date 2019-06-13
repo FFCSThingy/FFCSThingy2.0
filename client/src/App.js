@@ -653,6 +653,7 @@ class App extends React.Component {
 							checkSelected={this.checkSelected}
 							slots={this.filterCourse()}
 
+							selectedCourse={this.state.selectedCourse}
 							types={this.findAvailableCourseTypes()}
 							venues={this.findAvailableVenues()}
 							theoryVenues={this.findAvailableVenues('Theory')}

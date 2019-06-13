@@ -14,10 +14,11 @@ class SlotTable extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.setState({
-			typeFilters: [],
-			venueFilters: [] 
-		});
+		if(nextProps.selectedCourse !== this.props.selectedCourse)
+			this.setState({
+				typeFilters: [],
+				venueFilters: [] 
+			});
 	}
 
 	doFilter = () => {
@@ -95,14 +96,18 @@ class SlotTable extends Component {
 	}
 
 	render() {
-		var courses = this.doFilter().map(value => {
+		var normalCourses = [], selectedCourses = [], clashingCourses = [];
+
+		this.doFilter().map(value => {
 			var clash = this.props.checkClash(value.slot);
 			var selected = this.props.checkSelected(value);
 			
-			if(selected) return this.renderSelectedCard(value);
-			else if(clash) return this.renderClashCard(value);
-			else return this.renderNormalCard(value);
+			if(selected) return selectedCourses.push(this.renderSelectedCard(value));
+			else if(clash) return clashingCourses.push(this.renderClashCard(value));
+			else return normalCourses.push(this.renderNormalCard(value));
 		});
+
+		var courses = normalCourses.concat(selectedCourses, clashingCourses)
 
 		var applicableVenues = [];
 		if (this.state.typeFilters.includes('Theory')) applicableVenues = [...applicableVenues, ...this.props.theoryVenues]

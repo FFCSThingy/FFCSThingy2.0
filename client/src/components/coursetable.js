@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Table, Container } from 'react-bootstrap';
+import { Table, Container, Button } from 'react-bootstrap';
 
 import '../css/courseTable.css';
 
@@ -26,7 +26,10 @@ class CourseTable extends React.Component {
 					<td>{value.faculty}</td>
 					<td>{value.venue}</td>
 					<td>{value.credits}</td>
-					<td></td>
+					<td><Button 
+						onClick={() => this.props.unselectSlot(value)}
+						variant="danger">Delete</Button>
+					</td>
 				</tr>
 			)
 		});

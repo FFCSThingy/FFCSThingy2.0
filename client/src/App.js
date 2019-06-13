@@ -651,6 +651,7 @@ class App extends React.Component {
 					<CourseTable
 						timetable={this.state.timetable}
 						creditCount={this.state.creditCount}
+						unselectSlot={this.unselectSlots}
 					/>
 				</Row>
 			</Container>

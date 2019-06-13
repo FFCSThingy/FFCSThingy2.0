@@ -1,7 +1,7 @@
 .navBar {
     width: 100%;
     /* height: 5em; */
-    background-color: #6D79DF !important;
+    background-color: #7c87e8 !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
 	padding-left: 2em;
@@ -14,7 +14,7 @@
 
 .navDrop {
     color:white !important;
-    background-color: #6D79DF;
+    background-color: #7c87e8;
     border: none !important;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
@@ -22,17 +22,17 @@
 }
 
 .navDrop:hover {
-    background-color: #6D79DF !important;
+    background-color: #7c87e8 !important;
 }
 
 .navDrop:active{
-    background-color: #6D79DF !important;
+    background-color: #7c87e8 !important;
     border: none !important;
     box-shadow: none !important;
 }
 
 .navDrop:focus{
-    background-color: #6D79DF !important;
+    background-color: #7c87e8 !important;
     border: none !important;
     box-shadow: none !important;
 }

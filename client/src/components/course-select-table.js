@@ -167,7 +167,7 @@ class CourseSelect extends React.Component {
 					</Col>
 				</Row>
 
-				<Row style={{'padding': '2vh 2vh 1px 2vh'}}>
+				<Row style={{'padding': '2vh 2vh 0.95px 2vh'}}>
 					<Nav className="courseTypeFilter"
 						variant="tabs" 
 						defaultActiveKey='ALL'

@@ -15,7 +15,7 @@ TODO------
     min-height: 18vh;
     overflow: auto;
     border-radius:  0 0 .7rem .7rem;
-    background-color: white;
+    background-color: #f6f6f6;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     scrollbar-width: none;
@@ -43,7 +43,7 @@ TODO------
 
 .cardOneHeader {
 	border-radius: .7rem .7rem 0 0 !important;
-    background-color: #6D79DF;
+    background-color: #7c87e8;
     color: white;
     padding: 1.25rem 1rem 0 1rem !important;
 }
@@ -116,7 +116,7 @@ TODO------
 
 .curriculumDropdown {
     font-family: 'Montserrat', sans-serif;
-    background-color: #6D79DF !important;
+    background-color: #7c87e8 !important;
     border-radius: 0.25rem !important;
     border: 1px solid white;
     color: white;
@@ -132,7 +132,7 @@ TODO------
 }
 
 .curriculumDropdown:active {
-    color: white !important;
+    color: #7c87e8 !important;
     box-shadow: none !important;
 }
 
@@ -144,8 +144,7 @@ TODO------
 }
 
 .curriculumDropdown > .show {
-    display: initial;
-    transition: opacity 0.17s ease-in-out;
+    display: block;
 }
 
 .curriculumDropdown > .dropdown-menu {
@@ -169,7 +168,7 @@ TODO------
 
 
 .searchBar {
-    background-color: #6D79DF !important;
+    background-color: #7c87e8 !important;
     color: white !important;
     font-family: 'Montserrat', sans-serif;
     border: none;
@@ -205,10 +204,10 @@ TODO------
 
 .filterButton {
     font-family: 'Montserrat', sans-serif;
-    background-color: #6D79DF !important;
+    background-color: #7c87e8 !important;
     margin-right: 0.5rem !important;
     border: none !important;
-    background-color: white;
+    background-color: #f6f6f6 ;
     color:white;
     transition: color 0.17s ease-in;
 }
@@ -219,13 +218,13 @@ TODO------
 }
 
 .filterButton.active {
-    background-color: white !important;
+    background-color: #f6f6f6 !important;
     color: black !important;
 	transition: background-color 0.17s ease-in;
 }
 
 .filterButton.focus {
-    background-color: white !important;
+    background-color: #f6f6f6  !important;
     color: black !important;
     transition: background-color 0.17s ease-in;
 }

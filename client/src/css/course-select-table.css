@@ -120,7 +120,7 @@ TODO------
     border-radius: 0.25rem !important;
     border: 1px solid white;
     color: white;
-    padding: 0.1rem 0.1rem;
+    padding: 0.05rem 0.1rem;
     height: 1.6em;
     width: 85%;
     margin:0;
@@ -143,20 +143,30 @@ TODO------
     padding: 0;
 }
 
+.curriculumDropdown > .show {
+    display: initial;
+    transition: opacity 0.17s ease-in-out;
+}
+
 .curriculumDropdown > .dropdown-menu {
-    padding: 0 !important;
-    min-width: 102% !important;
+    /* padding: 0 !important;
+    min-width: 102% !important; */
     border: 1px solid hsl(234, 40%, 50%);
     border-radius: 0.25rem !important;
-    margin-top: 0.17rem !important;
-    margin-left: -0.17rem !important;
+    margin-left: -0.2rem !important;
 }
 
 .curriculumDropdown > .dropdown-menu > .dropdown-item {
     padding: 0.1rem 0.5rem !important;
     background-color: white !important;
     border-radius: 0.25rem !important;
+    color: #7f7f7f !important;
 }
+
+.curriculumDropdown > .dropdown-menu > .dropdown-item:hover {
+    color: black !important;
+}
+
 
 .searchBar {
     background-color: #6D79DF !important;
@@ -200,6 +210,12 @@ TODO------
     border: none !important;
     background-color: white;
     color:white;
+    transition: color 0.17s ease-in;
+}
+
+.filterButton:hover {
+    color: hsl(160, 75%, 55%);
+    transition: color 0.17s ease-in;
 }
 
 .filterButton.active {
@@ -214,9 +230,6 @@ TODO------
     transition: background-color 0.17s ease-in;
 }
 
-a:hover {
-    color: #36e2a8 !important;
-}
 
 
 

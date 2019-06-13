@@ -522,25 +522,37 @@ class App extends React.Component {
 	selectSlots = (course) => {
 		course.timetableName = this.state.activeTimetable
 
-
 		if (course.slot !== 'NIL') {
 			course.slot.split('+').map(v => this.setState(prevState => {
 				let clashMap = { ...prevState.clashMap };
 				clashMap[v].isFilled = true;
 				return { clashMap };
 			}));
-
-			this.setState(prevState => ({
-				timetable: [...prevState.timetable, course],
-				creditCount: prevState.creditCount + course.credits,
-			}));
-		}	
-		else {
-			this.setState(prevState => ({
-				timetable: [...prevState.timetable, course],
-				creditCount: prevState.creditCount + course.credits
-			}));
 		}
+			
+		this.setState(prevState => ({
+			timetable: [...prevState.timetable, course],
+			creditCount: prevState.creditCount + course.credits
+		}));
+	}
+
+	unselectSlots = (course) => {
+		course.timetableName = this.state.activeTimetable
+		if (course.slot !== 'NIL') {
+			course.slot.split('+').map(v => this.setState(prevState => {
+					let clashMap = { ...prevState.clashMap };
+					clashMap[v].isFilled = false;
+					return { clashMap };
+				}));
+		}
+		
+		this.setState(prevState => ({
+			timetable: prevState.timetable.filter(v => !(
+				course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable
+				)
+			),
+			creditCount: prevState.creditCount - course.credits,
+		}));
 	}
 
 	selectCourse = (code) => {

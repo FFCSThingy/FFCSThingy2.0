@@ -1,0 +1,26 @@
+.selectedCourseTable {
+	text-align: center;
+	background-color: white;
+	font-family: 'Montserrat', sans-serif;
+	border-radius: .7rem;
+	border: none !important;
+	margin: 2vh 0;
+}
+
+.selectedCourseHead {
+	background-color: #6D79DF;
+	border-radius: .7rem;
+	border: none !important;
+}
+
+.selectedCourseTable tr, td, th {
+	border: none !important;
+}
+
+.selectedCourseBody {
+	border: none !important;
+}
+
+.creditsRow {
+	border-top: 1px solid black !important;
+}

@@ -1,46 +1,51 @@
 import React from 'react';
 
+import { Table, Container } from 'react-bootstrap';
+
+import '../css/courseTable.css';
+
 class CourseTable extends React.Component {
 	
 	render() {
 		var { timetable } = this.props;
 		var appendList = timetable.map(value => {
 			return (
-				<tr className="bottom-table-data" key={value._id}>
-					<td className="slot">{value.slot}</td>
-					<td className="code">{value.code}</td>
-					<td className="title">{value.title}</td>
-					<td className="faculty">{value.faculty}</td>
-					<td className="venue">{value.venue}</td>
-					<td className="credits">{value.credits}</td>
+				<tr key={value._id}>
+					<td>{value.slot}</td>
+					<td>{value.code}</td>
+					<td>{value.title}</td>
+					<td>{value.faculty}</td>
+					<td>{value.venue}</td>
+					<td>{value.credits}</td>
+					<td></td>
 				</tr>
 			)
 		});
 		
 		return (
-			<div className="FinalCT">
-				<table id="courseListTbl" class="table">
-					<thead class="tabletop">
-						<tr class="fiercy-red">
+			<Container className="selectedCourseContainer">
+				<Table className="selectedCourseTable" responsive>
+					<thead className="selectedCourseHead">
+						<tr>
 							<th>Slot</th>
 							<th>Code</th>
 							<th>Title</th>
 							<th>Faculty</th>
 							<th>Venue</th>
 							<th>Credits</th>
+							<th></th>
 						</tr>
 					</thead>
-					<tbody>
-
+					<tbody className="selectedCourseBody">
 						{appendList}
-						<tr class="active" id="totalCreditsTr">
-							<td colSpan="8">
+						<tr>
+							<td colSpan="7" className="creditsRow">
 								<strong>Total Credits: { this.props.creditCount }</strong>
 							</td>
 						</tr>
 					</tbody>
-				</table>
-			</div>
+				</Table>
+			</Container>
 
 		)
 	}

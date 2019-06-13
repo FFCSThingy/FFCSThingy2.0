@@ -6,113 +6,123 @@
 -maybe add a cool tick mark or some animation when a slot is added  */
 
 .toggleCustom {
-	background: #F8F9FA !important;
-    border: none !important;
-    color: black !important;
-    transition: margin 0.17s ease-in-out;
-    transition: padding 0.17s ease-in-out;
-    transition: background-color 0.17s ease-in;
+	background: #f8f9fa !important;
+	border: none !important;
+	color: black !important;
+	transition: margin 0.17s ease-in-out;
+	transition: padding 0.17s ease-in-out;
+	transition: background-color 0.17s ease-in;
 }
 
 .toggleCustom.focus {
-    box-shadow: none !important;
+	box-shadow: none !important;
 }
 
 .toggleCustom.hover {
-    border: none !important;
-    background-color: rgb(0, 255, 170) !important;
-    transition: background-color 0.17s ease-in;
+	border: none !important;
+	background-color: rgb(0, 255, 170) !important;
+	transition: background-color 0.17s ease-in;
 }
 
 .toggleCustom.active {
-    border: none !important;
-    background-color: hsl(160, 75%, 55%) !important;
-    color: white !important;
-    transition: background-color 0.17s ease-in;
+	border: none !important;
+	background-color: hsl(160, 75%, 55%) !important;
+	color: white !important;
+	transition: background-color 0.17s ease-in;
 }
 
-
 .slotTableHeader {
-    background-color: #6D79DF;
-    padding-top: 1.25rem !important;
+	background-color: #6d79df;
+	padding-top: 1.25rem !important;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 .slotTableContainer {
-    height: 630px;
-    overflow-y: auto;
-    border-radius: 0.7rem;
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-    scrollbar-width: none;
+	overflow-y: auto;
+	border-radius: 0.7rem;
+	font-family: 'Montserrat', sans-serif;
+	margin-bottom: 2rem !important;
+	margin-top: 2rem !important;
+	scrollbar-width: none;
+	border-bottom-left-radius: 0.7rem;
+	border-bottom-right-radius: 0.7rem;
 }
 
-.slotTableContainer::-webkit-scrollbar { 
-    width: 0 !important;
+.slotTableContainer::-webkit-scrollbar {
+	width: 0 !important;
 }
 
 .slotTableBody {
-    min-height: 70vh;
+	/* max-height: 533px !important; */
+	max-height: 70vh;
+	min-height: 18vh;
+	overflow: auto;
+	border-radius: 0 0 0.7rem 0.7rem;
+	background-color: white;
+	font-family: 'Montserrat', sans-serif;
+	cursor: pointer;
+	scrollbar-width: none;
 }
 
 .cardSubtitle {
-    margin-top:0 !important;
+	margin-top: 0 !important;
 }
 
 .cardBody {
-    border-radius: 0.7rem;
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    cursor: pointer;
-    background-color: white;
-    transition: box-shadow 0.17s ease-in-out;
-    transition: background-color 0.1s ease-in-out;
+	border-radius: 0.7rem;
+	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	background-color: white;
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
 }
 
 .cardBody:hover {
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-    background-color: #ECEBFE;
-    transition: box-shadow 0.17s ease-in-out;
-    transition: background-color 0.1s ease-in-out;
+	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.3);
+	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	background-color: #ecebfe;
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
 }
 
 .cardBody:active {
-    background-color: hsl(160, 75%, 55%);
+	background-color: hsl(160, 75%, 55%);
 }
 
 .cardContainer {
-    margin-bottom: 1rem !important;
+	margin-bottom: 1rem !important;
 }
 
 .slotFilterContainer {
-    text-align: left;
-    padding-top: 0.9rem;
+	text-align: left;
+	padding-top: 0.9rem;
 }
 
 .slotTableHeader {
-    min-height: 7.5em;
-    position: sticky;
-    border-top-right-radius: 0.7rem !important;
-    border-top-left-radius: 0.7rem !important;
+	min-height: 7.5em;
+	position: sticky;
+	border-top-right-radius: 0.7rem !important;
+	border-top-left-radius: 0.7rem !important;
 }
-
-
 
 @media only screen and (min-width: 576px) {
+	.slotFilterContainer {
+		text-align: right;
+		padding-top: 0;
+	}
+	.slotTableHeader {
+		min-height: 4.95em;
+	}
 
-.slotFilterContainer {
-    text-align: right;
-    padding-top: 0;
-}
-.slotTableHeader {
-    min-height: 4.95em;
-}
+	.slotTableContainer {
+		/* height: 80vh; */
+	}
 
-.slotTableContainer {
-    height: 80vh;
-}
-
+	.slotTableBody {
+		height: 80vh;
+	}
 }

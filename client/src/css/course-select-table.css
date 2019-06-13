@@ -5,7 +5,7 @@ TODO------
 
 
 .courseTable {
-    max-height: 533px !important;
+    max-height: 70vh !important;
     min-height: 18vh;
     overflow: auto;
     border-radius:  0 0 .7rem .7rem;
@@ -33,7 +33,7 @@ TODO------
 }
 
 .cardOne {
-	border-radius: 7rem !important;
+	border-radius: .7rem !important;
 }
 
 .cardOneHeader {
@@ -54,6 +54,10 @@ TODO------
     box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
+}
+
+.courseCard.active {
+	background-color: #ECEBFE;
 }
 
 .courseCard:hover {
@@ -139,7 +143,7 @@ TODO------
     text-align: right;
 }
 
-.searchBar:focus {
+.searchBar.focus {
     box-shadow: none !important;
     color: white !important;
     border: none;
@@ -152,37 +156,37 @@ TODO------
 }
 
 .courseTypeFilter {
-    margin: 0 !important;
+	margin: 0 !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	text-align: center !important;
 }
 
 .filterButton {
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
     font-family: 'Montserrat', sans-serif;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
+    margin-right: 0.5rem !important;
     border: none !important;
     background-color: white;
     color:black;
 }
 
-.filterButton:active {
+.filterButton.active {
+    background-color: hsl(160, 75%, 55%) !important;
+    color: white !important;
+	transition: background-color 0.17s ease-in;
+	/* border: none !important; */
+}
+
+.filterButton.focus {
     background-color: hsl(160, 75%, 55%) !important;
     color: white !important;
     transition: background-color 0.17s ease-in;
-    border: none !important;
+    /* border: none !important; */
 }
 
-.filterButton:focus {
-    background-color: hsl(160, 75%, 55%) !important;
-    color: white !important;
-    transition: background-color 0.17s ease-in;
-    border: none !important;
-}
-
-.filterButton:hover {
+.filterButton.hover {
     color: black;
-    border: none !important;
+    /* border: none !important; */
 }
 
 

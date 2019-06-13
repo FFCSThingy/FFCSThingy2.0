@@ -78,9 +78,9 @@ class SlotTable extends Component {
 		});
 
 		return (
-			<Container clssName="scrollHide">
-				<Card className="slotTableContainer">
-					<Card.Header className="slotTableHeader">
+			<Container className="slotTableContainer">
+				<Card className="slotTableHeader">
+					<Card.Header>
 						<Row>
 							<Col xs={12} sm={4}>
 								<ToggleButtonGroup className="slotFilter"
@@ -101,7 +101,9 @@ class SlotTable extends Component {
 							</Col>
 						</Row>
 					</Card.Header>
-					<Card.Body className="slotTableBody">
+				</Card>
+				<Card className="slotTableBody">
+					<Card.Body>
 						<CardColumns>
 							{courses}
 						</CardColumns>

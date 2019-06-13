@@ -555,6 +555,7 @@ class App extends React.Component {
 						<CourseSelect 
 							selectCourse={this.selectCourse} 
 							heatmap={this.state.heatmap}
+							selectedCourse={this.state.selectedCourse}
 						/>
 					</Col>
 

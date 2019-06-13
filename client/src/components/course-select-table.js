@@ -162,7 +162,7 @@ class CourseSelect extends React.Component {
 					</Col>
 				</Row>
 
-				<Row style={{'padding': '2vh 0 0 2vh'}}>
+				<Row style={{'padding': '2vh 2vh 0 2vh'}}>
 					<Nav className="courseTypeFilter"
 						variant="tabs" 
 						defaultActiveKey='ALL'
@@ -190,10 +190,12 @@ class CourseSelect extends React.Component {
 	}
 
 	renderNormalCard(value) {
+		var className = "courseCard";
+		if(value.code === this.props.selectedCourse) className = "courseCard active"
 		return (
 			<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
 				<CardColumns className="courseList">
-					<Card className="courseCard">
+					<Card className={className}>
 						<Card.Body>
 							<Card.Title>{value.title}</Card.Title>
 							<Card.Text>{value.code} <div className="courseCredits">{value.credits} Credits</div>
@@ -216,8 +218,6 @@ class CourseSelect extends React.Component {
 				return currCourses.includes(v.code);
 			});
 		}
-
-		if(list.length === 0) this.renderNormalCard({code: '', title: '', credits: ''});
 
 		return list.map(value => {
 			return this.renderNormalCard(value)

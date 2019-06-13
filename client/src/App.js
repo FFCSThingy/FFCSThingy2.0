@@ -501,6 +501,13 @@ class App extends React.Component {
 		)).sort();
 	}
 
+	checkClash = (slot) => {
+		if(slot === 'NIL') return false;
+		if(this.state.filledSlots.length === 0) return false;
+		return this.state.filledSlots.map(v => this.state.clashMap[slot].clashesWith.includes(v))
+			.reduce((a, v) => a || v, false);
+	}
+
 
 
 	selectSlots = (course) => {
@@ -562,7 +569,9 @@ class App extends React.Component {
 					<Col xs={12} md={8}>
 						<SlotTable
 							selectSlots={this.selectSlots}
+							checkClash={this.checkClash}
 							slots={this.filterCourse()}
+
 							types={this.findAvailableCourseTypes()}
 							venues={this.findAvailableVenues()}
 							theoryVenues={this.findAvailableVenues('Theory')}

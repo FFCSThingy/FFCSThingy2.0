@@ -39,24 +39,48 @@ class SlotTable extends Component {
 		this.setState({ venueFilters: value });
 	}
 
+	renderNormalCard(value) {
+		return (
+			<Card
+				className="cardContainer"
+				bg="light"
+				key={value._id}
+				onClick={() => this.props.selectSlots(value)} >
+
+				<Card.Body className="cardBody">
+					<Card.Text>{value.slot}</Card.Text>
+					<Card.Title>{value.faculty}</Card.Title>
+					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
+					</Card.Subtitle>
+				</Card.Body>
+
+			</Card>
+		)
+	}
+
+	renderClashCard(value) {
+		return (
+			<Card
+				className="cardContainer"
+				bg="light"
+				key={value._id}
+				>
+
+				<Card.Body className="cardBody">
+					<Card.Text>{value.slot}</Card.Text>
+					<Card.Title>{value.faculty}</Card.Title>
+					<Card.Subtitle className="cardClashSubtitle">Clashing</Card.Subtitle>
+				</Card.Body>
+
+			</Card>
+		)
+	}
+
 	render() {
 		var courses = this.doFilter().map(value => {
-			return (
-				<Card
-					className="cardContainer"
-					bg="light"
-					key={value._id}
-					onClick={() => this.props.selectSlots(value)} >
-
-					<Card.Body className="cardBody">
-						<Card.Text>{value.slot}</Card.Text>
-						<Card.Title>{value.faculty}</Card.Title>
-						<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
-						</Card.Subtitle>
-					</Card.Body>
-					
-				</Card>
-			)
+			var clash = value.slot.split('+').reduce((a, v) => a || this.props.checkClash(v), false);
+			if(clash) return this.renderClashCard(value);
+			return this.renderNormalCard(value);
 		});
 
 		var applicableVenues = [];

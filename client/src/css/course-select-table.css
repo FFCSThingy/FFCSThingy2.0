@@ -144,7 +144,7 @@ TODO------
 }
 
 .curriculumDropdown > .show {
-    display: block;
+    display: block !important;
 }
 
 .curriculumDropdown > .dropdown-menu {

@@ -617,12 +617,13 @@ class App extends React.Component {
 						<Nav.Link className="navLink">About</Nav.Link>
 					</Nav>
 
-					<Nav>	
+					<Nav className="navLeft">	
 						<Nav.Link className="navLink" disabled>
 							Credits: {this.state.creditCount}
 						</Nav.Link>
 						<NavDropdown title="Profile" className="navDropContainer">
 							<NavDropdown.Item disabled>{this.state.user.display_name}</NavDropdown.Item>
+							<NavDropdown.Item disabled>{this.state.user.picture}</NavDropdown.Item>
 							<NavDropdown.Item>Logout</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>

@@ -1,8 +1,14 @@
 /*
 TODO------
+-make placeholder diasappear on focus
 
 */
-
+/* GLOBAL PROPERTIES:
+- card 
+- a 
+- card-header 
+- card-title 
+- card-text  */
 
 .courseTable {
     max-height: 70vh !important;
@@ -21,7 +27,6 @@ TODO------
 
 .card {
     border: none !important;
-
 }
 
 .card-header {
@@ -57,12 +62,15 @@ TODO------
 }
 
 .courseCard.active {
+    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
+    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
+    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
 	background-color: #ECEBFE;
 }
 
 .courseCard:hover {
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
+    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
     box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
     background-color: #ECEBFE;
     transition: box-shadow 0.17s ease-in-out;
@@ -134,8 +142,10 @@ TODO------
 
 .searchBar {
     background-color: #6D79DF !important;
+    color: white !important;
     font-family: 'Montserrat', sans-serif;
     border: none;
+    box-shadow: none !important;
     padding: 0 !important;
     height: 1.1em !important;
     font-weight: bold;
@@ -143,50 +153,39 @@ TODO------
     text-align: right;
 }
 
-.searchBar.focus {
-    box-shadow: none !important;
-    color: white !important;
-    border: none;
-    transition: none;
-}
-
 ::placeholder {
     color: white !important;
-    word-wrap: break-word;
 }
 
 .courseTypeFilter {
 	margin: 0 !important;
-	margin-left: auto !important;
 	margin-right: auto !important;
-	text-align: center !important;
+    text-align: center !important;
 }
 
 .filterButton {
     font-family: 'Montserrat', sans-serif;
+    background-color: #6D79DF !important;
     margin-right: 0.5rem !important;
     border: none !important;
     background-color: white;
-    color:black;
+    color:white;
 }
 
 .filterButton.active {
-    background-color: hsl(160, 75%, 55%) !important;
-    color: white !important;
+    background-color: white !important;
+    color: black !important;
 	transition: background-color 0.17s ease-in;
-	/* border: none !important; */
 }
 
 .filterButton.focus {
-    background-color: hsl(160, 75%, 55%) !important;
-    color: white !important;
+    background-color: white !important;
+    color: black !important;
     transition: background-color 0.17s ease-in;
-    /* border: none !important; */
 }
 
-.filterButton.hover {
-    color: black;
-    /* border: none !important; */
+a:hover {
+    color: hsl(160, 75%, 55%) !important;
 }
 
 
@@ -197,4 +196,11 @@ TODO------
         width: 70%;
     }
 
+}
+
+
+@media only screen and (max-width: 1250px) {
+    .filterButton{
+        padding: 0.5rem 0.5rem;
+    }
 }

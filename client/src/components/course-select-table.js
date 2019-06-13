@@ -156,13 +156,14 @@ class CourseSelect extends React.Component {
 							type='text'
 							placeholder='Search here'
 							spellCheck='false'
+							autoComplete='off'
 							defaultValue={this.state.searchString}
 							onChange={this.handleChange.bind(this)}
 						/>
 					</Col>
 				</Row>
 
-				<Row style={{'padding': '2vh 2vh 0 2vh'}}>
+				<Row style={{'padding': '2vh 2vh 1px 2vh'}}>
 					<Nav className="courseTypeFilter"
 						variant="tabs" 
 						defaultActiveKey='ALL'

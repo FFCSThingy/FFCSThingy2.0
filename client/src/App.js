@@ -4,7 +4,7 @@
 import React from 'react';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown } from 'react-bootstrap';
 
 import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
@@ -12,6 +12,7 @@ import TimeTable from './components/TimeTable';
 import CourseTable from './components/coursetable';
 import "whatwg-fetch";
 import './App.css';
+import './css/nav-bar.css'
 import './components/TimeTable'
 import axios from 'axios';
 
@@ -529,7 +530,24 @@ class App extends React.Component {
 		return (
 			<Container fluid={true}>
 				<Row>
-					<p>Selected Course: {this.state.selectedCourse}</p>
+					<Navbar className="navBar" bg="light">
+						<a href="#home" class="navbar-left"><img src="/logo.svg"></img></a>
+						<Navbar.Toggle aria-controls="basic-navbar-nav" />
+						<Navbar.Collapse id="basic-navbar-nav">
+							<Nav className="mr-auto">
+							<Nav.Link className="navLink" href="#home">Home</Nav.Link>
+							<Nav.Link className="navLink" href="#about">About</Nav.Link>
+							<Dropdown>
+								<Dropdown.Toggle className="navDrop" variant="success" id="dropdown-basic">
+									Profile
+								</Dropdown.Toggle>
+								<Dropdown.Menu>
+									<Dropdown.Item className="navLink" href="#/action-1">Logout</Dropdown.Item>
+								</Dropdown.Menu>
+								</Dropdown>
+							</Nav>
+						</Navbar.Collapse>
+					</Navbar>
 				</Row>
 
 				<Row>
@@ -551,6 +569,10 @@ class App extends React.Component {
 							projectVenues={this.findAvailableVenues('Project')}
 						/>
 					</Col>
+				</Row>
+
+				<Row>
+					<p>Selected Course: {this.state.selectedCourse}</p>
 				</Row>
 
 				<Row>

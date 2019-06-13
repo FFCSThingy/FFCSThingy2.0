@@ -1,110 +1,22 @@
 /*
 TODO------
--add nav buttons
--fix font size for long course titles
+
 */
-/* 
-.courseTable { 
-    display: grid;
-    grid-template-rows: repeat(5, 1fr);
-    grid-template-columns: minmax(10em, auto);
-    grid-gap: 2em;
-    margin: 2% 0 0 3.5%;
-    border-radius: 25px;
-    border: 2px solid #B4CEFB;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    float: left;
-    padding: 9px 20px;
-    max-width: 26%; comm
-    max-height: 80vh;
-    font-family: 'Montserrat', sans-serif;
-    margin-right: 5%;
-    margin-bottom: 3%;
-}
 
-.courseTable::-webkit-scrollbar { 
-    width: 0 !important 
-}
-
-.courseTable div {
-    max-width: 22em; comm
-    height: 80px;
-}
-
-.courses {
-    border-radius: 5em;
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    transition: box-shadow 0.17s ease-in-out;
-}
-
-.courses:hover {
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.3);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-    transition: box-shadow 0.17s ease-in-out;
-}
-
-.container-left {
-    padding: 4% 0 0 8%;
-    width: 50%;
-    margin: 0;
-    cursor: pointer;    
-}
-
-.container-left > h1 {
-    margin:0;
-    font-size: 1.05em;
-    font-weight: bold;
-    line-height: 1.5em;
-}
-
-.container-right {
-    float: right;
-    margin: -4.8em 1.5em 0 0;
-}
-
-ul {
-    margin: 0;
-}
-
-.container-right > ul >li {
-    list-style-type: none;
-    margin: 0 0 0.33em 0;
-}
-
-.container-right-head > ul {
-    padding-inline-end: 12px;
-}
-
-.container-right-head > ul >li {
-    list-style-type: none;
-    margin: 0 0 0.33em 0;
-}
-
-.container-right-head {
-    float: right;
-    margin: -4.8em 1.5em 0 0;
-} */
-
-
-.scrollHide {
-    overflow: hidden;
-}
 
 .courseTable {
-    max-height: 80vh;
+    max-height: 533px !important;
+    min-height: 18vh;
     overflow: auto;
     border-radius:  0 0 .7rem .7rem;
     background-color: white;
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
+    scrollbar-width: none;
 }
 
 .courseTable::-webkit-scrollbar { 
-    width: 0 !important 
+    width: 0 !important;
 }
 
 .card {
@@ -128,7 +40,7 @@ ul {
 	border-radius: .7rem .7rem 0 0 !important;
     background-color: #6D79DF;
     color: white;
-    padding: 0.75rem 2.3rem !important;
+    padding: 1.25rem 1rem 0 1rem !important;
 }
 
 .courses {
@@ -179,4 +91,106 @@ ul {
 
 .courseCredits {
     float: right;
+}
+
+.courseSelectContainer {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+}
+
+.searchBarContainer {
+    padding: 0 !important;
+}
+
+.curriculumDropdown {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #6D79DF !important;
+    border-radius: 0.75rem !important;
+    border: 1px solid white;
+    color: white;
+    transition: none;
+    padding: 0.1rem 0.1rem;
+    height: 1.6em;
+    width: 85%;
+}
+
+.curriculumDropdown:focus {
+    color: white !important;
+    box-shadow: none !important;
+    border: 1px solid white;
+    transition: none;
+}
+
+.curriculumDropdown:active {
+    color: white !important;
+    border: 1px solid white;
+    box-shadow: none !important;
+    transition: none;
+}
+
+.searchBar {
+    background-color: #6D79DF !important;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    padding: 0 !important;
+    height: 1.1em !important;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: right;
+}
+
+.searchBar:focus {
+    box-shadow: none !important;
+    color: white !important;
+    border: none;
+    transition: none;
+}
+
+::placeholder {
+    color: white !important;
+    word-wrap: break-word;
+}
+
+.courseTypeFilter {
+    margin: 0 !important;
+}
+
+.filterButton {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    border: none !important;
+    background-color: white;
+    color:black;
+}
+
+.filterButton:active {
+    background-color: hsl(160, 75%, 55%) !important;
+    color: white !important;
+    transition: background-color 0.17s ease-in;
+    border: none !important;
+}
+
+.filterButton:focus {
+    background-color: hsl(160, 75%, 55%) !important;
+    color: white !important;
+    transition: background-color 0.17s ease-in;
+    border: none !important;
+}
+
+.filterButton:hover {
+    color: black;
+    border: none !important;
+}
+
+
+
+@media only screen and (min-width: 420px) {
+
+    .curriculumDropdown {
+        width: 70%;
+    }
+
 }

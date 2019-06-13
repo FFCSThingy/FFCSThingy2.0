@@ -136,10 +136,11 @@ class CourseSelect extends React.Component {
 	renderSearchBar() {
 		var curriculumChoices = this.state.curriculumList.map(v => <option value={v}>{v}</option>);
 		return (
-			<Container fluid={true}>
+			<Container className="searchBarContainer" fluid={true}>
 				<Row>
 					<Col xs={5} md={5}>
 						<Form.Control
+							className="curriculumDropdown"
 							as='select'
 							name='selectedCurriculum'
 							// value={this.state.selectedCurriculum}
@@ -148,37 +149,39 @@ class CourseSelect extends React.Component {
 							{curriculumChoices}
 						</Form.Control>
 					</Col>
-					<Col xs={7} md={7}>
+					<Col className="searchColumn" xs={7} md={7}>
 						<Form.Control
+							className="searchBar"
 							name='searchString'
 							type='text'
-							placeholder='Search'
+							placeholder='Search here'
+							spellCheck='false'
 							defaultValue={this.state.searchString}
 							onChange={this.handleChange.bind(this)}
 						/>
 					</Col>
 				</Row>
 
-				<Row style={{'padding-top': '1vh'}}>
-					<Nav 
+				<Row style={{'padding': '2vh 0 0 2vh'}}>
+					<Nav className="courseTypeFilter"
 						variant="tabs" 
 						defaultActiveKey='ALL'
 						onSelect={selected => this.setState({ selectedCategory: selected })}
 					>
 						<Nav.Item>
-							<Nav.Link eventKey='ALL'>ALL</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='ALL'>ALL</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link eventKey='PC'>PC</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='PC'>PC</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link eventKey='UC'>UC</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='UC'>UC</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link eventKey='PE'>PE</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='PE'>PE</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link eventKey='UE'>UE</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='UE'>UE</Nav.Link>
 						</Nav.Item>
 					</Nav>
 				</Row>
@@ -223,7 +226,7 @@ class CourseSelect extends React.Component {
 
 	render() {
 		return (
-			<Container>
+			<Container className="courseSelectContainer">
 				<Card className="cardOne">
 					<Card.Header className="cardOneHeader">
 						{this.renderSearchBar()}

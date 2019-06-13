@@ -34,17 +34,21 @@
 
 .slotTableHeader {
     background-color: #6D79DF;
-    min-height: 4.95em;
     padding-top: 1.25rem !important;
 }
 
 .slotTableContainer {
-    max-height: 80vh;
-    overflow: scroll;
+    height: 630px;
+    overflow-y: auto;
     border-radius: 0.7rem;
     font-family: 'Montserrat', sans-serif;
     margin-bottom: 2rem;
+    margin-top: 2rem;
     scrollbar-width: none;
+}
+
+.slotTableContainer::-webkit-scrollbar { 
+    width: 0 !important;
 }
 
 .slotTableBody {
@@ -77,7 +81,6 @@
 
 .cardBody:active {
     background-color: hsl(160, 75%, 55%);
-    transform: rotate()
 }
 
 .cardContainer {
@@ -92,8 +95,9 @@
 .slotTableHeader {
     min-height: 7.5em;
     position: sticky;
+    border-top-right-radius: 0.7rem !important;
+    border-top-left-radius: 0.7rem !important;
 }
-
 
 
 
@@ -105,6 +109,10 @@
 }
 .slotTableHeader {
     min-height: 4.95em;
+}
+
+.slotTableContainer {
+    height: 80vh;
 }
 
 }

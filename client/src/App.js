@@ -15,6 +15,7 @@ import './App.css';
 import './css/nav-bar.css'
 import './components/TimeTable'
 import axios from 'axios';
+import Generator from './components/magicFill';
 
 class App extends React.Component {
 
@@ -602,14 +603,15 @@ class App extends React.Component {
 				<Row>
 					<p>Selected Course: {this.state.selectedCourse}</p>
 				</Row>
-
+				<Row>
+					<Generator/>
+				</Row>	
 				<Row>
 					<TimeTable 
 						filledSlots={this.getFilledSlots()} 
 						timetable={this.state.timetable} 
 					/>
 				</Row>
-
 				<Row>
 					<CourseTable
 						timetable={this.state.timetable}

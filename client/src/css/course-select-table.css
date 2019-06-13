@@ -164,17 +164,28 @@ TODO------
     font-family: 'Montserrat', sans-serif;
     border: none;
     box-shadow: none !important;
-    padding: 0 !important;
+    padding: 0.25rem 0 0 0 !important;
     height: 1.1em !important;
     font-weight: bold;
     font-size: 1.3em;
-	text-align: right;
-	text-transform: uppercase;
+    text-align: right;
+    text-transform: uppercase;
+	
 }
+
 
 ::placeholder {
     color: white !important;
+    opacity:1;
+    transition: opacity 0.17s ease;
+    text-transform: capitalize;
+
 }
+
+[placeholder]:focus::-webkit-input-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
 
 .courseTypeFilter {
 	margin: 0 !important;

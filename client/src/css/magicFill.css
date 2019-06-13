@@ -1,0 +1,43 @@
+.hide{
+    display:none;
+}
+#magic{
+    margin-bottom:10px;
+}
+.show{
+    display:inline-block;
+}
+#creditsEnter{
+    width:10%;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+#creditLabel{
+    font-size:18px;
+   font-weight:500;
+}
+.hrz{
+    padding:0;
+    margin-top:0;
+}
+#filterButton-1{
+    margin:0.5%;
+    background:white;
+    color:black;
+}
+#filterButton-1:hover{
+    background:#eee;
+}
+#filterButton-2{
+    margin:0.5%;
+    background:hsl(160, 75%, 55%);
+    color:white;
+}
+#submitButton{
+    margin-top:2%;
+    margin-bottom:2%;
+}

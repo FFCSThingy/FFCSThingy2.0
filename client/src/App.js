@@ -14,6 +14,9 @@ import "whatwg-fetch";
 import './App.css';
 import './css/nav-bar.css'
 import './components/TimeTable'
+
+import navbarImage from './images/favicon.ico';
+
 import axios from 'axios';
 
 class App extends React.Component {
@@ -545,7 +548,7 @@ class App extends React.Component {
 					return { clashMap };
 				}));
 		}
-		
+
 		this.setState(prevState => ({
 			timetable: prevState.timetable.filter(v => !(
 				course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable
@@ -568,7 +571,7 @@ class App extends React.Component {
 			<Container fluid={true}>
 				<Row>
 					<Navbar className="navBar" bg="light">
-						<a href="#home" class="navbar-left"><img src="/logo.svg"></img></a>
+						<a href="#home" class="navbar-left"><img src={navbarImage}></img></a>
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						<Navbar.Collapse id="basic-navbar-nav">
 							<Nav className="mr-auto">

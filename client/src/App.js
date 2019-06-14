@@ -10,6 +10,7 @@ import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
 import TimeTable from './components/TimeTable';
 import CourseTable from './components/coursetable';
+import SelectTimeTable from './components/selectTimeTable'
 import "whatwg-fetch";
 import './App.css';
 import './css/nav-bar.css'
@@ -30,6 +31,7 @@ class App extends React.Component {
 			user: {},
 
 			timetable: [],
+			timetableNames: ['Default'],
 			creditCount: 0,
 
 			selectedCourse: '',
@@ -602,6 +604,18 @@ class App extends React.Component {
 		})
 	}
 
+	changeActiveTimetable = (timetableName) => {
+		this.setState({
+			activeTimetable: timetableName
+		})
+	}
+
+	modifyTimetableNames = (newList) => {
+		this.setState({
+			timetableNames: newList
+		})
+	}
+
 	renderNavbar = () => {
 		return (
 			<Navbar className="navBar" bg="light" fixed="top" expand="md">
@@ -662,7 +676,17 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
-
+				<Row>
+					<Col>
+						<SelectTimeTable
+							activeTimetable={this.state.activeTimetable}
+							timetableNames={this.state.timetableNames}
+							changeActiveTimetable={this.changeActiveTimetable}
+							modifyTimetableNames={this.modifyTimetableNames}
+						/>
+						<br />
+					</Col>
+				</Row>
 				<Row>
 					<TimeTable
 						filledSlots={this.getFilledSlots()}

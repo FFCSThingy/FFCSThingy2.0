@@ -1,12 +1,8 @@
 /* ------TODO
--make head stick 
--scroll hide (browser compatible)
--all slots reset from their applied filters after selecting a slot
--maybe add a text search filter at the top
--maybe add a cool tick mark or some animation when a slot is added  */
+-scroll hide (browser compatible)  */
 
 .toggleCustom {
-	background: #f8f9fa !important;
+	background: var(--bg-grey) !important;
 	border: none !important;
 	color: black !important;
 	transition: margin 0.17s ease-in-out;
@@ -20,22 +16,26 @@
 
 .toggleCustom.hover {
 	border: none !important;
-	background-color: rgb(0, 255, 170) !important;
+	background-color: var(--bg-grey) !important;
 	transition: background-color 0.17s ease-in;
 }
 
 .toggleCustom.active {
 	border: none !important;
-	background-color: hsl(160, 75%, 55%) !important;
+	background-color: var(--very-green) !important;
 	color: white !important;
 	transition: background-color 0.17s ease-in;
 }
 
 .slotTableHeader {
-	background-color: #6d79df;
+	background-color: var(--main-purp);
 	padding-top: 1.25rem !important;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
+}
+
+.slotTableHeader > .card-header {
+	background-color: transparent;
 }
 
 .slotTableContainer {
@@ -59,7 +59,7 @@
 	min-height: 18vh;
 	overflow: auto;
 	border-radius: 0 0 0.7rem 0.7rem;
-	background-color: white;
+	background-color: var(--bg-grey);
 	font-family: 'Montserrat', sans-serif;
 	cursor: pointer;
 	scrollbar-width: none;
@@ -72,19 +72,21 @@
 
 .cardClashSubtitle {
 	margin-top: 0 !important;
-	color: red
+	color: var(--thoda-red);
+	float: right;
 }
 
 .cardSelectedSubtitle {
 	margin-top: 0 !important;
-	color: green;
+	color: var(--islamic-green);
+	float: right;
 }
 
 .cardBody {
 	border-radius: 0.7rem;
-	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
-	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
-	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
+	-webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+	box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
 	cursor: pointer;
 	background-color: white;
 	transition: box-shadow 0.17s ease-in-out;
@@ -92,17 +94,52 @@
 }
 
 .cardBody:hover {
-	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.3);
-	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
-	background-color: #ecebfe;
+	-webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	background-color: var(--lav);
 	transition: box-shadow 0.17s ease-in-out;
 	transition: background-color 0.1s ease-in-out;
 }
 
 .cardBody:active {
-	background-color: hsl(160, 75%, 55%);
+	background-color: var(--very-green);
 }
+
+.cardBodyClash {
+	border-radius: 0.7rem;
+	-webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+	box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+	cursor: pointer;
+	background-color: white;
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
+}
+
+.cardBodyClash:hover {
+	-webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	background-color: var(--lav);
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
+}
+
+.cardBodyClash:active {
+	background-color: var(--thoda-red);
+}
+
+.cardBodySelected {
+	border-radius: 0.7rem;
+	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	cursor: pointer;
+	background-color: var(--lav);
+	transition: box-shadow 0.17s ease-in-out;
+}
+
 
 .cardContainer {
 	margin-bottom: 1rem !important;
@@ -128,10 +165,6 @@
 	}
 	.slotTableHeader {
 		min-height: 4.95em;
-	}
-
-	.slotTableContainer {
-		/* height: 80vh; */
 	}
 
 	.slotTableBody {

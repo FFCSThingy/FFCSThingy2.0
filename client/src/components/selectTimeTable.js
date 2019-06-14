@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropdownButton, Dropdown, ButtonGroup, Button, Modal } from 'react-bootstrap';
+import { Dropdown, ButtonGroup, Button, Modal } from 'react-bootstrap';
 import { FaTrashAlt, FaCopy, FaPlusSquare } from 'react-icons/fa'
 import './selectTimeTable.css';
 import "./TimeTable.css";
@@ -20,7 +20,7 @@ export default class SelectTimeTable extends React.Component {
     }
 
     handleClose() {
-        this.setState({ 
+        this.setState({
             show: false,
             value: ''
         });
@@ -40,7 +40,7 @@ export default class SelectTimeTable extends React.Component {
         this.setState({ show: false });
         var newTimetable=this.state.value;
 
-        if(newTimetable!=null || newTimetable!='') {
+        if(newTimetable!=null || newTimetable!=='') {
             var timetableNames = this.props.timetableNames
             if(!timetableNames.includes(newTimetable)) {
                 timetableNames.push(newTimetable)
@@ -55,8 +55,8 @@ export default class SelectTimeTable extends React.Component {
     }
 
     renderModal = () => {
-        return <Modal 
-        show={this.state.show} 
+        return <Modal
+        show={this.state.show}
         onHide={this.handleClose}
         >
         <Modal.Header
@@ -68,7 +68,7 @@ export default class SelectTimeTable extends React.Component {
         <Modal.Body
         className="inputPopup"
         >
-        Enter a new name for the timetable: 
+        Enter a new name for the timetable:
             <input class="inputField" type="text" value={this.state.value} onChange={this.handleChange} />
         </Modal.Body>
         <Modal.Footer
@@ -130,20 +130,21 @@ export default class SelectTimeTable extends React.Component {
 
             if(timetableName === this.props.activeTimetable)
                 active=true;
-            
+
             items.push(this.createDropdownItem(active, index, timetableName))
         });
 
+        // UI - Known issue, dropdown shifts down onClick.
         return (
             <>
             {this.renderModal()}
-
-            <Dropdown className="selectTimeTable">
+            <div>
+            <Dropdown drop="right" className="selectTimeTable">
                 <Dropdown.Toggle className="selectedCourseHead">Time Tables</Dropdown.Toggle>
-                <Dropdown.Menu className="dropdownTimetable">
+                <Dropdown.Menu className="dropdownTimetable border">
                     {items}
                     <Dropdown.Divider />
-                    <Dropdown.Item 
+                    <Dropdown.Item
                         eventKey='new'
                         onClick={this.handleShow}
                         className="dropdownButton"
@@ -152,6 +153,7 @@ export default class SelectTimeTable extends React.Component {
                     </Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
+            </div>
             </>
         );
     }

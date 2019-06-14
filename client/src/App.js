@@ -19,6 +19,7 @@ import './components/TimeTable'
 import navbarImage from './images/logo.png';
 
 import axios from 'axios';
+import Generator from './components/magicFill';
 
 class App extends React.Component {
 
@@ -38,6 +39,33 @@ class App extends React.Component {
 
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
+
+			activeTheme: 'default',
+			themes: {
+				default: {
+					name: 'Some Cool Name',
+					properties: {
+						'card-header-color': '#7c87e8',
+						'background-color': '#C3D1F5',
+						'card-body-color': '#ECEBFE',
+						'filter-button-color': '#36e2a8',
+						'slot-clashing-color': '#ff6961',
+						'slot-selected-color': '#00b200',
+						'border-color': '#4c56b2',
+						'card-background-color': '#f6f6f6',
+						'drop-shadow1': '#00000033',
+						'drop-shadow2': '#00000059',
+					}
+				},
+				default2: {
+					name: 'Some Other Cool Name',
+					properties: {
+						'background-color': '#C3D1F5',
+						'lav': '#789456',
+						'main-purp': '#654321'
+					}
+				}
+			},
 
 			clashMap: {
 				A1: {
@@ -453,7 +481,13 @@ class App extends React.Component {
 		};
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if(this.state.activeTheme !== prevState.activeTheme)
+			this.updateTheme();
+	}
+
 	componentDidMount() {
+		this.updateTheme();
 		axios.get("/account")
 			.then(res => {
 				if (res.data) {
@@ -615,6 +649,24 @@ class App extends React.Component {
 			timetableNames: newList
 		})
 	}
+	updateTheme = () => {
+		var theme = this.state.themes[this.state.activeTheme];
+		Object.keys(theme.properties).map(v =>
+			document.documentElement.style.setProperty(`--${v}`, theme.properties[v])
+		);
+	}
+
+	changeActiveTheme = (newTheme) => {
+		this.setState({ activeTheme: newTheme })
+	}
+
+	renderThemeChoices = () => {
+		return Object.keys(this.state.themes).map(v => {
+			return (
+				<NavDropdown.Item eventKey={v}>{this.state.themes[v].name}</NavDropdown.Item>
+			)
+		})
+	}
 
 	renderNavbar = () => {
 		return (
@@ -630,12 +682,19 @@ class App extends React.Component {
 						<Nav.Link className="navLink">About</Nav.Link>
 					</Nav>
 
-					<Nav>	
+					<Nav className="navLeft">
 						<Nav.Link className="navLink" disabled>
 							Credits: {this.state.creditCount}
 						</Nav.Link>
-						<NavDropdown title="Profile" className="navDropContainer">
+						<NavDropdown
+							title="Theme"
+							className="navDropContainer"
+							onSelect={this.changeActiveTheme}>
+							{this.renderThemeChoices()}
+						</NavDropdown>
+						<NavDropdown title={<img className="userProfileImage" src={this.state.user.picture} />} className="navDropContainer">
 							<NavDropdown.Item disabled>{this.state.user.display_name}</NavDropdown.Item>
+							<NavDropdown.Divider />
 							<NavDropdown.Item>Logout</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
@@ -686,6 +745,9 @@ class App extends React.Component {
 						/>
 						<br />
 					</Col>
+				</Row>
+				<Row>
+					<Generator/>
 				</Row>
 				<Row>
 					<TimeTable

@@ -67,10 +67,13 @@ class SlotTable extends Component {
 				key={value._id}
 				>
 
-				<Card.Body className="cardBody">
+				<Card.Body className="cardBodyClash">
 					<Card.Text>{value.slot}</Card.Text>
 					<Card.Title>{value.faculty}</Card.Title>
+					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
 					<Card.Subtitle className="cardClashSubtitle">Clashing</Card.Subtitle>
+					</Card.Subtitle>
+					
 				</Card.Body>
 
 			</Card>
@@ -85,10 +88,13 @@ class SlotTable extends Component {
 				key={value._id}
 			>
 
-				<Card.Body className="cardBody">
+				<Card.Body className="cardBodySelected">
 					<Card.Text>{value.slot}</Card.Text>
 					<Card.Title>{value.faculty}</Card.Title>
-					<Card.Subtitle className="cardSelectedSubtitle">Already Selected</Card.Subtitle>
+					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
+					<Card.Subtitle className="cardSelectedSubtitle">Selected</Card.Subtitle>
+					</Card.Subtitle>
+					
 				</Card.Body>
 
 			</Card>

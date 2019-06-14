@@ -5,6 +5,12 @@
 
 .selectTimeTable {
     font-family: 'Montserrat', sans-serif;
+    position: relative;
+}
+
+.border {
+    border: 10px;
+    border-color: #6D79DF;
 }
 
 .detail {

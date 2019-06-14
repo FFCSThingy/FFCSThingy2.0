@@ -8,7 +8,7 @@
 }
 
 .selectedCourseHead {
-	background-color: #6D79DF;
+	background-color: var(--main-purp);
 	border-radius: .7rem;
 	border: none !important;
 }
@@ -19,6 +19,7 @@
 
 .selectedCourseBody {
 	border: none !important;
+	background-color: var(--bg-grey);
 }
 
 .creditsRow {

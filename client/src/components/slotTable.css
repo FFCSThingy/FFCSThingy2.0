@@ -133,9 +133,9 @@
 
 .cardBodySelected {
 	border-radius: 0.7rem;
-	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
-	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
-	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	-webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
 	cursor: pointer;
 	background-color: var(--card-body-color) !important;
 	transition: box-shadow 0.17s ease-in-out;

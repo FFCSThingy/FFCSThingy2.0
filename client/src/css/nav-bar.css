@@ -76,3 +76,9 @@
 .navDropContainer .dropdown-item {
     padding: 0 0.25rem !important;
 }
+
+.userProfileImage {
+    border-radius: 50% 50% 50% 50%;
+    width: 35px;
+    height: 35px;
+}

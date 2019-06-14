@@ -131,8 +131,19 @@ app.use('/course', courseRoute);
 app.use('/user', userRoute);
 
 app.get('/account', ensureAuthenticated, function (req, res) {
-	res.json(req.user);
+	var data = {
+		google_id: req.user.google_id,
+		display_name: req.user.display_name,
+		email: req.user.email,
+		picture: req.user.picture,
+
+		vtopSignedIn: req.user.vtopSignedIn,
+	}
+	// res.json({ success: true, data: data });
+	res.json(data);
 });
+
+
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the

@@ -20,6 +20,7 @@ router.post('/processExtensionData', async (req, res, next) => {
 	// var data;
 	if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') {
 		var userhistory = await grades.parseUserHistory(req.body.data);
+		userhistory.vtopSignedIn = true;
 		var userDoc = userUtility.updateUser({_id: req.user._id}, userhistory);
 		res.send(userDoc);
 	}

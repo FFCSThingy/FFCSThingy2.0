@@ -621,12 +621,13 @@ class App extends React.Component {
 						<Nav.Link className="navLink" disabled>
 							Credits: {this.state.creditCount}
 						</Nav.Link>
-						{/* <NavDropdown title={<img className="userProfileImage" src={this.state.user.picture} />} className="navDropContainer"> */}
-						<NavDropdown title="Profile" className="navDropContainer">
-							<NavDropdown.Item disabled>
+						<NavDropdown title={<img className="userProfileImage" src={this.state.user.picture} />} className="navDropContainer">
+						{/* <NavDropdown title="Profile" className="navDropContainer"> */}
+							{/* <NavDropdown.Item disabled>
 								<img className="userProfileImage" src={this.state.user.picture} />
-							</NavDropdown.Item>
+							</NavDropdown.Item> */}
 							<NavDropdown.Item disabled>{this.state.user.display_name}</NavDropdown.Item>
+							<NavDropdown.Divider />
 							<NavDropdown.Item>Logout</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>

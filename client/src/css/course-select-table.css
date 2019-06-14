@@ -15,7 +15,7 @@ TODO------
     min-height: 18vh;
     overflow: auto;
     border-radius:  0 0 .7rem .7rem;
-    background-color: #f6f6f6;
+    background-color: var(--bg-grey);
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     scrollbar-width: none;
@@ -43,7 +43,7 @@ TODO------
 
 .cardOneHeader {
 	border-radius: .7rem .7rem 0 0 !important;
-    background-color: #7c87e8;
+    background-color: var(--main-purp);
     color: white;
     padding: 1.25rem 1rem 0 1rem !important;
 }
@@ -54,25 +54,25 @@ TODO------
 
 .courseCard {
     border-radius: 0.7rem;
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
 }
 
 .courseCard.active {
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-	background-color: #ECEBFE;
+    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+    box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+	background-color: var(--lav);
 }
 
 .courseCard:hover {
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.35);
-    background-color: #ECEBFE;
+    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+    box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
+    background-color: var(--lav);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
 }
@@ -116,7 +116,7 @@ TODO------
 
 .curriculumDropdown {
     font-family: 'Montserrat', sans-serif;
-    background-color: #7c87e8 !important;
+    background-color: var(--main-purp) !important;
     border-radius: 0.25rem !important;
     border: 1px solid white;
     color: white;
@@ -132,7 +132,7 @@ TODO------
 }
 
 .curriculumDropdown:active {
-    color: #7c87e8 !important;
+    color: var(--main-purp) !important;
     box-shadow: none !important;
 }
 
@@ -150,7 +150,7 @@ TODO------
 .curriculumDropdown > .dropdown-menu {
     /* padding: 0 !important;
     min-width: 102% !important; */
-    border: 1px solid hsl(234, 40%, 50%);
+    border: 1px solid var(--border-purp);
     border-radius: 0.25rem !important;
     margin-left: -0.2rem !important;
 }
@@ -168,7 +168,7 @@ TODO------
 
 
 .searchBar {
-    background-color: #7c87e8 !important;
+    background-color: var(--main-purp) !important;
     color: white !important;
     font-family: 'Montserrat', sans-serif;
     border: none;
@@ -204,27 +204,27 @@ TODO------
 
 .filterButton {
     font-family: 'Montserrat', sans-serif;
-    background-color: #7c87e8 !important;
+    background-color: var(--main-purp) !important;
     margin-right: 0.5rem !important;
     border: none !important;
-    background-color: #f6f6f6 ;
+    background-color: var(--bg-grey) ;
     color:white;
     transition: color 0.17s ease-in;
 }
 
 .filterButton:hover {
-    color: hsl(160, 75%, 55%);
+    color: var(--very-green);
     transition: color 0.17s ease-in;
 }
 
 .filterButton.active {
-    background-color: #f6f6f6 !important;
+    background-color: var(--bg-grey) !important;
     color: black !important;
 	transition: background-color 0.17s ease-in;
 }
 
 .filterButton.focus {
-    background-color: #f6f6f6  !important;
+    background-color: var(--bg-grey)  !important;
     color: black !important;
     transition: background-color 0.17s ease-in;
 }

@@ -1,3 +1,17 @@
+:root {
+  --main-purp: #7c87e8;
+  --bg-coral: #C3D1F5;
+  --lav: #ECEBFE;
+  --very-green: #36e2a8;
+  --thoda-red: #ff6961;
+  --islamic-green: #00b200;
+  --border-purp: #4c56b2;
+  --bg-grey: #f6f6f6;
+  --drop-shadow1: #00000033;
+  --drop-shadow2: #00000059;
+}
+
+
 html, body {
   background: #C3D1F5
 }

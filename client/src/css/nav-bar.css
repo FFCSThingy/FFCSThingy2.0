@@ -1,13 +1,13 @@
 .navBar {
     width: 100%;
     /* height: 5em; */
-    background-color: #7c87e8 !important;
+    background-color: var(--main-purp) !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     padding-left: 2em;
-    -webkit-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    -moz-box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
-    box-shadow: 1px 1px 9px -1px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
 }
 
 .navLink {
@@ -17,7 +17,7 @@
 
 .navDrop {
     color:white !important;
-    background-color: #7c87e8;
+    background-color: var(--main-purp);
     border: none !important;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
@@ -25,17 +25,17 @@
 }
 
 .navDrop:hover {
-    background-color: #7c87e8 !important;
+    background-color: var(--main-purp) !important;
 }
 
 .navDrop:active{
-    background-color: #7c87e8 !important;
+    background-color: var(--main-purp) !important;
     border: none !important;
     box-shadow: none !important;
 }
 
 .navDrop:focus{
-    background-color: #7c87e8 !important;
+    background-color: var(--main-purp) !important;
     border: none !important;
     box-shadow: none !important;
 }

@@ -76,12 +76,14 @@
 
 .cardClashSubtitle {
 	margin-top: 0 !important;
-	color: red
+	color: #ff6961;
+	float: right;
 }
 
 .cardSelectedSubtitle {
 	margin-top: 0 !important;
-	color: green;
+	color: hsl(120, 100%, 35%);
+	float: right;
 }
 
 .cardBody {
@@ -96,8 +98,8 @@
 }
 
 .cardBody:hover {
-	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
 	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
 	background-color: #ecebfe;
 	transition: box-shadow 0.17s ease-in-out;
@@ -107,6 +109,41 @@
 .cardBody:active {
 	background-color: hsl(160, 75%, 55%);
 }
+
+.cardBodyClash {
+	border-radius: 0.7rem;
+	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
+	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.2);
+	cursor: pointer;
+	background-color: white;
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
+}
+
+.cardBodyClash:hover {
+	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	background-color: #ecebfe;
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
+}
+
+.cardBodyClash:active {
+	background-color: #ff6961;
+}
+
+.cardBodySelected {
+	border-radius: 0.7rem;
+	-webkit-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	-moz-box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	box-shadow: 1px 1px 9px -1px rgba(0, 0, 0, 0.35);
+	cursor: pointer;
+	background-color: #ecebfe;
+	transition: box-shadow 0.17s ease-in-out;
+}
+
 
 .cardContainer {
 	margin-bottom: 1rem !important;

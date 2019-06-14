@@ -82,6 +82,14 @@ var userSchema = new mongoose.Schema({
 		faculty: String,
 		venue: String,
 		semester: String
+	}],
+
+	completed_courses: [{
+		code: String,
+		title: String,
+		course_type: String,
+		credits: String,
+		grade: String
 	}]
 
 });

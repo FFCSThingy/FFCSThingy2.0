@@ -6,6 +6,9 @@ import path from 'path';
 import grades from '../scrapers/userhistory';
 import curriculum from '../scrapers/curriculum';
 
+import userUtility from '../utility/userUtility';
+import curriculumUtility from '../utility/curriculumUtility';
+
 
 const router = express.Router();
 
@@ -15,10 +18,17 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.post('/processExtensionData', async (req, res, next) => {
 	// var data;
-	if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') 
-		res.send(await grades.parseUserHistory(req.body.data));
-	if (req.body.url == 'academics/common/Curriculum')
-		res.send(await curriculum.parseCurriculum(req.body.data));
+	if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') {
+		var userhistory = await grades.parseUserHistory(req.body.data);
+		var userDoc = userUtility.updateUser({_id: req.user._id}, userhistory);
+		res.send(userDoc);
+	}
+
+	if (req.body.url == 'academics/common/Curriculum') {
+		var curr = await curriculum.parseCurriculum(req.body.data);
+		var currDoc = await curriculumUtility.addCurriculumFromExt(curr);
+		res.send(currDoc);
+	}
 });
 
 router.get('/testCurriculum', (req, res, next) => {
@@ -26,8 +36,11 @@ router.get('/testCurriculum', (req, res, next) => {
 		if (error) {
 			console.log(error);
 		} else {
-			var resp = await curriculum.parseCurriculum(pgResp);
-			res.send(resp);
+			// var resp = await curriculum.parseCurriculum(pgResp);
+			var curr = await curriculum.parseCurriculum(pgResp);
+			var currDoc = await curriculumUtility.addCurriculumFromExt(curr);
+			res.send(currDoc);
+			// res.send(resp);
 		}
 
 	});

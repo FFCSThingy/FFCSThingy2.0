@@ -13,6 +13,7 @@ var userSchema = new mongoose.Schema({
 
 
 	// VTOP
+	vtopSignedIn: { type: Boolean, default: false },
 	name: String,
 	reg_no: String,
 	gender: String,

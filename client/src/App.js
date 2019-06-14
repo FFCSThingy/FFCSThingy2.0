@@ -56,11 +56,18 @@ class App extends React.Component {
 					}
 				},
 				default2: {
-					name: 'Some Other Cool Name',
+					name: 'Delete some stuff',
 					properties: {
-						'background-color': '#C3D1F5',
-						'lav': '#789456',
-						'main-purp': '#654321'
+						'card-header-color': '#ffffff',
+						'background-color': '#ffffff',
+						'card-body-color': '#ffffff',
+						'filter-button-color': '#ffffff',
+						'slot-clashing-color': '#ffffff',
+						'slot-selected-color': '#ffffff',
+						'border-color': '#ffffff',
+						'card-background-color': '#ffffff',
+						'drop-shadow1': '#ffffff',
+						'drop-shadow2': '#ffffff',
 					}
 				}
 			},

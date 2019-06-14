@@ -15,7 +15,7 @@ TODO------
     min-height: 18vh;
     overflow: auto;
     border-radius:  0 0 .7rem .7rem;
-    background-color: var(--bg-grey);
+    background-color: var(--card-background-color);
     font-family: 'Montserrat', sans-serif;
     cursor: pointer;
     scrollbar-width: none;
@@ -43,8 +43,8 @@ TODO------
 
 .cardOneHeader {
 	border-radius: .7rem .7rem 0 0 !important;
-    background-color: var(--main-purp);
-    color: white;
+    background-color: var(--card-header-color);
+    color: var(--white);
     padding: 1.25rem 1rem 0 1rem !important;
 }
 
@@ -65,14 +65,14 @@ TODO------
     -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
     -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
     box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-	background-color: var(--lav);
+	background-color: var(--card-body-color);
 }
 
 .courseCard:hover {
     -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
     -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
     box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-    background-color: var(--lav);
+    background-color: var(--card-body-color);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
 }
@@ -116,10 +116,10 @@ TODO------
 
 .curriculumDropdown {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--main-purp) !important;
+    background-color: var(--card-header-color) !important;
     border-radius: 0.25rem !important;
-    border: 1px solid white;
-    color: white;
+    border: 1px solid var(--white);
+    color: var(--white);
     padding: 0.05rem 0.1rem;
     height: 1.6em;
     width: 85%;
@@ -127,12 +127,12 @@ TODO------
 }
 
 .curriculumDropdown:focus {
-    color: white !important;
+    color: var(--white) !important;
     box-shadow: none !important;
 }
 
 .curriculumDropdown:active {
-    color: var(--main-purp) !important;
+    color: var(--card-header-color) !important;
     box-shadow: none !important;
 }
 
@@ -150,14 +150,14 @@ TODO------
 .curriculumDropdown > .dropdown-menu {
     /* padding: 0 !important;
     min-width: 102% !important; */
-    border: 1px solid var(--border-purp);
+    border: 1px solid var(--border-color);
     border-radius: 0.25rem !important;
     margin-left: -0.2rem !important;
 }
 
 .curriculumDropdown > .dropdown-menu > .dropdown-item {
     padding: 0.1rem 0.5rem !important;
-    background-color: white !important;
+    background-color: var(--white) !important;
     border-radius: 0.25rem !important;
     color: #7f7f7f !important;
 }
@@ -168,8 +168,8 @@ TODO------
 
 
 .searchBar {
-    background-color: var(--main-purp) !important;
-    color: white !important;
+    background-color: var(--card-header-color) !important;
+    color: var(--white) !important;
     font-family: 'Montserrat', sans-serif;
     border: none;
     box-shadow: none !important;
@@ -184,7 +184,7 @@ TODO------
 
 
 ::placeholder {
-    color: white !important;
+    color: var(--white) !important;
     opacity:1;
     transition: opacity 0.17s ease;
     text-transform: capitalize;
@@ -204,27 +204,27 @@ TODO------
 
 .filterButton {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--main-purp) !important;
+    background-color: var(--card-header-color) !important;
     margin-right: 0.5rem !important;
     border: none !important;
-    background-color: var(--bg-grey) ;
-    color:white;
+    background-color: var(--card-background-color) ;
+    color:var(--white);
     transition: color 0.17s ease-in;
 }
 
 .filterButton:hover {
-    color: var(--very-green);
+    color: var(--filter-button-color);
     transition: color 0.17s ease-in;
 }
 
 .filterButton.active {
-    background-color: var(--bg-grey) !important;
+    background-color: var(--card-background-color) !important;
     color: black !important;
 	transition: background-color 0.17s ease-in;
 }
 
 .filterButton.focus {
-    background-color: var(--bg-grey)  !important;
+    background-color: var(--card-background-color)  !important;
     color: black !important;
     transition: background-color 0.17s ease-in;
 }

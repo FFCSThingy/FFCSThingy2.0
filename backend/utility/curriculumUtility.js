@@ -44,6 +44,31 @@ module.exports.findCurriculumFromPrefix = function findCurriculumFromPrefix(reg_
 	});
 }
 
+module.exports.addCurriculumFromExt = (curriculum) => {
+	return new Promise((resolve, reject) => {
+		Curriculum.findOne({reg_prefix: curriculum.reg_prefix}, (err, doc) => {
+			if (!doc) Curriculum.findOneAndUpdate({ reg_prefix: curriculum.reg_prefix },
+				curriculum,
+				{ upsert: true, new: true, rawResult: true }, function(err, doc) {
+					// return resolve(doc)
+					return resolve('Curriculum not found, adding.')
+				});
+			else if(err) return reject(err);
+			else return resolve('Unmodified, Already Exists.');	
+		})
+	});
+	// 	Curriculum.findOneAndUpdate(curriculum,
+	// 		// { $setOnInsert: curriculum },
+	// 		curriculum,
+	// 		{ upsert: true, new: true, rawResult: true }, function (err, doc, res) {
+	// 			console.log(err);
+	// 			// console.log(doc);
+	// 			console.log(res);
+	// 			return resolve({ timestamp: new Date(), doc: doc })
+	// 		});
+	// });
+}
+
 module.exports.getCurriculumPrefixes = () => {
 	return new Promise((resolve, reject) => {
 		Curriculum.aggregate(

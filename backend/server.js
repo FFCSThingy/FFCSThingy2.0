@@ -125,14 +125,25 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
 
-app.use('/ext', extRoute);
+app.use('/ext', ensureAuthenticated, extRoute);
 app.use('/curriculum', curriculumRoute);
 app.use('/course', courseRoute);
 app.use('/user', userRoute);
 
 app.get('/account', ensureAuthenticated, function (req, res) {
-	res.json(req.user);
+	var data = {
+		google_id: req.user.google_id,
+		display_name: req.user.display_name,
+		email: req.user.email,
+		picture: req.user.picture,
+
+		vtopSignedIn: req.user.vtopSignedIn,
+	}
+	// res.json({ success: true, data: data });
+	res.json(data);
 });
+
+
 
 // GET /auth/google
 //   Use passport.authenticate() as route middleware to authenticate the
@@ -151,8 +162,8 @@ app.get('/auth/google', passport.authenticate('google', {
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/google/callback',
 	passport.authenticate('google', {
-		successRedirect: '/',
-		failureRedirect: '/login'
+		successRedirect: '/dashboard',
+		failureRedirect: '/'
 	}));
 
 app.get('/logout', function (req, res) {
@@ -160,8 +171,16 @@ app.get('/logout', function (req, res) {
 	res.redirect('/');
 });
 
-app.get('/*', function (req, res) {
+app.get('/dashboard', redirectUnauthenticated, function(req, res) {
+	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));		
+})
+
+app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+})
+
+app.get('/*', function (req, res) {
+	res.redirect('/');
 });
 
 // Simple route middleware to ensure user is authenticated.
@@ -177,6 +196,13 @@ function ensureAuthenticated(req, res, next) {
 	}
 	
 	res.status(401).json({ success: false, authenticated: false });
+}
+
+function redirectUnauthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	return res.redirect('/');
 }
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));

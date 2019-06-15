@@ -15,7 +15,7 @@ class CustomNavbar extends React.Component {
 	renderThemeChoices = () => {
 		return Object.keys(this.props.themes).map(v => {
 			return (
-				<NavDropdown.Item eventKey={v}>{this.props.themes[v].name}</NavDropdown.Item>
+				<NavDropdown.Item eventKey={v} key={v}>{this.props.themes[v].name}</NavDropdown.Item>
 			)
 		})
 	}
@@ -28,7 +28,7 @@ class CustomNavbar extends React.Component {
 		return (
 			<Navbar className="navBar" bg="light" fixed="top" expand="md">
 				
-				<NavbarBrand href="#home" class="navbar-left">
+				<NavbarBrand className="navbar-left">
 					{/* <img className="logo" alt="FFCSThingy" src={navbarImage}></img> */}
 					FFCSThingy
 				</NavbarBrand>

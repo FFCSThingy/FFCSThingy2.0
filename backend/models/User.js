@@ -13,6 +13,7 @@ var userSchema = new mongoose.Schema({
 
 
 	// VTOP
+	vtopSignedIn: { type: Boolean, default: false },
 	name: String,
 	reg_no: String,
 	gender: String,
@@ -46,17 +47,17 @@ var userSchema = new mongoose.Schema({
 		pe_earned: Number,
 		ue_reqd: Number,
 		ue_earned: Number,
-		bridge_reqd: Number,
-		bridge_earned: Number,
+		bridge_reqd: String,
+		bridge_earned: String,
 		total_reqd: Number,
 		total_earned: Number,
-		sts_distib: Number,
+		sts_distib: String,
 		sts_reqd: Number,
 		sts_earned: Number,
-		exc_distib: Number,
+		exc_distib: String,
 		exc_reqd: Number,
 		exc_earned: Number,
-		lang_distib: Number,
+		lang_distib: String,
 		lang_reqd: Number,
 		lang_earned: Number,
 	},
@@ -81,6 +82,14 @@ var userSchema = new mongoose.Schema({
 		faculty: String,
 		venue: String,
 		semester: String
+	}],
+
+	completed_courses: [{
+		code: String,
+		title: String,
+		course_type: String,
+		credits: String,
+		grade: String
 	}]
 
 });

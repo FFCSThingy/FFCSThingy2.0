@@ -5,6 +5,7 @@ import curriculum from '../utility/curriculumUtility';
 import user from '../utility/userUtility';
 import course from '../utility/courseUtility';
 import system from '../utility/systemUtility';
+import { resolve } from 'path';
 
 const router = express.Router();
 
@@ -149,6 +150,15 @@ router.get('/getCourseByID/:id', async (req, res, next) => {
 		res.status(500).json({ success: false, message: '/getCourseByID failed' });
 		console.log(err);
 	}
-})
+});
+
+router.get('/updateHeatmap', async(req, res, next) => {
+	try {
+		var doc = await course.updateHeatmap();
+		res.json(doc);
+	} catch(err) {
+		console.log(err);
+	}
+});
 
 module.exports = router;

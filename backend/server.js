@@ -162,8 +162,8 @@ app.get('/auth/google', passport.authenticate('google', {
 //   which, in this example, will redirect the user to the home page.
 app.get('/auth/google/callback',
 	passport.authenticate('google', {
-		successRedirect: '/',
-		failureRedirect: '/login'
+		successRedirect: '/dashboard',
+		failureRedirect: '/'
 	}));
 
 app.get('/logout', function (req, res) {
@@ -171,8 +171,14 @@ app.get('/logout', function (req, res) {
 	res.redirect('/');
 });
 
+app.get('/dashboard', function(req, res) {
+	if(req.isAuthenticated())
+		res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+	res.redirect('/');	
+})
+
 app.get('/*', function (req, res) {
-	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
+	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));	
 });
 
 // Simple route middleware to ensure user is authenticated.

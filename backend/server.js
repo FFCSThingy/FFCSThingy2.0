@@ -125,7 +125,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
 
-app.use('/ext', extRoute);
+app.use('/ext', ensureAuthenticated, extRoute);
 app.use('/curriculum', curriculumRoute);
 app.use('/course', courseRoute);
 app.use('/user', userRoute);
@@ -171,14 +171,16 @@ app.get('/logout', function (req, res) {
 	res.redirect('/');
 });
 
-app.get('/dashboard', function(req, res) {
-	if(req.isAuthenticated())
-		res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-	res.redirect('/');	
+app.get('/dashboard', redirectUnauthenticated, function(req, res) {
+	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));		
+})
+
+app.get('/', function(req, res) {
+	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
 })
 
 app.get('/*', function (req, res) {
-	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));	
+	res.redirect('/');
 });
 
 // Simple route middleware to ensure user is authenticated.
@@ -194,6 +196,13 @@ function ensureAuthenticated(req, res, next) {
 	}
 	
 	res.status(401).json({ success: false, authenticated: false });
+}
+
+function redirectUnauthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	return res.redirect('/');
 }
 
 app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));

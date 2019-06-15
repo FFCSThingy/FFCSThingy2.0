@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dropdown, ButtonGroup, Button, Modal } from 'react-bootstrap';
-import { FaTrashAlt, FaCopy, FaPlusSquare } from 'react-icons/fa'
+import { FaTrashAlt, FaCopy, FaPlusSquare } from 'react-icons/fa';
 import './selectTimeTable.css';
 import "./TimeTable.css";
 export default class SelectTimeTable extends React.Component {

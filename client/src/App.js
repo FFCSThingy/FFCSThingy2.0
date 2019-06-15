@@ -4,13 +4,15 @@
 import React from 'react';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, NavbarBrand } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
 import TimeTable from './components/TimeTable';
 import CourseTable from './components/coursetable';
-import SelectTimeTable from './components/selectTimeTable'
+import SelectTimeTable from './components/selectTimeTable';
+import CustomNavbar from './components/CustomNavbar';
+
 import "whatwg-fetch";
 import './App.css';
 import './css/nav-bar.css'
@@ -667,54 +669,18 @@ class App extends React.Component {
 		this.setState({ activeTheme: newTheme })
 	}
 
-	renderThemeChoices = () => {
-		return Object.keys(this.state.themes).map(v => {
-			return (
-				<NavDropdown.Item eventKey={v}>{this.state.themes[v].name}</NavDropdown.Item>
-			)
-		})
-	}
-
-	renderNavbar = () => {
-		return (
-			<Navbar className="navBar" bg="light" fixed="top" expand="md">
-				<NavbarBrand href="#home" class="navbar-left">
-					{/* <img className="logo" alt="FFCSThingy" src={navbarImage}></img> */}
-					FFCSThingy
-				</NavbarBrand>
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
-					<Nav className="mr-auto">
-						<Nav.Link className="navLink">Home</Nav.Link>
-						<Nav.Link className="navLink">About</Nav.Link>
-					</Nav>
-
-					<Nav className="navLeft">
-						<Nav.Link className="navLink" disabled>
-							Credits: {this.state.creditCount}
-						</Nav.Link>
-						<NavDropdown
-							title="Theme"
-							className="navDropContainer"
-							onSelect={this.changeActiveTheme}>
-							{this.renderThemeChoices()}
-						</NavDropdown>
-						<NavDropdown title={<img className="userProfileImage" src={this.state.user.picture} />} className="navDropContainer">
-							<NavDropdown.Item disabled>{this.state.user.display_name}</NavDropdown.Item>
-							<NavDropdown.Divider />
-							<NavDropdown.Item>Logout</NavDropdown.Item>
-						</NavDropdown>
-					</Nav>
-				</Navbar.Collapse>
-			</Navbar>
-		)
-	}
-
 	render() {
 		return (
 			<Container fluid={true}>
 				<Row className='navBarRow'>
-					{this.renderNavbar()}
+					{/* {this.renderNavbar()} */}
+					<CustomNavbar
+						user={this.state.user}
+						creditCount={this.state.creditCount}
+						themes={this.state.themes}
+
+						changeActiveTheme={this.changeActiveTheme}
+					/>
 				</Row>
 
 				<Row>

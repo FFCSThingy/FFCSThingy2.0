@@ -3,10 +3,9 @@ const Promise = require('bluebird');
 
 module.exports.parseUserHistory = (html) => {
 	var data = {
-		"courses": [],
-		"user": {},
+		"completed_courses": [],
 		"grades": {},
-		"summary": {},
+		"credit_summary": {},
 	};
 	return new Promise((resolve, reject) => {
 		try {
@@ -25,11 +24,11 @@ module.exports.parseUserHistory = (html) => {
 					continue;
 				if (i == 2) {
 					var str = td.eq(i).text().split(" - ");
-					data["user"]["programme"] = str[0];
-					data["user"]["branch"] = str[1];
+					data["programme"] = str[0];
+					data["branch"] = str[1];
 				}
 				else
-					data["user"][user_headings[i]] = td.eq(i).text();
+					data[user_headings[i]] = td.eq(i).text();
 
 			}
 
@@ -54,51 +53,51 @@ module.exports.parseUserHistory = (html) => {
 
 				switch(i) {
 					case trCount - 10: 
-						data.summary.pc_reqd = attrs.eq(1).text().trim();
-						data.summary.pc_earned = attrs.eq(2).text().trim();
+						data.credit_summary.pc_reqd = attrs.eq(1).text().trim();
+						data.credit_summary.pc_earned = attrs.eq(2).text().trim();
 						return;
 
 					case trCount - 9:
-						data.summary.uc_reqd = attrs.eq(1).text().trim();
-						data.summary.uc_earned = attrs.eq(2).text().trim();
+						data.credit_summary.uc_reqd = attrs.eq(1).text().trim();
+						data.credit_summary.uc_earned = attrs.eq(2).text().trim();
 						return;
 
 					case trCount - 8:
-						data.summary.pe_reqd = attrs.eq(1).text().trim();
-						data.summary.pe_earned = attrs.eq(2).text().trim();
+						data.credit_summary.pe_reqd = attrs.eq(1).text().trim();
+						data.credit_summary.pe_earned = attrs.eq(2).text().trim();
 						return;
 
 					case trCount - 7:
-						data.summary.ue_reqd = attrs.eq(1).text().trim();
-						data.summary.ue_earned = attrs.eq(2).text().trim();
+						data.credit_summary.ue_reqd = attrs.eq(1).text().trim();
+						data.credit_summary.ue_earned = attrs.eq(2).text().trim();
 						return;
 
 					case trCount - 6:
-						data.summary.bridge_reqd = attrs.eq(1).text().trim();
-						data.summary.bridge_earned = attrs.eq(2).text().trim();
+						data.credit_summary.bridge_reqd = attrs.eq(1).text().trim();
+						data.credit_summary.bridge_earned = attrs.eq(2).text().trim();
 						return;
 
 					case trCount - 5:
-						data.summary.total_reqd = attrs.eq(1).text().trim();
-						data.summary.total_earned = attrs.eq(2).text().trim();
+						data.credit_summary.total_reqd = attrs.eq(1).text().trim();
+						data.credit_summary.total_earned = attrs.eq(2).text().trim();
 						return;
 
 					case trCount - 4:
-						data.summary.sts_distib = attrs.eq(1).text().trim();
-						data.summary.sts_reqd = attrs.eq(2).text().trim();
-						data.summary.sts_earned = attrs.eq(3).text().trim();
+						data.credit_summary.sts_distib = attrs.eq(1).text().trim();
+						data.credit_summary.sts_reqd = attrs.eq(2).text().trim();
+						data.credit_summary.sts_earned = attrs.eq(3).text().trim();
 						return;
 
 					case trCount - 3:
-						data.summary.exc_distib = attrs.eq(1).text().trim();
-						data.summary.exc_reqd = attrs.eq(2).text().trim();
-						data.summary.exc_earned = attrs.eq(3).text().trim();
+						data.credit_summary.exc_distib = attrs.eq(1).text().trim();
+						data.credit_summary.exc_reqd = attrs.eq(2).text().trim();
+						data.credit_summary.exc_earned = attrs.eq(3).text().trim();
 						return;
 
 					case trCount - 2:
-						data.summary.lang_distib = attrs.eq(1).text().trim();
-						data.summary.lang_reqd = attrs.eq(2).text().trim();
-						data.summary.lang_earned = attrs.eq(3).text().trim();
+						data.credit_summary.lang_distib = attrs.eq(1).text().trim();
+						data.credit_summary.lang_reqd = attrs.eq(2).text().trim();
+						data.credit_summary.lang_earned = attrs.eq(3).text().trim();
 						return;
 				}
 
@@ -112,9 +111,9 @@ module.exports.parseUserHistory = (html) => {
 					'grade': attrs.eq(5).text().trim(),
 				};
 				// console.log(course);
-				data.courses.push(course);
+				data.completed_courses.push(course);
 
-				data["courses"] = data["courses"].filter((course) => course["credits"] != null && !isNaN(course["credits"]));
+				data["completed_courses"] = data["completed_courses"].filter((course) => course["credits"] != null && !isNaN(course["credits"]));
 
 			});
 

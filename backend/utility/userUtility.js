@@ -32,3 +32,86 @@ module.exports.updateUser = (query, update,
 			});
 	});
 }
+
+module.exports.aggregateSpecificCourseCount = (course) => {
+	return new Promise((resolve, reject) => {
+		User.aggregate([
+			{ $unwind: '$selected_courses' },
+			{ 
+				$match: {
+					code: course.code,
+					course_type: course.course_type,
+					faculty: course.faculty,
+					venue: course.venue
+				} 
+			},
+			{
+				$group: {
+					_id: {
+						code: '$code',
+						course_type: '$course_type',
+						faculty: '$faculty',
+						venue: '$venue',
+						slot: '$slot'
+					},
+					count: { $sum: 1 }
+				}
+			}
+		], function(err, doc) {
+			if (err) return reject(err);
+			return resolve(doc);
+		});
+	});
+}
+
+module.exports.aggregateCourseCount = (course) => {
+	return new Promise((resolve, reject) => {
+		User.aggregate([
+			{ $unwind: '$selected_courses' },
+			{
+				$match: {
+					code: course.code,
+					course_type: course.course_type,
+				}
+			},
+			{
+				$group: {
+					_id: {
+						code: '$code',
+						course_type: '$course_type',
+					},
+					count: { $sum: 1 }
+				}
+			}
+		], function (err, doc) {
+			if (err) return reject(err);
+			return resolve(doc);
+		});
+	});
+}
+
+module.exports.aggregateCounts = () => {
+	return new Promise((resolve, reject) => {
+		User.aggregate([
+			{ $unwind: '$selected_courses' },
+			{
+				$group: {
+					_id: {
+						code: '$code',
+						course_type: '$course_type',
+					},
+					count: { $sum: 1 }
+				}
+			}, 
+			{
+				$sort: {
+					'_id.code': 1,
+					'_id.course_type': 1,
+				}
+			}
+		], function (err, doc) {
+			if (err) return reject(err);
+			return resolve(doc);
+		});
+	});
+}

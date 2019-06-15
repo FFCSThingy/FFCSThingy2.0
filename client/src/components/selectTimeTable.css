@@ -1,0 +1,45 @@
+.dropdownTimetable {
+    background-color: rgb(203, 205, 251);
+    border: none;
+}
+
+.selectTimeTable {
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+}
+
+.border {
+    border: 10px;
+    border-color: #6D79DF;
+}
+
+.detail {
+    width: 50%;
+}
+
+.dropdownButtonGroup {
+    display: flex;
+    padding: 2px;
+}
+
+.dropdownButton {
+    flex: 1;
+    color: #6D79DF;
+}
+
+.inputPopup {
+    background-color: rgb(203, 205, 251);
+    font-family: 'Montserrat', sans-serif;
+    color: #6D79DF;
+}
+
+.inputField {
+    border-radius: 0.5rem;
+    padding: 0.3rem;
+    margin-top: 0.7rem;
+}
+
+.saveButton {
+    background-color: #6D79DF;
+    border-color: #6D79DF;
+}

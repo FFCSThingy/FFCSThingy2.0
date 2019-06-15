@@ -36,6 +36,7 @@
     "nodemon": "^1.19.0",
     "passport": "^0.4.0",
     "passport-google-oauth2": "^0.2.0",
+    "react-icons": "^3.7.0",
     "react-bootstrap": "^1.0.0-beta.9",
     "xlsx-to-json": "^0.3.0"
   }

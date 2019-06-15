@@ -10,6 +10,7 @@ import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
 import TimeTable from './components/TimeTable';
 import CourseTable from './components/coursetable';
+import SelectTimeTable from './components/selectTimeTable'
 import "whatwg-fetch";
 import './App.css';
 import './css/nav-bar.css'
@@ -31,6 +32,7 @@ class App extends React.Component {
 			user: {},
 
 			timetable: [],
+			timetableNames: ['Default'],
 			creditCount: 0,
 
 			selectedCourse: '',
@@ -643,6 +645,17 @@ class App extends React.Component {
 		})
 	}
 
+	changeActiveTimetable = (timetableName) => {
+		this.setState({
+			activeTimetable: timetableName
+		})
+	}
+
+	modifyTimetableNames = (newList) => {
+		this.setState({
+			timetableNames: newList
+		})
+	}
 	updateTheme = () => {
 		var theme = this.state.themes[this.state.activeTheme];
 		Object.keys(theme.properties).map(v =>
@@ -676,12 +689,12 @@ class App extends React.Component {
 						<Nav.Link className="navLink">About</Nav.Link>
 					</Nav>
 
-					<Nav className="navLeft">	
+					<Nav className="navLeft">
 						<Nav.Link className="navLink" disabled>
 							Credits: {this.state.creditCount}
 						</Nav.Link>
-						<NavDropdown 
-							title="Theme" 
+						<NavDropdown
+							title="Theme"
 							className="navDropContainer"
 							onSelect={this.changeActiveTheme}>
 							{this.renderThemeChoices()}
@@ -730,6 +743,17 @@ class App extends React.Component {
 					</Col>
 				</Row>
 				<Row>
+					<Col>
+						<SelectTimeTable
+							activeTimetable={this.state.activeTimetable}
+							timetableNames={this.state.timetableNames}
+							changeActiveTimetable={this.changeActiveTimetable}
+							modifyTimetableNames={this.modifyTimetableNames}
+						/>
+						<br />
+					</Col>
+				</Row>
+				<Row>
 					<Generator/>
 				</Row>
 				<Row>
@@ -738,7 +762,7 @@ class App extends React.Component {
 						timetable={this.state.timetable}
 					/>
 				</Row>
-				
+
 				<Row>
 					<CourseTable
 						timetable={this.state.timetable}

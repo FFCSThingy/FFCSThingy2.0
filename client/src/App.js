@@ -42,6 +42,10 @@ class App extends React.Component {
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
 
+			curriculumList: [],
+			curriculum: {},
+			selectedCurriculum: '',
+
 			activeTheme: 'default',
 			themes: {
 				default: {
@@ -529,6 +533,23 @@ class App extends React.Component {
 				console.log(err);
 				this.setState({ error: err })
 			});
+
+		axios.get("/curriculum/getPrefixes")
+			.then(res => {
+				if (res.data.success) {
+					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
+				} else
+					this.setState({ error: res.data.message })
+			});
+
+		axios.get("/curriculum/getCurriculumFromPrefix/17BCE")
+			.then(res => {
+				if (res.data.success) {
+					this.setState({ curriculum: res.data.data });
+					localStorage.setItem('17BCE', JSON.stringify(res.data.data));
+				} else
+					this.setState({ error: res.data.message })
+			});	
 	}
 
 	filterCourse = () => {
@@ -669,16 +690,35 @@ class App extends React.Component {
 		this.setState({ activeTheme: newTheme })
 	}
 
+	handleCurriculumChange = (val) => {
+		this.doCurriculumFetch(val);
+		this.setState({ selectedCurriculum: val });
+	}
+
+	doCurriculumFetch(prefix) {
+		console.log('Changed to: ' + prefix)
+		axios.get("/curriculum/getCurriculumFromPrefix/" + prefix)
+			.then(res => {
+				if (res.data.success) {
+					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
+					localStorage.setItem(prefix, JSON.stringify(res.data.data));
+				} else
+					this.setState({ error: res.data.message })
+			});
+	}
+
 	render() {
 		return (
 			<Container fluid={true}>
 				<Row className='navBarRow'>
-					{/* {this.renderNavbar()} */}
 					<CustomNavbar
 						user={this.state.user}
 						creditCount={this.state.creditCount}
 						themes={this.state.themes}
-
+						curriculumList={this.state.curriculumList}
+						selectedCurriculum={this.state.selectedCurriculum}
+						
+						handleCurriculumChange={this.handleCurriculumChange}
 						changeActiveTheme={this.changeActiveTheme}
 					/>
 				</Row>
@@ -689,6 +729,7 @@ class App extends React.Component {
 							selectCourse={this.selectCourse}
 							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}
+							curriculum={this.state.curriculum}
 						/>
 					</Col>
 

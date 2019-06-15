@@ -13,12 +13,15 @@ import navbarImage from '../images/logo.png';
 class CustomNavbar extends React.Component {
 
 	renderThemeChoices = () => {
-		console.log(this.props.themes);
 		return Object.keys(this.props.themes).map(v => {
 			return (
 				<NavDropdown.Item eventKey={v}>{this.props.themes[v].name}</NavDropdown.Item>
 			)
 		})
+	}
+
+	renderCurriculumChoices = () => {
+		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v}</NavDropdown.Item>);
 	}
 
 	render() {
@@ -32,6 +35,14 @@ class CustomNavbar extends React.Component {
 				
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 				
+				<NavDropdown 
+					title={this.props.selectedCurriculum} 
+					className="navDropContainer"
+					onSelect={this.props.handleCurriculumChange}
+				>
+					{this.renderCurriculumChoices()}
+				</NavDropdown>
+
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 					
 					<Nav className="mr-auto">

@@ -9,12 +9,10 @@ class CourseSelect extends React.Component {
 	state = {
 		courseList: JSON.parse(localStorage.getItem('courseList')) || [],
 		timestamp: localStorage.getItem('courseListTimestamp') || null,
-		curriculumList: [],
-		curriculum: {},
+		
 		selectedCategory: 'ALL',
 		searchString: '',
 		filteredCourses: [],
-		selectedCurriculum: '',
 		error: null,
 		courseSlots: this.getCourseSlotsList(),
 	}
@@ -35,23 +33,6 @@ class CourseSelect extends React.Component {
 				} else
 					this.setState({ error: res.data.message })
 			});
-
-		axios.get("/curriculum/getPrefixes")
-			.then(res => {
-				if (res.data.success) {
-					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
-				} else
-					this.setState({ error: res.data.message })
-			});
-
-		axios.get("/curriculum/getCurriculumFromPrefix/17BCE")
-			.then(res => {
-				if (res.data.success) {
-					this.setState({ curriculum: res.data.data });
-					localStorage.setItem('17BCE', JSON.stringify(res.data.data));
-				} else
-					this.setState({ error: res.data.message })
-			});
 	}
 
 	handleChange = (event) => {
@@ -63,10 +44,7 @@ class CourseSelect extends React.Component {
 		// if (event.target.name === 'selectedCurriculum') 
 	}
 
-	handleCurriculumChange = (val) => {
-		this.doCurriculumFetch(val);
-		this.setState({ selectedCurriculum: val });
-	}
+	
 
 	getCourseSlotsList() {
 		var courseList = JSON.parse(localStorage.getItem('courseList'));
@@ -84,18 +62,6 @@ class CourseSelect extends React.Component {
 			.reduce((a, v) => [...a, { code: v, slots: Array.from(new Set(courseSlots[v].slots)), title: courseSlots[v].title }], []);
 		return courseSlots;
 		// this.setState({ courseSlotList: courseSlots });
-	}
-
-	doCurriculumFetch(prefix) {
-		console.log('Changed to: ' + prefix)
-		axios.get("/curriculum/getCurriculumFromPrefix/" + prefix)
-			.then(res => {
-				if (res.data.success) {
-					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
-					localStorage.setItem(prefix, JSON.stringify(res.data.data));
-				} else
-					this.setState({ error: res.data.message })
-			});
 	}
 
 	doSearch() {
@@ -139,21 +105,11 @@ class CourseSelect extends React.Component {
 	}
 
 	renderSearchBar() {
-		var curriculumChoices = this.state.curriculumList.map(v => <Dropdown.Item eventKey={v}>{v}</Dropdown.Item>);
+		// var curriculumChoices = this.state.curriculumList.map(v => <Dropdown.Item eventKey={v}>{v}</Dropdown.Item>);
 		return (
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>
-					<Col xs={5} md={5}>
-						<DropdownButton 
-							className="curriculumDropdown"
-							as={ButtonGroup} 
-							title={this.state.selectedCurriculum}
-							onSelect={this.handleCurriculumChange}
-						>
-							{curriculumChoices}
-						</DropdownButton>
-					</Col>
-					<Col className="searchColumn" xs={7} md={7}>
+					<Col className="searchColumn" xs={12} md={12}>
 						<Form.Control
 							className="searchBar"
 							name='searchString'
@@ -215,9 +171,9 @@ class CourseSelect extends React.Component {
 	renderCourses() {
 		var list = this.doSearch();
 
-		if (this.state.selectedCategory !== 'ALL' && Object.keys(this.state.curriculum).length) {
+		if (this.state.selectedCategory !== 'ALL' && Object.keys(this.props.curriculum).length) {
 			var cat = this.state.selectedCategory.toLowerCase();
-			var currCourses = this.state.curriculum[cat].map(c => c.code);
+			var currCourses = this.props.curriculum[cat].map(c => c.code);
 
 			list = list.filter(v => {
 				return currCourses.includes(v.code);

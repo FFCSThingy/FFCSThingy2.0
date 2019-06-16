@@ -15,13 +15,17 @@ class CustomNavbar extends React.Component {
 	renderThemeChoices = () => {
 		return Object.keys(this.props.themes).map(v => {
 			return (
-				<NavDropdown.Item eventKey={v} key={v}>{this.props.themes[v].name}</NavDropdown.Item>
+				<NavDropdown.Item eventKey={v} key={v}>{this.props.themes[v].name}
+					<NavDropdown.Divider />
+				</NavDropdown.Item>
 			)
 		})
 	}
 
 	renderCurriculumChoices = () => {
-		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v}</NavDropdown.Item>);
+		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v} 
+				<NavDropdown.Divider />
+			</NavDropdown.Item>);
 	}
 
 	render() {
@@ -33,15 +37,15 @@ class CustomNavbar extends React.Component {
 					FFCSThingy
 				</NavbarBrand>
 				
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-				
 				<NavDropdown 
 					title={this.props.selectedCurriculum} 
-					className="navDropContainer"
+					className="navDropContainerCurriculum"
 					onSelect={this.props.handleCurriculumChange}
 				>
 					{this.renderCurriculumChoices()}
 				</NavDropdown>
+
+				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 					
@@ -57,7 +61,7 @@ class CustomNavbar extends React.Component {
 
 						<NavDropdown
 							title="Theme"
-							className="navDropContainer"
+							className="navDropContainerTheme"
 							onSelect={this.props.changeActiveTheme}
 						>
 							{this.renderThemeChoices()}
@@ -67,7 +71,7 @@ class CustomNavbar extends React.Component {
 						<NavDropdown 
 							title={<img className="userProfileImage" 
 								src={this.props.user.picture} />} 
-							className="navDropContainer"
+							className="navDropContainerUser"
 						>
 							<NavDropdown.Item disabled>
 								{this.props.user.display_name}

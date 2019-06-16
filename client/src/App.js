@@ -765,6 +765,7 @@ class App extends React.Component {
 				</Row>
 				<Row>
 					<TimeTable
+						clashMap={this.state.clashMap}
 						filledSlots={this.getFilledSlots()}
 						timetable={this.state.timetable}
 					/>

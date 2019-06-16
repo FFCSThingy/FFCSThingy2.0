@@ -61,7 +61,7 @@
 	border-radius: 0 0 0.7rem 0.7rem;
 	background-color: var(--card-background-color);
 	font-family: 'Montserrat', sans-serif;
-	cursor: pointer;
+	cursor: default;
 	scrollbar-width: none;
 	padding: 0 1rem;
 }
@@ -136,7 +136,7 @@
 	-webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
 	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
 	box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-	cursor: pointer;
+	cursor: default;
 	background-color: var(--card-body-color) !important;
 	transition: box-shadow 0.17s ease-in-out;
 }

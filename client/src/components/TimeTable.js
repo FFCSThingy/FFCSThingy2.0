@@ -11,58 +11,58 @@ class TimeTable extends Component {
 	
 	renderHeader1 = () => {
 		return(
-			<tr>
-				<td class="ColumnOneDays">THEORY<br/>HOURS
+			<tr className="timetableHeader1">
+				<td className="timetableDay">THEORY<br/>HOURS
 				</td>
-				<td class="TheoryHours">08:00 AM
+				<td className="timetableTheoryHours">08:00 AM
 					<br/>to
 					<br/>08:50 AM
 				</td>
-				<td class="TheoryHours">09:00 AM
+				<td className="timetableTheoryHours">09:00 AM
 					<br/>to
 					<br/>09:50 AM
 				</td>
-				<td class="TheoryHours">10:00 AM
+				<td className="timetableTheoryHours">10:00 AM
 					<br/>to
 					<br/>10:50 AM
 				</td>
-				<td class="TheoryHours">11:00 AM
+				<td className="timetableTheoryHours">11:00 AM
 					<br/>to
 					<br/>11:50 AM
 				</td>
-				<td class="TheoryHours">12:00 PM
+				<td className="timetableTheoryHours">12:00 PM
 					<br/>to
 					<br/>12:50 PM
 				</td>
-				<td class="TheoryHours"></td>
-				<td widtd="8px" rowSpan={9} class="ColumnOneDays">
+				<td className="timetableTheoryHours"></td>
+				<td widtd="8px" rowSpan={9} className="timetableDay">
 					<strong>B
 					<br/>R
 					<br/>E
 					<br/>A
 					<br/>K</strong>
 				</td>
-				<td class="TheoryHours">02:00 PM
+				<td className="timetableTheoryHours">02:00 PM
 					<br/>to
 					<br/>02:50 PM
 				</td>
-				<td class="TheoryHours">03:00 PM
+				<td className="timetableTheoryHours">03:00 PM
 					<br/>to
 					<br/>03:50 PM
 				</td>
-				<td class="TheoryHours">04:00 PM
+				<td className="timetableTheoryHours">04:00 PM
 					<br/>to
 					<br/>04:50 PM
 				</td>
-				<td class="TheoryHours">05:00 PM
+				<td className="timetableTheoryHours">05:00 PM
 					<br/>to
 					<br/>05:50 PM
 				</td>
-				<td class="TheoryHours">06:00 PM
+				<td className="timetableTheoryHours">06:00 PM
 					<br/>to
 					<br/>06:50 PM
 				</td>
-				<td class="TheoryHours">07:00 PM
+				<td className="timetableTheoryHours">07:00 PM
 					<br/>to
 					<br/>07:50 PM
 				</td>
@@ -72,55 +72,55 @@ class TimeTable extends Component {
 
 	renderHeader2 = () => {
 		return (
-			<tr>
-				<td class="ColumnOneDays">LAB
+			<tr className="timetableHeader2">
+				<td className="timetableDay">LAB
 					<br/>HOURS
 				</td>
-				<td class="LabHours">08:00 AM
+				<td className="timetableLabHours">08:00 AM
 					<br/>to
 					<br/>08:45 AM
 				</td>
-				<td class="LabHours">08:45 AM
+				<td className="timetableLabHours">08:45 AM
 					<br/>to
 					<br/>09:30 AM
 				</td>
-				<td class="LabHours">10:00 AM
+				<td className="timetableLabHours">10:00 AM
 					<br/>to
 					<br/>10:45 AM
 				</td>
-				<td class="LabHours">10:45 AM
+				<td className="timetableLabHours">10:45 AM
 					<br/>to
 					<br/>11:30 AM
 				</td>
-				<td class="LabHours">11:30 AM
+				<td className="timetableLabHours">11:30 AM
 					<br/>to
 					<br/>12:15 AM
 				</td>
-				<td class="LabHours">12:15 AM
+				<td className="timetableLabHours">12:15 AM
 					<br/>to
 					<br/>01:00 PM
 				</td>
-				<td class="LabHours">02:00 PM
+				<td className="timetableLabHours">02:00 PM
 					<br/>to
 					<br/>02:45 PM
 				</td>
-				<td class="LabHours">02:45 PM
+				<td className="timetableLabHours">02:45 PM
 					<br/>to
 					<br/>03:30 PM
 				</td>
-				<td class="LabHours">04:00 PM
+				<td className="timetableLabHours">04:00 PM
 					<br/>to
 					<br/>04:45 PM
 				</td>
-				<td class="LabHours">04:45 PM
+				<td className="timetableLabHours">04:45 PM
 					<br/>to
 					<br/>05:30 PM
 				</td>
-				<td class="LabHours">05:30 PM
+				<td className="timetableLabHours">05:30 PM
 					<br/>to
 					<br/>06:15 PM
 				</td>
-				<td class="LabHours">06:15 PM
+				<td className="timetableLabHours">06:15 PM
 					<br/>to
 					<br/>07:00 PM
 				</td>
@@ -129,7 +129,6 @@ class TimeTable extends Component {
 	}
 
 	renderRow = (row) => {
-		console.log('Rendering: ' + row);
 		var elems = row.map((c,i) => {
 			if(i === 0) return this.renderDays(c);
 
@@ -170,21 +169,21 @@ class TimeTable extends Component {
 	}
 
 	renderDays = (day) => {
-		return <td key={day}>{day}</td>
+		return <td key={day} className="timetableDay">{day}</td>
 	}
 
 	renderEmpty = (c, slotString) => {
 		var slots = c.split('/');
 		
-		return <td key={c}>{slotString}</td>
+		return <td key={c} className="timetableEmpty"><b>{slotString}</b></td>
 	}
 
 	renderFilledTheory = (c, slotString, reqdCourse) => {
 		var slots = c.split('/');
 		
 		return (
-			<td key={c}>
-				{slotString} <br />
+			<td key={c} className="timetableFilledTheory">
+				<b>{slotString}</b> <br />
 				{reqdCourse.code} <br />
 				{reqdCourse.venue} - {reqdCourse.course_type}
 			</td>
@@ -195,8 +194,8 @@ class TimeTable extends Component {
 		var slots = c.split('/');
 
 		return (
-			<td key={c}>
-				{slotString} <br />
+			<td key={c} className="timetableFilledLab">
+				<b>{slotString}</b> <br />
 				{reqdCourse.code} <br />
 				{reqdCourse.venue} - {reqdCourse.course_type}
 			</td>
@@ -219,9 +218,9 @@ class TimeTable extends Component {
 
 	render() {
 		return (
-			<Container>
-				<Table responsive>
-					<tbody>
+			<Container className="timetableContainer">
+				<Table className="timetable" responsive="sm">
+					<tbody className="timetableBody">
 						{this.renderHeader1()}
 						{this.renderHeader2()}
 						{this.renderBody()}

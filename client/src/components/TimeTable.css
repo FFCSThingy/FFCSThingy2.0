@@ -1,77 +1,49 @@
-.containerGrid {
-  display: grid;
-  grid-template-columns: 12fr 1fr 10fr;
-  text-align: center;
-  grid-column-gap: 2px;
-  width:100%;
+.timetableContainer {
+
 }
 
-.sectionGridMorning {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(7, minmax(80px, auto));
-  text-align: center;
-  overflow-x: scroll;
-  background-color: azure;
+.timetable {
+	
 }
 
-.sectionGridEvening {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(7, minmax(80px, auto));
-  text-align: center;
-  overflow-x: scroll;
-  background-color: azure;
+.timetableHeader1 {
+	background-color: var(--card-header-color);
 }
 
-.grayLabel {
-  background-color: rgb(192, 192, 192);
-  text-align: center;
-  padding-top: 25%;
-  font-weight: 600;
-  border: 1px solid black;
+.timetableHeader2 {
+	background-color: var(--card-header-color);
 }
 
-.purpleLabel {
-  background-color: rgb(203, 205, 251);
-  text-align: center;
-  padding: 10%;
-  font-weight: 600;
-  border: 1px solid black;
+.timetableDay {
+	background-color: lightgrey;
 }
 
-.blueLabel {
-  background-color: rgb(162, 204, 250);
-  text-align: center;
-  padding: 10%;
-  font-weight: 600;
-  border: 1px solid black;
+.timetableTheoryHours {
+
 }
 
-.theory {
-  grid-row: 1/2;
+.timetableLabHours {
+
 }
 
-.lab {
-  grid-row: 2/3;
+.timetableBody {
+	background-color: var(--card-background-color);
 }
 
-.mon {
-  grid-row: 3/4;
+.timetableBody td {
+	border: 1px solid black !important;
+	text-align: center;
 }
 
-.tue {
-  grid-row: 4/5;
+.timetableEmpty {
+
 }
 
-.wed {
-  grid-row: 5/6;
+.timetableFilledTheory {
+	background-color: lightpink;
 }
 
-.thu {
-  grid-row: 6/7;
-}
+.timetableFilledLab {
+	background-color: greenyellow;
 
-.fri {
-  grid-row: 7/8;
 }

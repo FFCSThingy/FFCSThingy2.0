@@ -17,7 +17,8 @@ class CourseTable extends React.Component {
 	});
 
 	render() {
-		var appendList = this.props.timetable.sort(this.sortTimetable).map(value => {
+		var timetable = this.props.timetable.filter(v => v.timetableName === this.props.activeTimetable)
+		var appendList = timetable.sort(this.sortTimetable).map(value => {
 			return (
 				<tr key={value._id}>
 					<td>{value.slot}</td>

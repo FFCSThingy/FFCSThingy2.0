@@ -35,8 +35,7 @@ class App extends React.Component {
 
 			timetable: [],
 			timetableNames: ['Default'],
-			creditCount: 0,
-
+			
 			selectedCourse: '',
 
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
@@ -587,6 +586,16 @@ class App extends React.Component {
 		)).sort();
 	}
 
+	getCreditCount() {
+		var count = this.state.timetable.reduce((a,v) => {
+			if (v.timetableName === this.state.activeTimetable)
+				return a + v.credits;
+		}, 0)
+
+		if(!count) return 0;
+		return count;
+	}
+
 	checkClash = (slot) => {
 		var filledSlots = this.getFilledSlots();
 		if (slot === 'NIL') return false;
@@ -638,8 +647,7 @@ class App extends React.Component {
 		}
 
 		this.setState(prevState => ({
-			timetable: [...prevState.timetable, course],
-			creditCount: prevState.creditCount + course.credits
+			timetable: [...prevState.timetable, course]
 		}));
 	}
 
@@ -658,7 +666,6 @@ class App extends React.Component {
 				course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable
 			)
 			),
-			creditCount: prevState.creditCount - course.credits,
 		}));
 	}
 
@@ -669,9 +676,25 @@ class App extends React.Component {
 	}
 
 	changeActiveTimetable = (timetableName) => {
-		this.setState({
-			activeTimetable: timetableName
-		})
+		var slots = this.state.timetable.reduce((a, v) => {
+			if (v.timetableName === timetableName && v.slot != 'NIL')
+				return [...a, ...v.slot.split('+')];
+			else return a;
+		}, [])
+
+		this.setState(prevState => {
+			let clashMap = { ...prevState.clashMap };
+			Object.keys(clashMap).map(v => {
+				if (slots.includes(v))
+					clashMap[v].isFilled = true;
+				else
+					clashMap[v].isFilled = false;
+			})
+			return { clashMap: clashMap, activeTimetable: timetableName };
+		});
+		// this.setState({
+		// 	activeTimetable: timetableName
+		// }, () => this.regenerateClashMap(timetableName))
 	}
 
 	modifyTimetableNames = (newList) => {
@@ -713,7 +736,7 @@ class App extends React.Component {
 				<Row className='navBarRow'>
 					<CustomNavbar
 						user={this.state.user}
-						creditCount={this.state.creditCount}
+						creditCount={this.getCreditCount()}
 						themes={this.state.themes}
 						curriculumList={this.state.curriculumList}
 						selectedCurriculum={this.state.selectedCurriculum}
@@ -768,14 +791,16 @@ class App extends React.Component {
 						clashMap={this.state.clashMap}
 						filledSlots={this.getFilledSlots()}
 						timetable={this.state.timetable}
+						activeTimetable={this.state.activeTimetable}
 					/>
 				</Row>
 
 				<Row>
 					<CourseTable
 						timetable={this.state.timetable}
-						creditCount={this.state.creditCount}
 						unselectSlot={this.unselectSlots}
+						activeTimetable={this.state.activeTimetable}
+						creditCount={this.getCreditCount()}
 					/>
 				</Row>
 			</Container>

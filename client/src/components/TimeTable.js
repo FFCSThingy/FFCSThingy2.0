@@ -134,7 +134,7 @@ class TimeTable extends Component {
 			if(i === 0) return this.renderDays(c);
 
 			var slots = c.split('/');
-			var slotString;
+			var slotString, reqdCourse;
 
 			if (slots[0] === '') slotString = slots[1];
 			else if (slots[1] === '') slotString = slots[0];
@@ -143,10 +143,23 @@ class TimeTable extends Component {
 
 			if (!this.props.filledSlots.includes(slots[0]) && !this.props.filledSlots.includes(slots[1]))
 				return this.renderEmpty(c, slotString);
-			else if (this.props.filledSlots.includes(slots[0]))
-				return this.renderFilledTheory(c, slotString, slots[0]);
-			else if (this.props.filledSlots.includes(slots[1]))
-				return this.renderFilledLab(c, slotString, slots[1]);		
+			else if (this.props.filledSlots.includes(slots[0])) {
+				
+				reqdCourse = this.props.timetable.find(e => (
+					e.slot.split('+').includes(slots[0]) && 
+					e.timetableName === this.props.activeTimetable
+				));
+				
+				return this.renderFilledTheory(c, slotString, reqdCourse);
+			}
+			else if (this.props.filledSlots.includes(slots[1])) {
+				reqdCourse = this.props.timetable.find(e => (
+					e.slot.split('+').includes(slots[1]) &&
+					e.timetableName === this.props.activeTimetable
+				));
+
+				return this.renderFilledLab(c, slotString, reqdCourse);		
+			}
 		})
 		
 		return(
@@ -166,9 +179,8 @@ class TimeTable extends Component {
 		return <td key={c}>{slotString}</td>
 	}
 
-	renderFilledTheory = (c, slotString, searchString) => {
+	renderFilledTheory = (c, slotString, reqdCourse) => {
 		var slots = c.split('/');
-		var reqdCourse = this.props.timetable.find(e => e.slot.split('+').includes(searchString));
 		
 		return (
 			<td key={c}>
@@ -179,9 +191,8 @@ class TimeTable extends Component {
 		)
 	}
 
-	renderFilledLab = (c, slotString, searchString) => {
+	renderFilledLab = (c, slotString, reqdCourse) => {
 		var slots = c.split('/');
-		var reqdCourse = this.props.timetable.find(e => e.slot.split('+').includes(searchString));
 
 		return (
 			<td key={c}>

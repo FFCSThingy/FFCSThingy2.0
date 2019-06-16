@@ -96,6 +96,11 @@
     text-align: center;
 }
 
+.loginButtonContainer .btn-primary {
+    background-color: white;
+    color: #737373;
+}
+
 .footerTextContainer {
     text-align: center;
     color: white;

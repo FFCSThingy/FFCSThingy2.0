@@ -10,15 +10,15 @@
 }
 
 .timetableHeader1 {
-	background-color: var(--card-header-color);
+	background-color: var(--brand-color);
 }
 
 .timetableHeader2 {
-	background-color: var(--card-header-color);
+	background-color: var(--brand-color);
 }
 
 .timetableDay {
-	background-color: lightgrey;
+	background-color: var(--timetable-col1-color);
 }
 
 .timetableTheoryHours {
@@ -30,7 +30,7 @@
 }
 
 .timetableBody {
-	background-color: var(--card-background-color);
+	background-color: var(--select-table-background-color);
 }
 
 .timetableBody td {
@@ -50,11 +50,11 @@
 }
 
 .timetableFilledTheory {
-	background-color: lightpink;
+	background-color: var(--timetable-theory-color);
 }
 
 .timetableFilledLab {
-	background-color: greenyellow;
+	background-color: var(--timetable-lab-color);
 
 }
 

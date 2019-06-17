@@ -5,24 +5,24 @@
 .navBar {
     width: 100%;
     /* height: 5em; */
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     padding-left: 2em;
-    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
 }
 
 .navLink {
-    color:var(--text-color) !important;
+    color:var(--text-color-default) !important;
     padding-top: 0.8rem;
 	/* margin-bottom: 2rem !important; */
 }
 
 .navDrop {
-    color:var(--text-color) !important;
-    background-color: var(--card-header-color);
+    color:var(--text-color-default) !important;
+    background-color: var(--brand-color);
     border: none !important;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
@@ -30,17 +30,17 @@
 }
 
 .navDrop:hover {
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
 }
 
 .navDrop:active{
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     border: none !important;
     box-shadow: none !important;
 }
 
 .navDrop:focus{
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     border: none !important;
     box-shadow: none !important;
 }
@@ -76,7 +76,7 @@
 }
 
 .navDropContainerCurriculum > a, .navDropContainerTheme > a {
-    color: var(--text-color) !important;
+    color: var(--text-color-default) !important;
 }
 
 .linksContainer {
@@ -118,30 +118,30 @@
 
 .navDropContainerUser .dropdown-item {
     padding: 0 0.25rem !important;
-    color: var(--text-color-grey) !important;
+    color: var(--text-color-other) !important;
 }
 
 .navDropContainerCurriculum .dropdown-item, .navDropContainerTheme .dropdown-item {
     padding: 0 1rem 0 1rem !important;
-    background-color: white;
-    color: var(--text-color-black);
+    background-color: var(--card-background-color);
+    color: var(--text-color-inverted);
 }
 
 .navDropContainerUser .dropdown-item:first-child {
     padding: 0 0.25rem !important;
-    color: var(--text-color-black) !important;
+    color: var(--text-color-inverted) !important;
 }
 
 .navDropContainerUser .dropdown-item:hover, .navDropContainerCurriculum .dropdown-item:hover, .navDropContainerTheme .dropdown-item:hover {
-    background-color: var(--white) !important;
-    color: var(--text-color-grey) !important;
+    background-color: var(--card-background-color) !important;
+    color: var(--text-color-other) !important;
 }
 
 .userProfileImage {
     border-radius: 50% 50% 50% 50%;
     width: 35px;
     height: 35px;
-    border: 1px solid var(--white);
+    border: 1px solid var(--text-color-default);
 }
 
 .navDropContainerUser {
@@ -149,5 +149,5 @@
 }
 
 .navDropContainerUser .dropdown-toggle::after {
-    color: var(--text-color);
+    color: var(--text-color-default);
 }

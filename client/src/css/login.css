@@ -25,7 +25,7 @@
 }
 
 .loginCard .card {
-    background-color: var(--card-background-color);
+    background-color: var(--select-table-background-color);
 }
 
 .loginCard .card-columns {
@@ -34,21 +34,20 @@
 
 .logoContainer {
     padding: 2rem 11rem;
-    color: white;
+    color: var(--card-background-color);
 }
 
 .titleHead {
     text-align: center !important;
     font-size: 2em;
     font-weight: bold;
-    color: var(--card-header-color);
+    color: var(--brand-color);
     padding-bottom: 3rem;
 }
 
 .cardTwo > .card-body {
     padding: 9rem 1.25rem;
-    border-left: 1px solid hsl(210, 16%, 90%);
-    
+    border-left: 1px solid #e1e5e9;
 }
 
 .loginCard .card-columns .card {
@@ -59,11 +58,11 @@
     padding: 1rem;
     margin-bottom: 2rem !important;
     font-size: 1.2em;
-    color: hsl(0, 0%, 50%);
+    color: #7f7f7f;
     background-color: white;
-    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
     font-weight: bold;
     text-align: center;
     border-radius: 0.7rem;
@@ -94,14 +93,14 @@
 
 .footerTextContainer {
     text-align: center;
-    color: white;
+    color: var(--text-color-default);
     font-weight: 100;
     display: block;
     margin-top: 4rem;
 }
 
 .features {
-    width:100px;
+    width:30vw;
 }
 
 /* Google Button */

@@ -26,8 +26,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 #filterButton-1{
     /* margin:0.5%; */
-    background:var(--white);
-    color: var(--text-color-black);
+    background:var(--card-background-color);
+    color: var(--text-color-inverted);
     border:1px blue solid;
 }
 #filterButton-1:hover{
@@ -35,9 +35,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 #filterButton-2{
     /* margin:0.5%; */
-    background:hsl(160, 75%, 55%);
-    color:var(--text-color);
-    border:1px blue solid;
+    background:var(--button-highlight-color);
+    color:var(--text-color-default);
+    border:1px var(--dropdown-border-color) solid;
 }
 .magicButtons{
     margin:0.5%;

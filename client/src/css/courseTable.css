@@ -6,7 +6,7 @@
 
 .selectedCourseTable {
 	text-align: center;
-	background-color: var(--slot-course-card-color);
+	background-color: var(--select-table-background-color);
 	font-family: 'Montserrat', sans-serif;
 	
 	/* border: none !important; */
@@ -19,7 +19,7 @@
 }
 
 .selectedCourseHead {
-	background-color: var(--card-header-color);
+	background-color: var(--brand-color);
 	border-radius: .7rem;
 	border: none !important;
 }
@@ -31,7 +31,7 @@
 
 .selectedCourseBody {
 	border: none !important;
-	background-color: var(--card-background-color);
+	background-color: var(--select-table-background-color);
 }
 
 .creditsRow {

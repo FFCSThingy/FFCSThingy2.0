@@ -22,7 +22,7 @@ class Login extends React.Component {
 					
 					<Card>
 						<Card.Body>
-						<featuresImage className="features"></featuresImage>
+						<img className="features" src={featuresImage} />
 						{/* <Card.Text className="featureList">
 							Plan and create your timetable, ahead of FFCS. 
 						</Card.Text>

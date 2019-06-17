@@ -59,7 +59,9 @@
 }
 
 
-.dropdown .dropdown-menu {
+
+
+/* .dropdown .dropdown-menu {
     -webkit-transition: all 0.17s ease-in-out;
     -moz-transition: all 0.17s ease-in-out;
     -ms-transition: all 0.17s ease-in-out;
@@ -73,7 +75,7 @@
 
 .dropdown.show .dropdown-menu {
     opacity: 1;
-}
+} */
 
 .mr-auto {
     margin-right: 0 !important;

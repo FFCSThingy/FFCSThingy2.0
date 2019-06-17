@@ -36,7 +36,7 @@ class CustomNavbar extends React.Component {
 					{/* <img className="logo" alt="FFCSThingy" src={navbarImage}></img> */}
 					FFCSThingy
 				</NavbarBrand>
-				
+
 				<NavDropdown 
 					title={this.props.selectedCurriculum} 
 					className="navDropContainerCurriculum"

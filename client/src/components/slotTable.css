@@ -4,7 +4,7 @@
 .toggleCustom {
 	background: var(--card-background-color) !important;
 	border: none !important;
-	color: black !important;
+	color: var(--text-color-black) !important;
 	transition: margin 0.17s ease-in-out;
 	transition: padding 0.17s ease-in-out;
 	transition: background-color 0.17s ease-in;
@@ -23,7 +23,7 @@
 .toggleCustom.active {
 	border: none !important;
 	background-color: var(--filter-button-color) !important;
-	color: var(--white) !important;
+	color: var(--text-color) !important;
 	transition: background-color 0.17s ease-in;
 }
 
@@ -88,7 +88,7 @@
 	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
 	box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
 	cursor: pointer;
-	background-color: var(--white);
+	background-color: var(--slot-course-card-color);
 	transition: box-shadow 0.17s ease-in-out;
 	transition: background-color 0.1s ease-in-out;
 }
@@ -113,7 +113,7 @@
 	-moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
 	box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
 	cursor: pointer;
-	background-color: var(--white);
+	background-color: var(--slot-course-card-color);
 	transition: box-shadow 0.17s ease-in-out;
 	transition: background-color 0.1s ease-in-out;
 }

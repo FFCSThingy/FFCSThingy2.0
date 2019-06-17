@@ -44,7 +44,7 @@ TODO------
 .cardOneHeader {
 	border-radius: .7rem .7rem 0 0 !important;
     background-color: var(--card-header-color);
-    color: var(--white);
+    color: var(--text-color);
     padding: 1.25rem 1rem 0 1rem !important;
 }
 
@@ -115,13 +115,13 @@ TODO------
 .searchBarContainer {
     padding: 0 !important;
 }
-
+/* 
 .curriculumDropdown {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--card-header-color) !important;
     border-radius: 0.25rem !important;
     border: 1px solid var(--white);
-    color: var(--white);
+    color: var(--text-color);
     padding: 0.05rem 0.1rem;
     height: 1.6em;
     width: 85%;
@@ -129,7 +129,7 @@ TODO------
 }
 
 .curriculumDropdown:focus {
-    color: var(--white) !important;
+    color: var(--text-color) !important;
     box-shadow: none !important;
 }
 
@@ -150,8 +150,8 @@ TODO------
 }
 
 .curriculumDropdown > .dropdown-menu {
-    /* padding: 0 !important;
-    min-width: 102% !important; */
+    padding: 0 !important;
+    min-width: 102% !important;
     border: 1px solid var(--border-color);
     border-radius: 0.25rem !important;
     margin-left: -0.2rem !important;
@@ -159,19 +159,19 @@ TODO------
 
 .curriculumDropdown > .dropdown-menu > .dropdown-item {
     padding: 0.1rem 0.5rem !important;
-    background-color: var(--white) !important;
+    background-color: var(--slot-course-card-color) !important;
     border-radius: 0.25rem !important;
     color: #7f7f7f !important;
 }
 
 .curriculumDropdown > .dropdown-menu > .dropdown-item:hover {
-    color: black !important;
-}
+    color:  !important;
+} */
 
 
 .searchBar {
     background-color: var(--card-header-color) !important;
-    color: var(--white) !important;
+    color: var(--text-color) !important;
     font-family: 'Montserrat', sans-serif;
     border: none;
     box-shadow: none !important;
@@ -186,7 +186,7 @@ TODO------
 
 
 ::placeholder {
-    color: var(--white) !important;
+    color: var(--text-color) !important;
     opacity:1;
     transition: opacity 0.17s ease;
     text-transform: capitalize;
@@ -210,7 +210,7 @@ TODO------
     margin-right: 0.5rem !important;
     border: none !important;
     background-color: var(--card-background-color) ;
-    color:var(--white);
+    color:var(--text-color);
     transition: color 0.17s ease-in;
 }
 
@@ -221,13 +221,13 @@ TODO------
 
 .filterButton.active {
     background-color: var(--card-background-color) !important;
-    color: black !important;
+    color: var(--text-color-black) !important;
 	transition: background-color 0.17s ease-in;
 }
 
 .filterButton.focus {
     background-color: var(--card-background-color)  !important;
-    color: black !important;
+    color: var(--text-color-black) !important;
     transition: background-color 0.17s ease-in;
 }
 

@@ -10,6 +10,10 @@
   --drop-shadow1: #00000033;
   --drop-shadow2: #00000059;
   --white: white;
+  --slot-course-card-color: white;
+  --text-color: white;
+  --text-color-black: black;
+  --text-color-grey: hsl(0, 0%, 40%);
 }
 
 

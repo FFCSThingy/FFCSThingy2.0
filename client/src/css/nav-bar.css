@@ -15,13 +15,13 @@
 }
 
 .navLink {
-    color:var(--white) !important;
+    color:var(--text-color) !important;
     padding-top: 0.8rem;
 	/* margin-bottom: 2rem !important; */
 }
 
 .navDrop {
-    color:var(--white) !important;
+    color:var(--text-color) !important;
     background-color: var(--card-header-color);
     border: none !important;
     font-weight: bold;
@@ -76,7 +76,7 @@
 }
 
 .navDropContainerCurriculum > a, .navDropContainerTheme > a {
-    color: var(--white) !important;
+    color: var(--text-color) !important;
 }
 
 .linksContainer {
@@ -118,23 +118,23 @@
 
 .navDropContainerUser .dropdown-item {
     padding: 0 0.25rem !important;
-    color: #7f7f7f !important;
+    color: var(--text-color-grey) !important;
 }
 
 .navDropContainerCurriculum .dropdown-item, .navDropContainerTheme .dropdown-item {
     padding: 0 1rem 0 1rem !important;
     background-color: white;
-    color: black;
+    color: var(--text-color-black);
 }
 
 .navDropContainerUser .dropdown-item:first-child {
     padding: 0 0.25rem !important;
-    color: black !important;
+    color: var(--text-color-black) !important;
 }
 
 .navDropContainerUser .dropdown-item:hover, .navDropContainerCurriculum .dropdown-item:hover, .navDropContainerTheme .dropdown-item:hover {
     background-color: var(--white) !important;
-    color: hsl(0, 0%, 40%) !important;
+    color: var(--text-color-grey) !important;
 }
 
 .userProfileImage {
@@ -149,5 +149,5 @@
 }
 
 .navDropContainerUser .dropdown-toggle::after {
-    color: var(--white);
+    color: var(--text-color);
 }

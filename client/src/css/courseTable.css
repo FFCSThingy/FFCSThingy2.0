@@ -6,7 +6,7 @@
 
 .selectedCourseTable {
 	text-align: center;
-	background-color: var(--white);
+	background-color: var(--slot-course-card-color);
 	font-family: 'Montserrat', sans-serif;
 	
 	/* border: none !important; */

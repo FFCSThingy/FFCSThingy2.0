@@ -1,14 +1,7 @@
 .selectedCourseContainer {
-	width: 100%;
-	overflow-x: auto;
-
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .selectedCourseContainer.container {
-	margin-left: auto;
-	margin-right: auto;
 }
 
 .selectedCourseTable {
@@ -18,9 +11,11 @@
 	
 	/* border: none !important; */
 	border-radius: .7rem !important;
-	margin: 2vh auto !important;
+	margin: 2vh 0 !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
 	width: 100%;
-
+	overflow-x: auto;
 }
 
 .selectedCourseHead {

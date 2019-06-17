@@ -37,7 +37,7 @@ class CourseTable extends React.Component {
 		
 		return (
 			<Container className="selectedCourseContainer">
-				<Table className="selectedCourseTable" responsive>
+				<table className="selectedCourseTable">
 					<thead className="selectedCourseHead">
 						<tr>
 							<th>Slot</th>
@@ -57,7 +57,7 @@ class CourseTable extends React.Component {
 							</td>
 						</tr>
 					</tbody>
-				</Table>
+				</table>
 			</Container>
 
 		)

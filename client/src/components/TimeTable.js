@@ -218,14 +218,14 @@ class TimeTable extends Component {
 
 	render() {
 		return (
-			<Container className="timetableContainer">
-				<Table className="timetable" responsive="sm">
+			<Container className="timetableContainer" fluid='true'>
+				<table className="timetable">
 					<tbody className="timetableBody">
 						{this.renderHeader1()}
 						{this.renderHeader2()}
 						{this.renderBody()}
 					</tbody>
-				</Table>
+				</table>
 			</Container>
 		);
 	}

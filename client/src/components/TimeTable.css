@@ -1,9 +1,12 @@
 .timetableContainer {
-
+	width: 100%;
+	overflow-x: auto;
 }
 
 .timetable {
-	
+	width: 100%;
+	/* border-radius: 0.7rem; */
+	/* border: none !important; */
 }
 
 .timetableHeader1 {
@@ -31,8 +34,15 @@
 }
 
 .timetableBody td {
-	border: 1px solid black !important;
+	/* border: 1px solid black !important; */
 	text-align: center;
+	padding: 5px;
+}
+
+.timetableBody tr {
+	border: none !important;
+	/* text-align: center; */
+	/* padding: 5px; */
 }
 
 .timetableEmpty {
@@ -46,4 +56,20 @@
 .timetableFilledLab {
 	background-color: greenyellow;
 
+}
+
+table tr:last-child td:first-child {
+	border-bottom-left-radius: 0.7rem;
+}
+
+table tr:last-child td:last-child {
+	border-bottom-right-radius: 0.7rem;
+}
+
+table tr:first-child td:first-child {
+	border-top-left-radius: 0.7rem;
+}
+
+table tr:first-child td:last-child {
+	border-top-right-radius: 0.7rem;
 }

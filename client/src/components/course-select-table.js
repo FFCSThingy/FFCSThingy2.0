@@ -18,6 +18,10 @@ class CourseSelect extends React.Component {
 	}
 
 	componentWillMount() {
+		this.doGetCourseList();
+	}
+
+	doGetCourseList = () => {
 		axios.get("/course/getCourseList")
 			.then(res => {
 				if (res.data.success) {

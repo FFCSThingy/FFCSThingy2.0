@@ -2,6 +2,7 @@
 // 'CourseTable' is the final bottom table for regisered courses
 
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -500,12 +501,19 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.updateTheme();
+		this.doGetAccount();
+		this.doGetFullHeatmap();
+		this.doGetPrefixes();
+		this.doCurriculumFetch('17BCE');
+	}
+
+	doGetAccount = () => {
 		axios.get("/account")
 			.then(res => {
 				if (res.data) {
 					if (res.status === 304);
 					// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
-					else if (res.status === 301) { } // Do Logout
+					else if (res.status === 301) { this.doLogout() } // Do Logout
 					else {
 						this.setState({ user: res.data });
 					}
@@ -515,7 +523,9 @@ class App extends React.Component {
 				console.log(err);
 				this.setState({ error: err })
 			});
+	}
 
+	doGetFullHeatmap = () => {
 		axios.get("/course/getFullHeatmap")
 			.then(res => {
 				if (res.data.success) {
@@ -532,7 +542,9 @@ class App extends React.Component {
 				console.log(err);
 				this.setState({ error: err })
 			});
+	}
 
+	doGetPrefixes = () => {
 		axios.get("/curriculum/getPrefixes")
 			.then(res => {
 				if (res.data.success) {
@@ -540,15 +552,22 @@ class App extends React.Component {
 				} else
 					this.setState({ error: res.data.message })
 			});
+	}
 
-		axios.get("/curriculum/getCurriculumFromPrefix/17BCE")
+	doCurriculumFetch = (prefix) => {
+		axios.get("/curriculum/getCurriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
-					this.setState({ curriculum: res.data.data });
-					localStorage.setItem('17BCE', JSON.stringify(res.data.data));
+					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
+					localStorage.setItem(prefix, JSON.stringify(res.data.data));
 				} else
 					this.setState({ error: res.data.message })
-			});	
+			});
+	}
+
+	doLogout = () => {
+		axios.get('/logout');
+		// return <Redirect to='/' />
 	}
 
 	filterCourse = () => {
@@ -718,18 +737,6 @@ class App extends React.Component {
 		this.setState({ selectedCurriculum: val });
 	}
 
-	doCurriculumFetch(prefix) {
-		console.log('Changed to: ' + prefix)
-		axios.get("/curriculum/getCurriculumFromPrefix/" + prefix)
-			.then(res => {
-				if (res.data.success) {
-					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
-					localStorage.setItem(prefix, JSON.stringify(res.data.data));
-				} else
-					this.setState({ error: res.data.message })
-			});
-	}
-
 	render() {
 		return (
 			<Container fluid={true}>
@@ -743,6 +750,7 @@ class App extends React.Component {
 						
 						handleCurriculumChange={this.handleCurriculumChange}
 						changeActiveTheme={this.changeActiveTheme}
+						doLogout={this.doLogout}
 					/>
 				</Row>
 

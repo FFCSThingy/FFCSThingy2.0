@@ -69,8 +69,9 @@ class CustomNavbar extends React.Component {
 						</NavDropdown>
 						
 						<NavDropdown 
+							alignRight
 							title={<img className="userProfileImage" 
-								src={this.props.user.picture} />} 
+							src={this.props.user.picture} />} 
 							className="navDropContainerUser"
 						>
 							<NavDropdown.Item disabled>

@@ -59,6 +59,22 @@
 }
 
 
+.dropdown .dropdown-menu {
+    -webkit-transition: all 0.17s ease-in-out;
+    -moz-transition: all 0.17s ease-in-out;
+    -ms-transition: all 0.17s ease-in-out;
+    -o-transition: all 0.17s ease-in-out;
+    transition: all 0.17s ease-in-out;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0.4rem !important;
+}
+
+.dropdown.show .dropdown-menu {
+    opacity: 1;
+}
+
 .mr-auto {
     margin-right: 0 !important;
 }
@@ -86,7 +102,8 @@
 .navDropContainerUser .dropdown-menu {
     padding: .25rem 1rem .25rem 0.25rem !important;
     min-width: 5rem !important;
-    margin-left: -5.25rem;
+    /* margin-left: -5.25rem; */
+    position: absolute;
 }
 
 .navDropContainerCurriculum .dropdown-menu {
@@ -96,6 +113,7 @@
 
 .navDropContainerTheme .dropdown-menu {
     margin-left: -5.25rem;
+    position: absolute;
 }
 
 .navDropContainerCurriculum .dropdown-item:last-child > .dropdown-divider{

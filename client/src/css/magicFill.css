@@ -25,7 +25,7 @@ input[type=number]::-webkit-outer-spin-button {
     margin-top:0;
 }
 #filterButton-1{
-    margin:0.5%;
+    /* margin:0.5%; */
     background:var(--white);
     color:black;
     border:1px blue solid;
@@ -34,15 +34,18 @@ input[type=number]::-webkit-outer-spin-button {
     background:#eee;
 }
 #filterButton-2{
-    margin:0.5%;
+    /* margin:0.5%; */
     background:hsl(160, 75%, 55%);
     color:var(--white);
     border:1px blue solid;
+}
+.magicButtons{
+    margin:0.5%;
 }
 #submitButton{
     margin-top:2%;
     margin-bottom:2%;
 }
-.container{
-    margin-left:0px;
+#magicContainer{
+margin-left:0;
 }

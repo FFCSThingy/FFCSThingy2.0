@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../css/magicFill.css";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-import { Container, Row, Col, Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Navbar, Nav, NavDropdown, Form, FormControl, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 
 class Generator extends Component{
     handleClick=(e)=>{
@@ -77,8 +77,10 @@ class Generator extends Component{
     }
 
     render(){
+        var style1={"border-left":"none"};
+        var style2={"border-right":"none"};
         return(
-                <Container>
+                <Container id="magicContainer">
                     
                 <Button variant="primary" onClick={this.handleClick} id="magic" >Magic Fill</Button>
                     <div className="hide" id="magicData">
@@ -87,14 +89,22 @@ class Generator extends Component{
                     <input class="form-control" id="creditsEnter" type="number"/>
                     </Form.Group>
                         <h5>What are your top priorities?</h5><hr></hr>
-                        <Button variant="primary" onClick={this.handleTime} id="filterButton-1" >Morning Slots</Button>
-                        <Button variant="primary" onClick={this.handleTime} id="filterButton-1" >Evening Slots</Button>
-                        <Button variant="primary" onClick={this.handleDay} id="filterButton-1" >Less Classes on Friday</Button>
-                        <Button variant="primary" onClick={this.handleDay} id="filterButton-1" >Less Classes on Monday</Button>
-                        <Button variant="primary" onClick={this.handleCourseType} id="filterButton-1" >Less Lab Courses</Button>
-                        <Button variant="primary" onClick={this.handleCourseType} id="filterButton-1" >Less Project Courses</Button>
-                        <Button variant="primary" onClick={this.handleGaps} id="filterButton-1" >Prefer Gaps in Timetable</Button>
-                        <Button variant="primary" onClick={this.handleGaps} id="filterButton-1" >Less Gaps</Button> 
+                        <ButtonGroup aria-label="first" className="magicButtons">
+                        <Button variant="primary" onClick={this.handleTime} id="filterButton-1" style={style2}>Morning Slots</Button>
+                        <Button variant="primary" onClick={this.handleTime} id="filterButton-1" style={style1}>Evening Slots</Button>
+                        </ButtonGroup>
+                        <ButtonGroup aria-label="first" className="magicButtons">
+                        <Button variant="primary" onClick={this.handleDay} id="filterButton-1" style={style2}>Less Classes on Friday</Button>
+                        <Button variant="primary" onClick={this.handleDay} id="filterButton-1" style={style1}>Less Classes on Monday</Button>
+                        </ButtonGroup>
+                        <ButtonGroup aria-label="first" className="magicButtons">
+                        <Button variant="primary" onClick={this.handleCourseType} id="filterButton-1" style={style2}>Less Lab Courses</Button>
+                        <Button variant="primary" onClick={this.handleCourseType} id="filterButton-1" style={style1}>Less Project Courses</Button>
+                        </ButtonGroup>
+                        <ButtonGroup aria-label="first" className="magicButtons">
+                        <Button variant="primary" onClick={this.handleGaps} id="filterButton-1" style={style2}>Prefer Gaps in Timetable</Button>
+                        <Button variant="primary" onClick={this.handleGaps} id="filterButton-1" style={style1}>Less Gaps</Button> 
+                        </ButtonGroup>
                         <br></br>
                         <Button variant="primary" id="submitButton">Find your Timetable</Button>
                     </div>

@@ -34,17 +34,19 @@ class App extends React.Component {
 
 			user: {},
 
-			timetable: [],
+			timetable: JSON.parse(localStorage.getItem('timetable')) || [],
 			timetableNames: ['Default'],
 			
+			courseList: JSON.parse(localStorage.getItem('courseList')) || [],
+			timestamp: localStorage.getItem('courseListTimestamp') || null,
 			selectedCourse: '',
 
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
 
-			curriculumList: [],
-			curriculum: {},
-			selectedCurriculum: '',
+			curriculumList: ['17BCE'],
+			curriculum: JSON.parse(localStorage.getItem('17BCE')) || {},
+			selectedCurriculum: '17BCE',
 
 			activeTheme: 'default',
 			themes: {
@@ -565,6 +567,24 @@ class App extends React.Component {
 			});
 	}
 
+	doGetCourseList = () => {
+		axios.get("/course/getCourseList")
+			.then(res => {
+				if (res.data.success) {
+					if (res.status === 304) {
+						var courses = JSON.parse(localStorage.getItem('courseList'));
+						this.setState({ courseList: courses });
+					} else {
+						this.setState({ courseList: res.data.data.courseList });
+						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
+						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
+					}
+
+				} else
+					this.setState({ error: res.data.message })
+			});
+	}
+
 	doLogout = () => {
 		axios.get('/logout');
 		// return <Redirect to='/' />
@@ -758,6 +778,8 @@ class App extends React.Component {
 					<Col xs={12} md={4}>
 						<CourseSelect
 							selectCourse={this.selectCourse}
+
+							courseList={this.state.courseList}
 							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}
 							curriculum={this.state.curriculum}

@@ -163,17 +163,20 @@ function updateCourse(query, update) {
 async function doHeatmapUpdate(doc, counts) {
 	return await Promise.all(doc.map(async c => {
 		var total = counts.find((e) => e._id.code === c.code && e._id.course_type === c.course_type);
+		
 		if (total) {
-			c.count = await userUtility.aggregateSpecificCourseCount(c).count;
-			c.percentage = c.count / total.count * 100;
-			c.timestamp = new Date();
+			var countData = (await userUtility.aggregateSpecificCourseCount(c))[0];
+			if(countData) {
+				c.count = countData.count;
+				c.percent = await c.count / total.count * 100;
+				c.timestamp = new Date();
+			}
+			c.total = total.count;
 		}
 		else {
 			return Promise.resolve(c);
 		}
-
-		console.log(c.count);
-		console.log(total);
+		// console.log(total);
 
 		var query = {
 			code: c.code,
@@ -195,6 +198,7 @@ module.exports.updateHeatmap = () => {
 
 				var initTime = Date.now();
 				var counts = await userUtility.aggregateCounts();
+				// console.log(counts);
 				var updates = await doHeatmapUpdate(doc, counts);
 				// console.log(updates);
 				var timestamp = await systemUtility.updateHeatmapUpdateTime();

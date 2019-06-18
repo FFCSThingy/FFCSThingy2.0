@@ -39,26 +39,29 @@ module.exports.aggregateSpecificCourseCount = (course) => {
 			{ $unwind: '$selected_courses' },
 			{ 
 				$match: {
-					code: course.code,
-					course_type: course.course_type,
-					faculty: course.faculty,
-					venue: course.venue
+					'selected_courses.code': course.code,
+					'selected_courses.course_type': course.course_type,
+					'selected_courses.faculty': course.faculty,
+					'selected_courses.venue': course.venue,
+					'selected_courses.slot': course.slot
 				} 
 			},
 			{
 				$group: {
 					_id: {
-						code: '$code',
-						course_type: '$course_type',
-						faculty: '$faculty',
-						venue: '$venue',
-						slot: '$slot'
+						code: '$selected_courses.code',
+						course_type: '$selected_courses.course_type',
+						faculty: '$selected_courses.faculty',
+						venue: '$selected_courses.venue',
+						slot: '$selected_courses.slot'
 					},
 					count: { $sum: 1 }
 				}
 			}
 		], function(err, doc) {
+			// console.log()
 			if (err) return reject(err);
+			// console.log("SpecificAggDoc: " + JSON.stringify(doc))
 			return resolve(doc);
 		});
 	});
@@ -77,8 +80,8 @@ module.exports.aggregateCourseCount = (course) => {
 			{
 				$group: {
 					_id: {
-						code: '$code',
-						course_type: '$course_type',
+						code: '$selected_courses.code',
+						course_type: '$selected_courses.course_type',
 					},
 					count: { $sum: 1 }
 				}
@@ -97,8 +100,8 @@ module.exports.aggregateCounts = () => {
 			{
 				$group: {
 					_id: {
-						code: '$code',
-						course_type: '$course_type',
+						code: '$selected_courses.code',
+						course_type: '$selected_courses.course_type',
 					},
 					count: { $sum: 1 }
 				}

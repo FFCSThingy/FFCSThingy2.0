@@ -31,7 +31,8 @@ class App extends React.Component {
 
 			user: {},
 
-			timetable: JSON.parse(localStorage.getItem('timetable')) || [],
+			timetable: [],
+			timetableTimestamp: localStorage.getItem('timetableTimestamp') || null,
 			timetableNames: ['Default'],
 			
 			courseList: JSON.parse(localStorage.getItem('courseList')) || [],
@@ -515,9 +516,12 @@ class App extends React.Component {
 	componentDidMount() {
 		this.updateTheme();
 		this.doGetAccount();
+		this.doGetSelectedCourses();
+		this.doGetCourseList();
 		this.doGetFullHeatmap();
 		this.doGetPrefixes();
 		this.doCurriculumFetch('17BCE');
+		this.changeActiveTimetable();
 	}
 
 	doGetAccount = () => {
@@ -530,6 +534,27 @@ class App extends React.Component {
 					else {
 						this.setState({ user: res.data });
 					}
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				console.log(err);
+				this.setState({ error: err })
+			});
+	}
+
+	doGetSelectedCourses = () => {
+		axios.get('/user/getSelectedCourses')
+			.then(res => {
+				if (res.data.success) {
+					if (res.status === 304) {
+						this.setState({ timetable: JSON.parse(localStorage.getItem('timetable')) })
+					}
+					else {
+						this.setState({ timetable: res.data.data });
+						localStorage.setItem('timetable', JSON.stringify(res.data.data));
+						// localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
+					}
+					this.changeActiveTimetable();
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
@@ -590,7 +615,6 @@ class App extends React.Component {
 						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
 						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
 					}
-
 				} else
 					this.setState({ error: res.data.message })
 			});
@@ -599,6 +623,13 @@ class App extends React.Component {
 	doLogout = () => {
 		axios.get('/logout').then(res => {
 			this.props.history.push('/');
+		});
+	}
+
+	doSetSelectedCourses = (timetable) => {
+		axios.post('/user/updateSelectedCoursesBulk', {selected_courses: timetable}).then(res => {
+			console.log(res.status);
+			console.log(res.data);
 		});
 	}
 
@@ -640,7 +671,7 @@ class App extends React.Component {
 	getCreditCount() {
 		var count = this.state.timetable.reduce((a,v) => {
 			if (v.timetableName === this.state.activeTimetable)
-				return a + v.credits;
+				return a + Number(v.credits);
 			return a;	
 		}, 0)
 
@@ -661,6 +692,7 @@ class App extends React.Component {
 	}
 
 	checkSelected = (course) => {
+		// console.log(course);
 		return this.state.timetable.reduce((a, v) => a || (course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === this.state.activeTimetable), false)
 	}
 
@@ -698,9 +730,12 @@ class App extends React.Component {
 				this.checkAndSelectProject(course);
 		}
 
-		this.setState(prevState => ({
-			timetable: [...prevState.timetable, course]
-		}));
+		this.setState(prevState => {
+			let timetable = [...prevState.timetable, course];
+			this.doSetSelectedCourses(timetable);
+			return { timetable }
+			// timetable: [...prevState.timetable, course]
+		});
 	}
 
 	unselectSlots = (course) => {
@@ -713,12 +748,12 @@ class App extends React.Component {
 			}));
 		}
 
-		this.setState(prevState => ({
-			timetable: prevState.timetable.filter(v => !(
-				course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable
-			)
-			),
-		}));
+		this.setState(prevState => {
+			let timetable = prevState.timetable.filter(v => !(course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable));
+
+			this.doSetSelectedCourses(timetable);
+			return { timetable }
+		});
 	}
 
 	selectCourse = (code) => {
@@ -727,7 +762,7 @@ class App extends React.Component {
 		})
 	}
 
-	changeActiveTimetable = (timetableName) => {
+	changeActiveTimetable = (timetableName='Default') => {
 		var slots = this.state.timetable.reduce((a, v) => {
 			if (v.timetableName === timetableName && v.slot !== 'NIL')
 				return [...a, ...v.slot.split('+')];

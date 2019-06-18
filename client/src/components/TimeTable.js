@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Container, Table } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
 import "./TimeTable.css";
 class TimeTable extends Component {
@@ -173,14 +173,10 @@ class TimeTable extends Component {
 	}
 
 	renderEmpty = (c, slotString) => {
-		var slots = c.split('/');
-		
 		return <td key={c} className="timetableEmpty"><b>{slotString}</b></td>
 	}
 
 	renderFilledTheory = (c, slotString, reqdCourse) => {
-		var slots = c.split('/');
-		
 		return (
 			<td key={c} className="timetableFilledTheory">
 				<b>{slotString}</b> <br />
@@ -191,8 +187,6 @@ class TimeTable extends Component {
 	}
 
 	renderFilledLab = (c, slotString, reqdCourse) => {
-		var slots = c.split('/');
-
 		return (
 			<td key={c} className="timetableFilledLab">
 				<b>{slotString}</b> <br />

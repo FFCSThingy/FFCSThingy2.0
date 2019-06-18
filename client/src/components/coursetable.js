@@ -1,19 +1,13 @@
 import React from 'react';
 
-import { Table, Container, Button } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 
 import '../css/courseTable.css';
 
 class CourseTable extends React.Component {
 	
 	sortTimetable = ((a, b) => {
-		return a.code.localeCompare(b.code)
-		// if (a.simpleType === 'Theory' && (b.simpleType === 'Lab' || b.simpleType === 'Project')) return -1;
-		// if (a.simpleType === 'Lab' && b.simpleType === 'Project') return -1;
-		// // if (a.simpleType === 'Lab' && b.simpleType === 'Theory') return 1;
-		// if (a.faculty.localeCompare(b.faculty) < 1) return -1;
-		// if (a.slot.localeCompare(b.slot) < 1) return -1;
-
+		return a.code.localeCompare(b.code)	
 	});
 
 	render() {

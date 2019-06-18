@@ -1,15 +1,10 @@
-import axios from 'axios';
 import React from 'react';
-import { Card, CardColumns, Col, Container, Form, Row, Nav, DropdownButton, ButtonGroup, Dropdown } from 'react-bootstrap';
+import { Card, CardColumns, Col, Container, Form, Row, Nav } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/course-select-table.css';
-// import Search from './searchBar';
 
 class CourseSelect extends React.Component {
 	state = {
-		// courseList: JSON.parse(localStorage.getItem('courseList')) || [],
-		// timestamp: localStorage.getItem('courseListTimestamp') || null,
-		
 		selectedCategory: 'ALL',
 		searchString: '',
 		filteredCourses: [],
@@ -27,7 +22,6 @@ class CourseSelect extends React.Component {
 		this.setState({ [fieldName]: fleldVal })
 
 		if (event.target.name === 'searchString') this.doSearch();
-		// if (event.target.name === 'selectedCurriculum') 
 	}
 
 	
@@ -66,7 +60,7 @@ class CourseSelect extends React.Component {
 		var searchStringSlots = searchString.toUpperCase().split("+");
 		var search_val_type = new Set(searchString.toUpperCase().split("*"));
 
-		var searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), searchBySlots);
+		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), searchBySlots);
 
 		var filteredCodes = [];
 		if (searchBySlots) {
@@ -90,7 +84,6 @@ class CourseSelect extends React.Component {
 	}
 
 	renderSearchBar() {
-		// var curriculumChoices = this.state.curriculumList.map(v => <Dropdown.Item eventKey={v}>{v}</Dropdown.Item>);
 		return (
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>

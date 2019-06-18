@@ -1,7 +1,7 @@
 import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, NavDropdown, NavbarBrand, Row } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, NavbarBrand } from 'react-bootstrap';
 
 import "whatwg-fetch";
 import '../App.css';
@@ -70,7 +70,7 @@ class CustomNavbar extends React.Component {
 						
 						<NavDropdown 
 							alignRight
-							title={<img className="userProfileImage" 
+							title={<img className="userProfileImage" alt=""
 							src={this.props.user.picture} />} 
 							className="navDropContainerUser"
 						>

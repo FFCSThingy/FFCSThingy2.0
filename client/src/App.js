@@ -2,7 +2,6 @@
 // 'CourseTable' is the final bottom table for regisered courses
 
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col } from 'react-bootstrap';
@@ -18,8 +17,6 @@ import "whatwg-fetch";
 import './App.css';
 import './css/nav-bar.css'
 import './components/TimeTable'
-
-import navbarImage from './images/logo.png';
 
 import axios from 'axios';
 import Generator from './components/magicFill';
@@ -644,6 +641,7 @@ class App extends React.Component {
 		var count = this.state.timetable.reduce((a,v) => {
 			if (v.timetableName === this.state.activeTimetable)
 				return a + v.credits;
+			return a;	
 		}, 0)
 
 		if(!count) return 0;
@@ -731,7 +729,7 @@ class App extends React.Component {
 
 	changeActiveTimetable = (timetableName) => {
 		var slots = this.state.timetable.reduce((a, v) => {
-			if (v.timetableName === timetableName && v.slot != 'NIL')
+			if (v.timetableName === timetableName && v.slot !== 'NIL')
 				return [...a, ...v.slot.split('+')];
 			else return a;
 		}, [])
@@ -743,6 +741,7 @@ class App extends React.Component {
 					clashMap[v].isFilled = true;
 				else
 					clashMap[v].isFilled = false;
+				return v;	
 			})
 			return { clashMap: clashMap, activeTimetable: timetableName };
 		});

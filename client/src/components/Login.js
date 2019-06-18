@@ -2,10 +2,8 @@ import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/login.css'
-import { Container, Row, Col, Button, Card, CardColumns, NavDropdown, Image } from 'react-bootstrap';
+import { Container, Row, Card, CardColumns } from 'react-bootstrap';
 import featuresImage from "../images/ffcsfeatures.png";
-
-import axios from 'axios';
 
 class Login extends React.Component {
 
@@ -22,7 +20,7 @@ class Login extends React.Component {
 					
 					<Card>
 						<Card.Body>
-						<img className="features" src={featuresImage} />
+						<img className="features" src={featuresImage} alt="" />
 						{/* <Card.Text className="featureList">
 							Plan and create your timetable, ahead of FFCS. 
 						</Card.Text>

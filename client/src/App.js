@@ -529,7 +529,7 @@ class App extends React.Component {
 				if (res.data) {
 					if (res.status === 304);
 					// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
-					else if (res.status === 301) { this.doLogout() } // Do Logout
+					else if (res.status === 401) { this.doLogout() } // Do Logout
 					else {
 						this.setState({ user: res.data });
 					}
@@ -600,8 +600,9 @@ class App extends React.Component {
 	}
 
 	doLogout = () => {
-		axios.get('/logout');
-		// return <Redirect to='/' />
+		axios.get('/logout').then(res => {
+			this.props.history.push('/');
+		});
 	}
 
 	filterCourse = () => {

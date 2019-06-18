@@ -80,7 +80,7 @@ class CustomNavbar extends React.Component {
 
 							<NavDropdown.Divider />
 							
-							<NavDropdown.Item>Logout</NavDropdown.Item>
+							<NavDropdown.Item onClick={this.props.doLogout}>Logout</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
 

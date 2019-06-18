@@ -185,7 +185,7 @@ TODO------
 }
 
 
-::placeholder {
+.searchBarContainer ::placeholder {
     color: var(--text-color-default) !important;
     opacity:1;
     transition: opacity 0.17s ease;
@@ -193,7 +193,7 @@ TODO------
 
 }
 
-[placeholder]:focus::-webkit-input-placeholder {
+.searchBarContainer [placeholder]:focus::-webkit-input-placeholder {
     transition: opacity 0.17s ease;
     opacity: 0;
   }

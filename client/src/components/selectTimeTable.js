@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dropdown, ButtonGroup, Button, Modal } from 'react-bootstrap';
-import { FaTrashAlt, FaCopy, FaPlusSquare } from 'react-icons/fa';
+import { Dropdown, ButtonGroup, Button, Modal, Card } from 'react-bootstrap';
+import { FaTrashAlt, FaCopy, FaPlusSquare, FaCaretDown } from 'react-icons/fa';
 import './selectTimeTable.css';
 import "./TimeTable.css";
 export default class SelectTimeTable extends React.Component {
@@ -54,38 +54,21 @@ export default class SelectTimeTable extends React.Component {
 		}
 	}
 
-	renderModal = () => {
-		return (
-			<Modal
-				show={this.state.show}
-				onHide={this.handleClose}
-			>
-				<Modal.Header
-					className="inputPopup"
-					closeButton>
-					<Modal.Title><strong>Name Your Timetable</strong></Modal.Title>
-				</Modal.Header>
-				<form>
-					<Modal.Body className="inputPopup">
-						Enter a new name for the timetable:
-						<input 
-							class="inputField" 
-							type="text" 
-							value={this.state.value} 
-							onChange={this.handleChange} 
-						/>
-					</Modal.Body>
-					<Modal.Footer className="inputPopup">
-						<Button variant="secondary" onClick={this.handleClose}>
-							Close
-						</Button>
-						<Button className="saveButton" onClick={this.handleSave}>
-							Save
-						</Button>
-					</Modal.Footer>
-				</form>
-			</Modal>
-		)
+	renderCard = () => {
+		return <Card
+		show={this.state.show}
+		onHide={this.handleClose}
+		>
+		<Card.Body className="inputPopup">
+			<input placeholder="Enter name" 
+			class="inputField" type="text" value={this.state.value} onChange={this.handleChange}
+			spellCheck='false'
+			autoComplete='off' />
+			<Button className="saveButton" onClick={this.handleSave}>
+				<FaPlusSquare />
+			</Button>
+		</Card.Body>
+		</Card>
 	}
 
 	handleSelect = (Detail) => {
@@ -140,7 +123,6 @@ export default class SelectTimeTable extends React.Component {
 		// UI - Known issue, dropdown shifts down onClick.
 		return (
 			<>
-				{this.renderModal()}
 				<div>
 					<Dropdown drop="right" className="selectTimeTable">
 						<Dropdown.Toggle className="selectedCourseHead">Time Tables</Dropdown.Toggle>
@@ -150,10 +132,10 @@ export default class SelectTimeTable extends React.Component {
 							<Dropdown.Item
 								eventKey='new'
 								onClick={this.handleShow}
-								className="dropdownButton"
-							>
-								<FaPlusSquare /> New Time Table
+								className="dropdownButton">
+								Create new <FaCaretDown  className="newButton"/>
 							</Dropdown.Item>
+							{this.renderCard()}
 						</Dropdown.Menu>
 					</Dropdown>
 				</div>

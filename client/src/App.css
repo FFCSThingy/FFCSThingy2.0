@@ -34,8 +34,11 @@
   --dropdown-border-color: #4c56b2;
   --dropshadow-default: #00000033;
   --dropshadow-highlight: #00000059;
+  
 }
-
+::selection {
+  background: transparent;
+}
 
 
 

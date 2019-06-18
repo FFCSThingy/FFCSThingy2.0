@@ -134,6 +134,11 @@
     .linksContainer {
         padding-left: 0;
     }
+
+    .dropdown-menu-right {
+        right: auto;
+        left: 0;
+    }
 }
 
 .navDropContainerUser .dropdown-item {

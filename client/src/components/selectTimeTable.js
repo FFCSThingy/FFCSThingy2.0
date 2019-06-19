@@ -133,7 +133,8 @@ export default class SelectTimeTable extends React.Component {
 								eventKey='new'
 								onClick={this.handleShow}
 								className="dropdownButton">
-								Create new <FaCaretDown  className="newButton"/>
+								Create new 
+								{/* <FaCaretDown  className="newButton"/> */}
 							</Dropdown.Item>
 							{this.renderCard()}
 						</Dropdown.Menu>

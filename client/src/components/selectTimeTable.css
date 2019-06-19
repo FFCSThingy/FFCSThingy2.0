@@ -52,6 +52,9 @@
     width: 50%;
 }
 
+.show>.btn-primary.dropdown-toggle {
+    background-color: var(--brand-color) !important;
+}
 
 .dropdownButtonGroup {
     display: flex;

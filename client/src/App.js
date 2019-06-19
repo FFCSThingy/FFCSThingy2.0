@@ -700,8 +700,7 @@ class App extends React.Component {
 	}
 
 	checkSelected = (course) => {
-		// console.log(course);
-		return this.state.timetable.reduce((a, v) => a || (course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === this.state.activeTimetable), false)
+		return this.state.timetable.find(e => (e.code === course.code && e.faculty === course.faculty && e.slot === course.slot && e.venue === course.venue && e.course_type === course.course_type && this.state.activeTimetable === e.timetableName));
 	}
 
 	getFilledSlots = () => {

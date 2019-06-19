@@ -96,7 +96,11 @@ passport.use(new GoogleStrategy({
 // and create our instances
 const app = express();
 
-mongoose.connect("mongodb://localhost:27017/FFCS", { useFindAndModify: false });
+if(!process.env.NODE_UN)
+	mongoose.connect("mongodb://localhost:27017/FFCS", { useFindAndModify: false });
+else
+	mongoose.connect(`mongodb://${process.env.NODE_UN}:${process.env.NODE_PW}@localhost:27017/FFCS`, { useFindAndModify: false });
+	
 const db = mongoose.connection;
 
 db.on('error', console.error.bind(console, 'connection error:'));

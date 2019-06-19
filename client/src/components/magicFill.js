@@ -82,11 +82,11 @@ class Generator extends Component {
 		return (
 			<Container id="magicContainer">
 
-				<Button variant="primary" onClick={this.handleClick} id="magic" >Magic Fill</Button>
+				<Button variant="primary" onClick={this.handleClick} id="magic" className="magicButton dropdown-toggle btn btn-primary">Magic Fill</Button>
 				<div className="hide" id="magicData">
 					<Form.Group>
 						<label for="creditsEnterlabel" id="creditLabel">How many Credits do you want?</label><hr className="hrz"></hr>
-						<input class="form-control" id="creditsEnter" type="number" />
+						<input class="form-control" id="creditsEnter" type="number" placeholder="Credit-Count" />
 					</Form.Group>
 					<h5>What are your top priorities?</h5><hr></hr>
 					<ButtonGroup aria-label="first" className="magicButtons">

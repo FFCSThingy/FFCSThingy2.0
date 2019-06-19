@@ -3,12 +3,20 @@
 }
 #magic{
     margin-bottom:10px;
+    border-top: transparent !important;
+    border-right: transparent !important;
+    border-left: transparent !important;
+    background-color: var(--brand-color);
+    border-radius: 0.5rem !important;
+    box-shadow: 0 6px var(--dropdown-border-color);
 }
 .show{
     display:inline-block;
 }
 #creditsEnter{
-    width:10%;
+    width:13%;
+    box-shadow: 0 0px ;
+    text-align:center;      
 }
 
 input[type=number]::-webkit-inner-spin-button, 
@@ -28,7 +36,8 @@ input[type=number]::-webkit-outer-spin-button {
     /* margin:0.5%; */
     background:var(--card-background-color);
     color: var(--text-color-inverted);
-    border:1px blue solid;
+   border:none; 
+   box-shadow: 0 0px;
 }
 #filterButton-1:hover{
     background:#eee;
@@ -38,6 +47,8 @@ input[type=number]::-webkit-outer-spin-button {
     background:var(--button-highlight-color);
     color:var(--text-color-default);
     border:1px var(--dropdown-border-color) solid;
+    border:none;
+    box-shadow: 0 0px;
 }
 .magicButtons{
     margin:0.5%;
@@ -47,5 +58,16 @@ input[type=number]::-webkit-outer-spin-button {
     margin-bottom:2%;
 }
 #magicContainer{
-margin-left:0;
+margin-left:15px;
+}
+
+@media only screen and (max-width: 768px){
+    #creditsEnter{
+        width:25%;
+    }
+}
+.btn
+{
+    box-shadow: none;
+    outline: none;
 }

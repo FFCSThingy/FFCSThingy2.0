@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 // import Form from 'react-bootstrap/FormControl';
 import '../css/search-bar.css';
-import axios from 'axios';
+import API from '../API';
 
 
 class Search extends React.Component {
@@ -14,7 +14,7 @@ class Search extends React.Component {
 	}
 
 	componentWillMount() {
-		axios.get("/curriculum/getPrefixes")
+		API.get("/curriculum/getPrefixes")
 			.then(res => {
 				if (res.data.success) {
 						this.setState({ curriculumList: res.data.data });

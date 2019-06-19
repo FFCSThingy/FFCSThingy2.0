@@ -9,9 +9,9 @@
     "start:client": "cd client && npm start",
     "start:dev": "concurrently \"npm run start:server\" \"npm run start:client\"",
     "build:prod-test": "cd client && npm run build-test-server",
-	"start:prod-test": "NODE_BASE_URL=http://ffcs.csivit.com NODE_UN=backend NODE_PW=ffcsBackendPasswordThingy node backend/server.js",
-	"build:prod": "cd client && npm run build-prod",
-	"start:prod": "NODE_BASE_URL=http://ffcs.ooo node backend/server.js"
+    "start:prod-test": "NODE_BASE_URL=http://ffcs.csivit.com NODE_UN=backend NODE_PW=ffcsBackendPasswordThingy node backend/server.js",
+    "build:prod": "cd client && npm run build-prod",
+    "start:prod": "NODE_BASE_URL=http://ffcs.ooo node backend/server.js"
   },
   "repository": {
     "type": "git",

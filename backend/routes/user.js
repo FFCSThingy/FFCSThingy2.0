@@ -11,7 +11,7 @@ const router = express.Router();
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-router.get('/getSelectedCourses', async (req, res, next) => {
+router.get('/selectedCourses', async (req, res, next) => {
 	try {
 		var userData = await user.findUserByID(req.user._id);
 
@@ -26,7 +26,7 @@ router.get('/getSelectedCourses', async (req, res, next) => {
 	}
 });
 
-router.post('/updateSelectedCoursesBulk', async (req, res, next) => {
+router.post('/selectedCoursesBulk', async (req, res, next) => {
 	try {
 		var queryData = { _id: req.user.id }
 		var updateData = { selected_courses: req.body.selected_courses };
@@ -43,7 +43,7 @@ router.post('/selectCourse', async (req, res, next) => {
 	
 });
 
-router.post('/setSelectedCurriculum', async (req, res, next) => {
+router.post('/selectedCurriculum', async (req, res, next) => {
 	try {
 		var queryData = { _id: req.user.id };
 		var updateData = { selected_curriculum: req.body.selected_curriculum };

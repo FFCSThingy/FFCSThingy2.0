@@ -22,7 +22,7 @@ router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
 	.catch(err => console.log(err));
 });
 
-router.get('/getPrefixes', async (req, res, next) => {
+router.get('/prefixes', async (req, res, next) => {
 	try {
 		var prefixes = await curriculum.getCurriculumPrefixes();
 		res.json({ success: true, data: prefixes });
@@ -33,7 +33,7 @@ router.get('/getPrefixes', async (req, res, next) => {
 	}
 });
 
-router.get('/getCurriculumFromPrefix/:prefix', async (req, res, next) => {
+router.get('/curriculumFromPrefix/:prefix', async (req, res, next) => {
 	try {
 		var doc = await curriculum.findCurriculumFromPrefix(req.params.prefix);
 		res.json({ success:true, data: doc });
@@ -45,7 +45,7 @@ router.get('/getCurriculumFromPrefix/:prefix', async (req, res, next) => {
 });
 
 
-router.post('/selectCurriculumForUser', async (req, res, next) => {
+router.post('/curriculumForUser', async (req, res, next) => {
 	try {	
 		var currDoc = await curriculum.findCurriculumFromPrefix(reg_prefix);
 		var userDoc = await user.updateUser({ google_id: req.body.google_id }, 

@@ -1,0 +1,21 @@
+
+ _______  _______   ______     _______.         ______     ______     ______   
+|   ____||   ____| /      |   /       |        /  __  \   /  __  \   /  __  \  
+|  |__   |  |__   |  ,----'  |   (----`       |  |  |  | |  |  |  | |  |  |  | 
+|   __|  |   __|  |  |        \   \           |  |  |  | |  |  |  | |  |  |  | 
+|  |     |  |     |  `----.----)   |    __    |  `--'  | |  `--'  | |  `--'  | 
+|__|     |__|      \______|_______/    (__)    \______/   \______/   \______/  
+                                                                               
+
+
+2019 FFCSThingy @ FFCS.OOO
+When we build it matters!
+
+Fardeen Asif Khan   @ffardeen
+Rohan Mukherjee     @roerohan
+Gauri Shankar       @gsGupta11      
+Namit Nathwani      @namsnath
+Saksham Sethi       @sudo-nan0-RaySK
+Palash Golecha      @palashgo
+
+Report any bugs at: 

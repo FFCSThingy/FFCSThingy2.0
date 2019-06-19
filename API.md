@@ -92,7 +92,7 @@ Responds with User data
 
 # Route: /course
 
-## GET /getFullHeatmap/:timestamp?
+## GET /fullHeatmap/:timestamp?
 Responds with full course DB
 
 Timestamp is optional
@@ -117,7 +117,7 @@ Timestamp is optional
 }
 ```
 
-## GET /getCourseList
+## GET /courseList
 Responds with list of course codes, titles, credits, types included in course
 ### Response:
 ```
@@ -133,17 +133,17 @@ Responds with list of course codes, titles, credits, types included in course
 }
 ```
 
-## GET /getCourseByDetails/:code/:type/:faculty/:venue/:slot
+## GET /courseByDetails/:code/:type/:faculty/:venue/:slot
 Responds with course based on these 5 params
 
 
-## GET /getCourseByID/:id
+## GET /courseByID/:id
 Responds with course based on mongoID
 
 
 # Route: /curriculum
 
-## GET /getPrefixes
+## GET /prefixes
 Gets list of available sample curriculums
 
 ### Response:
@@ -155,7 +155,7 @@ Gets list of available sample curriculums
 }
 ```
 
-## GET /getCurriculumFromPrefix/:prefix
+## GET /curriculumFromPrefix/:prefix
 Gets curriculum for the corresponding prefix
 ### Response:
 ```
@@ -191,7 +191,7 @@ Gets curriculum for the corresponding prefix
 
 # Route: /user
 
-## GET /getSelectedCourses
+## GET /selectedCourses
 Gets selected courses for the user
 
 ### Response:
@@ -200,7 +200,7 @@ Gets selected courses for the user
 ```
 
 
-## POST /updateSelectedCoursesBulk
+## POST /selectedCoursesBulk
 Sets the passed array as selected_courses array for the user
 
 ### Request:
@@ -225,7 +225,7 @@ selected_courses:	[{
 User Doc (Refer /account)
 ```
 
-## GET /setSelectedCurriculum
+## GET /selectedCurriculum
 Sets curriculum as selected for the user
 
 ### Request: 

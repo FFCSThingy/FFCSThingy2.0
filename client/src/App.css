@@ -1,6 +1,85 @@
-.container {
-  text-align: center;
+/* :root {
+  --card-header-color: #7c87e8;
+  --background-color: #C3D1F5;
+  --card-body-color: #ECEBFE;
+  --filter-button-color: #36e2a8;
+  --slot-clashing-color: #ff6961;
+  --slot-selected-color: #00b200;
+  --border-color: #4c56b2;
+  --card-background-color: #f6f6f6;
+  --dropshadow-default: #00000033;
+  --dropshadow-highlight: #00000059;
+  --white: white;
+  --slot-course-card-color: white;
+  --text-color: white;
+  --text-color-black: black;
+  --text-color-grey: hsl(0, 0%, 40%);
+} */
+
+:root {
+  --brand-color: #7c87e8;
+  --body-background-color: #C3D1F5;
+  --select-table-background-color: #f6f6f6;
+  --card-background-color: #ffffff;
+  --card-highlight-color: #ECEBFE;
+  --button-highlight-color: #36e2a8;
+  --timetable-theory-color: lightpink;
+  --timetable-lab-color: greenyellow;
+  --timetable-col1-color: lightgrey;
+  --text-color-default: #ffffff;
+  --text-color-inverted: #000000;
+  --text-color-other: #666666;
+  --card-clash-text-color: #ff6961;
+  --card-selected-text-color: #00b200;
+  --dropdown-border-color: #4c56b2;
+  --dropshadow-default: #00000033;
+  --dropshadow-highlight: #00000059;
+  
 }
-.container > h1 {
-  color: steelblue;
+::selection {
+  background: transparent;
+}
+
+
+
+html, body {
+  background: var(--body-background-color);
+}
+
+.App {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+.navBarRow {
+	margin-bottom: 3rem;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

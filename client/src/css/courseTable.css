@@ -1,0 +1,63 @@
+.selectedCourseContainer {
+}
+
+.selectedCourseContainer.container {
+}
+
+.selectedCourseTable {
+	text-align: center;
+	background-color: var(--select-table-background-color);
+	font-family: 'Montserrat', sans-serif;
+	
+	/* border: none !important; */
+	border-radius: .7rem !important;
+	margin: 2vh 0 !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	width: 100%;
+	overflow-x: auto;
+}
+
+.selectedCourseHead {
+	border-radius: .7rem;
+	border: none !important;
+}
+
+.selectedCourseHead th {
+	background-color: var(--brand-color);
+}
+
+.selectedCourseTable tr, 
+.selectedCourseTable td, 
+.selectedCourseTable th {
+	border: none !important;
+	padding: 5px;
+}
+
+.selectedCourseBody {
+	border: none !important;
+}
+
+.selectedCourseBody td {
+	background-color: var(--select-table-background-color);
+}
+
+.creditsRow {
+	border-top: 1px solid black !important;
+}
+
+table tr:last-child td:first-child {
+	border-bottom-left-radius: 0.7rem;
+}
+
+table tr:last-child td:last-child {
+	border-bottom-right-radius: 0.7rem;
+}
+
+table tr:first-child th:first-child {
+	border-top-left-radius: 0.7rem;
+}
+
+table tr:first-child th:last-child {
+	border-top-right-radius: 0.7rem;
+}

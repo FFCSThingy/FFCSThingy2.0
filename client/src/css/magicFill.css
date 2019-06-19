@@ -59,6 +59,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 #magicContainer{
 margin-left:15px;
+font-family: 'Montserrat', sans-serif;
 }
 
 @media only screen and (max-width: 768px){

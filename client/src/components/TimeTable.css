@@ -1,26 +1,20 @@
 .timetableContainer {
+	margin-top: 1rem;
 	font-family: 'Montserrat', sans-serif;
 	padding-right: 0;
 	padding-left: 1.87rem !important;
 	font-size: 0.6em;
 	margin-right: 1rem;
-	/* display:inline-flex; */
-	
 }
 
 
 .timetableA {
 	width: 100%;
-	/* border-radius: 0.7rem; */
-	/* float: left; */
-	/* height: 574px; */
 }
 
 .timetableB {
 	width: 100%;
 	margin-top: 1rem;
-	/* float: left; */
-	/* height: 574px; */
 }
 
 .timetableA tr, 
@@ -34,11 +28,11 @@
 }
 
 .timetableTheoryHours {
-
+	color: var(--text-color-default);
 }
 
 .timetableLabHours {
-
+	color: var(--text-color-default);
 }
 
 .timetableBody td {
@@ -49,41 +43,27 @@
 	text-align: center;
 	padding: 2px;
 	height: 6vh;
-	/*
-	width: 7.2vw;
-	max-width: 7.2vw; */
 }
 
 .timetableBody tr {
 	border: none !important;
-	/* text-align: center; */
 	padding: 2px;
 }
 
-.timetableHeader1A td {
-	background-color: var(--brand-color);
-}
-
-.timetableHeader2A td {
-	background-color: var(--brand-color);
-}
-
-.timetableHeader1B td {
-	background-color: var(--brand-color);
-}
-
-.timetableHeader2B td {
+.timetableHeader1A td, .timetableHeader2A td, .timetableHeader1B td, .timetableHeader2B td {
 	background-color: var(--brand-color);
 }
 
 
 td.timetableDay {
 	background-color: var(--timetable-col1-color);
-	width: 9.3vw;
+	width: 44px;
+	font-weight: bold;
+	color: var(--text-color-inverted);
 }
 
 .timetableEmpty {
-
+	background-color: var(--select-table-background-color);
 }
 
 td.timetableFilledTheory {

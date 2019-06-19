@@ -1,11 +1,11 @@
-import express from 'express';
+const express = require('express');
 
 // Utilities
-import curriculum from '../utility/curriculumUtility';
-import user from '../utility/userUtility';
-import course from '../utility/courseUtility';
-import system from '../utility/systemUtility';
-import { resolve } from 'path';
+const curriculum = require('../utility/curriculumUtility');
+const user = require('../utility/userUtility');
+const course = require('../utility/courseUtility');
+const system = require('../utility/systemUtility');
+const { resolve } = require('path');
 
 const router = express.Router();
 
@@ -73,22 +73,22 @@ router.get('/getCourseList/:timestamp?', async (req, res, next) => {
 	}
 });
 
-router.post('/parseCourses', async (req, res, next) => {
-	if (req.body.password != "SuckOnDeezNumbNutz")
-		res.status(403).json({ success: false, message: "Get the password right, bitchface." });
-});
+// router.post('/parseCourses', async (req, res, next) => {
+// 	if (req.body.password != "SuckOnDeezNumbNutz")
+// 		res.status(403).json({ success: false, message: "Get the password right, bitchface." });
+// });
 
-router.get('/parseCourses', async (req, res, next) => {
-	try {
-		var parsedData = await course.parseXLSX();
-		res.json(parsedData);
-	} catch (err) {
-		res.status(500).json({ success: false, message: '/parseCourses failed' });
-		console.log(err);
-	}
-});
+// router.get('/parseCourses', async (req, res, next) => {
+// 	try {
+// 		var parsedData = await course.parseXLSX();
+// 		res.json(parsedData);
+// 	} catch (err) {
+// 		res.status(500).json({ success: false, message: '/parseCourses failed' });
+// 		console.log(err);
+// 	}
+// });
 
-router.get('/addCoursesToDB', async (req, res, next) => {
+router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 	try {
 		var courses = await course.parseXLSX();
 

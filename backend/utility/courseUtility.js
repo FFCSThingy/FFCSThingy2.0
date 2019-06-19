@@ -1,14 +1,15 @@
-import fs from 'fs';
-import path from 'path';
-import xlsx from 'xlsx-to-json';
+const fs = require('fs');
+const path = require('path');
+const xlsx = require('xlsx-to-json');
+const cron = require('node-cron');
 
 // Models
-import Curriculum from '../models/Curriculum';
-import User from '../models/User';
-import Course from '../models/Course';
+const Curriculum = require('../models/Curriculum');
+const User = require('../models/User');
+const Course = require('../models/Course');
 
-import systemUtility from './systemUtility';
-import userUtility from './userUtility';
+const systemUtility = require('./systemUtility');
+const userUtility = require('./userUtility');
 
 // Files
 const xlsxInputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.xlsx');
@@ -163,17 +164,20 @@ function updateCourse(query, update) {
 async function doHeatmapUpdate(doc, counts) {
 	return await Promise.all(doc.map(async c => {
 		var total = counts.find((e) => e._id.code === c.code && e._id.course_type === c.course_type);
+		
 		if (total) {
-			c.count = await userUtility.aggregateSpecificCourseCount(c).count;
-			c.percentage = c.count / total.count * 100;
-			c.timestamp = new Date();
+			var countData = (await userUtility.aggregateSpecificCourseCount(c))[0];
+			if(countData) {
+				c.count = countData.count;
+				c.percent = await c.count / total.count * 100;
+				c.timestamp = new Date();
+			}
+			c.total = total.count;
 		}
 		else {
 			return Promise.resolve(c);
 		}
-
-		console.log(c.count);
-		console.log(total);
+		// console.log(total);
 
 		var query = {
 			code: c.code,
@@ -195,6 +199,7 @@ module.exports.updateHeatmap = () => {
 
 				var initTime = Date.now();
 				var counts = await userUtility.aggregateCounts();
+				// console.log(counts);
 				var updates = await doHeatmapUpdate(doc, counts);
 				// console.log(updates);
 				var timestamp = await systemUtility.updateHeatmapUpdateTime();
@@ -208,3 +213,8 @@ module.exports.updateHeatmap = () => {
 		});
 	});
 }
+
+cron.schedule('* * * * *', () => {
+	console.log('Running Heatmap Update');
+	module.exports.updateHeatmap();
+});

@@ -53,6 +53,8 @@ class SlotTable extends Component {
 					<Card.Title>{value.faculty}</Card.Title>
 					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
 					</Card.Subtitle>
+
+					<Card.Subtitle className="cardSubtitle">Popularity - <b>{Math.floor(value.percent)}%</b></Card.Subtitle>
 				</Card.Body>
 
 			</Card>
@@ -74,6 +76,7 @@ class SlotTable extends Component {
 					<Card.Subtitle className="cardClashSubtitle">Clashing</Card.Subtitle>
 					</Card.Subtitle>
 					
+					<Card.Subtitle className="cardSubtitle">Popularity - <b>{Math.floor(value.percent)}%</b></Card.Subtitle>
 				</Card.Body>
 
 			</Card>
@@ -92,9 +95,10 @@ class SlotTable extends Component {
 					<Card.Text>{value.slot}</Card.Text>
 					<Card.Title>{value.faculty}</Card.Title>
 					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
-					<Card.Subtitle className="cardSelectedSubtitle">Selected</Card.Subtitle>
+						<Card.Subtitle className="cardSelectedSubtitle">Selected</Card.Subtitle>
 					</Card.Subtitle>
-					
+
+					<Card.Subtitle className="cardSubtitle">Popularity - <b>{Math.floor(value.percent)}%</b></Card.Subtitle>
 				</Card.Body>
 
 			</Card>

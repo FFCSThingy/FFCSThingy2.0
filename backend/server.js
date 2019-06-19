@@ -126,9 +126,9 @@ app.use(express.urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
 
 app.use('/ext', ensureAuthenticated, extRoute);
-app.use('/curriculum', curriculumRoute);
-app.use('/course', courseRoute);
-app.use('/user', userRoute);
+app.use('/curriculum', ensureAuthenticated, curriculumRoute);
+app.use('/course', ensureAuthenticated, courseRoute);
+app.use('/user', ensureAuthenticated, userRoute);
 
 app.get('/account', ensureAuthenticated, function (req, res) {
 	var data = {

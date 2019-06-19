@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, ButtonGroup, Button, Card } from 'react-bootstrap';
+import { Container, Dropdown, ButtonGroup, Button, Card } from 'react-bootstrap';
 import { FaTrashAlt, FaCopy, FaPlusSquare } from 'react-icons/fa';
 import './selectTimeTable.css';
 import "./TimeTable.css";
@@ -27,7 +27,10 @@ export default class SelectTimeTable extends React.Component {
 	}
 
 	handleShow() {
-		this.setState({ show: true });
+		if(this.state.show===false)
+			this.setState({ show: true });
+		else
+			this.setState({ show: false });
 	}
 
 	handleChange(event) {
@@ -39,8 +42,8 @@ export default class SelectTimeTable extends React.Component {
 	handleSave(event) {
 		this.setState({ show: false });
 		var newTimetable = this.state.value;
-
-		if (newTimetable != null || newTimetable !== '') {
+		if (newTimetable === "") return;
+		if (newTimetable != null) {
 			var timetableNames = this.props.timetableNames
 			if (!timetableNames.includes(newTimetable)) {
 				timetableNames.push(newTimetable)
@@ -55,10 +58,10 @@ export default class SelectTimeTable extends React.Component {
 	}
 
 	renderCard = () => {
-		return <Card
-		show={this.state.show}
-		onHide={this.handleClose}
-		>
+		if (!this.state.show) {
+			return;
+		}
+		return <Card>
 		<Card.Body className="inputPopup">
 			<input placeholder="Enter name"
 			class="inputField" type="text" value={this.state.value} onChange={this.handleChange}
@@ -82,6 +85,9 @@ export default class SelectTimeTable extends React.Component {
 	handleDelete = (deleteTable) => {
 		if (deleteTable === this.props.activeTimetable) {
 			var changeActiveTable = true;
+		}
+		if (deleteTable === 'Default') {
+			return;
 		}
 		var timetableNames = this.props.timetableNames
 		var index = timetableNames.indexOf(deleteTable);
@@ -120,7 +126,6 @@ export default class SelectTimeTable extends React.Component {
 			items.push(this.createDropdownItem(active, index, timetableName))
 		});
 
-		// UI - Known issue, dropdown shifts down onClick.
 		return (
 			<>
 				<div>
@@ -129,13 +134,15 @@ export default class SelectTimeTable extends React.Component {
 						<Dropdown.Menu className="dropdownTimetable border">
 							{items}
 							<Dropdown.Divider />
-							<Dropdown.Item
-								eventKey='new'
+							<Container>
+								<Button
+								className="dropdownTimeTable dropdownButton"
 								onClick={this.handleShow}
-								className="dropdownButton">
-								Create new
-								{/* <FaCaretDown  className="newButton"/> */}
-							</Dropdown.Item>
+								>
+									Create New <FaPlusSquare />
+								</Button>
+							</Container>
+							<Dropdown.Divider />
 							{this.renderCard()}
 						</Dropdown.Menu>
 					</Dropdown>

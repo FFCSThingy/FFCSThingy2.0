@@ -12,7 +12,7 @@ const router = express.Router();
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-router.get('/getFullHeatmap/:timestamp?', async (req, res, next) => {
+router.get('/fullHeatmap/:timestamp?', async (req, res, next) => {
 	try {
 		var systemTimestamp = new Date(await system.getHeatmapUpdateTime());
 		if (!req.params.timestamp)
@@ -43,7 +43,7 @@ router.get('/getFullHeatmap/:timestamp?', async (req, res, next) => {
 
 });
 
-router.get('/getCourseList/:timestamp?', async (req, res, next) => {
+router.get('/courseList/:timestamp?', async (req, res, next) => {
 	try {
 		var systemTimestamp = new Date(await system.getRepopulateTime());
 
@@ -110,7 +110,7 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 	}
 });
 
-router.get('/getCourseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res, next) => {
+router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res, next) => {
 	try {
 		var data = {
 			code: req.params.code,
@@ -133,7 +133,7 @@ router.get('/getCourseByDetails/:code/:type/:faculty/:venue/:slot', async (req, 
 	}
 });
 
-router.get('/getCourseByID/:id', async (req, res, next) => {
+router.get('/courseByID/:id', async (req, res, next) => {
 	try {
 		var data = {
 			_id: req.params.id,
@@ -152,13 +152,13 @@ router.get('/getCourseByID/:id', async (req, res, next) => {
 	}
 });
 
-router.get('/updateHeatmap', async(req, res, next) => {
-	try {
-		var doc = await course.updateHeatmap();
-		res.json(doc);
-	} catch(err) {
-		console.log(err);
-	}
-});
+// router.get('/updateHeatmap', async(req, res, next) => {
+// 	try {
+// 		var doc = await course.updateHeatmap();
+// 		res.json(doc);
+// 	} catch(err) {
+// 		console.log(err);
+// 	}
+// });
 
 module.exports = router;

@@ -124,6 +124,11 @@
         bottom: 10rem;
         font-size: 1.2rem;
     }
+
+    .googleButtonLink {
+        width: 230px;
+        margin: 0 auto;
+    }
 }
 
 @media (min-width: 1500px) {

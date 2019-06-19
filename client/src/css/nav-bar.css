@@ -126,6 +126,11 @@
     display: none;
 }
 
+.navDropContainerCurriculum .dropdown-menu.show {
+    overflow-y: scroll;
+    max-height: 40em;
+}
+
 @media only screen and (max-width: 768px) {
     .navDropContainerUser .dropdown-menu, .navDropContainerTheme, .navDropContainerTheme .dropdown-menu {
         margin-left: 0;

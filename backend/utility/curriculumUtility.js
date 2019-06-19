@@ -1,13 +1,13 @@
-import fs from 'fs';
-import path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 // Scrapers
-import grades from '../scrapers/userhistory';
-import curriculum from '../scrapers/curriculum';
+const grades = require('../scrapers/userhistory');
+const curriculum = require('../scrapers/curriculum');
 
 // Models
-import Curriculum from '../models/Curriculum';
-import User from '../models/User';
+const Curriculum = require('../models/Curriculum');
+const User = require('../models/User');
 
 
 module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(filename) {

@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:server": "cd backend && nodemon server.js --ignore client --ignore ./data --exec babel-node --presets es2015,stage-0",
     "start:client": "cd client && npm start",
-    "start:dev": "concurrently \"npm run start:server\" \"npm run start:client\""
+	"start:dev": "concurrently \"npm run start:server\" \"npm run start:client\"",
+	"build:prod": "cd client && npm run build",
+	"start:prod": "node backend/server.js"
   },
   "repository": {
     "type": "git",

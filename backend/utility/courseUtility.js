@@ -1,14 +1,14 @@
-import fs from 'fs';
-import path from 'path';
-import xlsx from 'xlsx-to-json';
+const fs = require('fs');
+const path = require('path');
+const xlsx = require('xlsx-to-json');
 
 // Models
-import Curriculum from '../models/Curriculum';
-import User from '../models/User';
-import Course from '../models/Course';
+const Curriculum = require('../models/Curriculum');
+const User = require('../models/User');
+const Course = require('../models/Course');
 
-import systemUtility from './systemUtility';
-import userUtility from './userUtility';
+const systemUtility = require('./systemUtility');
+const userUtility = require('./userUtility');
 
 // Files
 const xlsxInputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.xlsx');

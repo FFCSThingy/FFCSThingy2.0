@@ -1,22 +1,22 @@
-import express from 'express';
-import path from 'path';
-import bodyParser from 'body-parser';
-import logger from 'morgan';
-import mongoose from 'mongoose';
-import session from 'express-session';
-var  mongoStore = require('connect-mongo')(session);
-import passport from 'passport';
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const  mongoStore = require('connect-mongo')(session);
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 
-import extRoute from './routes/ext';
-import userRoute from './routes/user';
-import curriculumRoute from './routes/curriculum';
-import courseRoute from './routes/course';
+const extRoute = require('./routes/ext');
+const userRoute = require('./routes/user');
+const curriculumRoute = require('./routes/curriculum');
+const courseRoute = require('./routes/course');
 
-import User from './models/User';
+const User = require('./models/User');
 
-import user from './utility/userUtility';
+const user = require('./utility/userUtility');
 
 const GOOGLE_CLIENT_ID = "524977778563-rqfsuge27b7se639i2n4ellt82uhtosv.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "UUNrcLqOXmnP_HweyJirA9VA";

@@ -2,22 +2,25 @@
 	font-family: 'Montserrat', sans-serif;
 	padding-right: 0;
 	padding-left: 1.87rem !important;
+	font-size: 0.6em;
+	margin-right: 1rem;
+	/* display:inline-flex; */
 	
 }
 
 
 .timetableA {
-	/* width: 100%; */
+	width: 100%;
 	/* border-radius: 0.7rem; */
-	float: left;
-	height: 574px;
+	/* float: left; */
+	/* height: 574px; */
 }
 
 .timetableB {
-	/* width: 100%; */
-	float: left;
-	height: 574px;
-	margin-left: 1rem;
+	width: 100%;
+	margin-top: 1rem;
+	/* float: left; */
+	/* height: 574px; */
 }
 
 .timetableA tr, 
@@ -27,7 +30,7 @@
 .timetableB td, 
 .timetableB th {
 	border: none !important;
-	padding: 5px;
+	padding: 2px;
 }
 
 .timetableTheoryHours {
@@ -44,16 +47,17 @@
 
 .timetableBody td {
 	text-align: center;
-	padding: 5px;
-	height: 96px;
+	padding: 2px;
+	height: 6vh;
+	/*
 	width: 7.2vw;
-	max-width: 7.2vw;
+	max-width: 7.2vw; */
 }
 
 .timetableBody tr {
 	border: none !important;
 	/* text-align: center; */
-	/* padding: 5px; */
+	padding: 2px;
 }
 
 .timetableHeader1A td {
@@ -75,7 +79,7 @@
 
 td.timetableDay {
 	background-color: var(--timetable-col1-color);
-	width: 6vw;
+	width: 9.3vw;
 }
 
 .timetableEmpty {
@@ -111,26 +115,3 @@ table tr:first-child td:last-child {
 
 
 
-@media only screen and (max-width: 1063px) {
-
-	.timetableA {
-		float: left;
-		height: 574px;
-	}
-
-	.timetableB {
-		float: right;
-		height: 574px;
-		margin-left: 0;
-	}
-
-	/* .timetableBody td {
-		height: 96px;
-		max-width: 100%;
-	} */
-
-	.timetableContainer {
-		overflow-x: scroll;
-	}
-
-}

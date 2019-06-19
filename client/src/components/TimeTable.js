@@ -288,11 +288,11 @@ class TimeTable extends Component {
 
 	renderBodyB = () => {
 		var slots = [
-			['A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
-			['B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
-			['C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
-			['D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
-			['E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
+			['MON', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
+			['TUE', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
+			['WED', 'C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
+			['THU', 'D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
+			['FRI', 'E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
 		];
 
 		var rows = slots.map(row => this.renderRow(row));
@@ -322,8 +322,7 @@ class TimeTable extends Component {
 
 				<table className="timetableB">
 					<tbody className="timetableBody">
-						{this.renderHeader1B()}
-						{this.renderHeader2B()}
+						
 						{this.renderBodyB()}
 					</tbody>
 				</table>

@@ -1,11 +1,11 @@
-import express from 'express';
+const express = require('express');
 
 // Utilities
-import curriculum from '../utility/curriculumUtility';
-import user from '../utility/userUtility';
-import course from '../utility/courseUtility';
-import system from '../utility/systemUtility';
-import { resolve } from 'path';
+const curriculum = require('../utility/curriculumUtility');
+const user = require('../utility/userUtility');
+const course = require('../utility/courseUtility');
+const system = require('../utility/systemUtility');
+const { resolve } = require('path');
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-import System from '../models/System';
+const System = require('../models/System');
 
 module.exports.updateRepopulateTime = () => {
 	return new Promise((resolve, reject) => {

@@ -1,9 +1,9 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import fs from 'fs';
-import path from 'path';
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
 
-import user from '../utility/userUtility';
+const user = require('../utility/userUtility');
 
 
 const router = express.Router();

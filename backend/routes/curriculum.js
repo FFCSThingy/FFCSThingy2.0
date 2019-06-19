@@ -1,12 +1,12 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import fs from 'fs';
-import path from 'path';
-import mongoose from 'mongoose';
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
+const mongoose = require('mongoose');
 
 // Utilities
-import curriculum from '../utility/curriculumUtility';
-import user from '../utility/userUtility';
+const curriculum = require('../utility/curriculumUtility');
+const user = require('../utility/userUtility');
 
 const router = express.Router();
 

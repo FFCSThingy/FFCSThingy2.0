@@ -1,13 +1,13 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import fs from 'fs';
-import path from 'path';
+const express = require('express');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const path = require('path');
 
-import grades from '../scrapers/userhistory';
-import curriculum from '../scrapers/curriculum';
+const grades = require('../scrapers/userhistory');
+const curriculum = require('../scrapers/curriculum');
 
-import userUtility from '../utility/userUtility';
-import curriculumUtility from '../utility/curriculumUtility';
+const userUtility = require('../utility/userUtility');
+const curriculumUtility = require('../utility/curriculumUtility');
 
 
 const router = express.Router();

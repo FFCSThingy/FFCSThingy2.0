@@ -4,7 +4,7 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/login.css'
 import { Container, Row, Card } from 'react-bootstrap';
 import featuresImage from "../images/ffcsfeatures.png";
-import { FaHeart } from 'react-icons/fa'
+import logo from "../images/logo.1.png";
 
 class Login extends React.Component {
 
@@ -12,14 +12,14 @@ class Login extends React.Component {
 		return (
 			<Container className="loginContainer">
 				<Row className="logoContainer">
-					<span className="ffcsthingy">FFCSThingy</span>
+					<span className="ffcsthingy"><img src={logo} width="25px;" alt=""/> FFCSThingy</span>
 				</Row>
 
 				<Row className="cards">
 
 					<Card className="firstCard">
 						<Card.Body>
-						<img className="features" src={featuresImage} alt="" width="300px"/>
+						<img className="features" src={featuresImage} alt="" width="100%"/>
 						</Card.Body>
 					</Card>
 					<Card className="secondCard">

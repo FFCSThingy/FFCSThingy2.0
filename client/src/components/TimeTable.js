@@ -9,9 +9,70 @@ class TimeTable extends Component {
 		skip: []
 	}
 	
-	renderHeader1 = () => {
+	// renderHeader1 = () => {
+	// 	return(
+	// 		<tr className="timetableHeader1">
+	// 			<td className="timetableDay">THEORY<br/>HOURS
+	// 			</td>
+	// 			<td className="timetableTheoryHours">08:00 AM
+	// 				<br/>to
+	// 				<br/>08:50 AM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">09:00 AM
+	// 				<br/>to
+	// 				<br/>09:50 AM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">10:00 AM
+	// 				<br/>to
+	// 				<br/>10:50 AM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">11:00 AM
+	// 				<br/>to
+	// 				<br/>11:50 AM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">12:00 PM
+	// 				<br/>to
+	// 				<br/>12:50 PM
+	// 			</td>
+	// 			<td className="timetableTheoryHours"></td>
+	// 			<td widtd="8px" rowSpan={9} className="timetableDay">
+	// 				<strong>B
+	// 				<br/>R
+	// 				<br/>E
+	// 				<br/>A
+	// 				<br/>K</strong>
+	// 			</td>
+	// 			<td className="timetableTheoryHours">02:00 PM
+	// 				<br/>to
+	// 				<br/>02:50 PM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">03:00 PM
+	// 				<br/>to
+	// 				<br/>03:50 PM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">04:00 PM
+	// 				<br/>to
+	// 				<br/>04:50 PM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">05:00 PM
+	// 				<br/>to
+	// 				<br/>05:50 PM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">06:00 PM
+	// 				<br/>to
+	// 				<br/>06:50 PM
+	// 			</td>
+	// 			<td className="timetableTheoryHours">07:00 PM
+	// 				<br/>to
+	// 				<br/>07:50 PM
+	// 			</td>
+	// 		</tr>
+	// 	)
+	// }
+
+	renderHeader1A = () => {
 		return(
-			<tr className="timetableHeader1">
+			<tr className="timetableHeader1A">
 				<td className="timetableDay">THEORY<br/>HOURS
 				</td>
 				<td className="timetableTheoryHours">08:00 AM
@@ -35,13 +96,13 @@ class TimeTable extends Component {
 					<br/>12:50 PM
 				</td>
 				<td className="timetableTheoryHours"></td>
-				<td widtd="8px" rowSpan={9} className="timetableDay">
-					<strong>B
-					<br/>R
-					<br/>E
-					<br/>A
-					<br/>K</strong>
-				</td>
+			</tr>
+			)
+		}
+	
+	renderHeader1B = () => {
+		return(
+			<tr className="timetableHeader1B">
 				<td className="timetableTheoryHours">02:00 PM
 					<br/>to
 					<br/>02:50 PM
@@ -70,9 +131,9 @@ class TimeTable extends Component {
 		)
 	}
 
-	renderHeader2 = () => {
+	renderHeader2A = () => {
 		return (
-			<tr className="timetableHeader2">
+			<tr className="timetableHeader2A">
 				<td className="timetableDay">LAB
 					<br/>HOURS
 				</td>
@@ -100,6 +161,12 @@ class TimeTable extends Component {
 					<br/>to
 					<br/>01:00 PM
 				</td>
+			</tr>
+			)
+		}
+	renderHeader2B =() => {
+		return(
+			<tr className="timetableHeader2B">
 				<td className="timetableLabHours">02:00 PM
 					<br/>to
 					<br/>02:45 PM
@@ -181,7 +248,8 @@ class TimeTable extends Component {
 			<td key={c} className="timetableFilledTheory">
 				<b>{slotString}</b> <br />
 				{reqdCourse.code} <br />
-				{reqdCourse.venue} - {reqdCourse.course_type}
+				{reqdCourse.venue} <br />
+				{reqdCourse.course_type}
 			</td>
 		)
 	}
@@ -191,18 +259,40 @@ class TimeTable extends Component {
 			<td key={c} className="timetableFilledLab">
 				<b>{slotString}</b> <br />
 				{reqdCourse.code} <br />
-				{reqdCourse.venue} - {reqdCourse.course_type}
+				{reqdCourse.venue} <br />
+				{reqdCourse.course_type}
 			</td>
 		)
 	}
 
-	renderBody = () => {
+	renderBodyA = () => {
+		// var slots = [
+		// 	['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
+		// 	['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
+		// 	['WED', 'C1/L13', 'A1/L14', 'F1/L15', 'V1/L16', 'V2/', 'EXTM/', 'C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
+		// 	['THU', 'D1/L19', 'B1/L20', 'G1/L21', 'TE1/L22', 'TCC1/L23', '/L24', 'D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
+		// 	['FRI', 'E1/L25', 'C1/L26', 'TA1/L27', 'TF1/L28', 'TD1/L29', '/L30', 'E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
+		// ];
 		var slots = [
-			['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
-			['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
-			['WED', 'C1/L13', 'A1/L14', 'F1/L15', 'V1/L16', 'V2/', 'EXTM/', 'C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
-			['THU', 'D1/L19', 'B1/L20', 'G1/L21', 'TE1/L22', 'TCC1/L23', '/L24', 'D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
-			['FRI', 'E1/L25', 'C1/L26', 'TA1/L27', 'TF1/L28', 'TD1/L29', '/L30', 'E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
+			['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6'],
+			['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12'],
+			['WED', 'C1/L13', 'A1/L14', 'F1/L15', 'V1/L16', 'V2/', 'EXTM/'],
+			['THU', 'D1/L19', 'B1/L20', 'G1/L21', 'TE1/L22', 'TCC1/L23','/L24'],
+			['FRI', 'E1/L25', 'C1/L26', 'TA1/L27', 'TF1/L28', 'TD1/L29', '/L30'] 
+		];
+
+		var rows = slots.map(row => this.renderRow(row));
+
+		return rows;
+	}
+
+	renderBodyB = () => {
+		var slots = [
+			['A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
+			['B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
+			['C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
+			['D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
+			['E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
 		];
 
 		var rows = slots.map(row => this.renderRow(row));
@@ -212,12 +302,29 @@ class TimeTable extends Component {
 
 	render() {
 		return (
+			// <Container className="timetableContainer" fluid='true'>
+			// 	<table className="timetable">
+			// 		<tbody className="timetableBody">
+			// 			{this.renderHeader1()}
+			// 			{this.renderHeader2()}
+			// 			{this.renderBody()}
+			// 		</tbody>
+			// 	</table>
+			// </Container>
 			<Container className="timetableContainer" fluid='true'>
-				<table className="timetable">
+				<table className="timetableA">
 					<tbody className="timetableBody">
-						{this.renderHeader1()}
-						{this.renderHeader2()}
-						{this.renderBody()}
+						{this.renderHeader1A()}
+						{this.renderHeader2A()}
+						{this.renderBodyA()}
+					</tbody>
+				</table>
+
+				<table className="timetableB">
+					<tbody className="timetableBody">
+						{this.renderHeader1B()}
+						{this.renderHeader2B()}
+						{this.renderBodyB()}
 					</tbody>
 				</table>
 			</Container>

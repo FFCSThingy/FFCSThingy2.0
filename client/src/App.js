@@ -522,6 +522,14 @@ class App extends React.Component {
 		this.doGetPrefixes();
 		this.doCurriculumFetch('17BCE');
 		this.changeActiveTimetable();
+
+		this.heatmapInterval = setInterval(() => this.doGetFullHeatmap(), 1000*2*60);
+		this.courseSyncInterval = setInterval(() => this.doGetSelectedCourses(), 1000*60);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.heatmapInterval);
+		clearInterval(this.courseSyncInterval);
 	}
 
 	doGetAccount = () => {

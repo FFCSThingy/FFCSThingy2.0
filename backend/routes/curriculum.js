@@ -13,7 +13,7 @@ const router = express.Router();
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-router.get('/updateCurriculums', (req, res, next) => {
+router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
 	var currs = ['17BCI', '17BCE'];
 	var actions = currs.map(curriculum.doParseAndSaveCurriculum);
 	var results = Promise.all(actions);

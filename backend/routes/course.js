@@ -73,22 +73,22 @@ router.get('/getCourseList/:timestamp?', async (req, res, next) => {
 	}
 });
 
-router.post('/parseCourses', async (req, res, next) => {
-	if (req.body.password != "SuckOnDeezNumbNutz")
-		res.status(403).json({ success: false, message: "Get the password right, bitchface." });
-});
+// router.post('/parseCourses', async (req, res, next) => {
+// 	if (req.body.password != "SuckOnDeezNumbNutz")
+// 		res.status(403).json({ success: false, message: "Get the password right, bitchface." });
+// });
 
-router.get('/parseCourses', async (req, res, next) => {
-	try {
-		var parsedData = await course.parseXLSX();
-		res.json(parsedData);
-	} catch (err) {
-		res.status(500).json({ success: false, message: '/parseCourses failed' });
-		console.log(err);
-	}
-});
+// router.get('/parseCourses', async (req, res, next) => {
+// 	try {
+// 		var parsedData = await course.parseXLSX();
+// 		res.json(parsedData);
+// 	} catch (err) {
+// 		res.status(500).json({ success: false, message: '/parseCourses failed' });
+// 		console.log(err);
+// 	}
+// });
 
-router.get('/addCoursesToDB', async (req, res, next) => {
+router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 	try {
 		var courses = await course.parseXLSX();
 

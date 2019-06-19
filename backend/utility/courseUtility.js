@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const xlsx = require('xlsx-to-json');
+const cron = require('node-cron');
 
 // Models
 const Curriculum = require('../models/Curriculum');
@@ -212,3 +213,8 @@ module.exports.updateHeatmap = () => {
 		});
 	});
 }
+
+cron.schedule('* * * * *', () => {
+	console.log('Running Heatmap Update');
+	module.exports.updateHeatmap();
+});

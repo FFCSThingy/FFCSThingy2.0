@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-	"build-local": "REACT_APP_BASE_URL=localhost:3001 npm run build",
+	"build-local": "REACT_APP_BASE_URL=http://localhost:3001 npm run build",
 	"build-test-server": "REACT_APP_BASE_URL=http://ffcs.csivit.com npm run build"
   },
   "eslintConfig": {

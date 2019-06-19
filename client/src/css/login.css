@@ -1,130 +1,165 @@
 .loginContainer {
-    max-width: 100% !important;
     font-family: 'Montserrat', sans-serif;
-    background: rgba(125,136,232,1);
-    background: -moz-linear-gradient(left, rgba(125,136,232,1) 0%, rgba(76,86,178,1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(125,136,232,1)), color-stop(100%, rgba(76,86,178,1)));
-    background: -webkit-linear-gradient(left, rgba(125,136,232,1) 0%, rgba(76,86,178,1) 100%);
-    background: -o-linear-gradient(left, rgba(125,136,232,1) 0%, rgba(76,86,178,1) 100%);
-    background: -ms-linear-gradient(left, rgba(125,136,232,1) 0%, rgba(76,86,178,1) 100%);
-    background: linear-gradient(to right, rgba(125,136,232,1) 0%, rgba(76,86,178,1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7d88e8', endColorstr='#4c56b2', GradientType=1 );
-    cursor: default;
-    min-height: 100vh;
+    max-width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to right,rgba(125,136,232,1), rgba(76,86,178,1));
 }
 
-.loginCard {
-    margin: 4rem 4rem 0 4rem;
-}
-
-.loginCard > .card {
+.ffcsthingy {
+    margin: 0 auto;
     padding: 2rem;
-    margin-bottom: none;
-    border-radius: 0.7rem !important;
-    
+    color: white;
+    font-size: 1.6rem;
+    font-weight: bold;
 }
 
-.loginCard .card {
+.firstCard {
+    display: none;
+}
+
+.secondCard {
+    margin: 0 auto;
+    width: 80vw;
+    height: 30vh;
+    margin-top: 2rem;
+    border-radius: 1rem;
     background-color: var(--select-table-background-color);
-}
 
-.loginCard .card-columns {
-    column-count: 2;
-}
-
-.logoContainer {
-    padding: 2rem 11rem;
-    color: var(--card-background-color);
-}
-
-.titleHead {
-    text-align: center !important;
-    font-size: 2em;
+    text-align: center;
     font-weight: bold;
     color: var(--brand-color);
-    padding-bottom: 3rem;
+    font-size: 1.4rem;
 }
 
-.cardTwo > .card-body {
-    padding: 9rem 1.25rem;
-    border-left: 1px solid #e1e5e9;
-}
+.thirdCard {
+    margin: 1rem auto;
+    width: 80vw;
+    height: 35vh;
 
-.loginCard .card-columns .card {
-    margin-bottom: 0;
-}
-
-.featureList {
-    padding: 1rem;
-    margin-bottom: 2rem !important;
-    font-size: 1.2em;
-    color: #7f7f7f;
-    background-color: white;
-    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-    box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-    font-weight: bold;
-    text-align: center;
-    border-radius: 0.7rem;
-}
-
-.featureList:last-child {
-    margin-bottom: 0 !important;
-}
-
-.break {
+    background-color: var(--select-table-background-color);
     border-radius: 1rem;
-    background: #73AD21;
-    width: 5px !important;
-    height: 150px; 
-  }
 
-.signInText {
-    text-align: center !important;
-    font-size: 1.5em;
+    color: var(--brand-color);
     font-weight: bold;
-    color: var(--card-header-color);
-    padding-bottom: 1rem;
+
+    line-height: 1.7em;
 }
 
-.loginButtonContainer {
-    text-align: center;
+.secondCard .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
 }
 
-.footerTextContainer {
-    text-align: center;
-    color: var(--text-color-default);
-    font-weight: 100;
-    display: block;
-    margin-top: 4rem;
+.thirdCard .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
-.features {
-    width:30vw;
+.footer {
+    width: 100vw;
+    position: absolute;
+    bottom: 1.5rem;
+}
+
+.footerText {
+    margin: 0 auto;
+}
+
+@media (min-width: 1024px) {
+
+    .ffcsthingy {
+        margin: 3vh 0 0 7vw;
+        font-size: 1.7rem;
+    }
+
+    .cards {
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 7vh;
+    }
+
+    .firstCard {
+        background-color: var(--select-table-background-color);
+        display: block;
+        width: 40vw;
+        height: 45vh;
+        border-radius: 1rem;
+    }
+
+    .secondCard {
+        width: 35vw;
+        height: 40vh;
+        margin: 0;
+        margin-top: 3rem;
+        background: none;
+    }
+
+    .firstCard .card-body {
+        height: 45vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .secondCard .card-body {
+        justify-content: space-evenly;
+    }
+
+    .thirdCard {
+        display: none;
+    }
+
+    .titleHead {
+        text-align: center;
+        font-size: 2em;
+        font-weight: bold;
+        color: var(--select-table-background-color);
+        padding-bottom: 3rem;
+    }
+
+    .footer {
+        bottom: 10rem;
+        font-size: 1.2rem;
+    }
+
+    .googleButtonLink {
+        width: 230px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 1500px) {
+    .firstCard {
+        height: 60vh;
+    }
+
+    .firstCard .card-body {
+        height: 60vh;
+    }
 }
 
 /* Google Button */
 
 .google-button {
-  height: 40px;
-  border-width: 0;
+  height: 45px;
+  width: 230px;
   background: white;
   color: #737373;
   border-radius: 5px;
-  white-space: nowrap;
   box-shadow: 1px 1px 0px 1px rgba(0,0,0,0.05);
   transition-property: background-color, box-shadow;
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
-  padding: 0;
-  
 }
 
 .google-button:focus, .google-button:hover {
     box-shadow: 1px 4px 5px 1px rgba(0,0,0,0.1);
     outline: none;
 }
-  
+
 .google-button:active {
     background-color: #e5e5e5;
     box-shadow: none;
@@ -132,10 +167,9 @@
     border: none;
   }
 
-    
+
 .google-button__icon {
   display: inline-block;
-  vertical-align: middle;
   margin: 0 0 8px 10px;
   width: 18px;
   height: 18px;
@@ -154,6 +188,3 @@
   font-weight: bold;
   font-family: 'Roboto',sans-serif;
 }
-
-
-

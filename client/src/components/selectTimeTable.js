@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dropdown, ButtonGroup, Button, Modal, Card } from 'react-bootstrap';
-import { FaTrashAlt, FaCopy, FaPlusSquare, FaCaretDown } from 'react-icons/fa';
+import { Dropdown, ButtonGroup, Button, Card } from 'react-bootstrap';
+import { FaTrashAlt, FaCopy, FaPlusSquare } from 'react-icons/fa';
 import './selectTimeTable.css';
 import "./TimeTable.css";
 export default class SelectTimeTable extends React.Component {
@@ -60,7 +60,7 @@ export default class SelectTimeTable extends React.Component {
 		onHide={this.handleClose}
 		>
 		<Card.Body className="inputPopup">
-			<input placeholder="Enter name" 
+			<input placeholder="Enter name"
 			class="inputField" type="text" value={this.state.value} onChange={this.handleChange}
 			spellCheck='false'
 			autoComplete='off' />
@@ -133,7 +133,7 @@ export default class SelectTimeTable extends React.Component {
 								eventKey='new'
 								onClick={this.handleShow}
 								className="dropdownButton">
-								Create new 
+								Create new
 								{/* <FaCaretDown  className="newButton"/> */}
 							</Dropdown.Item>
 							{this.renderCard()}

@@ -18,7 +18,7 @@ import './App.css';
 import './css/nav-bar.css'
 import './components/TimeTable'
 
-import axios from 'axios';
+import API from './API';
 import Generator from './components/magicFill';
 
 class App extends React.Component {
@@ -533,7 +533,7 @@ class App extends React.Component {
 	}
 
 	doGetAccount = () => {
-		axios.get("/account")
+		API.get("/account")
 			.then(res => {
 				if (res.data) {
 					if (res.status === 304);
@@ -551,7 +551,7 @@ class App extends React.Component {
 	}
 
 	doGetSelectedCourses = () => {
-		axios.get('/user/getSelectedCourses')
+		API.get('/user/getSelectedCourses')
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304) {
@@ -572,7 +572,7 @@ class App extends React.Component {
 	}
 
 	doGetFullHeatmap = () => {
-		axios.get("/course/getFullHeatmap")
+		API.get("/course/getFullHeatmap")
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304)
@@ -591,7 +591,7 @@ class App extends React.Component {
 	}
 
 	doGetPrefixes = () => {
-		axios.get("/curriculum/getPrefixes")
+		API.get("/curriculum/getPrefixes")
 			.then(res => {
 				if (res.data.success) {
 					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
@@ -601,7 +601,7 @@ class App extends React.Component {
 	}
 
 	doCurriculumFetch = (prefix) => {
-		axios.get("/curriculum/getCurriculumFromPrefix/" + prefix)
+		API.get("/curriculum/getCurriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
 					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
@@ -612,7 +612,7 @@ class App extends React.Component {
 	}
 
 	doGetCourseList = () => {
-		axios.get("/course/getCourseList")
+		API.get("/course/getCourseList")
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304) {
@@ -629,13 +629,13 @@ class App extends React.Component {
 	}
 
 	doLogout = () => {
-		axios.get('/logout').then(res => {
+		API.get('/logout').then(res => {
 			this.props.history.push('/');
 		});
 	}
 
 	doSetSelectedCourses = (timetable) => {
-		axios.post('/user/updateSelectedCoursesBulk', {selected_courses: timetable}).then(res => {
+		API.post('/user/updateSelectedCoursesBulk', {selected_courses: timetable}).then(res => {
 			console.log(res.status);
 			console.log(res.data);
 		});

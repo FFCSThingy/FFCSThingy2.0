@@ -551,7 +551,7 @@ class App extends React.Component {
 	}
 
 	doGetSelectedCourses = () => {
-		API.get('/user/getSelectedCourses')
+		API.get('/user/selectedCourses')
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304) {
@@ -572,7 +572,7 @@ class App extends React.Component {
 	}
 
 	doGetFullHeatmap = () => {
-		API.get("/course/getFullHeatmap")
+		API.get("/course/fullHeatmap")
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304)
@@ -591,7 +591,7 @@ class App extends React.Component {
 	}
 
 	doGetPrefixes = () => {
-		API.get("/curriculum/getPrefixes")
+		API.get("/curriculum/prefixes")
 			.then(res => {
 				if (res.data.success) {
 					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
@@ -601,7 +601,7 @@ class App extends React.Component {
 	}
 
 	doCurriculumFetch = (prefix) => {
-		API.get("/curriculum/getCurriculumFromPrefix/" + prefix)
+		API.get("/curriculum/curriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
 					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
@@ -612,7 +612,7 @@ class App extends React.Component {
 	}
 
 	doGetCourseList = () => {
-		API.get("/course/getCourseList")
+		API.get("/course/courseList")
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304) {
@@ -635,7 +635,7 @@ class App extends React.Component {
 	}
 
 	doSetSelectedCourses = (timetable) => {
-		API.post('/user/updateSelectedCoursesBulk', {selected_courses: timetable}).then(res => {
+		API.post('/user/selectedCoursesBulk', {selected_courses: timetable}).then(res => {
 			console.log(res.status);
 			console.log(res.data);
 		});

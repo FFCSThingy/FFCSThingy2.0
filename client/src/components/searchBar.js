@@ -14,7 +14,7 @@ class Search extends React.Component {
 	}
 
 	componentWillMount() {
-		API.get("/curriculum/getPrefixes")
+		API.get("/curriculum/prefixes")
 			.then(res => {
 				if (res.data.success) {
 						this.setState({ curriculumList: res.data.data });

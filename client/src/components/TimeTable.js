@@ -1,144 +1,226 @@
 import React, { Component } from "react";
-import "./TimeTable.css";
-import SlotElement from "./SlotElement";
-class TimeTable extends Component {
-	getLabelElement = (labelName, styleClass) => {
-		return (
-			<div className={styleClass}>
-				{labelName.split("\n").map(text => {
-					return <div>{text}</div>;
-				})}
-			</div>
-		);
-	};
 
+import { Container } from 'react-bootstrap';
+
+import "./TimeTable.css";
+class TimeTable extends Component {
+
+	state = {
+		skip: []
+	}
+	
+	renderHeader1 = () => {
+		return(
+			<tr className="timetableHeader1">
+				<td className="timetableDay">THEORY<br/>HOURS
+				</td>
+				<td className="timetableTheoryHours">08:00 AM
+					<br/>to
+					<br/>08:50 AM
+				</td>
+				<td className="timetableTheoryHours">09:00 AM
+					<br/>to
+					<br/>09:50 AM
+				</td>
+				<td className="timetableTheoryHours">10:00 AM
+					<br/>to
+					<br/>10:50 AM
+				</td>
+				<td className="timetableTheoryHours">11:00 AM
+					<br/>to
+					<br/>11:50 AM
+				</td>
+				<td className="timetableTheoryHours">12:00 PM
+					<br/>to
+					<br/>12:50 PM
+				</td>
+				<td className="timetableTheoryHours"></td>
+				<td widtd="8px" rowSpan={9} className="timetableDay">
+					<strong>B
+					<br/>R
+					<br/>E
+					<br/>A
+					<br/>K</strong>
+				</td>
+				<td className="timetableTheoryHours">02:00 PM
+					<br/>to
+					<br/>02:50 PM
+				</td>
+				<td className="timetableTheoryHours">03:00 PM
+					<br/>to
+					<br/>03:50 PM
+				</td>
+				<td className="timetableTheoryHours">04:00 PM
+					<br/>to
+					<br/>04:50 PM
+				</td>
+				<td className="timetableTheoryHours">05:00 PM
+					<br/>to
+					<br/>05:50 PM
+				</td>
+				<td className="timetableTheoryHours">06:00 PM
+					<br/>to
+					<br/>06:50 PM
+				</td>
+				<td className="timetableTheoryHours">07:00 PM
+					<br/>to
+					<br/>07:50 PM
+				</td>
+			</tr>
+		)
+	}
+
+	renderHeader2 = () => {
+		return (
+			<tr className="timetableHeader2">
+				<td className="timetableDay">LAB
+					<br/>HOURS
+				</td>
+				<td className="timetableLabHours">08:00 AM
+					<br/>to
+					<br/>08:45 AM
+				</td>
+				<td className="timetableLabHours">08:45 AM
+					<br/>to
+					<br/>09:30 AM
+				</td>
+				<td className="timetableLabHours">10:00 AM
+					<br/>to
+					<br/>10:45 AM
+				</td>
+				<td className="timetableLabHours">10:45 AM
+					<br/>to
+					<br/>11:30 AM
+				</td>
+				<td className="timetableLabHours">11:30 AM
+					<br/>to
+					<br/>12:15 AM
+				</td>
+				<td className="timetableLabHours">12:15 AM
+					<br/>to
+					<br/>01:00 PM
+				</td>
+				<td className="timetableLabHours">02:00 PM
+					<br/>to
+					<br/>02:45 PM
+				</td>
+				<td className="timetableLabHours">02:45 PM
+					<br/>to
+					<br/>03:30 PM
+				</td>
+				<td className="timetableLabHours">04:00 PM
+					<br/>to
+					<br/>04:45 PM
+				</td>
+				<td className="timetableLabHours">04:45 PM
+					<br/>to
+					<br/>05:30 PM
+				</td>
+				<td className="timetableLabHours">05:30 PM
+					<br/>to
+					<br/>06:15 PM
+				</td>
+				<td className="timetableLabHours">06:15 PM
+					<br/>to
+					<br/>07:00 PM
+				</td>
+			</tr>
+		)
+	}
+
+	renderRow = (row) => {
+		var elems = row.map((c,i) => {
+			if(i === 0) return this.renderDays(c);
+
+			var slots = c.split('/');
+			var slotString, reqdCourse;
+
+			if (slots[0] === '') slotString = slots[1];
+			else if (slots[1] === '') slotString = slots[0];
+			else slotString = c;
+
+
+			if (!this.props.filledSlots.includes(slots[0]) && !this.props.filledSlots.includes(slots[1]))
+				return this.renderEmpty(c, slotString);
+			else if (this.props.filledSlots.includes(slots[0])) {
+				
+				reqdCourse = this.props.timetable.find(e => (
+					e.slot.split('+').includes(slots[0]) && 
+					e.timetableName === this.props.activeTimetable
+				));
+				
+				return this.renderFilledTheory(c, slotString, reqdCourse);
+			}
+			else if (this.props.filledSlots.includes(slots[1])) {
+				reqdCourse = this.props.timetable.find(e => (
+					e.slot.split('+').includes(slots[1]) &&
+					e.timetableName === this.props.activeTimetable
+				));
+
+				return this.renderFilledLab(c, slotString, reqdCourse);		
+			}
+		})
+		
+		return(
+			<tr>
+				{elems}
+			</tr>
+		)
+	}
+
+	renderDays = (day) => {
+		return <td key={day} className="timetableDay">{day}</td>
+	}
+
+	renderEmpty = (c, slotString) => {
+		return <td key={c} className="timetableEmpty"><b>{slotString}</b></td>
+	}
+
+	renderFilledTheory = (c, slotString, reqdCourse) => {
+		return (
+			<td key={c} className="timetableFilledTheory">
+				<b>{slotString}</b> <br />
+				{reqdCourse.code} <br />
+				{reqdCourse.venue} - {reqdCourse.course_type}
+			</td>
+		)
+	}
+
+	renderFilledLab = (c, slotString, reqdCourse) => {
+		return (
+			<td key={c} className="timetableFilledLab">
+				<b>{slotString}</b> <br />
+				{reqdCourse.code} <br />
+				{reqdCourse.venue} - {reqdCourse.course_type}
+			</td>
+		)
+	}
+
+	renderBody = () => {
+		var slots = [
+			['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
+			['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
+			['WED', 'C1/L13', 'A1/L14', 'F1/L15', 'V1/L16', 'V2/', 'EXTM/', 'C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
+			['THU', 'D1/L19', 'B1/L20', 'G1/L21', 'TE1/L22', 'TCC1/L23', '/L24', 'D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
+			['FRI', 'E1/L25', 'C1/L26', 'TA1/L27', 'TF1/L28', 'TD1/L29', '/L30', 'E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
+		];
+
+		var rows = slots.map(row => this.renderRow(row));
+
+		return rows;
+	}
 
 	render() {
-		var { filledSlots } = this.props;
-		var slots = [...filledSlots];
-
-		for (var i = 0; i < slots.length; i++) {
-			var slotClass = document.getElementsByClassName(slots[i]);
-			for (var j = 0; j < slotClass.length; j++) {
-				slotClass[j].style.background = "yellowgreen";
-				slotClass[j].style.color = "black";
-			}
-		}
-
 		return (
-			<div className="containerGrid">
-				<div className="sectionGridMorning">
-					{this.getLabelElement("THEORY \n HOURS", "grayLabel theory")}
-					{this.getLabelElement("8:00AM\nTO\n8:50AM", "purpleLabel theory")}
-					{this.getLabelElement("9:00AM\nTO\n9:50AM", "purpleLabel theory")}
-					{this.getLabelElement("10:00AM\nTO\n10:50AM", "purpleLabel theory")}
-					{this.getLabelElement("11:00AM\nTO\n11:50AM", "purpleLabel theory")}
-					{this.getLabelElement("12:00PM\nTO\n12:50PM", "purpleLabel theory")}
-					{this.getLabelElement("NO THEORY \n SLOTS", "purpleLabel theory")}
-
-					{this.getLabelElement("LAB \n HOURS", "grayLabel lab")}
-					{this.getLabelElement("8:00AM\nTO\n8:45AM", "blueLabel lab")}
-					{this.getLabelElement("8:46AM\nTO\n9:30AM", "blueLabel lab")}
-					{this.getLabelElement("10:00AM\nTO\n10:45AM", "blueLabel lab")}
-					{this.getLabelElement("10:46AM\nTO\n11:30AM", "blueLabel lab")}
-					{this.getLabelElement("11:31AM\nTO\n12:15PM", "blueLabel lab")}
-					{this.getLabelElement("12:16PM\nTO\n1:00PM", "blueLabel lab")}
-
-					{this.getLabelElement("MONDAY", "grayLabel mon")}
-					{this.getLabelElement("TUESDAY", "grayLabel tue")}
-					{this.getLabelElement("WEDNESDAY", "grayLabel wed")}
-					{this.getLabelElement("THURSDAY", "grayLabel thu")}
-					{this.getLabelElement("FRIDAY", "grayLabel fri")}
-
-					<SlotElement isEmpty="empty" slotName="A1/L1" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="F1/L2" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="D1/L3" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TB1/L4" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TG1/L5" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="L6" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="B1/L7" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="G1/L8" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="E1/L9" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TC1/L10" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TAA1/L11" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="L12" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="C1/L13" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="A1/L14" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="F1/L15" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="V1/L16" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="V2" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="EXTM" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="D1/L19" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="B1/L20" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="G1/L21" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TE1/L22" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TCC1/L23" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="L24" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="E1/L25" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="C1/L26" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TA1/L27" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TF1/L28" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TD1/L29" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="L30" slotData={null} />
-				</div>
-				<div className=" grayLabel">
-					{this.getLabelElement("L\nU\nN\nC\nH")}
-				</div>
-				<div className="sectionGridEvening">
-					{this.getLabelElement("2:00PM\nTO\n2:50PM", "purpleLabel theory")}
-					{this.getLabelElement("3:00PM\nTO\n3:50PM", "purpleLabel theory")}
-					{this.getLabelElement("4:00PM\nTO\n4:50PM", "purpleLabel theory")}
-					{this.getLabelElement("5:00PM\nTO\n5:50PM", "purpleLabel theory")}
-					{this.getLabelElement("6:00PM\nTO\n6:50PM", "purpleLabel theory")}
-					{this.getLabelElement("7:00PM\nTO\n7:50PM", "purpleLabel theory")}
-
-					{this.getLabelElement("2:00PM\nTO\n2:45PM", "blueLabel lab")}
-					{this.getLabelElement("2:46PM\nTO\n2:30PM", "blueLabel lab")}
-					{this.getLabelElement("4:00PM\nTO\n4:45PM", "blueLabel lab")}
-					{this.getLabelElement("4:46PM\nTO\n5:30PM", "blueLabel lab")}
-					{this.getLabelElement("5:31PM\nTO\n6:15PM", "blueLabel lab")}
-					{this.getLabelElement("6:16PM\nTO\n7:00PM", "blueLabel lab")}
-					
-					<SlotElement isEmpty="empty" slotName="A2/L31" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="F2/L32" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="D2/L33" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TB2/L34" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TG2/L35" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="V3/L36" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="B2/L37" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="G2/L38" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="E2/L39" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TC2/L40" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TAA2/L41" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="V4/L42" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="C2/L43" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="A2/L44" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="F2/L45" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TD2/L46" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TBB2/L47" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="V5/L48" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="D2/L49" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="B2/L50" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="G2/L51" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TE2/L52" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TCC2/L53" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="V6/L54" slotData={null} />
-
-					<SlotElement isEmpty="empty" slotName="E2/L55" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="C2/L56" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TA2/L57" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TF2/L58" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="TDD2/L59" slotData={null} />
-					<SlotElement isEmpty="empty" slotName="V7/L60" slotData={null} />
-				</div>
-			</div>
+			<Container className="timetableContainer" fluid='true'>
+				<table className="timetable">
+					<tbody className="timetableBody">
+						{this.renderHeader1()}
+						{this.renderHeader2()}
+						{this.renderBody()}
+					</tbody>
+				</table>
+			</Container>
 		);
 	}
 }

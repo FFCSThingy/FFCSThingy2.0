@@ -1,7 +1,7 @@
 import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, NavDropdown, NavbarBrand, Row } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, NavbarBrand } from 'react-bootstrap';
 
 import "whatwg-fetch";
 import '../App.css';
@@ -15,13 +15,17 @@ class CustomNavbar extends React.Component {
 	renderThemeChoices = () => {
 		return Object.keys(this.props.themes).map(v => {
 			return (
-				<NavDropdown.Item eventKey={v} key={v}>{this.props.themes[v].name}</NavDropdown.Item>
+				<NavDropdown.Item eventKey={v} key={v}>{this.props.themes[v].name}
+					<NavDropdown.Divider />
+				</NavDropdown.Item>
 			)
 		})
 	}
 
 	renderCurriculumChoices = () => {
-		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v}</NavDropdown.Item>);
+		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v} 
+				<NavDropdown.Divider />
+			</NavDropdown.Item>);
 	}
 
 	render() {
@@ -32,16 +36,16 @@ class CustomNavbar extends React.Component {
 					{/* <img className="logo" alt="FFCSThingy" src={navbarImage}></img> */}
 					FFCSThingy
 				</NavbarBrand>
-				
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-				
+
 				<NavDropdown 
 					title={this.props.selectedCurriculum} 
-					className="navDropContainer"
+					className="navDropContainerCurriculum"
 					onSelect={this.props.handleCurriculumChange}
 				>
 					{this.renderCurriculumChoices()}
 				</NavDropdown>
+
+				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 					
@@ -57,7 +61,7 @@ class CustomNavbar extends React.Component {
 
 						<NavDropdown
 							title="Theme"
-							className="navDropContainer"
+							className="navDropContainerTheme"
 							onSelect={this.props.changeActiveTheme}
 						>
 							{this.renderThemeChoices()}
@@ -65,9 +69,10 @@ class CustomNavbar extends React.Component {
 						</NavDropdown>
 						
 						<NavDropdown 
-							title={<img className="userProfileImage" 
-								src={this.props.user.picture} />} 
-							className="navDropContainer"
+							alignRight
+							title={<img className="userProfileImage" alt=""
+							src={this.props.user.picture} />} 
+							className="navDropContainerUser"
 						>
 							<NavDropdown.Item disabled>
 								{this.props.user.display_name}
@@ -75,7 +80,7 @@ class CustomNavbar extends React.Component {
 
 							<NavDropdown.Divider />
 							
-							<NavDropdown.Item>Logout</NavDropdown.Item>
+							<NavDropdown.Item onClick={this.props.doLogout}>Logout</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
 

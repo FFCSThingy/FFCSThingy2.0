@@ -1,24 +1,28 @@
+/* TODO 
+-navbardropdown mobile white 
+-sometransition for dropdown action */
+
 .navBar {
     width: 100%;
     /* height: 5em; */
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     font-family: 'Montserrat', sans-serif;
     font-weight: bold;
     padding-left: 2em;
-    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
 }
 
 .navLink {
-    color:var(--white) !important;
+    color:var(--text-color-default) !important;
     padding-top: 0.8rem;
 	/* margin-bottom: 2rem !important; */
 }
 
 .navDrop {
-    color:var(--white) !important;
-    background-color: var(--card-header-color);
+    color:var(--text-color-default) !important;
+    background-color: var(--brand-color);
     border: none !important;
     font-weight: bold;
     font-family: 'Montserrat', sans-serif;
@@ -26,17 +30,17 @@
 }
 
 .navDrop:hover {
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
 }
 
 .navDrop:active{
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     border: none !important;
     box-shadow: none !important;
 }
 
 .navDrop:focus{
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     border: none !important;
     box-shadow: none !important;
 }
@@ -46,70 +50,129 @@
     padding-left: 2rem;
 }
 
-
+.linksContainer .navLeft {
+    margin-top: 0.32rem !important;
+}
 
 .logo {
     width: 190px;
 }
 
 
+
+
+/* .dropdown .dropdown-menu {
+    -webkit-transition: all 0.17s ease-in-out;
+    -moz-transition: all 0.17s ease-in-out;
+    -ms-transition: all 0.17s ease-in-out;
+    -o-transition: all 0.17s ease-in-out;
+    transition: all 0.17s ease-in-out;
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    margin-top: 0.4rem !important;
+}
+
+.dropdown.show .dropdown-menu {
+    opacity: 1;
+} */
+
 .mr-auto {
     margin-right: 0 !important;
 }
 
-.navDropContainer {
-    /* padding-top: 0.13rem;  */
+.navDropContainerUser {
     margin-top: 0;
-    /* padding-left: 30rem;
-    padding-right: 10%; */
+}
+
+.navDropContainerCurriculum {
+    margin-top: 0.38%;
+}
+
+.navDropContainerTheme {
+    margin-top: 2%; 
+}
+
+.navDropContainerCurriculum > a, .navDropContainerTheme > a {
+    color: var(--text-color-default) !important;
 }
 
 .linksContainer {
     justify-content: space-between;
 }
 
-.navDropContainer .dropdown-menu {
+.navDropContainerUser .dropdown-menu {
     padding: .25rem 1rem .25rem 0.25rem !important;
     min-width: 5rem !important;
+    /* margin-left: -5.25rem; */
+    position: absolute;
+}
+
+.navDropContainerCurriculum .dropdown-menu {
+    /* margin-left: 1rem; */
+    min-width: 7rem !important;
+}
+
+.navDropContainerTheme .dropdown-menu {
     margin-left: -5.25rem;
+    position: absolute;
+}
+
+.navDropContainerCurriculum .dropdown-item:last-child > .dropdown-divider{
+    display: none;
+}
+
+.navDropContainerTheme .dropdown-item:last-child > .dropdown-divider{
+    display: none;
 }
 
 @media only screen and (max-width: 768px) {
-    .navDropContainer .dropdown-menu {
+    .navDropContainerUser .dropdown-menu, .navDropContainerTheme, .navDropContainerTheme .dropdown-menu {
         margin-left: 0;
     }
 
     .linksContainer {
         padding-left: 0;
     }
+
+    .dropdown-menu-right {
+        right: auto;
+        left: 0;
+    }
 }
 
-.navDropContainer .dropdown-item {
+.navDropContainerUser .dropdown-item {
     padding: 0 0.25rem !important;
-    color: #7f7f7f !important;
+    color: var(--text-color-other) !important;
 }
 
-.navDropContainer .dropdown-item:first-child {
+.navDropContainerCurriculum .dropdown-item, .navDropContainerTheme .dropdown-item {
+    padding: 0 1rem 0 1rem !important;
+    background-color: var(--card-background-color);
+    color: var(--text-color-inverted);
+}
+
+.navDropContainerUser .dropdown-item:first-child {
     padding: 0 0.25rem !important;
-    color: black !important;
+    color: var(--text-color-inverted) !important;
 }
 
-.navDropContainer .dropdown-item:hover {
-    background-color: var(--white) !important;
-    color: black !important;
+.navDropContainerUser .dropdown-item:hover, .navDropContainerCurriculum .dropdown-item:hover, .navDropContainerTheme .dropdown-item:hover {
+    background-color: var(--card-background-color) !important;
+    color: var(--text-color-other) !important;
 }
 
 .userProfileImage {
     border-radius: 50% 50% 50% 50%;
     width: 35px;
     height: 35px;
-    border: 1px solid var(--white);
+    border: 1px solid var(--text-color-default);
 }
 
-.navDropContainer {
+.navDropContainerUser {
     margin-left: 0;
 }
 
-.navDropContainer .dropdown-toggle::after {
-    color: var(--white);
+.navDropContainerUser .dropdown-toggle::after {
+    color: var(--text-color-default);
 }

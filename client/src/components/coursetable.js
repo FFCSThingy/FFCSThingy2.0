@@ -1,23 +1,18 @@
 import React from 'react';
 
-import { Table, Container, Button } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 
 import '../css/courseTable.css';
 
 class CourseTable extends React.Component {
 	
 	sortTimetable = ((a, b) => {
-		return a.code.localeCompare(b.code)
-		// if (a.simpleType === 'Theory' && (b.simpleType === 'Lab' || b.simpleType === 'Project')) return -1;
-		// if (a.simpleType === 'Lab' && b.simpleType === 'Project') return -1;
-		// // if (a.simpleType === 'Lab' && b.simpleType === 'Theory') return 1;
-		// if (a.faculty.localeCompare(b.faculty) < 1) return -1;
-		// if (a.slot.localeCompare(b.slot) < 1) return -1;
-
+		return a.code.localeCompare(b.code)	
 	});
 
 	render() {
-		var appendList = this.props.timetable.sort(this.sortTimetable).map(value => {
+		var timetable = this.props.timetable.filter(v => v.timetableName === this.props.activeTimetable)
+		var appendList = timetable.sort(this.sortTimetable).map(value => {
 			return (
 				<tr key={value._id}>
 					<td>{value.slot}</td>
@@ -36,7 +31,7 @@ class CourseTable extends React.Component {
 		
 		return (
 			<Container className="selectedCourseContainer">
-				<Table className="selectedCourseTable" responsive>
+				<table className="selectedCourseTable">
 					<thead className="selectedCourseHead">
 						<tr>
 							<th>Slot</th>
@@ -56,7 +51,7 @@ class CourseTable extends React.Component {
 							</td>
 						</tr>
 					</tbody>
-				</Table>
+				</table>
 			</Container>
 
 		)

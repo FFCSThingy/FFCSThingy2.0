@@ -15,9 +15,9 @@ TODO------
     min-height: 18vh;
     overflow: auto;
     border-radius:  0 0 .7rem .7rem;
-    background-color: var(--card-background-color);
+    background-color: var(--select-table-background-color);
     font-family: 'Montserrat', sans-serif;
-    cursor: pointer;
+    cursor: default;
     scrollbar-width: none;
 }
 
@@ -43,8 +43,8 @@ TODO------
 
 .cardOneHeader {
 	border-radius: .7rem .7rem 0 0 !important;
-    background-color: var(--card-header-color);
-    color: var(--white);
+    background-color: var(--brand-color);
+    color: var(--text-color-default);
     padding: 1.25rem 1rem 0 1rem !important;
 }
 
@@ -54,25 +54,27 @@ TODO------
 
 .courseCard {
     border-radius: 0.7rem;
-    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
-    box-shadow: 1px 1px 9px -1px var(--drop-shadow1);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
+    cursor: pointer;
 }
 
 .courseCard.active {
-    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-    box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-	background-color: var(--card-body-color);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    background-color: var(--card-highlight-color);
+    cursor: default;
 }
 
 .courseCard:hover {
-    -webkit-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-    -moz-box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-    box-shadow: 1px 1px 9px -1px var(--drop-shadow2);
-    background-color: var(--card-body-color);
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    background-color: var(--card-highlight-color);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
 }
@@ -106,20 +108,20 @@ TODO------
 }
 
 .courseSelectContainer {
-    margin-top: 2rem !important;
+    margin-top: 4rem !important;
     margin-bottom: 2rem !important;
 }
 
 .searchBarContainer {
     padding: 0 !important;
 }
-
+/* 
 .curriculumDropdown {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     border-radius: 0.25rem !important;
     border: 1px solid var(--white);
-    color: var(--white);
+    color: var(--text-color-default);
     padding: 0.05rem 0.1rem;
     height: 1.6em;
     width: 85%;
@@ -127,12 +129,12 @@ TODO------
 }
 
 .curriculumDropdown:focus {
-    color: var(--white) !important;
+    color: var(--text-color-default) !important;
     box-shadow: none !important;
 }
 
 .curriculumDropdown:active {
-    color: var(--card-header-color) !important;
+    color: var(--brand-color) !important;
     box-shadow: none !important;
 }
 
@@ -148,8 +150,8 @@ TODO------
 }
 
 .curriculumDropdown > .dropdown-menu {
-    /* padding: 0 !important;
-    min-width: 102% !important; */
+    padding: 0 !important;
+    min-width: 102% !important;
     border: 1px solid var(--border-color);
     border-radius: 0.25rem !important;
     margin-left: -0.2rem !important;
@@ -157,19 +159,19 @@ TODO------
 
 .curriculumDropdown > .dropdown-menu > .dropdown-item {
     padding: 0.1rem 0.5rem !important;
-    background-color: var(--white) !important;
+    background-color: var(--slot-course-card-color) !important;
     border-radius: 0.25rem !important;
     color: #7f7f7f !important;
 }
 
 .curriculumDropdown > .dropdown-menu > .dropdown-item:hover {
-    color: black !important;
-}
+    color:  !important;
+} */
 
 
 .searchBar {
-    background-color: var(--card-header-color) !important;
-    color: var(--white) !important;
+    background-color: var(--brand-color) !important;
+    color: var(--text-color-default) !important;
     font-family: 'Montserrat', sans-serif;
     border: none;
     box-shadow: none !important;
@@ -183,15 +185,15 @@ TODO------
 }
 
 
-::placeholder {
-    color: var(--white) !important;
+.searchBarContainer ::placeholder {
+    color: var(--text-color-default) !important;
     opacity:1;
     transition: opacity 0.17s ease;
     text-transform: capitalize;
 
 }
 
-[placeholder]:focus::-webkit-input-placeholder {
+.searchBarContainer [placeholder]:focus::-webkit-input-placeholder {
     transition: opacity 0.17s ease;
     opacity: 0;
   }
@@ -204,28 +206,28 @@ TODO------
 
 .filterButton {
     font-family: 'Montserrat', sans-serif;
-    background-color: var(--card-header-color) !important;
+    background-color: var(--brand-color) !important;
     margin-right: 0.5rem !important;
     border: none !important;
-    background-color: var(--card-background-color) ;
-    color:var(--white);
+    background-color: var(--select-table-background-color) ;
+    color:var(--text-color-default);
     transition: color 0.17s ease-in;
 }
 
 .filterButton:hover {
-    color: var(--filter-button-color);
+    color: var(--button-highlight-color);
     transition: color 0.17s ease-in;
 }
 
 .filterButton.active {
-    background-color: var(--card-background-color) !important;
-    color: black !important;
+    background-color: var(--select-table-background-color) !important;
+    color: var(--text-color-inverted) !important;
 	transition: background-color 0.17s ease-in;
 }
 
 .filterButton.focus {
-    background-color: var(--card-background-color)  !important;
-    color: black !important;
+    background-color: var(--select-table-background-color)  !important;
+    color: var(--text-color-inverted) !important;
     transition: background-color 0.17s ease-in;
 }
 

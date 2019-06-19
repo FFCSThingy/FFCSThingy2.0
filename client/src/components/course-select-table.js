@@ -1,15 +1,10 @@
-import axios from 'axios';
 import React from 'react';
-import { Card, CardColumns, Col, Container, Form, Row, Nav, DropdownButton, ButtonGroup, Dropdown } from 'react-bootstrap';
+import { Card, CardColumns, Col, Container, Form, Row, Nav } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/course-select-table.css';
-// import Search from './searchBar';
 
 class CourseSelect extends React.Component {
 	state = {
-		courseList: JSON.parse(localStorage.getItem('courseList')) || [],
-		timestamp: localStorage.getItem('courseListTimestamp') || null,
-		
 		selectedCategory: 'ALL',
 		searchString: '',
 		filteredCourses: [],
@@ -18,21 +13,7 @@ class CourseSelect extends React.Component {
 	}
 
 	componentWillMount() {
-		axios.get("/course/getCourseList")
-			.then(res => {
-				if (res.data.success) {
-					if (res.status === 304) {
-						var courses = JSON.parse(localStorage.getItem('courseList'));
-						this.setState({ courseList: courses });
-					} else {
-						this.setState({ courseList: res.data.data.courseList });
-						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
-						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
-					}
 
-				} else
-					this.setState({ error: res.data.message })
-			});
 	}
 
 	handleChange = (event) => {
@@ -41,13 +22,12 @@ class CourseSelect extends React.Component {
 		this.setState({ [fieldName]: fleldVal })
 
 		if (event.target.name === 'searchString') this.doSearch();
-		// if (event.target.name === 'selectedCurriculum') 
 	}
 
 	
 
 	getCourseSlotsList() {
-		var courseList = JSON.parse(localStorage.getItem('courseList'));
+		var courseList = this.props.courseList;
 		var courseSlots = this.props.heatmap.reduce((a, v) => {
 			var slots = v.slot.split('+');
 
@@ -61,13 +41,12 @@ class CourseSelect extends React.Component {
 		courseSlots = Object.keys(courseSlots)
 			.reduce((a, v) => [...a, { code: v, slots: Array.from(new Set(courseSlots[v].slots)), title: courseSlots[v].title }], []);
 		return courseSlots;
-		// this.setState({ courseSlotList: courseSlots });
 	}
 
 	doSearch() {
 		var searchString = this.state.searchString.toUpperCase();
 
-		if (searchString === '') return this.state.courseList;
+		if (searchString === '') return this.props.courseList;
 		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1)
 
 		var searchBySlots = true;
@@ -81,7 +60,7 @@ class CourseSelect extends React.Component {
 		var searchStringSlots = searchString.toUpperCase().split("+");
 		var search_val_type = new Set(searchString.toUpperCase().split("*"));
 
-		var searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), searchBySlots);
+		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), searchBySlots);
 
 		var filteredCodes = [];
 		if (searchBySlots) {
@@ -92,7 +71,7 @@ class CourseSelect extends React.Component {
 			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code)
 		}
 
-		var filteredCourses = this.state.courseList.filter(v => {
+		var filteredCourses = this.props.courseList.filter(v => {
 			return filteredCodes.includes(v.code);
 		});
 
@@ -105,7 +84,6 @@ class CourseSelect extends React.Component {
 	}
 
 	renderSearchBar() {
-		// var curriculumChoices = this.state.curriculumList.map(v => <Dropdown.Item eventKey={v}>{v}</Dropdown.Item>);
 		return (
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>

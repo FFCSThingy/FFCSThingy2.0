@@ -18,9 +18,7 @@ import './App.css';
 import './css/nav-bar.css'
 import './components/TimeTable'
 
-import navbarImage from './images/logo.png';
-
-import axios from 'axios';
+import API from './API';
 import Generator from './components/magicFill';
 
 class App extends React.Component {
@@ -34,48 +32,64 @@ class App extends React.Component {
 			user: {},
 
 			timetable: [],
+			timetableTimestamp: localStorage.getItem('timetableTimestamp') || null,
 			timetableNames: ['Default'],
-			creditCount: 0,
-
+			
+			courseList: JSON.parse(localStorage.getItem('courseList')) || [],
+			timestamp: localStorage.getItem('courseListTimestamp') || null,
 			selectedCourse: '',
 
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
 
-			curriculumList: [],
-			curriculum: {},
-			selectedCurriculum: '',
+			curriculumList: ['17BCE'],
+			curriculum: JSON.parse(localStorage.getItem('17BCE')) || {},
+			selectedCurriculum: '17BCE',
 
 			activeTheme: 'default',
 			themes: {
 				default: {
 					name: 'Some Cool Name',
 					properties: {
-						'card-header-color': '#7c87e8',
-						'background-color': '#C3D1F5',
-						'card-body-color': '#ECEBFE',
-						'filter-button-color': '#36e2a8',
-						'slot-clashing-color': '#ff6961',
-						'slot-selected-color': '#00b200',
-						'border-color': '#4c56b2',
-						'card-background-color': '#f6f6f6',
-						'drop-shadow1': '#00000033',
-						'drop-shadow2': '#00000059',
+						'brand-color': '#7c87e8',
+						'body-background-color': '#C3D1F5',
+						'select-table-background-color': '#f6f6f6',
+						'card-background-color': '#ffffff',
+						'card-highlight-color': '#ECEBFE',
+						'button-highlight-color': '#36e2a8',
+						'timetable-theory-color': 'lightpink',
+						'timetable-lab-color': 'greenyellow',
+						'timetable-col1-color': 'lightgrey',
+						'text-color-default': '#ffffff',
+						'text-color-inverted': '#000000',
+						'text-color-other': '#666666',
+						'card-clash-text-color': '#ff6961',
+						'card-selected-text-color': '#00b200',
+						'dropdown-border-color': '#4c56b2',
+						'dropshadow-default': '#00000033',
+						'dropshadow-highlight': '#00000059',
 					}
 				},
 				default2: {
-					name: 'Delete some stuff',
+					name: 'Theme 2',
 					properties: {
-						'card-header-color': '#ffffff',
-						'background-color': '#ffffff',
-						'card-body-color': '#ffffff',
-						'filter-button-color': '#ffffff',
-						'slot-clashing-color': '#ffffff',
-						'slot-selected-color': '#ffffff',
-						'border-color': '#ffffff',
+						'brand-color': '#7c87e8',
+						'body-background-color': '#C3D1F5',
+						'select-table-background-color': '#f6f6f6',
 						'card-background-color': '#ffffff',
-						'drop-shadow1': '#ffffff',
-						'drop-shadow2': '#ffffff',
+						'card-highlight-color': '#ECEBFE',
+						'button-highlight-color': '#36e2a8',
+						'timetable-theory-color': 'lightpink',
+						'timetable-lab-color': 'greenyellow',
+						'timetable-col1-color': 'lightgrey',
+						'text-color-default': '#ffffff',
+						'text-color-inverted': '#000000',
+						'text-color-other': '#666666',
+						'card-clash-text-color': '#ff6961',
+						'card-selected-text-color': '#00b200',
+						'dropdown-border-color': '#4c56b2',
+						'dropshadow-default': '#00000033',
+						'dropshadow-highlight': '#00000059',
 					}
 				}
 			},
@@ -501,12 +515,30 @@ class App extends React.Component {
 
 	componentDidMount() {
 		this.updateTheme();
-		axios.get("/account")
+		this.doGetAccount();
+		this.doGetSelectedCourses();
+		this.doGetCourseList();
+		this.doGetFullHeatmap();
+		this.doGetPrefixes();
+		this.doCurriculumFetch('17BCE');
+		this.changeActiveTimetable();
+
+		this.heatmapInterval = setInterval(() => this.doGetFullHeatmap(), 1000*2*60);
+		this.courseSyncInterval = setInterval(() => this.doGetSelectedCourses(), 1000*60);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.heatmapInterval);
+		clearInterval(this.courseSyncInterval);
+	}
+
+	doGetAccount = () => {
+		API.get("/account")
 			.then(res => {
 				if (res.data) {
 					if (res.status === 304);
 					// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
-					else if (res.status === 301) { } // Do Logout
+					else if (res.status === 401) { this.doLogout() } // Do Logout
 					else {
 						this.setState({ user: res.data });
 					}
@@ -516,8 +548,31 @@ class App extends React.Component {
 				console.log(err);
 				this.setState({ error: err })
 			});
+	}
 
-		axios.get("/course/getFullHeatmap")
+	doGetSelectedCourses = () => {
+		API.get('/user/getSelectedCourses')
+			.then(res => {
+				if (res.data.success) {
+					if (res.status === 304) {
+						this.setState({ timetable: JSON.parse(localStorage.getItem('timetable')) })
+					}
+					else {
+						this.setState({ timetable: res.data.data });
+						localStorage.setItem('timetable', JSON.stringify(res.data.data));
+						// localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
+					}
+					this.changeActiveTimetable();
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				console.log(err);
+				this.setState({ error: err })
+			});
+	}
+
+	doGetFullHeatmap = () => {
+		API.get("/course/getFullHeatmap")
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304)
@@ -533,23 +588,57 @@ class App extends React.Component {
 				console.log(err);
 				this.setState({ error: err })
 			});
+	}
 
-		axios.get("/curriculum/getPrefixes")
+	doGetPrefixes = () => {
+		API.get("/curriculum/getPrefixes")
 			.then(res => {
 				if (res.data.success) {
 					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
 				} else
 					this.setState({ error: res.data.message })
 			});
+	}
 
-		axios.get("/curriculum/getCurriculumFromPrefix/17BCE")
+	doCurriculumFetch = (prefix) => {
+		API.get("/curriculum/getCurriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
-					this.setState({ curriculum: res.data.data });
-					localStorage.setItem('17BCE', JSON.stringify(res.data.data));
+					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
+					localStorage.setItem(prefix, JSON.stringify(res.data.data));
 				} else
 					this.setState({ error: res.data.message })
-			});	
+			});
+	}
+
+	doGetCourseList = () => {
+		API.get("/course/getCourseList")
+			.then(res => {
+				if (res.data.success) {
+					if (res.status === 304) {
+						var courses = JSON.parse(localStorage.getItem('courseList'));
+						this.setState({ courseList: courses });
+					} else {
+						this.setState({ courseList: res.data.data.courseList });
+						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
+						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
+					}
+				} else
+					this.setState({ error: res.data.message })
+			});
+	}
+
+	doLogout = () => {
+		API.get('/logout').then(res => {
+			this.props.history.push('/');
+		});
+	}
+
+	doSetSelectedCourses = (timetable) => {
+		API.post('/user/updateSelectedCoursesBulk', {selected_courses: timetable}).then(res => {
+			console.log(res.status);
+			console.log(res.data);
+		});
 	}
 
 	filterCourse = () => {
@@ -587,6 +676,17 @@ class App extends React.Component {
 		)).sort();
 	}
 
+	getCreditCount() {
+		var count = this.state.timetable.reduce((a,v) => {
+			if (v.timetableName === this.state.activeTimetable)
+				return a + Number(v.credits);
+			return a;	
+		}, 0)
+
+		if(!count) return 0;
+		return count;
+	}
+
 	checkClash = (slot) => {
 		var filledSlots = this.getFilledSlots();
 		if (slot === 'NIL') return false;
@@ -600,7 +700,7 @@ class App extends React.Component {
 	}
 
 	checkSelected = (course) => {
-		return this.state.timetable.reduce((a, v) => a || (course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === this.state.activeTimetable), false)
+		return this.state.timetable.find(e => (e.code === course.code && e.faculty === course.faculty && e.slot === course.slot && e.venue === course.venue && e.course_type === course.course_type && this.state.activeTimetable === e.timetableName));
 	}
 
 	getFilledSlots = () => {
@@ -637,10 +737,12 @@ class App extends React.Component {
 				this.checkAndSelectProject(course);
 		}
 
-		this.setState(prevState => ({
-			timetable: [...prevState.timetable, course],
-			creditCount: prevState.creditCount + course.credits
-		}));
+		this.setState(prevState => {
+			let timetable = [...prevState.timetable, course];
+			this.doSetSelectedCourses(timetable);
+			return { timetable }
+			// timetable: [...prevState.timetable, course]
+		});
 	}
 
 	unselectSlots = (course) => {
@@ -653,13 +755,12 @@ class App extends React.Component {
 			}));
 		}
 
-		this.setState(prevState => ({
-			timetable: prevState.timetable.filter(v => !(
-				course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable
-			)
-			),
-			creditCount: prevState.creditCount - course.credits,
-		}));
+		this.setState(prevState => {
+			let timetable = prevState.timetable.filter(v => !(course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable));
+
+			this.doSetSelectedCourses(timetable);
+			return { timetable }
+		});
 	}
 
 	selectCourse = (code) => {
@@ -668,10 +769,27 @@ class App extends React.Component {
 		})
 	}
 
-	changeActiveTimetable = (timetableName) => {
-		this.setState({
-			activeTimetable: timetableName
-		})
+	changeActiveTimetable = (timetableName='Default') => {
+		var slots = this.state.timetable.reduce((a, v) => {
+			if (v.timetableName === timetableName && v.slot !== 'NIL')
+				return [...a, ...v.slot.split('+')];
+			else return a;
+		}, [])
+
+		this.setState(prevState => {
+			let clashMap = { ...prevState.clashMap };
+			Object.keys(clashMap).map(v => {
+				if (slots.includes(v))
+					clashMap[v].isFilled = true;
+				else
+					clashMap[v].isFilled = false;
+				return v;	
+			})
+			return { clashMap: clashMap, activeTimetable: timetableName };
+		});
+		// this.setState({
+		// 	activeTimetable: timetableName
+		// }, () => this.regenerateClashMap(timetableName))
 	}
 
 	modifyTimetableNames = (newList) => {
@@ -695,31 +813,20 @@ class App extends React.Component {
 		this.setState({ selectedCurriculum: val });
 	}
 
-	doCurriculumFetch(prefix) {
-		console.log('Changed to: ' + prefix)
-		axios.get("/curriculum/getCurriculumFromPrefix/" + prefix)
-			.then(res => {
-				if (res.data.success) {
-					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
-					localStorage.setItem(prefix, JSON.stringify(res.data.data));
-				} else
-					this.setState({ error: res.data.message })
-			});
-	}
-
 	render() {
 		return (
 			<Container fluid={true}>
 				<Row className='navBarRow'>
 					<CustomNavbar
 						user={this.state.user}
-						creditCount={this.state.creditCount}
+						creditCount={this.getCreditCount()}
 						themes={this.state.themes}
 						curriculumList={this.state.curriculumList}
 						selectedCurriculum={this.state.selectedCurriculum}
 						
 						handleCurriculumChange={this.handleCurriculumChange}
 						changeActiveTheme={this.changeActiveTheme}
+						doLogout={this.doLogout}
 					/>
 				</Row>
 
@@ -727,6 +834,8 @@ class App extends React.Component {
 					<Col xs={12} md={4}>
 						<CourseSelect
 							selectCourse={this.selectCourse}
+
+							courseList={this.state.courseList}
 							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}
 							curriculum={this.state.curriculum}
@@ -765,16 +874,19 @@ class App extends React.Component {
 				</Row>
 				<Row>
 					<TimeTable
+						clashMap={this.state.clashMap}
 						filledSlots={this.getFilledSlots()}
 						timetable={this.state.timetable}
+						activeTimetable={this.state.activeTimetable}
 					/>
 				</Row>
 
 				<Row>
 					<CourseTable
 						timetable={this.state.timetable}
-						creditCount={this.state.creditCount}
 						unselectSlot={this.unselectSlots}
+						activeTimetable={this.state.activeTimetable}
+						creditCount={this.getCreditCount()}
 					/>
 				</Row>
 			</Container>

@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --card-header-color: #7c87e8;
   --background-color: #C3D1F5;
   --card-body-color: #ECEBFE;
@@ -7,14 +7,43 @@
   --slot-selected-color: #00b200;
   --border-color: #4c56b2;
   --card-background-color: #f6f6f6;
-  --drop-shadow1: #00000033;
-  --drop-shadow2: #00000059;
+  --dropshadow-default: #00000033;
+  --dropshadow-highlight: #00000059;
   --white: white;
+  --slot-course-card-color: white;
+  --text-color: white;
+  --text-color-black: black;
+  --text-color-grey: hsl(0, 0%, 40%);
+} */
+
+:root {
+  --brand-color: #7c87e8;
+  --body-background-color: #C3D1F5;
+  --select-table-background-color: #f6f6f6;
+  --card-background-color: #ffffff;
+  --card-highlight-color: #ECEBFE;
+  --button-highlight-color: #36e2a8;
+  --timetable-theory-color: lightpink;
+  --timetable-lab-color: greenyellow;
+  --timetable-col1-color: lightgrey;
+  --text-color-default: #ffffff;
+  --text-color-inverted: #000000;
+  --text-color-other: #666666;
+  --card-clash-text-color: #ff6961;
+  --card-selected-text-color: #00b200;
+  --dropdown-border-color: #4c56b2;
+  --dropshadow-default: #00000033;
+  --dropshadow-highlight: #00000059;
+  
+}
+::selection {
+  background: transparent;
 }
 
 
+
 html, body {
-  background: var(--background-color);
+  background: var(--body-background-color);
 }
 
 .App {

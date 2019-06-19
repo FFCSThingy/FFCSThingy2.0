@@ -1,77 +1,83 @@
-.containerGrid {
-  display: grid;
-  grid-template-columns: 12fr 1fr 10fr;
-  text-align: center;
-  grid-column-gap: 2px;
-  width:100%;
+.timetableContainer {
+	font-family: 'Montserrat', sans-serif;
+	width: 100%;
+	overflow-x: auto;
 }
 
-.sectionGridMorning {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(7, minmax(80px, auto));
-  text-align: center;
-  overflow-x: scroll;
-  background-color: azure;
+.timetable {
+	width: 100%;
+	/* border-radius: 0.7rem; */
+	/* border: none !important; */
 }
 
-.sectionGridEvening {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(7, minmax(80px, auto));
-  text-align: center;
-  overflow-x: scroll;
-  background-color: azure;
+.timetable tr, 
+.timetable td, 
+.timetable th {
+	border: none !important;
+	padding: 5px;
 }
 
-.grayLabel {
-  background-color: rgb(192, 192, 192);
-  text-align: center;
-  padding-top: 25%;
-  font-weight: 600;
-  border: 1px solid black;
+.timetableTheoryHours {
+
 }
 
-.purpleLabel {
-  background-color: rgb(203, 205, 251);
-  text-align: center;
-  padding: 10%;
-  font-weight: 600;
-  border: 1px solid black;
+.timetableLabHours {
+
 }
 
-.blueLabel {
-  background-color: rgb(162, 204, 250);
-  text-align: center;
-  padding: 10%;
-  font-weight: 600;
-  border: 1px solid black;
+.timetableBody td {
+	background-color: var(--select-table-background-color);
 }
 
-.theory {
-  grid-row: 1/2;
+.timetableBody td {
+	/* border: 1px solid black !important; */
+	text-align: center;
+	padding: 5px;
 }
 
-.lab {
-  grid-row: 2/3;
+.timetableBody tr {
+	border: none !important;
+	/* text-align: center; */
+	/* padding: 5px; */
 }
 
-.mon {
-  grid-row: 3/4;
+.timetableHeader1 td {
+	background-color: var(--brand-color);
 }
 
-.tue {
-  grid-row: 4/5;
+.timetableHeader2 td {
+	background-color: var(--brand-color);
 }
 
-.wed {
-  grid-row: 5/6;
+td.timetableDay {
+	background-color: var(--timetable-col1-color);
 }
 
-.thu {
-  grid-row: 6/7;
+.timetableEmpty {
+
 }
 
-.fri {
-  grid-row: 7/8;
+td.timetableFilledTheory {
+	background-color: var(--timetable-theory-color);
+}
+
+td.timetableFilledLab {
+	background-color: var(--timetable-lab-color);
+
+}
+
+table tr:last-child td:first-child {
+	border-bottom-left-radius: 0.7rem;
+}
+
+table tr:last-child td:last-child {
+	border-bottom-right-radius: 0.7rem;
+}
+
+table tr:first-child td:first-child {
+	border-top-left-radius: 0.7rem;
+}
+
+table tr:first-child td:last-child {
+	border-top-right-radius: 0.7rem;
 }

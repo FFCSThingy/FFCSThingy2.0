@@ -19,18 +19,26 @@
 }
 
 .selectedCourseHead {
-	background-color: var(--brand-color);
 	border-radius: .7rem;
 	border: none !important;
 }
 
-.selectedCourseTable tr, td, th {
+.selectedCourseHead th {
+	background-color: var(--brand-color);
+}
+
+.selectedCourseTable tr, 
+.selectedCourseTable td, 
+.selectedCourseTable th {
 	border: none !important;
 	padding: 5px;
 }
 
 .selectedCourseBody {
 	border: none !important;
+}
+
+.selectedCourseBody td {
 	background-color: var(--select-table-background-color);
 }
 

@@ -9,16 +9,11 @@
 	/* border: none !important; */
 }
 
-.timetableHeader1 {
-	background-color: var(--brand-color);
-}
-
-.timetableHeader2 {
-	background-color: var(--brand-color);
-}
-
-.timetableDay {
-	background-color: var(--timetable-col1-color);
+.timetable tr, 
+.timetable td, 
+.timetable th {
+	border: none !important;
+	padding: 5px;
 }
 
 .timetableTheoryHours {
@@ -29,7 +24,7 @@
 
 }
 
-.timetableBody {
+.timetableBody td {
 	background-color: var(--select-table-background-color);
 }
 
@@ -45,15 +40,27 @@
 	/* padding: 5px; */
 }
 
+.timetableHeader1 td {
+	background-color: var(--brand-color);
+}
+
+.timetableHeader2 td {
+	background-color: var(--brand-color);
+}
+
+td.timetableDay {
+	background-color: var(--timetable-col1-color);
+}
+
 .timetableEmpty {
 
 }
 
-.timetableFilledTheory {
+td.timetableFilledTheory {
 	background-color: var(--timetable-theory-color);
 }
 
-.timetableFilledLab {
+td.timetableFilledLab {
 	background-color: var(--timetable-lab-color);
 
 }

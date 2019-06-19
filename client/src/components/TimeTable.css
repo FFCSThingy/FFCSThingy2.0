@@ -24,7 +24,6 @@
 .timetableB td, 
 .timetableB th {
 	border: none !important;
-	padding: 2px;
 }
 
 .timetableTheoryHours {
@@ -41,13 +40,12 @@
 
 .timetableBody td {
 	text-align: center;
-	padding: 2px;
+	padding: 5px;
 	height: 6vh;
 }
 
 .timetableBody tr {
 	border: none !important;
-	padding: 2px;
 }
 
 .timetableHeader1A td, .timetableHeader2A td, .timetableHeader1B td, .timetableHeader2B td {
@@ -57,7 +55,7 @@
 
 td.timetableDay {
 	background-color: var(--timetable-col1-color);
-	width: 44px;
+	min-width: 50px;
 	font-weight: bold;
 	color: var(--text-color-inverted);
 }
@@ -69,11 +67,15 @@ td.timetableDay {
 td.timetableFilledTheory {
 	background-color: var(--timetable-theory-color);
 	font-size: 0.9em;
+	outline: 1px solid var(--select-table-background-color);
+	outline-offset: -1px;
 }
 
 td.timetableFilledLab {
 	background-color: var(--timetable-lab-color);
 	font-size: 0.9em;
+	outline: 1px solid #fff;
+    outline-offset: -1px;
 
 }
 

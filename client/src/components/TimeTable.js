@@ -12,6 +12,7 @@ class TimeTable extends Component {
 	renderTTMobile = () => {
 		return (
 			<Container className="timetableContainer" fluid='true'>
+				<p className='tableLabel'>Morning: </p>
 				<table className="timetableA">
 					<tbody className="timetableBody">
 						{this.renderHeader1A()}
@@ -19,6 +20,8 @@ class TimeTable extends Component {
 						{this.renderBodyA()}
 					</tbody>
 				</table>
+
+				<p className='tableLabel'>Evening: </p>
 				<table className="timetableB">
 					<tbody className="timetableBody">
 						{this.renderHeader2A()}

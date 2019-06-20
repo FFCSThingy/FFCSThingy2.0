@@ -14,7 +14,6 @@
 
 .timetableB {
 	width: 100%;
-	margin-top: 1rem;
 }
 
 .timetableA tr, 
@@ -108,4 +107,8 @@ table tr:first-child td:last-child {
 }
 
 
-
+.tableLabel {
+	font-weight: bold;
+	font-size: 1.2rem;
+	margin-top: 1rem;
+}

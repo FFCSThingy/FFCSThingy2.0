@@ -144,6 +144,12 @@
     }
 }
 
+@media (max-height: 600px) {
+    .google-button {
+        padding: 0 0 5px 0;
+    }
+}
+
 /* Google Button */
 
 .google-button {

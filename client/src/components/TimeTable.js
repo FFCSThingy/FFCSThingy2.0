@@ -148,6 +148,8 @@ class TimeTable extends Component {
 					e.slot.split('+').includes(slots[0]) && 
 					e.timetableName === this.props.activeTimetable
 				));
+
+				if (!reqdCourse) return this.renderEmpty(c, slotString);
 				
 				return this.renderFilledTheory(c, slotString, reqdCourse);
 			}
@@ -156,6 +158,8 @@ class TimeTable extends Component {
 					e.slot.split('+').includes(slots[1]) &&
 					e.timetableName === this.props.activeTimetable
 				));
+
+				if (!reqdCourse) return this.renderEmpty(c, slotString);
 
 				return this.renderFilledLab(c, slotString, reqdCourse);		
 			}

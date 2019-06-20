@@ -770,6 +770,9 @@ class App extends React.Component {
 	}
 
 	changeActiveTimetable = (timetableName='Default') => {
+		if(timetableName === this.state.activeTimetable)
+			return;
+
 		var slots = this.state.timetable.reduce((a, v) => {
 			if (v.timetableName === timetableName && v.slot !== 'NIL')
 				return [...a, ...v.slot.split('+')];
@@ -787,9 +790,6 @@ class App extends React.Component {
 			})
 			return { clashMap: clashMap, activeTimetable: timetableName };
 		});
-		// this.setState({
-		// 	activeTimetable: timetableName
-		// }, () => this.regenerateClashMap(timetableName))
 	}
 
 	modifyTimetableNames = (newList) => {
@@ -797,6 +797,50 @@ class App extends React.Component {
 			timetableNames: newList
 		})
 	}
+
+	doTimetableDelete = () => {
+		if(this.state.activeTimetable === 'Default') return;
+		this.setState(prevState => ({
+			timetable: prevState.timetable.filter(v => v.timetableName !== prevState.activeTimetable),
+			timetableNames: prevState.timetableNames.filter(v => v !== prevState.activeTimetable),
+		}), () => {
+			this.changeActiveTimetable();
+		});
+	}
+
+	doTimetableAdd = (newName) => {
+		if(this.state.timetableNames.includes(newName)) return;
+
+		this.setState(prevState => ({
+			timetableNames: [...prevState.timetableNames, newName]
+		}), () => {
+			this.changeActiveTimetable(newName);
+		});
+	}
+
+	doTimetableEdit = (newName) => {
+		if (this.state.timetableNames.includes(newName)) return;
+		if (this.state.activeTimetable === 'Default') return;
+
+		this.setState(prevState => ({
+			timetableNames: prevState.timetableNames.map(v => {
+				if(v === this.state.activeTimetable)
+					return newName;
+				return v;	
+			}),
+
+			timetable: prevState.timetable.map(v => {
+				if(v.timetableName === this.state.activeTimetable) {
+					v.timetableName = newName;
+					return v;
+				}
+				return v;
+			})
+		}), () => {
+			this.changeActiveTimetable(newName);
+		});
+	}
+	
 	updateTheme = () => {
 		var theme = this.state.themes[this.state.activeTheme];
 		Object.keys(theme.properties).map(v =>
@@ -865,8 +909,12 @@ class App extends React.Component {
 							timetableNames={this.state.timetableNames}
 							changeActiveTimetable={this.changeActiveTimetable}
 							modifyTimetableNames={this.modifyTimetableNames}
+
+							doEdit={this.doTimetableEdit}
+							doDelete={this.doTimetableDelete}
+							doNew={this.doTimetableAdd}
+							doCopy={() => { }}
 						/>
-						<br />
 					</Col>
 				</Row>
 				<Row>

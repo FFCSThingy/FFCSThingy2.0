@@ -86,7 +86,7 @@ class Generator extends Component {
 				<div className="hide" id="magicData">
 					<Form.Group>
 						<label for="creditsEnterlabel" id="creditLabel">How many Credits do you want?</label><hr className="hrz"></hr>
-						<input class="form-control" id="creditsEnter" type="number" placeholder="Credit-Count" />
+						<input class="form-control" id="creditsEnter" type="number" placeholder="Credits" />
 					</Form.Group>
 					<h5>What are your top priorities?</h5><hr></hr>
 					<ButtonGroup aria-label="first" className="magicButtons">

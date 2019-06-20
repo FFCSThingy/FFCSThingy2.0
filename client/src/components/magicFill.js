@@ -21,10 +21,10 @@ class Generator extends Component {
 	}
 
 	handleShow = () => {
-		if(this.props.user.vtopSignedIn)
+		// if(this.props.user.vtopSignedIn)
 			this.setState(prevState => ({ showForm: !prevState.showForm }))
-		else
-			this.setState({ showAlert: true })
+		// else
+			// this.setState({ showAlert: true })
 	}
 
 	handleDismiss = () => {

@@ -103,17 +103,19 @@ td.timetableBreak {
 
 .timetableEmpty {
 	background-color: var(--select-table-background-color);
+	color: var(---text-color-inverted)
 }
 
 td.timetableFilledTheory {
 	background-color: var(--timetable-theory-color);
 	font-size: 0.9em;
+	color: var(---text-color-inverted)
 }
 
 td.timetableFilledLab {
 	background-color: var(--timetable-lab-color);
 	font-size: 0.9em;
-
+	color: var(---text-color-inverted)
 }
 
 table tr:last-child td:first-child {

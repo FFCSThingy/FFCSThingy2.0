@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MediaQuery from 'react-responsive';
 import { Container } from 'react-bootstrap';
+import { FaSun } from 'react-icons/fa';
 
 import "./TimeTable.css";
 class TimeTable extends Component {
@@ -11,20 +12,20 @@ class TimeTable extends Component {
 
 	renderTTMobile = () => {
 		return (
-			<Container className="timetableContainer" fluid='true'>
-				<p className='tableLabel'>Morning: </p>
+			<Container className="timetableContainer">
+				<FaSun className="morningIcon" size="2x" color="yellow"></FaSun>
 				<table className="timetableA">
 					<tbody className="timetableBody">
 						{this.renderHeader1A()}
-						{this.renderHeader1B()}
+						{this.renderHeader2A()}
 						{this.renderBodyA()}
 					</tbody>
 				</table>
 
-				<p className='tableLabel'>Evening: </p>
+				<FaSun className="eveningIcon"size="2x"></FaSun>
 				<table className="timetableB">
 					<tbody className="timetableBody">
-						{this.renderHeader2A()}
+						{this.renderHeader1B()}
 						{this.renderHeader2B()}
 						{this.renderBodyB()}
 					</tbody>
@@ -213,7 +214,7 @@ class TimeTable extends Component {
 	renderHeader1B = () => {
 		return (
 			<tr className="timetableHeader1B">
-				<td className="timetableDay">LAB<br />HOURS
+				<td className="timetableDay">THEORY<br />HOURS
 				</td>
 				<td className="timetableTheoryHours">02:00 PM
 					<br />to
@@ -246,7 +247,7 @@ class TimeTable extends Component {
 	renderHeader2A = () => {
 		return (
 			<tr className="timetableHeader2A">
-				<td className="timetableDay">THEORY<br />HOURS
+				<td className="timetableDay">LAB<br />HOURS
 				</td>
 				<td className="timetableLabHours">08:00 AM
 					<br />to
@@ -359,10 +360,9 @@ class TimeTable extends Component {
 	renderFilledTheory = (c, slotString, reqdCourse) => {
 		return (
 			<td key={c} className="timetableFilledTheory">
-				<b>{slotString}</b> <br />
-				{reqdCourse.code} <br />
-				{reqdCourse.venue} <br />
-				{reqdCourse.course_type}
+				<b className="slotDetails">{slotString}</b>
+				<h6 className="courseCode">{reqdCourse.code}</h6>
+				<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
 			</td>
 		)
 	}
@@ -370,10 +370,10 @@ class TimeTable extends Component {
 	renderFilledLab = (c, slotString, reqdCourse) => {
 		return (
 			<td key={c} className="timetableFilledLab">
-				<b>{slotString}</b> <br />
-				{reqdCourse.code} <br />
-				{reqdCourse.venue} <br />
-				{reqdCourse.course_type}
+				<b className="slotDetails">{slotString}</b>
+				<h6 className="courseCode">{reqdCourse.code}</h6>
+				<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
+				
 			</td>
 		)
 	}

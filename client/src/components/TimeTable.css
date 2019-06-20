@@ -2,9 +2,25 @@
 	margin-top: 1rem;
 	font-family: 'Montserrat', sans-serif;
 	padding-right: 0;
-	padding-left: 1.87rem !important;
+	padding-left: 1rem !important;
 	font-size: 0.6em;
 	margin-right: 1rem;
+}
+
+.morningIcon {
+	height: 35px;
+	width: 35px;
+	margin-left: -0.5rem;
+}
+
+.eveningIcon {
+	height: 35px;
+	width: 35px;
+	margin-bottom: -0.9rem;
+	margin-left: -0.5rem;
+	margin-top: 1rem;
+	/* color: rgb(224, 189, 100); */
+	color: hsl(39, 70%, 60%);
 }
 
 
@@ -14,6 +30,8 @@
 
 .timetableB {
 	width: 100%;
+	position: relative;
+	z-index: 1;
 }
 
 .timetableA tr, 
@@ -40,7 +58,7 @@
 .timetableBody td {
 	text-align: center;
 	padding: 4px;
-	height: 6vh;
+	height: 5.5vh;
 }
 
 .timetableBody tr {
@@ -56,6 +74,18 @@
 	background-color: var(--brand-color);
 }
 
+.courseDetails {
+	font-size: 0.8em;
+	margin-bottom: 0;
+	line-height: 1.5;
+}
+
+.courseCode {
+	font-weight: 600;
+	font-size: 0.9em;
+	margin-bottom: 0;
+	line-height: 1.5;
+}
 
 td.timetableDay {
 	background-color: var(--timetable-col1-color);
@@ -78,15 +108,11 @@ td.timetableBreak {
 td.timetableFilledTheory {
 	background-color: var(--timetable-theory-color);
 	font-size: 0.9em;
-	outline: 1px solid var(--select-table-background-color);
-	outline-offset: -1px;
 }
 
 td.timetableFilledLab {
 	background-color: var(--timetable-lab-color);
 	font-size: 0.9em;
-	outline: 1px solid #fff;
-    outline-offset: -1px;
 
 }
 
@@ -111,4 +137,101 @@ table tr:first-child td:last-child {
 	font-weight: bold;
 	font-size: 1.2rem;
 	margin-top: 1rem;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+
+	.timetableContainer {
+		width: 100%;
+		margin-top: 2rem;
+		font-size: 1em;
+		overflow-x: auto;
+	}
+	
+	.timetable {
+		width: 100%;
+	}
+	
+	.timetable tr, 
+	.timetable td, 
+	.timetable th {
+		border: none !important;
+		padding: 5px;
+	}
+	
+	.timetableTheoryHours {
+	
+	}
+	
+	.timetableLabHours {
+	
+	}
+	
+	.timetableBody td {
+		background-color: var(--select-table-background-color);
+	}
+	
+	.timetableBody td {
+		text-align: center;
+		padding: 5px;
+		height: auto;
+	}
+	
+	.timetableBody tr {
+		border: none !important;
+	}
+	
+	.timetableHeader1 td {
+		background-color: var(--brand-color);
+	}
+	
+	.timetableHeader2 td {
+		background-color: var(--brand-color);
+	}
+
+	td.timetableBreak {
+		background-color: var(--timetable-col1-color);
+	}
+
+	td.timetableDay {
+		background-color: var(--timetable-col1-color);
+	}
+	
+	.timetableEmpty {
+	
+	}
+	
+	td.timetableFilledTheory {
+		background-color: var(--timetable-theory-color);
+		font-size: 1em;
+	}
+	
+	td.timetableFilledLab {
+		background-color: var(--timetable-lab-color);
+		font-size: 1em;
+	
+	}
+
+	.courseCode {
+		font-size: 1em;
+	}
+	
+	table tr:last-child td:first-child {
+		border-bottom-left-radius: 0.7rem;
+	}
+	
+	table tr:last-child td:last-child {
+		border-bottom-right-radius: 0.7rem;
+	}
+	
+	table tr:first-child td:first-child {
+		border-top-left-radius: 0.7rem;
+	}
+	
+	table tr:first-child td:last-child {
+		border-top-right-radius: 0.7rem;
+	}
+	
 }

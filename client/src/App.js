@@ -933,6 +933,13 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
+
+				<Row>
+					<Generator
+						user={this.state.user}
+					/>
+				</Row>
+
 				<Row>
 					<Col>
 						<SelectTimeTable
@@ -948,9 +955,7 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
-				<Row>
-					<Generator/>
-				</Row>
+			
 				<Row>
 					<TimeTable
 						clashMap={this.state.clashMap}

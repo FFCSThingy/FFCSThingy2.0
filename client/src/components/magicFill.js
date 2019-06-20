@@ -2,112 +2,133 @@ import React, { Component } from "react";
 import "../css/magicFill.css";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-import { Container, Form, Button, ButtonGroup } from 'react-bootstrap';
+import { Container, Form, Button, Row, Col, ToggleButton, ToggleButtonGroup, Alert } from 'react-bootstrap';
 
 class Generator extends Component {
-	handleClick = (e) => {
-		var filter = document.getElementById("magicData");
-		if (filter.className === "hide") {
-			filter.className = "show";
-		}
-		else {
-			filter.className = "hide";
-		}
+	state = {
+		gaps: 'gaps',
+		slots: 'morning',
+		days: 'monday',
+		lp: 'lab',
+		showForm: false,
+		showAlert: false,
 	}
 
-	handleTime = (e) => {
-		if (e.target.id === "filterButton-1") {
-			e.target.id = "filterButton-2";
-			var x = document.getElementsByClassName("btn btn-primary active slots");
-			if (x.length !== 0) {
-				x[0].id = "filterButton-1";
-				x[0].className = "btn btn-primary active";
-			}
-			e.target.className = "btn btn-primary active slots"
-		}
-		else {
-			e.target.id = "filterButton-1";
-			e.target.className = "btn btn-primary active"
-		}
+	handleChanges = (value, event) => {
+		let fieldName = event.target.name;
+		let fieldVal = event.target.value;
+		this.setState({ [fieldName]: fieldVal });
 	}
-	handleDay = (e) => {
-		if (e.target.id === "filterButton-1") {
-			e.target.id = "filterButton-2";
-			var x = document.getElementsByClassName("btn btn-primary active day");
-			if (x.length !== 0) {
-				x[0].id = "filterButton-1";
-				x[0].className = "btn btn-primary active";
-			}
-			e.target.className = "btn btn-primary active day"
-		}
-		else {
-			e.target.id = "filterButton-1";
-			e.target.className = "btn btn-primary active";
-		}
+
+	handleShow = () => {
+		if(this.props.user.vtopSignedIn)
+			this.setState(prevState => ({ showForm: !prevState.showForm }))
+		else
+			this.setState({ showAlert: true })
 	}
-	handleCourseType = (e) => {
-		if (e.target.id === "filterButton-1") {
-			e.target.id = "filterButton-2";
-			var x = document.getElementsByClassName("btn btn-primary active course");
-			if (x.length !== 0) {
-				x[0].id = "filterButton-1";
-				x[0].className = "btn btn-primary active";
-			}
-			e.target.className = "btn btn-primary active course"
-		}
-		else {
-			e.target.id = "filterButton-1";
-			e.target.className = "btn btn-primary active"
-		}
+
+	handleDismiss = () => {
+		this.setState({ showAlert: false });
 	}
-	handleGaps = (e) => {
-		if (e.target.id === "filterButton-1") {
-			e.target.id = "filterButton-2";
-			var x = document.getElementsByClassName("btn btn-primary active gaps");
-			if (x.length !== 0) {
-				x[0].id = "filterButton-1";
-				x[0].className = "btn btn-primary active";
-			}
-			e.target.className = "btn btn-primary active gaps"
-		}
-		else {
-			e.target.id = "filterButton-1";
-			e.target.className = "btn btn-primary active"
-		}
+
+	renderAlert = () => {
+		if(this.state.showAlert)
+		return (
+			<Alert variant='danger' onClose={this.handleDismiss} dismissible>
+				<Alert.Heading>Oh snap! You haven't logged in to VTOP!</Alert.Heading>
+				<p>
+					Login to VTOP using our extension to access this feature.
+				</p>
+			</Alert>
+		)
+		else return;
 	}
+
+	renderToggles = () => {
+		return (
+			<Row>
+				<Col sm={12} md={3}>
+					<ToggleButtonGroup className="slotFilter"
+						type='radio'
+						name='slots'
+						value={this.state.slots}
+						onChange={this.handleChanges} >
+						<ToggleButton value='morning' className='toggleCustom'>Morning</ToggleButton>
+						<ToggleButton value='evening' className='toggleCustom'>Evening</ToggleButton>
+					</ToggleButtonGroup>
+				</Col>
+
+				<Col sm={12} md={3}>
+					<ToggleButtonGroup className="slotFilter"
+						type='radio'
+						name='days'
+						value={this.state.days}
+						onChange={this.handleChanges} >
+						<ToggleButton value='monday' className='toggleCustom'>Less Classes on Monday</ToggleButton>
+						<ToggleButton value='friday' className='toggleCustom'>Less Classes on Friday</ToggleButton>
+					</ToggleButtonGroup>
+				</Col>
+
+				<Col sm={12} md={3}>
+					<ToggleButtonGroup className="slotFilter"
+						type='radio'
+						name='gaps'
+						value={this.state.gaps}
+						onChange={this.handleChanges} >
+						<ToggleButton value='gaps' className='toggleCustom'>Gaps</ToggleButton>
+						<ToggleButton value='nogaps' className='toggleCustom'>No Gaps</ToggleButton>
+					</ToggleButtonGroup>
+				</Col>
+
+				<Col sm={12} md={3}>
+					<ToggleButtonGroup className="slotFilter"
+						type='radio'
+						name='lp'
+						value={this.state.lp}
+						onChange={this.handleChanges} >
+						<ToggleButton value='lab' className='toggleCustom'>Less Labs</ToggleButton>
+						<ToggleButton value='project' className='toggleCustom'>Less Projects</ToggleButton>
+					</ToggleButtonGroup>
+				</Col>
+			</Row>
+		)
+	}
+
+	renderForm = () => {
+		if (this.state.showForm)
+			return (
+				<div>
+					<Row>
+						<Form.Group>
+							<Form.Label>Number of credits:</Form.Label>
+							<Form.Control type="number" placeholder="Credits" />
+						</Form.Group>
+					</Row>
+					
+					{this.renderAlert()}
+					{this.renderToggles()}
+
+					<Button className='magicButton dropdown-toggle'>Generate Timetable</Button>
+				</div>
+			)
+		else return;
+	}
+
 
 	render() {
-		var style1 = { "border-left": "none" };
-		var style2 = { "border-right": "none" };
 		return (
 			<Container id="magicContainer">
 
-				<Button variant="primary" onClick={this.handleClick} id="magic" className="magicButton dropdown-toggle btn btn-primary">Magic Fill</Button>
-				<div className="hide" id="magicData">
-					<Form.Group>
-						<label for="creditsEnterlabel" id="creditLabel">How many Credits do you want?</label><hr className="hrz"></hr>
-						<input class="form-control" id="creditsEnter" type="number" placeholder="Credits" />
-					</Form.Group>
-					<h5>What are your top priorities?</h5><hr></hr>
-					<ButtonGroup aria-label="first" className="magicButtons">
-						<Button variant="primary" onClick={this.handleTime} id="filterButton-1" style={style2}>Morning Slots</Button>
-						<Button variant="primary" onClick={this.handleTime} id="filterButton-1" style={style1}>Evening Slots</Button>
-					</ButtonGroup>
-					<ButtonGroup aria-label="first" className="magicButtons">
-						<Button variant="primary" onClick={this.handleDay} id="filterButton-1" style={style2}>Less Classes on Friday</Button>
-						<Button variant="primary" onClick={this.handleDay} id="filterButton-1" style={style1}>Less Classes on Monday</Button>
-					</ButtonGroup>
-					<ButtonGroup aria-label="first" className="magicButtons">
-						<Button variant="primary" onClick={this.handleCourseType} id="filterButton-1" style={style2}>Less Lab Courses</Button>
-						<Button variant="primary" onClick={this.handleCourseType} id="filterButton-1" style={style1}>Less Project Courses</Button>
-					</ButtonGroup>
-					<ButtonGroup aria-label="first" className="magicButtons">
-						<Button variant="primary" onClick={this.handleGaps} id="filterButton-1" style={style2}>Prefer Gaps in Timetable</Button>
-						<Button variant="primary" onClick={this.handleGaps} id="filterButton-1" style={style1}>Less Gaps</Button>
-					</ButtonGroup>
-					<br></br>
-					<Button variant="primary" id="submitButton">Find your Timetable</Button>
-				</div>
+				<Row>
+					<Button 
+						onClick={this.handleShow}
+						className="magicButton dropdown-toggle"
+					>
+						Magic Fill
+					</Button>
+				</Row>
+
+				{this.renderForm()}
 
 			</Container>
 		)

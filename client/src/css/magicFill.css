@@ -2,7 +2,7 @@
     display: none;
 }
 
-#magic{
+.magicButton.dropdown-toggle {
     margin-bottom: 10px;
     border-top: transparent !important;
     border-right: transparent !important;

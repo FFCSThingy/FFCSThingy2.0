@@ -175,7 +175,11 @@ async function doHeatmapUpdate(doc, counts) {
 			c.total = total.count;
 		}
 		else {
-			return Promise.resolve(c);
+			if(c.count === 0 && c.total === 0 && c.percent === 0) return Promise.resolve(c);
+			c.count = 0;
+			c.total = 0;
+			c.percent = 0;
+			c.timestamp = new Date();
 		}
 		// console.log(total);
 

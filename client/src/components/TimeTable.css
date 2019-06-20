@@ -65,6 +65,13 @@ td.timetableDay {
 	color: var(--text-color-inverted);
 }
 
+td.timetableBreak {
+	background-color: var(--timetable-col1-color);
+	/* min-width: 50px; */
+	font-weight: bold;
+	color: var(--text-color-inverted);
+}
+
 .timetableEmpty {
 	background-color: var(--select-table-background-color);
 }

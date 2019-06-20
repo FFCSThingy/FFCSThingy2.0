@@ -84,7 +84,7 @@ class TimeTable extends Component {
 					<br />12:50 PM
 				</td>
 				<td className="timetableTheoryHours"></td>
-				<td widtd="8px" rowSpan={9} className="timetableDay">
+				<td widtd="8px" rowSpan={9} className="timetableBreak">
 					<strong>B
 					<br />R
 					<br />E

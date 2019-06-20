@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Container, Button } from 'react-bootstrap';
-
+import { FaTrash } from 'react-icons/fa';
 import '../css/courseTable.css';
 
 class CourseTable extends React.Component {
@@ -21,9 +21,10 @@ class CourseTable extends React.Component {
 					<td>{value.faculty}</td>
 					<td>{value.venue}</td>
 					<td>{value.credits}</td>
-					<td><Button 
-						onClick={() => this.props.unselectSlot(value)}
-						variant="danger">Delete</Button>
+					<td>
+						<FaTrash className="trashButton" onClick={() => this.props.unselectSlot(value)}>
+						</FaTrash>
+						
 					</td>
 				</tr>
 			)

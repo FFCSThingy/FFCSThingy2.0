@@ -1,10 +1,3 @@
-/* .selectedCourseContainer {
-	max-width: 100vw;
-} */
-
-.selectedCourseContainer.container {
-}
-
 .selectedCourseTable {
 	text-align: center;
 	background-color: var(--select-table-background-color);
@@ -54,33 +47,28 @@ td {
 	border: none !important;
 }
 
-.selectedCourseBody .btn-danger {
-	background-color: hsl(3, 100%, 65%);
-	border-color: transparent !important;
-}
-
-.selectedCourseBody .btn-danger:hover {
-	background-color: hsl(3, 100%, 55%);
-	border-color: transparent !important;
-}
-
-.selectedCourseBody .btn-danger:active {
-	background-color: hsl(3, 100%, 65%) !important;
-	border: #eee 1px inset;
-
-}
-
-.selectedCourseBody .btn-danger:focus {
-	box-shadow: none !important;
-}
-
-
 .selectedCourseHead tr {
 	padding: 1rem;
 }
 
 .creditsRow {
 	font-size: 1.3em;
+}
+
+.trashButton {
+	width: 27px;
+	height: 27px;
+	margin: 3px 3px 6px 3px;
+	padding: 7px;
+	color: white;
+    background-color: hsl(3, 100%, 65%);
+    border-radius: 0.25rem;
+	box-shadow: 0 4px hsl(3, 100%, 55%);
+	cursor: pointer;
+}
+
+.trashButton:active {
+	transform: translateY(1px);
 }
 
 table tr:last-child td:first-child {
@@ -99,7 +87,7 @@ table tr:first-child th:last-child {
 	border-top-right-radius: 0.7rem;
 }
 
-@media only screen and (max-width: 991px){
+@media only screen and (max-width: 1200px){
 
 	.selectedCourseContainer{
 		margin-left: 0 !important;
@@ -107,10 +95,19 @@ table tr:first-child th:last-child {
 
 }
 
-@media only screen and (max-width: 983px){
+@media only screen and (max-width: 1080px){
 
 	.selectedCourseContainer{
 		font-size: 0.9em;
+		margin-left: auto !important;
+	}
+
+	.selectedCourseBody tr td:nth-child(3){
+		max-width: 25.8vw;
+	}
+
+	tr,td {
+		white-space: normal;
 	}
 
 }
@@ -134,7 +131,7 @@ table tr:first-child th:last-child {
 @media only screen and (max-width: 767px){
 
 	.selectedCourseContainer{
-		margin-left: 0 !important;
+		margin-left: auto !important;
 	}
 
 }
@@ -146,6 +143,11 @@ table tr:first-child th:last-child {
 		overflow-wrap: break-word;
 	}
 
+	.selectedCourseBody tr td:first-child{
+		max-width: 10vw;
+		overflow-wrap: break-word;
+	}
+
 	.selectedCourseTable tr, 
 	.selectedCourseTable td, 
 	.selectedCourseTable th {
@@ -153,25 +155,10 @@ table tr:first-child th:last-child {
 		padding: 2px 4px 2px 4px;
 	}
 
-	.selectedCourseHead tr td:last-child {
-		width: 16vw;
-	}
-
-	.selectedCourseBody .btn {
-		padding: 4px;
-		font-size: 0.7em;
-	}
-
-	tr,td {
-		white-space: normal;
-	}
-
 	.selectedCourseContainer{
 		margin-left: auto !important;
 		font-size: 0.7em;
 	}
-
-
 	
 }
 
@@ -179,6 +166,13 @@ table tr:first-child th:last-child {
 
 	.selectedCourseContainer{
 		font-size: 0.6em;
+	}
+
+	.trashButton{
+		width: 5vw;
+		height: 5vw;
+		margin: 0.25rem 0.25rem 0.5rem 0.25rem;
+		padding: 1vw;
 	}
 
 }

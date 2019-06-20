@@ -522,6 +522,7 @@ class App extends React.Component {
 		this.doGetPrefixes();
 		this.doCurriculumFetch('17BCE');
 		this.changeActiveTimetable();
+		this.doGetTimetableNames();
 
 		this.heatmapInterval = setInterval(() => this.doGetFullHeatmap(), 1000*2*60);
 		this.courseSyncInterval = setInterval(() => this.doGetSelectedCourses(), 1000*60);
@@ -562,6 +563,21 @@ class App extends React.Component {
 						localStorage.setItem('timetable', JSON.stringify(res.data.data));
 						// localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
 					}
+					this.changeActiveTimetable();
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				console.log(err);
+				this.setState({ error: err })
+			});
+	}
+
+	doGetTimetableNames = () => {
+		API.get('/user/selectedCourses')
+			.then(res => {
+				if (res.data.success) {
+					var names = Array.from(new Set(res.data.data.map(v => v.timetableName)));
+					this.setState({timetableNames: names});
 					this.changeActiveTimetable();
 				} else
 					this.setState({ error: res.data.message })
@@ -770,8 +786,8 @@ class App extends React.Component {
 	}
 
 	changeActiveTimetable = (timetableName='Default') => {
-		if(timetableName === this.state.activeTimetable)
-			return;
+		// if(timetableName === this.state.activeTimetable)
+			// return;
 
 		var slots = this.state.timetable.reduce((a, v) => {
 			if (v.timetableName === timetableName && v.slot !== 'NIL')

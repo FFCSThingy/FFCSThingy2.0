@@ -59,30 +59,6 @@
     opacity: 0;
   }
 
-/* .toggles {
-    padding-right: 25%;
-} */
-
-/* .toggles .col-md-3 {
-    flex: auto;
-} */
-/* 
-.toggles .col-md-3:nth-child(even) .slotFilter {
-    float: right;
-    max-width: 90%;
-}
-
-.toggles .col-md-3:nth-child(odd){
-max-width: 25%;
-}
-
-@media (min-width: 768px){
-    .toggles .col-md-3 {
-        max-width: 75%;
-        flex: auto;
-}
-} */
-
 @media (min-width: 768px){
     .toggles .col-md-3 {
         max-width: 100%;
@@ -98,88 +74,14 @@ max-width: 25%;
     padding-right: 1rem;
 }
 
-.show{
-    display:inline-block;
-}
-
-#creditsEnter{
-    width: 13%;
-    box-shadow: 0 0px ;
-    text-align: center;      
-}
-
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none; 
     margin: 0; 
 }
 
-#creditLabel{
-    font-size: 19px;
-   font-weight: 500;
-}
-
-.hrz{
-    padding: 0;
-    margin-top: 0;
-}
-
-#filterButton-1{
-    background: var(--card-background-color);
-    color: var(--text-color-inverted);
-   border: none; 
-   box-shadow: 0 0px;
-}
-
-#filterButton-1:hover{
-    background:#eee;
-}
-
-#filterButton-2{
-    background: var(--button-highlight-color);
-    color: var(--text-color-default);
-    border: 1px var(--dropdown-border-color) solid;
-    border: none;
-    box-shadow: 0 0px;
-}
-
-.magicButton{
-    margin: 1rem 1rem 0 0;
-}
-
-#magicData > hr {
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-#submitButton{
-    margin-top: 1.5rem;
-    border-top: transparent !important;
-    border-right: transparent !important;
-    border-left: transparent !important;
-    background-color: var(--brand-color);
-    border-radius: 0.5rem !important;
-    border: none;
-    box-shadow: 0 6px var(--dropdown-border-color);
-}
-
-#submitButton:active {
-    transform: translateY(2px);
-}
-
 #magicContainer{
     margin-left: 1rem;
     font-family: 'Montserrat', sans-serif;
     margin-bottom: 1rem;
-}
-
-@media only screen and (max-width: 768px){
-    #creditsEnter{
-        width:25%;
-    }
-}
-.btn
-{
-    box-shadow: none;
-    outline: none;
 }

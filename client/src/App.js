@@ -83,7 +83,7 @@ class App extends React.Component {
 						'timetable-lab-color': '#00ced1',
 						'timetable-col1-color': '#121317',
 						'text-color-default': '#ffffff',
-						'text-color-inverted': '#000000',
+						'text-color-inverted': '#ffffff',
 						'text-color-other': '#ffffff',
 						'card-clash-text-color': '#ff6961',
 						'card-selected-text-color': '#00b200',

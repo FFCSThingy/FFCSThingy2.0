@@ -5,6 +5,7 @@
 	padding-left: 1rem !important;
 	font-size: 0.6em;
 	margin-right: 1rem;
+	cursor: default;
 }
 
 .morningIcon {
@@ -57,7 +58,7 @@
 
 .timetableBody td {
 	text-align: center;
-	padding: 4px;
+	padding: 0.25rem;
 	height: 5.5vh;
 }
 
@@ -72,26 +73,28 @@
 .timetableHeader1 td,
 .timetableHeader2 td {
 	background-color: var(--brand-color);
+	height: 4vh;
 }
 
 .courseDetails {
-	font-size: 0.8em;
+	font-size: 0.96em;
 	margin-bottom: 0;
 	line-height: 1.5;
 }
 
 .courseCode {
 	font-weight: 600;
-	font-size: 0.9em;
+	font-size: 0.8em;
 	margin-bottom: 0;
 	line-height: 1.5;
 }
 
 td.timetableDay {
 	background-color: var(--timetable-col1-color);
-	min-width: 50px;
+	width: 5vw;
 	font-weight: bold;
 	color: var(--text-color-inverted);
+	font-size: 0.8em;
 }
 
 td.timetableBreak {

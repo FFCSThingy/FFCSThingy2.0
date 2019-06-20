@@ -83,9 +83,9 @@ class TimeTable extends Component {
 					<br />to
 					<br />11:50 AM
 				</td>
-				<td className="timetableTheoryHours">12:00 PM
+				<td className="timetableTheoryHours">12:00
 					<br />to
-					<br />12:50 PM
+					<br />12:50
 				</td>
 				<td className="timetableTheoryHours"></td>
 				<td widtd="8px" rowSpan={9} className="timetableBreak">
@@ -95,29 +95,29 @@ class TimeTable extends Component {
 					<br />A
 					<br />K</strong>
 				</td>
-				<td className="timetableTheoryHours">02:00 PM
+				<td className="timetableTheoryHours">02:00
 					<br />to
-					<br />02:50 PM
+					<br />02:50
 				</td>
-				<td className="timetableTheoryHours">03:00 PM
+				<td className="timetableTheoryHours">03:00
 					<br />to
-					<br />03:50 PM
+					<br />03:50
 				</td>
-				<td className="timetableTheoryHours">04:00 PM
+				<td className="timetableTheoryHours">04:00
 					<br />to
-					<br />04:50 PM
+					<br />04:50
 				</td>
-				<td className="timetableTheoryHours">05:00 PM
+				<td className="timetableTheoryHours">05:00
 					<br />to
-					<br />05:50 PM
+					<br />05:50
 				</td>
-				<td className="timetableTheoryHours">06:00 PM
+				<td className="timetableTheoryHours">06:00
 					<br />to
-					<br />06:50 PM
+					<br />06:50
 				</td>
-				<td className="timetableTheoryHours">07:00 PM
+				<td className="timetableTheoryHours">07:00
 					<br />to
-					<br />07:50 PM
+					<br />07:50
 				</td>
 			</tr>
 		)
@@ -151,31 +151,31 @@ class TimeTable extends Component {
 				</td>
 				<td className="timetableLabHours">12:15 AM
 					<br />to
-					<br />01:00 PM
+					<br />01:00
 				</td>
-				<td className="timetableLabHours">02:00 PM
+				<td className="timetableLabHours">02:00
 					<br />to
-					<br />02:45 PM
+					<br />02:45
 				</td>
-				<td className="timetableLabHours">02:45 PM
+				<td className="timetableLabHours">02:45
 					<br />to
-					<br />03:30 PM
+					<br />03:30
 				</td>
-				<td className="timetableLabHours">04:00 PM
+				<td className="timetableLabHours">04:00
 					<br />to
-					<br />04:45 PM
+					<br />04:45
 				</td>
-				<td className="timetableLabHours">04:45 PM
+				<td className="timetableLabHours">04:45
 					<br />to
-					<br />05:30 PM
+					<br />05:30
 				</td>
-				<td className="timetableLabHours">05:30 PM
+				<td className="timetableLabHours">05:30
 					<br />to
-					<br />06:15 PM
+					<br />06:15
 				</td>
-				<td className="timetableLabHours">06:15 PM
+				<td className="timetableLabHours">06:15
 					<br />to
-					<br />07:00 PM
+					<br />07:00
 				</td>
 			</tr>
 		)
@@ -186,25 +186,24 @@ class TimeTable extends Component {
 			<tr className="timetableHeader1A">
 				<td className="timetableDay">THEORY<br />HOURS
 				</td>
-				<td className="timetableTheoryHours">08:00 AM
-					<br />to
-					<br />08:50 AM
+				<td className="timetableTheoryHours">08:00
+					<br />08:50
 				</td>
-				<td className="timetableTheoryHours">09:00 AM
-					<br />to
-					<br />09:50 AM
+				<td className="timetableTheoryHours">09:00
+					
+					<br />09:50
 				</td>
-				<td className="timetableTheoryHours">10:00 AM
-					<br />to
-					<br />10:50 AM
+				<td className="timetableTheoryHours">10:00
+					
+					<br />10:50
 				</td>
-				<td className="timetableTheoryHours">11:00 AM
-					<br />to
-					<br />11:50 AM
+				<td className="timetableTheoryHours">11:00
+					
+					<br />11:50
 				</td>
-				<td className="timetableTheoryHours">12:00 PM
-					<br />to
-					<br />12:50 PM
+				<td className="timetableTheoryHours">12:00
+					
+					<br />12:50
 				</td>
 				<td className="timetableTheoryHours"></td>
 			</tr>
@@ -216,29 +215,29 @@ class TimeTable extends Component {
 			<tr className="timetableHeader1B">
 				<td className="timetableDay">THEORY<br />HOURS
 				</td>
-				<td className="timetableTheoryHours">02:00 PM
-					<br />to
-					<br />02:50 PM
+				<td className="timetableTheoryHours">02:00
+					
+					<br />02:50
 				</td>
-				<td className="timetableTheoryHours">03:00 PM
-					<br />to
-					<br />03:50 PM
+				<td className="timetableTheoryHours">03:00
+					
+					<br />03:50
 				</td>
-				<td className="timetableTheoryHours">04:00 PM
-					<br />to
-					<br />04:50 PM
+				<td className="timetableTheoryHours">04:00
+					
+					<br />04:50
 				</td>
-				<td className="timetableTheoryHours">05:00 PM
-					<br />to
-					<br />05:50 PM
+				<td className="timetableTheoryHours">05:00
+					
+					<br />05:50
 				</td>
-				<td className="timetableTheoryHours">06:00 PM
-					<br />to
-					<br />06:50 PM
+				<td className="timetableTheoryHours">06:00
+					
+					<br />06:50
 				</td>
-				<td className="timetableTheoryHours">07:00 PM
-					<br />to
-					<br />07:50 PM
+				<td className="timetableTheoryHours">07:00
+					
+					<br />07:50
 				</td>
 			</tr>
 		)
@@ -249,29 +248,29 @@ class TimeTable extends Component {
 			<tr className="timetableHeader2A">
 				<td className="timetableDay">LAB<br />HOURS
 				</td>
-				<td className="timetableLabHours">08:00 AM
-					<br />to
-					<br />08:45 AM
+				<td className="timetableLabHours">08:00
+					
+					<br />08:45
 				</td>
-				<td className="timetableLabHours">08:45 AM
-					<br />to
-					<br />09:30 AM
+				<td className="timetableLabHours">08:45
+					
+					<br />09:30
 				</td>
-				<td className="timetableLabHours">10:00 AM
-					<br />to
-					<br />10:45 AM
+				<td className="timetableLabHours">10:00
+					
+					<br />10:45
 				</td>
-				<td className="timetableLabHours">10:45 AM
-					<br />to
-					<br />11:30 AM
+				<td className="timetableLabHours">10:45
+					
+					<br />11:30
 				</td>
-				<td className="timetableLabHours">11:30 AM
-					<br />to
-					<br />12:15 AM
+				<td className="timetableLabHours">11:30
+					
+					<br />12:15
 				</td>
-				<td className="timetableLabHours">12:15 AM
-					<br />to
-					<br />01:00 PM
+				<td className="timetableLabHours">12:15
+					
+					<br />01:00
 				</td>
 			</tr>
 		)
@@ -281,29 +280,29 @@ class TimeTable extends Component {
 			<tr className="timetableHeader2B">
 				<td className="timetableDay">LAB<br />HOURS
 				</td>
-				<td className="timetableLabHours">02:00 PM
-					<br />to
-					<br />02:45 PM
+				<td className="timetableLabHours">02:00
+					
+					<br />02:45
 				</td>
-				<td className="timetableLabHours">02:45 PM
-					<br />to
-					<br />03:30 PM
+				<td className="timetableLabHours">02:45
+					
+					<br />03:30
 				</td>
-				<td className="timetableLabHours">04:00 PM
-					<br />to
-					<br />04:45 PM
+				<td className="timetableLabHours">04:00
+					
+					<br />04:45
 				</td>
-				<td className="timetableLabHours">04:45 PM
-					<br />to
-					<br />05:30 PM
+				<td className="timetableLabHours">04:45
+					
+					<br />05:30
 				</td>
-				<td className="timetableLabHours">05:30 PM
-					<br />to
-					<br />06:15 PM
+				<td className="timetableLabHours">05:30
+					
+					<br />06:15
 				</td>
-				<td className="timetableLabHours">06:15 PM
-					<br />to
-					<br />07:00 PM
+				<td className="timetableLabHours">06:15
+					
+					<br />07:00
 				</td>
 			</tr>
 		)

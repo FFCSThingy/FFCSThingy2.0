@@ -87,7 +87,7 @@ export default class SelectTimeTable extends React.Component {
 	showInputField = () => {
 		if(this.state.show)
 			return <>
-			<input split type="text" placeholder="Enter Name" onChange={this.handleChange}/>
+			<input split type="text" placeholder="Enter Name" onChange={this.handleChange} className="inputPopup"/>
 			<Button onClick={this.handleSave}>OK</Button>
 			</>
 		else
@@ -107,19 +107,21 @@ export default class SelectTimeTable extends React.Component {
 		console.log(this.state.show)
 
 		return (
-			<ButtonGroup>
-				<Dropdown className="selectTimeTable" as={ButtonGroup}>
-					<Button>Time Table</Button>
-					<Dropdown.Toggle split className="selectedCourseHead">{this.props.activeTimetable} </Dropdown.Toggle>
-					<Dropdown.Menu className="dropdownTimetable border">
-						{items}
-					</Dropdown.Menu>
-				</Dropdown>
-				<Button onClick={this.handleShow}><FaPlusSquare /></Button>
-				<Button onClick={this.handleCopy}><FaCopy /></Button>
-				<Button onClick={this.handleDelete}><FaTrashAlt /></Button>
-				{this.showInputField()}
-			</ButtonGroup>
+			<div className="dropdownButtonGroupContainer">
+				<ButtonGroup className="dropdownButtonGroup">
+					<Dropdown className="selectTimeTable" as={ButtonGroup}>
+						<Button>Time Table</Button>
+						<Dropdown.Toggle split className="selectedCourseHead">{this.props.activeTimetable} </Dropdown.Toggle>
+						<Dropdown.Menu className="dropdownTimetable border">
+							{items}
+						</Dropdown.Menu>
+					</Dropdown>
+					<Button className="dropdownButton selectTimeTable" onClick={this.handleShow}><FaPlusSquare /></Button>
+					<Button className="dropdownButton selectTimeTable" onClick={this.handleCopy}><FaCopy /></Button>
+					<Button className="dropdownButton selectTimeTable" onClick={this.handleDelete}><FaTrashAlt /></Button>
+					{this.showInputField()}
+				</ButtonGroup>
+			</div>
 		);
 	}
 }

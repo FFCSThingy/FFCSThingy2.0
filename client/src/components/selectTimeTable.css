@@ -1,3 +1,124 @@
+.selectedCourseHead {
+    border: none;
+}
+
+.selectedCourseHead .dropdown-divider {
+    border-top: 1px solid var(--dropdown-border-color);
+}
+
 .selectTimeTable {
-    float: left;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+    margin-top: 0 !important;
+    margin-left: 15px;
+}
+
+
+.selectTimeTable .btn-primary {
+    border-top: transparent !important;
+    border-right: transparent !important;
+    border-left: transparent !important;
+    background-color: var(--brand-color);
+    border-radius: 0.5rem !important;
+    border: none;
+    box-shadow: 0 6px var(--dropdown-border-color);
+}
+
+.selectTimeTable .btn-primary:active {
+    background-color: var(--brand-color) !important;
+    transform: translateY(2px);
+
+}
+
+.selectTimeTable .btn-primary:hover {
+    background-color: var(--brand-color) !important;
+    border-color: var(--dropdown-border-color) !important;
+    background-color: var(--brand-color) !important;
+}
+
+.selectTimeTable .btn-primary:focus {
+    box-shadow: 0 6px var(--dropdown-border-color) !important;
+}
+
+.selectTimeTable .dropdown-menu {
+    background-color: var(--card-highlight-color);
+    margin-left: 0.5rem !important;
+    margin-top: -0.5rem !important;
+    border: none !important;
+    border-radius: 0.5rem !important;
+}
+
+.btn-primary {
+    background-color: var(--card-highlight-color);
+    margin-top: -0.5rem !important;
+    border: none !important;
+    border-radius: 0.5rem !important;
+}
+
+.detail {
+    width: 50%;
+}
+
+.show>.btn-primary.dropdown-toggle {
+    background-color: var(--brand-color) !important;
+}
+
+
+.dropdownButton {
+    flex: 1;
+    color: var(--dropdown-border-color);
+}
+
+.dropdown-item {
+    padding: 0 0 0 0.7rem;
+    font-weight: bold;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+    background-color: var(--card-highlight-color) !important;
+    color: var(--brand-color) !important;
+
+}
+
+.inputPopup {
+    background-color: var(--card-highlight-color);
+    font-family: 'Montserrat', sans-serif;
+    padding: 0;
+    cursor: text;
+}
+
+.inputPopup input {
+    border-radius: 0 !important;
+    background-color: var(--card-highlight-color);
+    border: none !important;
+    outline: none;
+    padding: 0.3rem 0.6rem 0.1rem 0.7rem;
+    color: var(--dropdown-border-color) !important;
+
+    max-width: 10rem;
+}
+
+.inputPopup ::placeholder {
+    color: var(--dropdown-border-color);
+
+    opacity:1;
+    transition: opacity 0.17s ease;
+    text-transform: capitalize;
+}
+
+.inputPopup [placeholder]:focus::-webkit-input-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
+
+.saveButton {
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    font-size: 0.8rem;
+    float: right;
+    margin-right: 0.5rem;
+}
+
+.dropdownButtonGroupContainer {
+    height: 5vh;
 }

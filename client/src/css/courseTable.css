@@ -1,15 +1,7 @@
-.selectedCourseContainer {
-}
-
-.selectedCourseContainer.container {
-}
-
 .selectedCourseTable {
 	text-align: center;
 	background-color: var(--select-table-background-color);
-	font-family: 'Montserrat', sans-serif;
-	
-	/* border: none !important; */
+	cursor: default;
 	border-radius: .7rem !important;
 	margin: 2vh 0 !important;
 	margin-left: auto !important;
@@ -18,32 +10,65 @@
 	overflow-x: auto;
 }
 
-.selectedCourseHead {
-	border-radius: .7rem;
-	border: none !important;
+th {
+	font-family: 'Montserrat', sans-serif;
 }
 
-.selectedCourseHead th {
-	background-color: var(--brand-color);
+td {
+	font-family: 'Montserrat', sans-serif;
 }
 
 .selectedCourseTable tr, 
 .selectedCourseTable td, 
 .selectedCourseTable th {
 	border: none !important;
-	padding: 5px;
+	padding: 0.25rem 1rem 0.25rem 1rem;
+}
+
+.selectedCourseHead {
+	border-radius: .7rem;
+	border: none !important;
+	color: var(--text-color-default);
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.selectedCourseHead th {
+	background-color: var(--brand-color);
+	padding-top: 1rem;
+	padding-bottom: 0.5rem;
+}
+
+.selectedCourseBody tr:nth-child(even) {
+	background-color: var(--card-highlight-color);
 }
 
 .selectedCourseBody {
 	border: none !important;
 }
 
-.selectedCourseBody td {
-	background-color: var(--select-table-background-color);
+.selectedCourseHead tr {
+	padding: 1rem;
 }
 
 .creditsRow {
-	border-top: 1px solid black !important;
+	font-size: 1.3em;
+}
+
+.trashButton {
+	width: 27px;
+	height: 27px;
+	margin: 3px 3px 6px 3px;
+	padding: 7px;
+	color: white;
+    background-color: hsl(3, 100%, 65%);
+    border-radius: 0.25rem;
+	box-shadow: 0 4px hsl(3, 100%, 55%);
+	cursor: pointer;
+}
+
+.trashButton:active {
+	transform: translateY(1px);
 }
 
 table tr:last-child td:first-child {
@@ -60,4 +85,94 @@ table tr:first-child th:first-child {
 
 table tr:first-child th:last-child {
 	border-top-right-radius: 0.7rem;
+}
+
+@media only screen and (max-width: 1200px){
+
+	.selectedCourseContainer{
+		margin-left: 0 !important;
+	}
+
+}
+
+@media only screen and (max-width: 1080px){
+
+	.selectedCourseContainer{
+		font-size: 0.9em;
+		margin-left: auto !important;
+	}
+
+	.selectedCourseBody tr td:nth-child(3){
+		max-width: 25.8vw;
+	}
+
+	tr,td {
+		white-space: normal;
+	}
+
+}
+
+@media only screen and (max-width: 918px){
+
+	.selectedCourseContainer{
+		font-size: 0.8em;
+		margin-left: auto !important;
+	}
+
+	.selectedCourseTable tr, 
+	.selectedCourseTable td, 
+	.selectedCourseTable th {
+		border: none !important;
+		padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+	}
+
+}
+
+@media only screen and (max-width: 767px){
+
+	.selectedCourseContainer{
+		margin-left: auto !important;
+	}
+
+}
+
+@media only screen and (max-width: 690px){
+
+	.selectedCourseBody tr td:nth-child(4){
+		max-width: 15vw;
+		overflow-wrap: break-word;
+	}
+
+	.selectedCourseBody tr td:first-child{
+		max-width: 10vw;
+		overflow-wrap: break-word;
+	}
+
+	.selectedCourseTable tr, 
+	.selectedCourseTable td, 
+	.selectedCourseTable th {
+		border: none !important;
+		padding: 2px 4px 2px 4px;
+	}
+
+	.selectedCourseContainer{
+		margin-left: auto !important;
+		font-size: 0.7em;
+	}
+	
+}
+
+@media only screen and (max-width: 432px){
+
+	.selectedCourseContainer{
+		font-size: 0.6em;
+	}
+
+	.trashButton{
+		width: 5vw;
+		height: 5vw;
+		margin: 0.25rem 0.25rem 0.5rem 0.25rem;
+		padding: 1vw;
+	}
+
 }

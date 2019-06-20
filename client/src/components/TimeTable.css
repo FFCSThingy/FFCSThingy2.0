@@ -48,7 +48,12 @@
 	border: none !important;
 }
 
-.timetableHeader1A td, .timetableHeader2A td, .timetableHeader1B td, .timetableHeader2B td {
+.timetableHeader1A td, 
+.timetableHeader2A td, 
+.timetableHeader1B td, 
+.timetableHeader2B td,
+.timetableHeader1 td,
+.timetableHeader2 td {
 	background-color: var(--brand-color);
 }
 

@@ -144,27 +144,25 @@ class SelectTimeTable extends React.Component {
 						<FaPlusSquare />
 					</Button>
 
-					<Button
+					{/* <Button
 						className="dropdownButton selectTimeTable"
 						onClick={this.handleCopy}
 					>
 						<FaCopy />
-					</Button>
-
-
-					<Button
-						className="dropdownButton selectTimeTable"
-						onClick={this.props.doDelete}
-					>
-						<FaTrashAlt />
-					</Button>
-
+					</Button> */}
 
 					<Button
 						className="dropdownButton selectTimeTable"
 						onClick={this.handleEdit}
 					>
 						<FaPen />
+					</Button>
+
+					<Button
+						className="dropdownButton selectTimeTable"
+						onClick={this.props.doDelete}
+					>
+						<FaTrashAlt />
 					</Button>
 
 				</ButtonGroup>

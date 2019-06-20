@@ -840,6 +840,21 @@ class App extends React.Component {
 			this.changeActiveTimetable(newName);
 		});
 	}
+
+	doTimetableCopy = (newName) => {
+		if (this.state.timetableNames.includes(newName)) return;
+
+		this.setState(prevState => ({
+			timetableNames: [...prevState.timetableNames, newName],
+			timetable: [...prevState.timetable, ...prevState.timetable.map(v => {
+				if(v.timetableName === prevState.activeTimetable)
+					v.timetableName = newName;
+				return v;
+			})]
+		}), () => {
+				this.changeActiveTimetable(newName);
+		});
+	}
 	
 	updateTheme = () => {
 		var theme = this.state.themes[this.state.activeTheme];
@@ -913,7 +928,7 @@ class App extends React.Component {
 							doEdit={this.doTimetableEdit}
 							doDelete={this.doTimetableDelete}
 							doNew={this.doTimetableAdd}
-							doCopy={() => { }}
+							doCopy={this.doTimetableCopy}
 						/>
 					</Col>
 				</Row>

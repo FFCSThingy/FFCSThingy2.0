@@ -1,8 +1,9 @@
 .hide{
-    display:none;
+    display: none;
 }
+
 #magic{
-    margin-bottom:10px;
+    margin-bottom: 10px;
     border-top: transparent !important;
     border-right: transparent !important;
     border-left: transparent !important;
@@ -10,55 +11,79 @@
     border-radius: 0.5rem !important;
     box-shadow: 0 6px var(--dropdown-border-color);
 }
+
 .show{
     display:inline-block;
 }
+
 #creditsEnter{
-    width:13%;
+    width: 13%;
     box-shadow: 0 0px ;
-    text-align:center;      
+    text-align: center;      
 }
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+    -webkit-appearance: none; 
+    margin: 0; 
 }
+
 #creditLabel{
-    font-size:19px;
-   font-weight:500;
+    font-size: 19px;
+   font-weight: 500;
 }
+
 .hrz{
-    padding:0;
-    margin-top:0;
+    padding: 0;
+    margin-top: 0;
 }
+
 #filterButton-1{
-    /* margin:0.5%; */
-    background:var(--card-background-color);
+    background: var(--card-background-color);
     color: var(--text-color-inverted);
-   border:none; 
+   border: none; 
    box-shadow: 0 0px;
 }
+
 #filterButton-1:hover{
     background:#eee;
 }
+
 #filterButton-2{
-    /* margin:0.5%; */
-    background:var(--button-highlight-color);
-    color:var(--text-color-default);
-    border:1px var(--dropdown-border-color) solid;
-    border:none;
+    background: var(--button-highlight-color);
+    color: var(--text-color-default);
+    border: 1px var(--dropdown-border-color) solid;
+    border: none;
     box-shadow: 0 0px;
 }
+
 .magicButtons{
-    margin:0.5%;
+    margin: 1rem 1rem 0 0;
 }
+
+#magicData > hr {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
 #submitButton{
-    margin-top:2%;
-    margin-bottom:2%;
+    margin-top: 1.5rem;
+    border-top: transparent !important;
+    border-right: transparent !important;
+    border-left: transparent !important;
+    background-color: var(--brand-color);
+    border-radius: 0.5rem !important;
+    border: none;
+    box-shadow: 0 6px var(--dropdown-border-color);
 }
+
+#submitButton:active {
+    transform: translateY(2px);
+}
+
 #magicContainer{
-margin-left:15px;
+margin-left: 15px;
+font-family: 'Montserrat', sans-serif;
 }
 
 @media only screen and (max-width: 768px){

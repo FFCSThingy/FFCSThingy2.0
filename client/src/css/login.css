@@ -68,7 +68,7 @@
     margin: 0 auto;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1030px) {
 
     .ffcsthingy {
         margin: 3vh 0 0 7vw;
@@ -85,7 +85,7 @@
         background-color: var(--select-table-background-color);
         display: block;
         width: 40vw;
-        height: 45vh;
+        height: 60vh;
         border-radius: 1rem;
     }
 
@@ -98,7 +98,7 @@
     }
 
     .firstCard .card-body {
-        height: 45vh;
+        height: 60vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -126,26 +126,29 @@
     }
 
     .googleButtonLink {
-        width: 230px;
+        width: 20vw;
+        max-width: 250px;
         margin: 0 auto;
+    }
+
+    .firstCard img {
+        max-height: 60vh;
+        max-width: 100%;
     }
 }
 
-@media (min-width: 1500px) {
-    .firstCard {
-        height: 60vh;
-    }
+@media (max-width: 350px) {
 
-    .firstCard .card-body {
-        height: 60vh;
+    html {
+        font-size: 11px;
     }
 }
 
 /* Google Button */
 
 .google-button {
-  height: 45px;
-  width: 230px;
+  height: 6vh;
+  width: 100%;
   background: white;
   color: #737373;
   border-radius: 5px;

@@ -1,146 +1,176 @@
 import React from 'react';
-import { Dropdown, ButtonGroup, Button, Card } from 'react-bootstrap';
-import { FaTrashAlt, FaCopy, FaPlusSquare } from 'react-icons/fa';
+import { Container, Dropdown, ButtonGroup, Button, Card, Form, DropdownButton } from 'react-bootstrap';
+import { FaTrashAlt, FaCopy, FaPlusSquare, FaPen } from 'react-icons/fa';
 import './selectTimeTable.css';
 import "./TimeTable.css";
-export default class SelectTimeTable extends React.Component {
+// import { log } from 'util';
+class SelectTimeTable extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
-
-		this.handleShow = this.handleShow.bind(this);
-		this.handleClose = this.handleClose.bind(this);
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSave = this.handleSave.bind(this);
-
 		this.state = {
+			showEdit: false,
+			showNew: false,
+			showCopy: false,
+			newName: '',
+
 			show: false,
 			value: ""
 		};
 	}
 
-	handleClose() {
-		this.setState({
-			show: false,
-			value: ''
-		});
-	}
+	// handleClose = () => {
+	// 	this.setState({
+	// 		show: false,
+	// 		value: ''
+	// 	});
+	// }
 
-	handleShow() {
-		this.setState({ show: true });
-	}
+	// handleShow = () => {
+	// 	if(this.state.show===false)
+	// 		this.setState({ show: true });
+	// 	else
+	// 		this.setState({ show: false });
+	// }
 
-	handleChange(event) {
-		this.setState({
-			value: event.target.value
-		})
-	}
+	// handleChange = (event) => {
+	// 	this.setState({
+	// 		value: event.target.value
+	// 	})
+	// }
 
-	handleSave(event) {
-		this.setState({ show: false });
-		var newTimetable = this.state.value;
+	// handleSave = (event) => {
+	// 	this.setState({ show: false });
+	// 	var newTimetable = this.state.value;
+	// 	if (newTimetable === "") return;
+	// 	if (newTimetable != null) {
+	// 		var timetableNames = this.props.timetableNames
+	// 		if (!timetableNames.includes(newTimetable)) {
+	// 			timetableNames.push(newTimetable)
+	// 			this.props.modifyTimetableNames(timetableNames);
 
-		if (newTimetable != null || newTimetable !== '') {
-			var timetableNames = this.props.timetableNames
-			if (!timetableNames.includes(newTimetable)) {
-				timetableNames.push(newTimetable)
-				this.props.modifyTimetableNames(timetableNames);
+	// 			this.props.changeActiveTimetable(newTimetable);
+	// 		}
+	// 		else {
+	// 			this.handleShow();
+	// 		}
+	// 	}
+	// }
 
-				this.props.changeActiveTimetable(newTimetable);
-			}
-			else {
-				this.handleShow();
-			}
-		}
-	}
-
-	renderCard = () => {
-		return <Card
-		show={this.state.show}
-		onHide={this.handleClose}
-		>
-		<Card.Body className="inputPopup">
-			<input placeholder="Enter name"
-			class="inputField" type="text" value={this.state.value} onChange={this.handleChange}
-			spellCheck='false'
-			autoComplete='off' />
-			<Button className="saveButton" onClick={this.handleSave}>
-				<FaPlusSquare />
-			</Button>
-		</Card.Body>
-		</Card>
-	}
-
-	handleSelect = (Detail) => {
-		this.props.changeActiveTimetable(Detail);
+	handleChange = (event) => {
+		let fieldName = event.target.name;
+		let fleldVal = event.target.value;
+		this.setState({ [fieldName]: fleldVal })
 	}
 
 	handleCopy = () => {
-		this.handleShow();
+		this.setState(prevState => ({
+			showCopy: !prevState.showCopy,
+			showEdit: false,
+			showNew: false
+		}));
 	}
 
-	handleDelete = (deleteTable) => {
-		if (deleteTable === this.props.activeTimetable) {
-			var changeActiveTable = true;
-		}
-		var timetableNames = this.props.timetableNames
-		var index = timetableNames.indexOf(deleteTable);
-		if (index !== -1 && timetableNames.length > 1) {
-			timetableNames.splice(index, 1);
-			this.props.modifyTimetableNames(timetableNames);
-
-			if (changeActiveTable && timetableNames.length !== 0) this.props.changeActiveTimetable(timetableNames[0])
-		}
+	handleEdit = () => {
+		this.setState(prevState => ({
+			showCopy: false,
+			showEdit: !prevState.showEdit,
+			showNew: false
+		}));
 	}
 
-	createDropdownItem = (active, eventKey, Detail) => {
-		if (active)
-			return <ButtonGroup className="dropdownButtonGroup">
-				<Button className="detail" onClick={() => { this.handleSelect(Detail) }}>{Detail}</Button>
-				<Button onClick={() => { this.handleCopy() }}><FaCopy /></Button>
-				<Button onClick={() => { this.handleDelete(Detail) }}><FaTrashAlt /></Button>
-			</ButtonGroup>
-		else
-			return <ButtonGroup className="dropdownButtonGroup">
-				<Button className="dropdownTimetable dropdownButton detail" onClick={() => { this.handleSelect(Detail) }}>{Detail}</Button>
-				<Button className="dropdownTimetable dropdownButton" onClick={() => { this.handleCopy() }}><FaCopy /></Button>
-				<Button className="dropdownTimetable dropdownButton" onClick={() => { this.handleDelete(Detail) }}><FaTrashAlt /></Button>
-			</ButtonGroup>
+	handleNew = () => {
+		this.setState(prevState => ({
+			showCopy: false,
+			showEdit: false,
+			showNew: !prevState.showNew
+		}));
+	}
+
+	handleDelete = () => {
+
+	}
+
+	renderInput = () => {
+		if (this.state.showEdit || this.state.showCopy || this.state.showNew)
+			return (
+				<Form>
+					<Form.Control
+						type='text'
+						value={this.state.newName}
+						placeholder='Enter Timetable Name'
+						name='newName'
+						onChange={this.handleChange.bind(this)}
+					/>
+
+					<Button
+						onClick={() => {
+								(this.state.showEdit) ? this.props.doEdit(this.state.newName)
+									: (this.state.showNew) ? this.props.doNew(this.state.newName)
+										: this.props.doCopy(this.state.newName);
+
+								(this.state.showEdit) ? this.handleEdit()
+									: (this.state.showNew) ? this.handleNew()
+										: this.handleCopy();
+							}
+						}
+					>
+						Ok
+						</Button>
+				</Form>
+			)
+		else return;
+	}
+
+	renderDropdownItems = () => {
+		return this.props.timetableNames.map(v => <Dropdown.Item eventKey={v}>{v}</Dropdown.Item>);
 	}
 
 	render() {
-		var timetableNames = this.props.timetableNames
-		var items = [];
-		timetableNames.forEach((timetableName, index) => {
-			let active = false;
-
-			if (timetableName === this.props.activeTimetable)
-				active = true;
-
-			items.push(this.createDropdownItem(active, index, timetableName))
-		});
-
-		// UI - Known issue, dropdown shifts down onClick.
 		return (
-			<>
-				<div>
-					<Dropdown drop="right" className="selectTimeTable">
-						<Dropdown.Toggle className="selectedCourseHead">Time Tables</Dropdown.Toggle>
-						<Dropdown.Menu className="dropdownTimetable border">
-							{items}
-							<Dropdown.Divider />
-							<Dropdown.Item
-								eventKey='new'
-								onClick={this.handleShow}
-								className="dropdownButton">
-								Create new
-								{/* <FaCaretDown  className="newButton"/> */}
-							</Dropdown.Item>
-							{this.renderCard()}
-						</Dropdown.Menu>
-					</Dropdown>
-				</div>
-			</>
+			<div className="dropdownButtonGroupContainer">
+				<ButtonGroup className="dropdownButtonGroup">
+					<DropdownButton
+						title={this.props.activeTimetable}
+						onSelect={this.props.changeActiveTimetable}
+					>
+						{this.renderDropdownItems()}
+					</DropdownButton>
+
+					<Button
+						className="dropdownButton selectTimeTable"
+						onClick={this.handleNew}
+					>
+						<FaPlusSquare />
+					</Button>
+
+					{/* <Button
+						className="dropdownButton selectTimeTable"
+						onClick={this.handleCopy}
+					>
+						<FaCopy />
+					</Button> */}
+
+					<Button
+						className="dropdownButton selectTimeTable"
+						onClick={this.handleEdit}
+					>
+						<FaPen />
+					</Button>
+
+					<Button
+						className="dropdownButton selectTimeTable"
+						onClick={this.props.doDelete}
+					>
+						<FaTrashAlt />
+					</Button>
+
+				</ButtonGroup>
+
+				{this.renderInput()}
+			</div>
 		);
 	}
 }
+
+export default SelectTimeTable;

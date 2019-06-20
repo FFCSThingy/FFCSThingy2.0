@@ -27,7 +27,7 @@
 .selectTimeTable .btn-primary:active {
     background-color: var(--brand-color) !important;
     transform: translateY(2px);
-    
+
 }
 
 .selectTimeTable .btn-primary:hover {
@@ -56,22 +56,6 @@
     background-color: var(--brand-color) !important;
 }
 
-.dropdownButtonGroup {
-    display: flex;
-    padding: 0 0.6rem 1rem 0.6rem;
-}
-
-.dropdownButtonGroup button:not(:first-child) {
-    margin-left: 0.5rem !important;
-    max-height: 36px;
-}
-
-.dropdownButtonGroup button:first-child {
-    margin-left: 0.2rem !important;
-    width: 83.19px;
-    overflow-wrap: break-word;
-}
-
 
 .dropdownButton {
     flex: 1;
@@ -86,7 +70,7 @@
 .dropdown-item:focus, .dropdown-item:hover {
     background-color: var(--card-highlight-color) !important;
     color: var(--brand-color) !important;
-    
+
 }
 
 .inputPopup {
@@ -103,13 +87,13 @@
     outline: none;
     padding: 0.3rem 0.6rem 0.1rem 0.7rem;
     color: var(--dropdown-border-color) !important;
-    
+
     max-width: 10rem;
 }
 
 .inputPopup ::placeholder {
     color: var(--dropdown-border-color);
-    
+
     opacity:1;
     transition: opacity 0.17s ease;
     text-transform: capitalize;
@@ -128,5 +112,6 @@
     margin-right: 0.5rem;
 }
 
-
-
+.dropdownButtonGroupContainer {
+    height: 5vh;
+}

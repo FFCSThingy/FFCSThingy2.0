@@ -329,7 +329,9 @@ class TimeTable extends Component {
 					e.slot.split('+').includes(slots[0]) &&
 					e.timetableName === this.props.activeTimetable
 				));
-
+        
+				if (!reqdCourse) return this.renderEmpty(c, slotString);
+				
 				return this.renderFilledTheory(c, slotString, reqdCourse);
 			}
 			else if (this.props.filledSlots.includes(slots[1])) {
@@ -338,7 +340,9 @@ class TimeTable extends Component {
 					e.timetableName === this.props.activeTimetable
 				));
 
-				return this.renderFilledLab(c, slotString, reqdCourse);
+				if (!reqdCourse) return this.renderEmpty(c, slotString);
+
+				return this.renderFilledLab(c, slotString, reqdCourse);		
 			}
 		})
 

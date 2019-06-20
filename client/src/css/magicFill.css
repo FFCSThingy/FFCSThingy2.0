@@ -68,7 +68,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 #submitButton{
     margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
     border-top: transparent !important;
     border-right: transparent !important;
     border-left: transparent !important;

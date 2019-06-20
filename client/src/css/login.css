@@ -68,7 +68,7 @@
     margin: 0 auto;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1030px) {
 
     .ffcsthingy {
         margin: 3vh 0 0 7vw;
@@ -126,7 +126,8 @@
     }
 
     .googleButtonLink {
-        width: 230px;
+        width: 20vw;
+        max-width: 250px;
         margin: 0 auto;
     }
 
@@ -145,7 +146,7 @@
 /* Google Button */
 
 .google-button {
-  height: 45px;
+  height: 6vh;
   width: 100%;
   background: white;
   color: #737373;

@@ -133,6 +133,7 @@
 
     .firstCard img {
         max-height: 60vh;
+        max-width: 100%;
     }
 }
 

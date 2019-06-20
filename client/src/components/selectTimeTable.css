@@ -48,13 +48,6 @@
     border-radius: 0.5rem !important;
 }
 
-.btn-primary {
-    background-color: var(--card-highlight-color);
-    margin-top: -0.5rem !important;
-    border: none !important;
-    border-radius: 0.5rem !important;
-}
-
 .detail {
     width: 50%;
 }

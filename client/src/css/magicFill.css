@@ -3,13 +3,99 @@
 }
 
 .magicButton.dropdown-toggle {
-    margin-bottom: 10px;
+    margin-bottom: 1.2rem;
+    margin-top: 0;
     border-top: transparent !important;
     border-right: transparent !important;
     border-left: transparent !important;
     background-color: var(--brand-color);
     border-radius: 0.5rem !important;
     box-shadow: 0 6px var(--dropdown-border-color);
+    border: none !important;
+    outline: none;
+}
+
+.magicButton.dropdown-toggle:active {
+    background-color: var(--brand-color) !important;
+    transform: translateY(2px);
+}
+
+.magicButton.dropdown-toggle:hover {
+    background-color: var(--brand-color) !important;
+    border-color: var(--dropdown-border-color) !important;
+    background-color: var(--brand-color) !important;
+}
+
+.magicButton.dropdown-toggle:focus {
+    box-shadow: 0 6px var(--dropdown-border-color) !important;
+}
+
+.creditsPlaceholder {
+    margin-left: 1rem;
+
+}
+
+.creditsPlaceholder .form-control {
+    border-radius: 0.5rem;
+    border: none !important;
+}
+
+.creditsPlaceholder .form-control:focus {
+    box-shadow: 0 0 0 0.1rem var(--card-highlight-color) !important;
+}
+
+.creditsPlaceholder input::placeholder {
+    opacity:1;
+    transition: opacity 0.17s ease;
+}
+
+.creditsPlaceholder input[placeholder]:focus::-webkit-input-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
+.creditsPlaceholder input[placeholder]:focus::-moz-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
+/* .toggles {
+    padding-right: 25%;
+} */
+
+/* .toggles .col-md-3 {
+    flex: auto;
+} */
+/* 
+.toggles .col-md-3:nth-child(even) .slotFilter {
+    float: right;
+    max-width: 90%;
+}
+
+.toggles .col-md-3:nth-child(odd){
+max-width: 25%;
+}
+
+@media (min-width: 768px){
+    .toggles .col-md-3 {
+        max-width: 75%;
+        flex: auto;
+}
+} */
+
+@media (min-width: 768px){
+    .toggles .col-md-3 {
+        max-width: 100%;
+}
+}
+
+.togglesA, .togglesB {
+    padding: 0;
+}
+
+.slotFilter {
+    padding-bottom: 1rem;
+    padding-right: 1rem;
 }
 
 .show{
@@ -57,7 +143,7 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: 0 0px;
 }
 
-.magicButtons{
+.magicButton{
     margin: 1rem 1rem 0 0;
 }
 
@@ -82,8 +168,9 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #magicContainer{
-margin-left: 15px;
-font-family: 'Montserrat', sans-serif;
+    margin-left: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 1rem;
 }
 
 @media only screen and (max-width: 768px){

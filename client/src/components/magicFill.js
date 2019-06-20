@@ -46,29 +46,29 @@ class Generator extends Component {
 
 	renderToggles = () => {
 		return (
-			<Row>
-				<Col sm={12} md={3}>
-					<ToggleButtonGroup className="slotFilter"
-						type='radio'
-						name='slots'
-						value={this.state.slots}
-						onChange={this.handleChanges} >
-						<ToggleButton value='morning' className='toggleCustom'>Morning</ToggleButton>
-						<ToggleButton value='evening' className='toggleCustom'>Evening</ToggleButton>
-					</ToggleButtonGroup>
-				</Col>
+			<Row className="toggles">
+				<Container className="togglesA">
+					<Col sm={12} md={3}>
+						<ToggleButtonGroup className="slotFilter"
+							type='radio'
+							name='slots'
+							value={this.state.slots}
+							onChange={this.handleChanges} >
+							<ToggleButton value='morning' className='toggleCustom'>Morning</ToggleButton>
+							<ToggleButton value='evening' className='toggleCustom'>Evening</ToggleButton>
+						</ToggleButtonGroup>
+						<ToggleButtonGroup className="slotFilter"
+							type='radio'
+							name='days'
+							value={this.state.days}
+							onChange={this.handleChanges} >
+							<ToggleButton value='monday' className='toggleCustom'>Less Classes on Monday</ToggleButton>
+							<ToggleButton value='friday' className='toggleCustom'>Less Classes on Friday</ToggleButton>
+						</ToggleButtonGroup>
+					</Col>
+				</Container>
 
-				<Col sm={12} md={3}>
-					<ToggleButtonGroup className="slotFilter"
-						type='radio'
-						name='days'
-						value={this.state.days}
-						onChange={this.handleChanges} >
-						<ToggleButton value='monday' className='toggleCustom'>Less Classes on Monday</ToggleButton>
-						<ToggleButton value='friday' className='toggleCustom'>Less Classes on Friday</ToggleButton>
-					</ToggleButtonGroup>
-				</Col>
-
+				<Container className="togglesB">
 				<Col sm={12} md={3}>
 					<ToggleButtonGroup className="slotFilter"
 						type='radio'
@@ -78,9 +78,6 @@ class Generator extends Component {
 						<ToggleButton value='gaps' className='toggleCustom'>Gaps</ToggleButton>
 						<ToggleButton value='nogaps' className='toggleCustom'>No Gaps</ToggleButton>
 					</ToggleButtonGroup>
-				</Col>
-
-				<Col sm={12} md={3}>
 					<ToggleButtonGroup className="slotFilter"
 						type='radio'
 						name='lp'
@@ -90,6 +87,7 @@ class Generator extends Component {
 						<ToggleButton value='project' className='toggleCustom'>Less Projects</ToggleButton>
 					</ToggleButtonGroup>
 				</Col>
+				</Container>
 			</Row>
 		)
 	}
@@ -99,9 +97,9 @@ class Generator extends Component {
 			return (
 				<div>
 					<Row>
-						<Form.Group>
-							<Form.Label>Number of credits:</Form.Label>
-							<Form.Control type="number" placeholder="Credits" />
+						<Form.Group className="creditsPlaceholder">
+							{/* <Form.Label>Number of credits:</Form.Label> */}
+							<Form.Control type="number" placeholder="No. of credits" />
 						</Form.Group>
 					</Row>
 					
@@ -119,14 +117,14 @@ class Generator extends Component {
 		return (
 			<Container id="magicContainer">
 
-				<Row>
+
 					<Button 
 						onClick={this.handleShow}
 						className="magicButton dropdown-toggle"
 					>
 						Magic Fill
 					</Button>
-				</Row>
+
 
 				{this.renderForm()}
 

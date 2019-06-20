@@ -57,23 +57,6 @@ export default class SelectTimeTable extends React.Component {
 		}
 	}
 
-	renderCard = () => {
-		if (!this.state.show) {
-			return;
-		}
-		return <Card>
-		<Card.Body className="inputPopup">
-			<input placeholder="Enter name"
-			class="inputField" type="text" value={this.state.value} onChange={this.handleChange}
-			spellCheck='false'
-			autoComplete='off' />
-			<Button className="saveButton" onClick={this.handleSave}>
-				<FaPlusSquare />
-			</Button>
-		</Card.Body>
-		</Card>
-	}
-
 	handleSelect = (Detail) => {
 		this.props.changeActiveTimetable(Detail);
 	}
@@ -99,55 +82,46 @@ export default class SelectTimeTable extends React.Component {
 		}
 	}
 
-	createDropdownItem = (active, eventKey, Detail) => {
-		if (active)
-			return <ButtonGroup className="dropdownButtonGroup">
-				<Button className="detail" onClick={() => { this.handleSelect(Detail) }}>{Detail}</Button>
-				<Button onClick={() => { this.handleCopy() }}><FaCopy /></Button>
-				<Button onClick={() => { this.handleDelete(Detail) }}><FaTrashAlt /></Button>
-			</ButtonGroup>
+	createDropdownItem = (eventKey, Detail) => {
+		return <Dropdown.Item className="" onClick={() => { this.handleSelect(Detail) }}>{Detail}</Dropdown.Item>
+	}
+
+	showInputField = () => {
+		if(this.state.show)
+			return <>
+			<input split type="text" placeholder="Enter Name" onChange={this.handleChange}/>
+			<Button onClick={this.handleSave}>OK</Button>
+			</>
 		else
-			return <ButtonGroup className="dropdownButtonGroup">
-				<Button className="dropdownTimetable dropdownButton detail" onClick={() => { this.handleSelect(Detail) }}>{Detail}</Button>
-				<Button className="dropdownTimetable dropdownButton" onClick={() => { this.handleCopy() }}><FaCopy /></Button>
-				<Button className="dropdownTimetable dropdownButton" onClick={() => { this.handleDelete(Detail) }}><FaTrashAlt /></Button>
-			</ButtonGroup>
+			return;
 	}
 
 	render() {
 		var timetableNames = this.props.timetableNames
 		var items = [];
 		timetableNames.forEach((timetableName, index) => {
-			let active = false;
 
 			if (timetableName === this.props.activeTimetable)
-				active = true;
-
-			items.push(this.createDropdownItem(active, index, timetableName))
+				return;
+			items.push(this.createDropdownItem(index, timetableName))
 		});
 
+		console.log(this.state.show)
+
 		return (
-			<>
-				<div>
-					<Dropdown drop="right" className="selectTimeTable">
-						<Dropdown.Toggle className="selectedCourseHead">Time Tables</Dropdown.Toggle>
-						<Dropdown.Menu className="dropdownTimetable border">
-							{items}
-							<Dropdown.Divider />
-							<Container>
-								<Button
-								className="dropdownTimeTable dropdownButton"
-								onClick={this.handleShow}
-								>
-									Create New <FaPlusSquare />
-								</Button>
-							</Container>
-							<Dropdown.Divider />
-							{this.renderCard()}
-						</Dropdown.Menu>
-					</Dropdown>
-				</div>
-			</>
+			<ButtonGroup>
+				<Dropdown className="selectTimeTable" as={ButtonGroup}>
+					<Button>Time Table</Button>
+					<Dropdown.Toggle split className="selectedCourseHead">{this.props.activeTimetable} </Dropdown.Toggle>
+					<Dropdown.Menu className="dropdownTimetable border">
+						{items}
+					</Dropdown.Menu>
+				</Dropdown>
+				<Button onClick={this.handleShow}><FaPlusSquare /></Button>
+				<Button onClick={this.handleCopy}><FaCopy /></Button>
+				<Button onClick={this.handleDelete}><FaTrashAlt /></Button>
+				{this.showInputField()}
+			</ButtonGroup>
 		);
 	}
 }

@@ -210,6 +210,8 @@ class TimeTable extends Component {
 	renderHeader1B = () => {
 		return (
 			<tr className="timetableHeader1B">
+				<td className="timetableDay">LAB<br />HOURS
+				</td>
 				<td className="timetableTheoryHours">02:00 PM
 					<br />to
 					<br />02:50 PM
@@ -241,8 +243,7 @@ class TimeTable extends Component {
 	renderHeader2A = () => {
 		return (
 			<tr className="timetableHeader2A">
-				<td className="timetableDay">LAB
-					<br />HOURS
+				<td className="timetableDay">THEORY<br />HOURS
 				</td>
 				<td className="timetableLabHours">08:00 AM
 					<br />to
@@ -274,6 +275,8 @@ class TimeTable extends Component {
 	renderHeader2B = () => {
 		return (
 			<tr className="timetableHeader2B">
+				<td className="timetableDay">LAB<br />HOURS
+				</td>
 				<td className="timetableLabHours">02:00 PM
 					<br />to
 					<br />02:45 PM

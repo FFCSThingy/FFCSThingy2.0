@@ -65,10 +65,8 @@ export default class SelectTimeTable extends React.Component {
 		this.handleShow();
 	}
 
-	handleDelete = (deleteTable) => {
-		if (deleteTable === this.props.activeTimetable) {
-			var changeActiveTable = true;
-		}
+	handleDelete = () => {
+		var deleteTable = this.props.activeTimetable
 		if (deleteTable === 'Default') {
 			return;
 		}
@@ -78,7 +76,7 @@ export default class SelectTimeTable extends React.Component {
 			timetableNames.splice(index, 1);
 			this.props.modifyTimetableNames(timetableNames);
 
-			if (changeActiveTable && timetableNames.length !== 0) this.props.changeActiveTimetable(timetableNames[0])
+			if (timetableNames.length !== 0) this.props.changeActiveTimetable(timetableNames[0])
 		}
 	}
 

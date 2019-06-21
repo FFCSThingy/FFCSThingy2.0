@@ -71,7 +71,7 @@ class App extends React.Component {
 					}
 				},
 				dark: {
-					name: 'Dark',
+					name: 'Rohan',
 					properties: {
 						'brand-color': '#121317',
 						'body-background-color': '#15181f',
@@ -86,7 +86,7 @@ class App extends React.Component {
 						'text-color-inverted': '#ffffff',
 						'text-color-other': '#ffffff',
 						'card-clash-text-color': '#ff6961',
-						'card-selected-text-color': '#00b200',
+						'card-selected-text-color': '#ffffff',
 						'dropdown-border-color': '#1f2229',
 						'dropshadow-default': '#00000033',
 						'dropshadow-highlight': '#000000',

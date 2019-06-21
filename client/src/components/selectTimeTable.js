@@ -98,12 +98,12 @@ class SelectTimeTable extends React.Component {
 					<Form.Control
 						type='text'
 						value={this.state.newName}
-						placeholder='Enter Timetable Name'
+						placeholder='Timetable Name'
 						name='newName'
 						onChange={this.handleChange.bind(this)}
 					/>
 
-					<Button
+					<Button className="okButton"
 						onClick={() => {
 								(this.state.showEdit) ? this.props.doEdit(this.state.newName)
 									: (this.state.showNew) ? this.props.doNew(this.state.newName)

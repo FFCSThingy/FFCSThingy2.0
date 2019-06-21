@@ -14,7 +14,7 @@ router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
-	var currs = ['17BCI', '17BCE'];
+	var currs = ['16BCE', '16BEC', '16BEM', '16BIT', '16BME', '17BCE', '17BCI', '17BEC', '17BEM', '17BIT', '17BME'];
 	var actions = currs.map(curriculum.doParseAndSaveCurriculum);
 	var results = Promise.all(actions);
 

@@ -61,6 +61,7 @@
 	background-color: var(--select-table-background-color);
 	font-family: 'Montserrat', sans-serif;
 	cursor: default;
+	scrollbar-width: none;
 	padding: 0 1rem;
 }
 

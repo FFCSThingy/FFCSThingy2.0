@@ -50,8 +50,7 @@ class CustomNavbar extends React.Component {
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 					
 					<Nav className="mr-auto">
-						<Nav.Link className="navLink">Home</Nav.Link>
-						<Nav.Link className="navLink">About</Nav.Link>
+						<Nav.Link href='/about' className="navLink">About</Nav.Link>
 					</Nav>
 
 					<Nav className="navLeft">

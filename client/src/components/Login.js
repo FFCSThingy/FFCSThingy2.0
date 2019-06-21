@@ -12,7 +12,7 @@ class Login extends React.Component {
 		return (
 			<Container className="loginContainer">
 				<Row className="logoContainer">
-					<span className="ffcsthingy"><img src={logo} width="25px;" alt=""/> FFCSThingy</span>
+					<span className="ffcsthingy"><img src={logo} alt=""/> FFCSThingy</span>
 				</Row>
 
 				<Row className="cards">

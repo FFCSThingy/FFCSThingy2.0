@@ -70,26 +70,26 @@ class App extends React.Component {
 						'dropshadow-highlight': '#00000059',
 					}
 				},
-				default2: {
-					name: 'Theme 2',
+				dark: {
+					name: 'Dark',
 					properties: {
-						'brand-color': '#7c87e8',
-						'body-background-color': '#C3D1F5',
-						'select-table-background-color': '#f6f6f6',
-						'card-background-color': '#ffffff',
-						'card-highlight-color': '#ECEBFE',
+						'brand-color': '#121317',
+						'body-background-color': '#15181f',
+						'select-table-background-color': '#1f2229',
+						'card-background-color': '#27282C',
+						'card-highlight-color': '#4993D0',
 						'button-highlight-color': '#36e2a8',
-						'timetable-theory-color': 'lightpink',
-						'timetable-lab-color': 'greenyellow',
-						'timetable-col1-color': 'lightgrey',
+						'timetable-theory-color': 'greenyellow',
+						'timetable-lab-color': '#00ced1',
+						'timetable-col1-color': '#121317',
 						'text-color-default': '#ffffff',
-						'text-color-inverted': '#000000',
-						'text-color-other': '#666666',
+						'text-color-inverted': '#ffffff',
+						'text-color-other': '#ffffff',
 						'card-clash-text-color': '#ff6961',
 						'card-selected-text-color': '#00b200',
-						'dropdown-border-color': '#4c56b2',
+						'dropdown-border-color': '#1f2229',
 						'dropshadow-default': '#00000033',
-						'dropshadow-highlight': '#00000059',
+						'dropshadow-highlight': '#000000',
 					}
 				}
 			},
@@ -522,6 +522,7 @@ class App extends React.Component {
 		this.doGetPrefixes();
 		this.doCurriculumFetch('17BCE');
 		this.changeActiveTimetable();
+		this.doGetTimetableNames();
 
 		this.heatmapInterval = setInterval(() => this.doGetFullHeatmap(), 1000*2*60);
 		this.courseSyncInterval = setInterval(() => this.doGetSelectedCourses(), 1000*60);
@@ -557,6 +558,7 @@ class App extends React.Component {
 					if (res.status === 304) {
 						this.setState({ timetable: JSON.parse(localStorage.getItem('timetable')) })
 					}
+					else if (res.status === 401) { this.doLogout() }
 					else {
 						this.setState({ timetable: res.data.data });
 						localStorage.setItem('timetable', JSON.stringify(res.data.data));
@@ -571,12 +573,29 @@ class App extends React.Component {
 			});
 	}
 
+	doGetTimetableNames = () => {
+		API.get('/user/selectedCourses')
+			.then(res => {
+				if (res.data.success) {
+					var names = Array.from(new Set(res.data.data.map(v => v.timetableName)));
+					this.setState({timetableNames: names});
+					this.changeActiveTimetable();
+				} else if (res.status === 401) { this.doLogout() }
+				else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				console.log(err);
+				this.setState({ error: err })
+			});
+	}
+
 	doGetFullHeatmap = () => {
 		API.get("/course/fullHeatmap")
 			.then(res => {
 				if (res.data.success) {
 					if (res.status === 304)
 						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
+					else if (res.status === 401) { this.doLogout() }
 					else {
 						this.setState({ heatmap: res.data.data.heatmap, heatmapTimestamp: res.data.data.timestamp });
 						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
@@ -594,6 +613,7 @@ class App extends React.Component {
 		API.get("/curriculum/prefixes")
 			.then(res => {
 				if (res.data.success) {
+					if (res.status === 401) { this.doLogout() }
 					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
 				} else
 					this.setState({ error: res.data.message })
@@ -604,6 +624,7 @@ class App extends React.Component {
 		API.get("/curriculum/curriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
+					if (res.status === 401) { this.doLogout() }
 					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
 					localStorage.setItem(prefix, JSON.stringify(res.data.data));
 				} else
@@ -618,7 +639,8 @@ class App extends React.Component {
 					if (res.status === 304) {
 						var courses = JSON.parse(localStorage.getItem('courseList'));
 						this.setState({ courseList: courses });
-					} else {
+					} else if (res.status === 401) { this.doLogout() }
+					else {
 						this.setState({ courseList: res.data.data.courseList });
 						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
 						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
@@ -636,8 +658,7 @@ class App extends React.Component {
 
 	doSetSelectedCourses = (timetable) => {
 		API.post('/user/selectedCoursesBulk', {selected_courses: timetable}).then(res => {
-			console.log(res.status);
-			console.log(res.data);
+			if (res.status === 401) { this.doLogout() }
 		});
 	}
 
@@ -770,6 +791,9 @@ class App extends React.Component {
 	}
 
 	changeActiveTimetable = (timetableName='Default') => {
+		// if(timetableName === this.state.activeTimetable)
+			// return;
+
 		var slots = this.state.timetable.reduce((a, v) => {
 			if (v.timetableName === timetableName && v.slot !== 'NIL')
 				return [...a, ...v.slot.split('+')];
@@ -787,9 +811,6 @@ class App extends React.Component {
 			})
 			return { clashMap: clashMap, activeTimetable: timetableName };
 		});
-		// this.setState({
-		// 	activeTimetable: timetableName
-		// }, () => this.regenerateClashMap(timetableName))
 	}
 
 	modifyTimetableNames = (newList) => {
@@ -797,6 +818,65 @@ class App extends React.Component {
 			timetableNames: newList
 		})
 	}
+
+	doTimetableDelete = () => {
+		if(this.state.activeTimetable === 'Default') return;
+		this.setState(prevState => ({
+			timetable: prevState.timetable.filter(v => v.timetableName !== prevState.activeTimetable),
+			timetableNames: prevState.timetableNames.filter(v => v !== prevState.activeTimetable),
+		}), () => {
+			this.changeActiveTimetable();
+		});
+	}
+
+	doTimetableAdd = (newName) => {
+		if(this.state.timetableNames.includes(newName)) return;
+
+		this.setState(prevState => ({
+			timetableNames: [...prevState.timetableNames, newName]
+		}), () => {
+			this.changeActiveTimetable(newName);
+		});
+	}
+
+	doTimetableEdit = (newName) => {
+		if (this.state.timetableNames.includes(newName)) return;
+		if (this.state.activeTimetable === 'Default') return;
+
+		this.setState(prevState => ({
+			timetableNames: prevState.timetableNames.map(v => {
+				if(v === this.state.activeTimetable)
+					return newName;
+				return v;	
+			}),
+
+			timetable: prevState.timetable.map(v => {
+				if(v.timetableName === this.state.activeTimetable) {
+					v.timetableName = newName;
+					return v;
+				}
+				return v;
+			})
+		}), () => {
+			this.changeActiveTimetable(newName);
+		});
+	}
+
+	doTimetableCopy = (newName) => {
+		if (this.state.timetableNames.includes(newName)) return;
+
+		this.setState(prevState => ({
+			timetableNames: [...prevState.timetableNames, newName],
+			timetable: [...prevState.timetable, ...prevState.timetable.map(v => {
+				if(v.timetableName === prevState.activeTimetable)
+					v.timetableName = newName;
+				return v;
+			})]
+		}), () => {
+				this.changeActiveTimetable(newName);
+		});
+	}
+	
 	updateTheme = () => {
 		var theme = this.state.themes[this.state.activeTheme];
 		Object.keys(theme.properties).map(v =>
@@ -830,7 +910,7 @@ class App extends React.Component {
 					/>
 				</Row>
 
-				<Row>
+				<Row className="slotSelectionRow">
 					<Col xs={12} md={4}>
 						<CourseSelect
 							selectCourse={this.selectCourse}
@@ -858,6 +938,13 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
+{/* 
+				<Row>
+					<Generator
+						user={this.state.user}
+					/>
+				</Row> */}
+
 				<Row>
 					<Col>
 						<SelectTimeTable
@@ -865,13 +952,15 @@ class App extends React.Component {
 							timetableNames={this.state.timetableNames}
 							changeActiveTimetable={this.changeActiveTimetable}
 							modifyTimetableNames={this.modifyTimetableNames}
+
+							doEdit={this.doTimetableEdit}
+							doDelete={this.doTimetableDelete}
+							doNew={this.doTimetableAdd}
+							doCopy={this.doTimetableCopy}
 						/>
-						<br />
 					</Col>
 				</Row>
-				<Row>
-					<Generator/>
-				</Row>
+			
 				<Row>
 					<TimeTable
 						clashMap={this.state.clashMap}

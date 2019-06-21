@@ -13,6 +13,10 @@
     font-weight: bold;
 }
 
+.ffcsthingy img {
+    width: 25px;
+}
+
 .firstCard {
     display: none;
 }
@@ -68,11 +72,16 @@
     margin: 0 auto;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1030px) {
 
     .ffcsthingy {
         margin: 3vh 0 0 7vw;
-        font-size: 1.7rem;
+        font-size: 2.5rem;
+        padding-bottom: 0;
+    }
+
+    .ffcsthingy img {
+        width: 40px;
     }
 
     .cards {
@@ -85,7 +94,7 @@
         background-color: var(--select-table-background-color);
         display: block;
         width: 40vw;
-        height: 45vh;
+        height: 60vh;
         border-radius: 1rem;
     }
 
@@ -98,7 +107,7 @@
     }
 
     .firstCard .card-body {
-        height: 45vh;
+        height: 60vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -126,26 +135,35 @@
     }
 
     .googleButtonLink {
-        width: 230px;
+        width: 20vw;
+        max-width: 250px;
         margin: 0 auto;
+    }
+
+    .firstCard img {
+        max-height: 60vh;
+        max-width: 100%;
     }
 }
 
-@media (min-width: 1500px) {
-    .firstCard {
-        height: 60vh;
-    }
+@media (max-width: 350px) {
 
-    .firstCard .card-body {
-        height: 60vh;
+    html {
+        font-size: 11px;
+    }
+}
+
+@media (max-height: 600px) {
+    .google-button {
+        padding: 0 0 5px 0;
     }
 }
 
 /* Google Button */
 
 .google-button {
-  height: 45px;
-  width: 230px;
+  height: 6vh;
+  width: 100%;
   background: white;
   color: #737373;
   border-radius: 5px;

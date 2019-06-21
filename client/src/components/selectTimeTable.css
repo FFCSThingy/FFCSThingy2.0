@@ -1,20 +1,10 @@
-.selectedCourseHead {
-    border: none;
-}
-
-.selectedCourseHead .dropdown-divider {
-    border-top: 1px solid var(--dropdown-border-color);
-}
-
-.selectTimeTable {
+.dropdownButtonGroupContainer {
     font-family: 'Montserrat', sans-serif;
-    position: relative;
-    margin-top: 0 !important;
-    margin-left: 15px;
+    text-align: center;
 }
 
 
-.selectTimeTable .btn-primary {
+.dropdownButton, .dropdownButtonGroup .dropdown .btn-primary{
     border-top: transparent !important;
     border-right: transparent !important;
     border-left: transparent !important;
@@ -24,109 +14,113 @@
     box-shadow: 0 6px var(--dropdown-border-color);
 }
 
-.selectTimeTable .btn-primary:active {
+.dropdownButton:active, .dropdownButtonGroup .dropdown .btn-primary:active{
     background-color: var(--brand-color) !important;
     transform: translateY(2px);
-    
+    box-shadow: 0 6px var(--dropdown-border-color) !important;
+    border: none;
+
 }
 
-.selectTimeTable .btn-primary:hover {
+.dropdownButton:hover, .dropdownButtonGroup .dropdown .btn-primary:hover{
     background-color: var(--brand-color) !important;
     border-color: var(--dropdown-border-color) !important;
     background-color: var(--brand-color) !important;
 }
 
-.selectTimeTable .btn-primary:focus {
+.dropdownButton:focus, .dropdownButtonGroup .dropdown .btn-primary:focus{
     box-shadow: 0 6px var(--dropdown-border-color) !important;
 }
 
-.selectTimeTable .dropdown-menu {
-    background-color: var(--card-highlight-color);
-    margin-left: 0.5rem !important;
-    margin-top: -0.5rem !important;
-    border: none !important;
-    border-radius: 0.5rem !important;
+.dropdownButtonGroup .dropdown, .dropdownButtonGroup .dropdownButton {
+    margin-right: 1rem;
 }
 
-.detail {
-    width: 50%;
+.dropdownButtonGroup .dropdown .dropdown-toggle{
+    max-width: 30vw;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
-.show>.btn-primary.dropdown-toggle {
-    background-color: var(--brand-color) !important;
+.dropdownButtonGroup .dropdownButton {
+    max-height: 36px;
+    width: 40px;
+}
+
+.dropdownButtonGroup .show {
+    margin-top: 0;
+}
+
+.dropdownButtonGroup .dropdown-menu {
+	transform: translate3d(0px, 53px, 0px) !important;
+	background-color: var(--card-background-color);
+}
+
+.dropdownButtonGroup .dropdown-menu .dropdown-item {
+    padding: 0.25rem 0.7rem;
+	font-weight: bold;
+	background-color: var(--card-background-color);
+	color: var(--text-color-other);
 }
 
 .dropdownButtonGroup {
-    display: flex;
-    padding: 0 0.6rem 1rem 0.6rem;
+    margin-bottom: 1.2rem;
 }
 
-.dropdownButtonGroup button:not(:first-child) {
-    margin-left: 0.5rem !important;
-    max-height: 36px;
-}
-
-.dropdownButtonGroup button:first-child {
-    margin-left: 0.2rem !important;
-    width: 83.19px;
-    overflow-wrap: break-word;
-}
-
-
-.dropdownButton {
-    flex: 1;
-    color: var(--dropdown-border-color);
-}
-
-.dropdown-item {
-    padding: 0 0 0 0.7rem;
-    font-weight: bold;
-}
-
-.dropdown-item:focus, .dropdown-item:hover {
-    background-color: var(--card-highlight-color) !important;
-    color: var(--brand-color) !important;
-    
-}
-
-.inputPopup {
-    background-color: var(--card-highlight-color);
-    font-family: 'Montserrat', sans-serif;
-    padding: 0;
-    cursor: text;
-}
-
-.inputPopup input {
-    border-radius: 0 !important;
-    background-color: var(--card-highlight-color);
+.dropdownButtonGroupContainer .form-control {
+    width: 11em;
+    /* max-width: 15em; */
+    margin-bottom: 1rem;
+    border-radius: 0.5rem;
     border: none !important;
-    outline: none;
-    padding: 0.3rem 0.6rem 0.1rem 0.7rem;
-    color: var(--dropdown-border-color) !important;
-    
-    max-width: 10rem;
+    display: initial;
 }
 
-.inputPopup ::placeholder {
-    color: var(--dropdown-border-color);
-    
+.dropdownButtonGroupContainer .form-control:focus {
+    box-shadow: 0 0 0 0.1rem var(--card-highlight-color) !important;
+}
+
+.dropdownButtonGroupContainer input::placeholder {
     opacity:1;
     transition: opacity 0.17s ease;
-    text-transform: capitalize;
 }
 
-.inputPopup [placeholder]:focus::-webkit-input-placeholder {
+.dropdownButtonGroupContainer input[placeholder]:focus::-webkit-input-placeholder {
     transition: opacity 0.17s ease;
     opacity: 0;
   }
 
+.dropdownButtonGroupContainer input[placeholder]:focus::-moz-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
 
-.saveButton {
-    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
-    font-size: 0.8rem;
-    float: right;
-    margin-right: 0.5rem;
+.okButton {
+    margin-left: 1rem;
+    border-top: transparent !important;
+    border-right: transparent !important;
+    border-left: transparent !important;
+    background-color: var(--brand-color);
+    border-radius: 0.5rem !important;
+    border: none;
+    box-shadow: 0 6px var(--dropdown-border-color);
+    font-size: 0.9em;
+    vertical-align: top;
+  }
+
+.okButton:active{
+    background-color: var(--brand-color) !important;
+    transform: translateY(2px);
+    box-shadow: 0 6px var(--dropdown-border-color) !important;
+    border: none;
 }
 
+.okButton:hover{
+    background-color: var(--brand-color) !important;
+    border-color: var(--dropdown-border-color) !important;
+    background-color: var(--brand-color) !important;
+}
 
-
+.okButton:focus{
+    box-shadow: 0 6px var(--dropdown-border-color) !important;
+}

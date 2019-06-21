@@ -9,11 +9,12 @@
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
     "react-icons": "^3.7.0",
+    "react-responsive": "^7.0.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_BASE_URL=http://localhost:3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",

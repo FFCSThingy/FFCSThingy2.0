@@ -39,6 +39,7 @@ TODO------
 
 .cardOne {
 	border-radius: .7rem !important;
+	background-color: var(--brand-color) !important;
 }
 
 .cardOneHeader {
@@ -59,7 +60,9 @@ TODO------
     box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
-    cursor: pointer;
+	cursor: pointer;
+	color: var(--text-color-inverted);
+	background-color: var(--card-background-color);
 }
 
 .courseCard.active {
@@ -115,59 +118,6 @@ TODO------
 .searchBarContainer {
     padding: 0 !important;
 }
-/* 
-.curriculumDropdown {
-    font-family: 'Montserrat', sans-serif;
-    background-color: var(--brand-color) !important;
-    border-radius: 0.25rem !important;
-    border: 1px solid var(--white);
-    color: var(--text-color-default);
-    padding: 0.05rem 0.1rem;
-    height: 1.6em;
-    width: 85%;
-    margin:0;
-}
-
-.curriculumDropdown:focus {
-    color: var(--text-color-default) !important;
-    box-shadow: none !important;
-}
-
-.curriculumDropdown:active {
-    color: var(--brand-color) !important;
-    box-shadow: none !important;
-}
-
-.curriculumDropdown > .btn-primary {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0;
-}
-
-.curriculumDropdown > .show {
-    display: block !important;
-}
-
-.curriculumDropdown > .dropdown-menu {
-    padding: 0 !important;
-    min-width: 102% !important;
-    border: 1px solid var(--border-color);
-    border-radius: 0.25rem !important;
-    margin-left: -0.2rem !important;
-}
-
-.curriculumDropdown > .dropdown-menu > .dropdown-item {
-    padding: 0.1rem 0.5rem !important;
-    background-color: var(--slot-course-card-color) !important;
-    border-radius: 0.25rem !important;
-    color: #7f7f7f !important;
-}
-
-.curriculumDropdown > .dropdown-menu > .dropdown-item:hover {
-    color:  !important;
-} */
-
 
 .searchBar {
     background-color: var(--brand-color) !important;
@@ -179,9 +129,8 @@ TODO------
     height: 1.1em !important;
     font-weight: bold;
     font-size: 1.3em;
-    text-align: right;
+    text-align: left;
     text-transform: uppercase;
-	
 }
 
 
@@ -190,13 +139,18 @@ TODO------
     opacity:1;
     transition: opacity 0.17s ease;
     text-transform: capitalize;
-
 }
 
 .searchBarContainer [placeholder]:focus::-webkit-input-placeholder {
     transition: opacity 0.17s ease;
     opacity: 0;
   }
+
+  .searchBarContainer [placeholder]:focus::-moz-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
 
 .courseTypeFilter {
 	margin: 0 !important;
@@ -246,5 +200,38 @@ TODO------
 @media only screen and (max-width: 1250px) {
     .filterButton{
         padding: 0.5rem 0.5rem;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .slotSelectionRow .col-md-4 {
+        flex: 0 0 40%;
+        max-width: 40%;
+}
+
+    .slotSelectionRow .col-md-8 {
+        flex: 0 0 60%;
+        max-width: 60%;
+}
+}
+
+@media only screen and (min-width: 1070px) {
+    .slotSelectionRow .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    .slotSelectionRow .col-md-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+    }
+
+@media only screen and (min-width: 768px) and (max-width:860px) {
+    .courseTypeFilter {
+        font-size: 0.8em;
+    }
+    .courseTypeFilter .filterButton{
+        padding: 0.3rem 0.3rem;
     }
 }

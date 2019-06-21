@@ -1,28 +1,55 @@
 .timetableContainer {
+	margin-top: 1rem;
 	font-family: 'Montserrat', sans-serif;
-	width: 100%;
-	overflow-x: auto;
+	padding-right: 0;
+	padding-left: 1rem !important;
+	font-size: 0.6em;
+	margin-right: 1rem;
+	cursor: default;
 }
 
-.timetable {
-	width: 100%;
-	/* border-radius: 0.7rem; */
-	/* border: none !important; */
+.morningIcon {
+	height: 35px;
+	width: 35px;
+	margin-left: -0.5rem;
 }
 
-.timetable tr, 
-.timetable td, 
-.timetable th {
+.eveningIcon {
+	height: 35px;
+	width: 35px;
+	margin-bottom: -0.9rem;
+	margin-left: -0.5rem;
+	margin-top: 1rem;
+	/* color: rgb(224, 189, 100); */
+	color: hsl(39, 70%, 60%);
+}
+
+
+.timetableA {
+	width: 100%;
+}
+
+.timetableB {
+	width: 100%;
+	position: relative;
+	z-index: 1;
+}
+
+.timetableA tr, 
+.timetableA td, 
+.timetableA th,
+.timetableB tr, 
+.timetableB td, 
+.timetableB th {
 	border: none !important;
-	padding: 5px;
 }
 
 .timetableTheoryHours {
-
+	color: var(--text-color-default);
 }
 
 .timetableLabHours {
-
+	color: var(--text-color-default);
 }
 
 .timetableBody td {
@@ -30,40 +57,68 @@
 }
 
 .timetableBody td {
-	/* border: 1px solid black !important; */
 	text-align: center;
-	padding: 5px;
+	padding: 0.25rem;
+	height: 5.5vh;
 }
 
 .timetableBody tr {
 	border: none !important;
-	/* text-align: center; */
-	/* padding: 5px; */
 }
 
-.timetableHeader1 td {
-	background-color: var(--brand-color);
-}
-
+.timetableHeader1A td, 
+.timetableHeader2A td, 
+.timetableHeader1B td, 
+.timetableHeader2B td,
+.timetableHeader1 td,
 .timetableHeader2 td {
 	background-color: var(--brand-color);
+	height: 4vh;
+}
+
+.courseDetails {
+	font-size: 0.96em;
+	margin-bottom: 0;
+	line-height: 1.5;
+}
+
+.courseCode {
+	font-weight: 600;
+	font-size: 0.8em;
+	margin-bottom: 0;
+	line-height: 1.5;
 }
 
 td.timetableDay {
 	background-color: var(--timetable-col1-color);
+	width: 5vw;
+	font-weight: bold;
+	color: var(--text-color-inverted);
+	font-size: 0.8em;
+}
+
+td.timetableBreak {
+	background-color: var(--timetable-col1-color);
+	/* min-width: 50px; */
+	font-weight: bold;
+	color: var(--text-color-inverted);
 }
 
 .timetableEmpty {
-
+	background-color: var(--select-table-background-color);
+	color: var(--text-color-inverted);
 }
 
 td.timetableFilledTheory {
 	background-color: var(--timetable-theory-color);
+	font-size: 0.9em;
+	color: var(--text-color-inverted);
 }
 
 td.timetableFilledLab {
 	background-color: var(--timetable-lab-color);
-
+	font-size: 0.9em;
+	color: var(--text-color-inverted);
 }
 
 table tr:last-child td:first-child {
@@ -80,4 +135,108 @@ table tr:first-child td:first-child {
 
 table tr:first-child td:last-child {
 	border-top-right-radius: 0.7rem;
+}
+
+
+.tableLabel {
+	font-weight: bold;
+	font-size: 1.2rem;
+	margin-top: 1rem;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+
+	.timetableContainer {
+		width: 100%;
+		margin-top: 2rem;
+		font-size: 1em;
+		overflow-x: auto;
+	}
+	
+	.timetable {
+		width: 100%;
+	}
+	
+	.timetable tr, 
+	.timetable td, 
+	.timetable th {
+		border: none !important;
+		padding: 5px;
+	}
+	
+	.timetableTheoryHours {
+	
+	}
+	
+	.timetableLabHours {
+	
+	}
+	
+	.timetableBody td {
+		background-color: var(--select-table-background-color);
+	}
+	
+	.timetableBody td {
+		text-align: center;
+		padding: 5px;
+		height: auto;
+	}
+	
+	.timetableBody tr {
+		border: none !important;
+	}
+	
+	.timetableHeader1 td {
+		background-color: var(--brand-color);
+	}
+	
+	.timetableHeader2 td {
+		background-color: var(--brand-color);
+	}
+
+	td.timetableBreak {
+		background-color: var(--timetable-col1-color);
+	}
+
+	td.timetableDay {
+		background-color: var(--timetable-col1-color);
+	}
+	
+	.timetableEmpty {
+	
+	}
+	
+	td.timetableFilledTheory {
+		background-color: var(--timetable-theory-color);
+		font-size: 1em;
+	}
+	
+	td.timetableFilledLab {
+		background-color: var(--timetable-lab-color);
+		font-size: 1em;
+	
+	}
+
+	.courseCode {
+		font-size: 1em;
+	}
+	
+	table tr:last-child td:first-child {
+		border-bottom-left-radius: 0.7rem;
+	}
+	
+	table tr:last-child td:last-child {
+		border-bottom-right-radius: 0.7rem;
+	}
+	
+	table tr:first-child td:first-child {
+		border-top-left-radius: 0.7rem;
+	}
+	
+	table tr:first-child td:last-child {
+		border-top-right-radius: 0.7rem;
+	}
+	
 }

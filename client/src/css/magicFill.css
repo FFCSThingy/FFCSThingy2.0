@@ -1,73 +1,87 @@
 .hide{
-    display:none;
+    display: none;
 }
-#magic{
-    margin-bottom:10px;
+
+.magicButton.dropdown-toggle {
+    margin-bottom: 1.2rem;
+    margin-top: 0;
     border-top: transparent !important;
     border-right: transparent !important;
     border-left: transparent !important;
     background-color: var(--brand-color);
     border-radius: 0.5rem !important;
     box-shadow: 0 6px var(--dropdown-border-color);
+    border: none !important;
+    outline: none;
 }
-.show{
-    display:inline-block;
+
+.magicButton.dropdown-toggle:active {
+    background-color: var(--brand-color) !important;
+    transform: translateY(2px);
 }
-#creditsEnter{
-    width:13%;
-    box-shadow: 0 0px ;
-    text-align:center;      
+
+.magicButton.dropdown-toggle:hover {
+    background-color: var(--brand-color) !important;
+    border-color: var(--dropdown-border-color) !important;
+    background-color: var(--brand-color) !important;
+}
+
+.magicButton.dropdown-toggle:focus {
+    box-shadow: 0 6px var(--dropdown-border-color) !important;
+}
+
+.creditsPlaceholder {
+    margin-left: 1rem;
+
+}
+
+.creditsPlaceholder .form-control {
+    border-radius: 0.5rem;
+    border: none !important;
+}
+
+.creditsPlaceholder .form-control:focus {
+    box-shadow: 0 0 0 0.1rem var(--card-highlight-color) !important;
+}
+
+.creditsPlaceholder input::placeholder {
+    opacity:1;
+    transition: opacity 0.17s ease;
+}
+
+.creditsPlaceholder input[placeholder]:focus::-webkit-input-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
+.creditsPlaceholder input[placeholder]:focus::-moz-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
+@media (min-width: 768px){
+    .toggles .col-md-3 {
+        max-width: 100%;
+}
+}
+
+.togglesA, .togglesB {
+    padding: 0;
+}
+
+.slotFilter {
+    padding-bottom: 1rem;
+    padding-right: 1rem;
 }
 
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
-}
-#creditLabel{
-    font-size:19px;
-   font-weight:500;
-}
-.hrz{
-    padding:0;
-    margin-top:0;
-}
-#filterButton-1{
-    /* margin:0.5%; */
-    background:var(--card-background-color);
-    color: var(--text-color-inverted);
-   border:none; 
-   box-shadow: 0 0px;
-}
-#filterButton-1:hover{
-    background:#eee;
-}
-#filterButton-2{
-    /* margin:0.5%; */
-    background:var(--button-highlight-color);
-    color:var(--text-color-default);
-    border:1px var(--dropdown-border-color) solid;
-    border:none;
-    box-shadow: 0 0px;
-}
-.magicButtons{
-    margin:0.5%;
-}
-#submitButton{
-    margin-top:2%;
-    margin-bottom:2%;
-}
-#magicContainer{
-margin-left:15px;
+    -webkit-appearance: none; 
+    margin: 0; 
 }
 
-@media only screen and (max-width: 768px){
-    #creditsEnter{
-        width:25%;
-    }
-}
-.btn
-{
-    box-shadow: none;
-    outline: none;
+#magicContainer{
+    margin-left: 1rem;
+    font-family: 'Montserrat', sans-serif;
+    margin-bottom: 1rem;
 }

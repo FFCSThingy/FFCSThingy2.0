@@ -1,10 +1,10 @@
 .timetableContainer {
 	margin-top: 1rem;
 	font-family: 'Montserrat', sans-serif;
-	padding-right: 0;
+	padding-right: 1rem;
 	padding-left: 1rem !important;
 	font-size: 0.6em;
-	margin-right: 1rem;
+	/* margin-right: 1rem; */
 	cursor: default;
 }
 
@@ -77,14 +77,14 @@
 }
 
 .courseDetails {
-	font-size: 0.96em;
+	font-size: 0.8em;
 	margin-bottom: 0;
 	line-height: 1.5;
 }
 
 .courseCode {
 	font-weight: 600;
-	font-size: 0.8em;
+	font-size: 0.96em;
 	margin-bottom: 0;
 	line-height: 1.5;
 }
@@ -107,6 +107,7 @@ td.timetableBreak {
 .timetableEmpty {
 	background-color: var(--select-table-background-color);
 	color: var(--text-color-inverted);
+	/* min-width: 50px; */
 }
 
 td.timetableFilledTheory {

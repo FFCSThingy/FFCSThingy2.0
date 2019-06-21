@@ -96,7 +96,7 @@ table tr:first-child th:last-child {
 @media only screen and (max-width: 1200px){
 
 	.selectedCourseContainer{
-		margin-left: 0 !important;
+		/* margin-left: 0 !important; */
 	}
 
 }
@@ -105,7 +105,7 @@ table tr:first-child th:last-child {
 
 	.selectedCourseContainer{
 		font-size: 0.9em;
-		margin-left: auto !important;
+		/* margin-left: auto !important; */
 	}
 
 	.selectedCourseBody tr td:nth-child(3){
@@ -122,7 +122,7 @@ table tr:first-child th:last-child {
 
 	.selectedCourseContainer{
 		font-size: 0.8em;
-		margin-left: auto !important;
+		/* margin-left: auto !important; */
 	}
 
 	.selectedCourseTable tr, 
@@ -137,7 +137,7 @@ table tr:first-child th:last-child {
 @media only screen and (max-width: 767px){
 
 	.selectedCourseContainer{
-		margin-left: auto !important;
+		/* margin-left: auto !important; */
 	}
 
 }
@@ -162,7 +162,7 @@ table tr:first-child th:last-child {
 	}
 
 	.selectedCourseContainer{
-		margin-left: auto !important;
+		/* margin-left: auto !important; */
 		font-size: 0.7em;
 	}
 	

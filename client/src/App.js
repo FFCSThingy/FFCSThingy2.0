@@ -70,8 +70,8 @@ class App extends React.Component {
 						'dropshadow-highlight': '#00000059',
 					}
 				},
-				default2: {
-					name: 'Theme 2',
+				dark: {
+					name: 'Dark',
 					properties: {
 						'brand-color': '#121317',
 						'body-background-color': '#15181f',

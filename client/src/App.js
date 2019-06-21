@@ -76,7 +76,7 @@ class App extends React.Component {
 						'brand-color': '#121317',
 						'body-background-color': '#15181f',
 						'select-table-background-color': '#1f2229',
-						'card-background-color': '#ffffff',
+						'card-background-color': '#1f2229',
 						'card-highlight-color': '#ECEBFE',
 						'button-highlight-color': '#36e2a8',
 						'timetable-theory-color': 'greenyellow',
@@ -87,7 +87,7 @@ class App extends React.Component {
 						'text-color-other': '#ffffff',
 						'card-clash-text-color': '#ff6961',
 						'card-selected-text-color': '#00b200',
-						'dropdown-border-color': '#4c56b2',
+						'dropdown-border-color': '#1f2229',
 						'dropshadow-default': '#00000033',
 						'dropshadow-highlight': '#000000',
 					}
@@ -933,12 +933,12 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
-
+{/* 
 				<Row>
 					<Generator
 						user={this.state.user}
 					/>
-				</Row>
+				</Row> */}
 
 				<Row>
 					<Col>

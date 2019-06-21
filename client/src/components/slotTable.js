@@ -44,7 +44,6 @@ class SlotTable extends Component {
 		return (
 			<Card
 				className="cardContainer"
-				bg="light"
 				key={value._id}
 				onClick={() => this.props.selectSlots(value)} >
 
@@ -65,7 +64,6 @@ class SlotTable extends Component {
 		return (
 			<Card
 				className="cardContainer"
-				bg="light"
 				key={value._id}
 				>
 
@@ -87,7 +85,6 @@ class SlotTable extends Component {
 		return (
 			<Card
 				className="cardContainer"
-				bg="light"
 				key={value._id}
 			>
 

@@ -39,8 +39,9 @@ td {
 	padding-bottom: 0.5rem;
 }
 
-.selectedCourseBody tr:nth-child(even) {
-	background-color: var(--card-highlight-color);
+.selectedCourseBody tr {
+	background-color: var(--select-table-background-color);
+	color: var(--text-color-inverted);
 }
 
 .selectedCourseBody {

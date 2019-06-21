@@ -39,6 +39,7 @@ TODO------
 
 .cardOne {
 	border-radius: .7rem !important;
+	background-color: var(--brand-color) !important;
 }
 
 .cardOneHeader {
@@ -59,7 +60,9 @@ TODO------
     box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
-    cursor: pointer;
+	cursor: pointer;
+	color: var(--text-color-inverted);
+	background-color: var(--card-background-color);
 }
 
 .courseCard.active {

@@ -539,21 +539,20 @@ class App extends React.Component {
 		clearInterval(this.courseSyncInterval);
 	}
 
+	handleUnauth = () => {
+		return this.props.history.push('/');
+	}
+
 	doGetAccount = () => {
 		API.get("/account")
 			.then(res => {
-				if (res.data) {
-					if (res.status === 304);
-					// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
-					else if (res.status === 401) { this.doLogout() } // Do Logout
-					else {
-						this.setState({ user: res.data });
-					}
-				} else
-					this.setState({ error: res.data.message })
+				if (res.status === 304);
+				// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
+				else {
+					this.setState({ user: res.data });
+				}	
 			}).catch(err => {
-				console.log(err);
-				this.setState({ error: err })
+				if(err.response.status === 401) this.handleUnauth();
 			});
 	}
 
@@ -564,7 +563,6 @@ class App extends React.Component {
 					if (res.status === 304) {
 						this.setState({ timetable: JSON.parse(localStorage.getItem('timetable')) })
 					}
-					else if (res.status === 401) { this.doLogout() }
 					else {
 						this.setState({ timetable: res.data.data });
 						localStorage.setItem('timetable', JSON.stringify(res.data.data));
@@ -574,8 +572,7 @@ class App extends React.Component {
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
-				console.log(err);
-				this.setState({ error: err })
+				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
 
@@ -586,12 +583,11 @@ class App extends React.Component {
 					var names = Array.from(new Set(res.data.data.map(v => v.timetableName)));
 					this.setState({timetableNames: names});
 					this.changeActiveTimetable();
-				} else if (res.status === 401) { this.doLogout() }
+				} 
 				else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
-				console.log(err);
-				this.setState({ error: err })
+				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
 
@@ -601,7 +597,6 @@ class App extends React.Component {
 				if (res.data.success) {
 					if (res.status === 304)
 						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
-					else if (res.status === 401) { this.doLogout() }
 					else {
 						this.setState({ heatmap: res.data.data.heatmap, heatmapTimestamp: res.data.data.timestamp });
 						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
@@ -610,8 +605,7 @@ class App extends React.Component {
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
-				console.log(err);
-				this.setState({ error: err })
+				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
 
@@ -619,10 +613,11 @@ class App extends React.Component {
 		API.get("/curriculum/prefixes")
 			.then(res => {
 				if (res.data.success) {
-					if (res.status === 401) { this.doLogout() }
 					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
 				} else
 					this.setState({ error: res.data.message })
+			}).catch(err => {
+				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
 
@@ -630,11 +625,12 @@ class App extends React.Component {
 		API.get("/curriculum/curriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
-					if (res.status === 401) { this.doLogout() }
 					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
 					localStorage.setItem(prefix, JSON.stringify(res.data.data));
 				} else
 					this.setState({ error: res.data.message })
+			}).catch(err => {
+				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
 
@@ -645,7 +641,7 @@ class App extends React.Component {
 					if (res.status === 304) {
 						var courses = JSON.parse(localStorage.getItem('courseList'));
 						this.setState({ courseList: courses });
-					} else if (res.status === 401) { this.doLogout() }
+					}
 					else {
 						this.setState({ courseList: res.data.data.courseList });
 						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
@@ -653,19 +649,24 @@ class App extends React.Component {
 					}
 				} else
 					this.setState({ error: res.data.message })
+			}).catch(err => {
+				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
 
 	doLogout = () => {
 		API.get('/logout').then(res => {
 			this.props.history.push('/');
-		});
+		}).catch(err => {
+			if (err.response.status === 401) this.handleUnauth();
+		});;
 	}
 
 	doSetSelectedCourses = (timetable) => {
 		API.post('/user/selectedCoursesBulk', {selected_courses: timetable}).then(res => {
-			if (res.status === 401) { this.doLogout() }
-		});
+		}).catch(err => {
+			if (err.response.status === 401) this.handleUnauth();
+		});;
 	}
 
 	filterCourse = () => {

@@ -8,6 +8,7 @@
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
+    "react-ga": "^2.5.7",
     "react-icons": "^3.7.0",
     "react-responsive": "^7.0.0",
     "react-router-dom": "^5.0.1",
@@ -19,9 +20,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build-local": "REACT_APP_BASE_URL=http://localhost:3001 npm run build",
-	"build-test-server": "REACT_APP_BASE_URL=http://ffcs.csivit.com npm run build",
-	"build-prod": "REACT_APP_BASE_URL=http://ffcs.ooo npm run build",
-	"build-stage": "REACT_APP_BASE_URL=http://staging.ffcs.ooo npm run build"
+    "build-test-server": "REACT_APP_BASE_URL=http://ffcs.csivit.com npm run build",
+    "build-prod": "REACT_APP_BASE_URL=http://ffcs.ooo npm run build",
+    "build-stage": "REACT_APP_BASE_URL=http://staging.ffcs.ooo npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -6,6 +6,9 @@ import { Container, Row, Card } from 'react-bootstrap';
 import featuresImage from "../images/ffcsfeatures.png";
 import logo from "../images/logo.1.png";
 
+import ReactGA from 'react-ga';
+ReactGa.initialize('UA-121295619-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 class Login extends React.Component {
 
 	render() {

@@ -45,7 +45,7 @@ class CustomNavbar extends React.Component {
 					{this.renderCurriculumChoices()}
 				</NavDropdown>
 
-				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle className="hamburger" aria-controls="responsive-navbar-nav" />
 
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 					

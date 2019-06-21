@@ -138,6 +138,24 @@
     max-height: 40em;
 }
 
+.linksContainer{
+    margin-top: 0 !important;
+}
+
+.hamburger {
+    /* color: var(--text-color-inverted) !important; */
+    border: 1px var(--text-color-inverted) !important;
+
+}
+
+.hamburger:focus {
+    outline: none;
+}
+
+/* .hamburger span {
+    color: var(--text-color-inverted) !important;
+} */
+
 @media only screen and (max-width: 768px) {
     .navDropContainerUser .dropdown-menu, .navDropContainerTheme, .navDropContainerTheme .dropdown-menu {
         margin-left: 0;

@@ -73,6 +73,8 @@ TODO------
     cursor: default;
 }
 
+
+@media only screen and (min-width:768px){
 .courseCard:hover {
     -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
     -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
@@ -80,6 +82,7 @@ TODO------
     background-color: var(--card-highlight-color);
     transition: box-shadow 0.17s ease-in-out;
     transition: background-color 0.1s ease-in-out;
+}
 }
 
 .card-title {

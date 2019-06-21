@@ -166,15 +166,7 @@ table tr:first-child td:last-child {
 		border: none !important;
 		padding: 5px;
 	}
-	
-	.timetableTheoryHours {
-	
-	}
-	
-	.timetableLabHours {
-	
-	}
-	
+
 	.timetableBody td {
 		background-color: var(--select-table-background-color);
 	}
@@ -203,10 +195,6 @@ table tr:first-child td:last-child {
 
 	td.timetableDay {
 		background-color: var(--timetable-col1-color);
-	}
-	
-	.timetableEmpty {
-	
 	}
 	
 	td.timetableFilledTheory {

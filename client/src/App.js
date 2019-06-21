@@ -558,6 +558,7 @@ class App extends React.Component {
 					if (res.status === 304) {
 						this.setState({ timetable: JSON.parse(localStorage.getItem('timetable')) })
 					}
+					else if (res.status === 401) { this.doLogout() }
 					else {
 						this.setState({ timetable: res.data.data });
 						localStorage.setItem('timetable', JSON.stringify(res.data.data));
@@ -579,7 +580,8 @@ class App extends React.Component {
 					var names = Array.from(new Set(res.data.data.map(v => v.timetableName)));
 					this.setState({timetableNames: names});
 					this.changeActiveTimetable();
-				} else
+				} else if (res.status === 401) { this.doLogout() }
+				else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
 				console.log(err);
@@ -593,6 +595,7 @@ class App extends React.Component {
 				if (res.data.success) {
 					if (res.status === 304)
 						this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
+					else if (res.status === 401) { this.doLogout() }
 					else {
 						this.setState({ heatmap: res.data.data.heatmap, heatmapTimestamp: res.data.data.timestamp });
 						localStorage.setItem('heatmap', JSON.stringify(res.data.data.heatmap));
@@ -610,6 +613,7 @@ class App extends React.Component {
 		API.get("/curriculum/prefixes")
 			.then(res => {
 				if (res.data.success) {
+					if (res.status === 401) { this.doLogout() }
 					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
 				} else
 					this.setState({ error: res.data.message })
@@ -620,6 +624,7 @@ class App extends React.Component {
 		API.get("/curriculum/curriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
+					if (res.status === 401) { this.doLogout() }
 					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
 					localStorage.setItem(prefix, JSON.stringify(res.data.data));
 				} else
@@ -634,7 +639,8 @@ class App extends React.Component {
 					if (res.status === 304) {
 						var courses = JSON.parse(localStorage.getItem('courseList'));
 						this.setState({ courseList: courses });
-					} else {
+					} else if (res.status === 401) { this.doLogout() }
+					else {
 						this.setState({ courseList: res.data.data.courseList });
 						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
 						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
@@ -652,8 +658,7 @@ class App extends React.Component {
 
 	doSetSelectedCourses = (timetable) => {
 		API.post('/user/selectedCoursesBulk', {selected_courses: timetable}).then(res => {
-			console.log(res.status);
-			console.log(res.data);
+			if (res.status === 401) { this.doLogout() }
 		});
 	}
 

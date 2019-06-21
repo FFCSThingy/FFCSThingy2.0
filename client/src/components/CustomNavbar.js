@@ -2,6 +2,7 @@ import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, NavDropdown, NavbarBrand } from 'react-bootstrap';
+import {FaBars} from 'react-icons/fa';
 
 import "whatwg-fetch";
 import '../App.css';
@@ -45,7 +46,7 @@ class CustomNavbar extends React.Component {
 					{this.renderCurriculumChoices()}
 				</NavDropdown>
 
-				<Navbar.Toggle className="hamburger" aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle className="fa fa-bars icon" aria-controls="responsive-navbar-nav" />
 
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 

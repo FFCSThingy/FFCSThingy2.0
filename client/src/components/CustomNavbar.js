@@ -7,7 +7,7 @@ import "whatwg-fetch";
 import '../App.css';
 import '../css/nav-bar.css'
 
-import navbarImage from '../images/logo.png';
+import navbarImage from '../images/logo.1.png';
 
 
 class CustomNavbar extends React.Component {
@@ -23,7 +23,7 @@ class CustomNavbar extends React.Component {
 	}
 
 	renderCurriculumChoices = () => {
-		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v} 
+		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v}
 				<NavDropdown.Divider />
 			</NavDropdown.Item>);
 	}
@@ -31,14 +31,14 @@ class CustomNavbar extends React.Component {
 	render() {
 		return (
 			<Navbar className="navBar" bg="light" fixed="top" expand="md">
-				
+
 				<NavbarBrand className="navbar-left">
-					{/* <img className="logo" alt="FFCSThingy" src={navbarImage}></img> */}
-					FFCSThingy
+					<img className="logo" alt="" src={navbarImage}></img>
+					<span className="branding">FFCSThingy</span>
 				</NavbarBrand>
 
-				<NavDropdown 
-					title={this.props.selectedCurriculum} 
+				<NavDropdown
+					title={this.props.selectedCurriculum}
 					className="navDropContainerCurriculum"
 					onSelect={this.props.handleCurriculumChange}
 				>
@@ -48,7 +48,7 @@ class CustomNavbar extends React.Component {
 				<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
-					
+
 					<Nav className="mr-auto">
 						<Nav.Link className="navLink">Home</Nav.Link>
 						<Nav.Link className="navLink">About</Nav.Link>
@@ -65,13 +65,13 @@ class CustomNavbar extends React.Component {
 							onSelect={this.props.changeActiveTheme}
 						>
 							{this.renderThemeChoices()}
-						
+
 						</NavDropdown>
-						
-						<NavDropdown 
+
+						<NavDropdown
 							alignRight
 							title={<img className="userProfileImage" alt=""
-							src={this.props.user.picture} />} 
+							src={this.props.user.picture} />}
 							className="navDropContainerUser"
 						>
 							<NavDropdown.Item disabled>
@@ -79,13 +79,13 @@ class CustomNavbar extends React.Component {
 							</NavDropdown.Item>
 
 							<NavDropdown.Divider />
-							
+
 							<NavDropdown.Item onClick={this.props.doLogout}>Logout</NavDropdown.Item>
 						</NavDropdown>
 					</Nav>
 
 				</Navbar.Collapse>
-			
+
 			</Navbar>
 		)
 	}

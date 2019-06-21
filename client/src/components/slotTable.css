@@ -183,3 +183,39 @@
 		height: 80vh;
 	}
 }
+
+@media only screen and (min-width: 768px) and (max-width: 978px) {
+    .slotTableContainer {
+        padding-left: 0;
+    }
+
+    .slotTableContainer .toggleCustom {
+        font-size: 0.8em;
+    }
+
+    .slotTableContainer .slotFilterContainer {
+        padding-left: 0;
+    }
+
+    .slotTableContainer .cardSubtitle {
+        font-size: 0.9em;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+	
+	.slotTableContainer {
+		padding-top: 0;
+	}
+
+	.slotTableContainer .slotFilter {
+		padding-bottom: 0;
+	}
+}
+
+@media (max-width: 576px) {
+	.slotTableContainer .slotFilterContainer {
+        padding-left: 15px;
+    }
+}
+

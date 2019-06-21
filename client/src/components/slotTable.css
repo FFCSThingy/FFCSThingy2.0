@@ -118,6 +118,7 @@
 	background-color: var(--card-background-color);
 	transition: box-shadow 0.17s ease-in-out;
 	transition: background-color 0.1s ease-in-out;
+	color: var(--text-color-inverted);
 }
 
 .cardBodyClash:hover {
@@ -131,6 +132,7 @@
 
 .cardBodyClash:active {
 	background-color: var(--card-clash-text-color);
+	color: var(--text-color-inverted);
 }
 
 .cardBodySelected {
@@ -141,6 +143,7 @@
 	cursor: default;
 	background-color: var(--card-highlight-color) !important;
 	transition: box-shadow 0.17s ease-in-out;
+	color: var(--text-color-inverted);
 }
 
 
@@ -148,6 +151,11 @@
 	margin-bottom: 1rem !important;
 	margin-top: 1rem !important;
 	background-color: var(--card-background-color);
+	border-radius: 0.7rem;
+}
+
+.cardContainer:hover {
+	background-color: var(--card-highlight-color) !important;
 }
 
 .slotFilterContainer {

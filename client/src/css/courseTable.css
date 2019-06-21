@@ -44,6 +44,10 @@ td {
 	color: var(--text-color-inverted);
 }
 
+.selectedCourseBody tr:nth-child(even) {
+	background-color: var(--alternate-table-item-color);
+}
+
 .selectedCourseBody {
 	border: none !important;
 }

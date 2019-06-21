@@ -68,6 +68,7 @@ class App extends React.Component {
 						'dropdown-border-color': '#4c56b2',
 						'dropshadow-default': '#00000033',
 						'dropshadow-highlight': '#00000059',
+						'alternate-table-item-color': '#ECEBFE',
 					}
 				},
 				dark: {
@@ -90,6 +91,7 @@ class App extends React.Component {
 						'dropdown-border-color': '#1f2229',
 						'dropshadow-default': '#00000033',
 						'dropshadow-highlight': '#000000',
+						'alternate-table-item-color': '#1f2229',
 					}
 				}
 			},

@@ -52,12 +52,15 @@
 }
 
 .dropdownButtonGroup .dropdown-menu {
-    transform: translate3d(0px, 53px, 0px) !important;
+	transform: translate3d(0px, 53px, 0px) !important;
+	background-color: var(--card-background-color);
 }
 
 .dropdownButtonGroup .dropdown-menu .dropdown-item {
     padding: 0.25rem 0.7rem;
-    font-weight: bold;
+	font-weight: bold;
+	background-color: var(--card-background-color);
+	color: var(--text-color-other);
 }
 
 .dropdownButtonGroup {

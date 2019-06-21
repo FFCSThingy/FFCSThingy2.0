@@ -20,7 +20,8 @@
     "eject": "react-scripts eject",
     "build-local": "REACT_APP_BASE_URL=http://localhost:3001 npm run build",
 	"build-test-server": "REACT_APP_BASE_URL=http://ffcs.csivit.com npm run build",
-	"build-prod": "REACT_APP_BASE_URL=http://ffcs.ooo npm run build"
+	"build-prod": "REACT_APP_BASE_URL=http://ffcs.ooo npm run build",
+	"build-stage": "REACT_APP_BASE_URL=http://staging.ffcs.ooo npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"

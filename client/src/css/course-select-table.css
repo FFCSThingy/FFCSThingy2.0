@@ -1,0 +1,204 @@
+/*
+TODO------
+-make placeholder diasappear on focus
+
+*/
+/* GLOBAL PROPERTIES:
+- card 
+- a 
+- card-header 
+- card-title 
+- card-text  */
+
+.courseTable {
+    max-height: 70vh !important;
+    min-height: 18vh;
+    overflow: auto;
+    border-radius:  0 0 .7rem .7rem;
+    background-color: var(--select-table-background-color);
+    font-family: 'Montserrat', sans-serif;
+    cursor: default;
+    scrollbar-width: none;
+}
+
+.courseTable::-webkit-scrollbar { 
+    width: 0 !important;
+}
+
+.card {
+    border: none !important;
+}
+
+.card-header {
+    border: none !important;
+}
+
+.courseList {
+    column-count: 1;
+}
+
+.cardOne {
+	border-radius: .7rem !important;
+	background-color: var(--brand-color) !important;
+}
+
+.cardOneHeader {
+	border-radius: .7rem .7rem 0 0 !important;
+    background-color: var(--brand-color);
+    color: var(--text-color-default);
+    padding: 1.25rem 1rem 0 1rem !important;
+}
+
+.courses {
+    padding: 1rem 1rem 0 1rem;
+}
+
+.courseCard {
+    border-radius: 0.7rem;
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+    transition: box-shadow 0.17s ease-in-out;
+    transition: background-color 0.1s ease-in-out;
+	cursor: pointer;
+	color: var(--text-color-inverted);
+	background-color: var(--card-background-color);
+}
+
+.courseCard.active {
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    background-color: var(--card-highlight-color);
+    cursor: default;
+}
+
+.courseCard:hover {
+    -webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    -moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+    background-color: var(--card-highlight-color);
+    transition: box-shadow 0.17s ease-in-out;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.card-title {
+    font-size: 1.05em;
+    font-weight: bold;
+    margin:0 !important;
+}
+
+.card-text {
+    margin:0 !important;
+}
+
+.cardOneHeader > .courseTitle {
+    font-size: 1.3em !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+}
+
+.cardOneHeader > .courseCode {
+    margin: 0 !important;
+}
+
+.cardOneHeader > .courseCredits {
+    margin: 0 !important;
+}
+
+.courseCredits {
+    float: right;
+}
+
+.courseSelectContainer {
+    margin-top: 4rem !important;
+    margin-bottom: 2rem !important;
+}
+
+.searchBarContainer {
+    padding: 0 !important;
+}
+
+.searchBar {
+    background-color: var(--brand-color) !important;
+    color: var(--text-color-default) !important;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    box-shadow: none !important;
+    padding: 0.25rem 0 0 0 !important;
+    height: 1.1em !important;
+    font-weight: bold;
+    font-size: 1.3em;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+
+.searchBarContainer ::placeholder {
+    color: var(--text-color-default) !important;
+    opacity:1;
+    transition: opacity 0.17s ease;
+    text-transform: capitalize;
+}
+
+.searchBarContainer [placeholder]:focus::-webkit-input-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
+  .searchBarContainer [placeholder]:focus::-moz-placeholder {
+    transition: opacity 0.17s ease;
+    opacity: 0;
+  }
+
+
+.courseTypeFilter {
+	margin: 0 !important;
+	margin-right: auto !important;
+    text-align: center !important;
+}
+
+.filterButton {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--brand-color) !important;
+    margin-right: 0.5rem !important;
+    border: none !important;
+    background-color: var(--select-table-background-color) ;
+    color:var(--text-color-default);
+    transition: color 0.17s ease-in;
+}
+
+.filterButton:hover {
+    color: var(--button-highlight-color);
+    transition: color 0.17s ease-in;
+}
+
+.filterButton.active {
+    background-color: var(--select-table-background-color) !important;
+    color: var(--text-color-inverted) !important;
+	transition: background-color 0.17s ease-in;
+}
+
+.filterButton.focus {
+    background-color: var(--select-table-background-color)  !important;
+    color: var(--text-color-inverted) !important;
+    transition: background-color 0.17s ease-in;
+}
+
+
+
+
+@media only screen and (min-width: 420px) {
+
+    .curriculumDropdown {
+        width: 70%;
+    }
+
+}
+
+
+@media only screen and (max-width: 1250px) {
+    .filterButton{
+        padding: 0.5rem 0.5rem;
+    }
+}

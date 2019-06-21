@@ -125,7 +125,7 @@ TODO------
     font-family: 'Montserrat', sans-serif;
     border: none;
     box-shadow: none !important;
-    padding: 0.25rem 0 0 0 !important;
+    padding: 0 !important;
     height: 1.1em !important;
     font-weight: bold;
     font-size: 1.3em;
@@ -151,6 +151,14 @@ TODO------
     opacity: 0;
   }
 
+.searchColumn {
+    display: flex;
+}
+
+.searchIcon {
+    margin-top: 0.20rem;
+    margin-right: 0.5rem;
+}
 
 .courseTypeFilter {
 	margin: 0 !important;
@@ -184,6 +192,8 @@ TODO------
     color: var(--text-color-inverted) !important;
     transition: background-color 0.17s ease-in;
 }
+
+
 
 
 

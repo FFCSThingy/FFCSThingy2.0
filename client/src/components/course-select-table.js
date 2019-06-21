@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardColumns, Col, Container, Form, Row, Nav } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/course-select-table.css';
+import {FaSearch} from 'react-icons/fa';
 
 class CourseSelect extends React.Component {
 	state = {
@@ -88,6 +89,7 @@ class CourseSelect extends React.Component {
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>
 					<Col className="searchColumn" xs={12} md={12}>
+						<FaSearch className="searchIcon"></FaSearch>
 						<Form.Control
 							className="searchBar"
 							name='searchString'

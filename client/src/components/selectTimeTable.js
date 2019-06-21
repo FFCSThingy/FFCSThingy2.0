@@ -101,6 +101,8 @@ class SelectTimeTable extends React.Component {
 						placeholder='Timetable Name'
 						name='newName'
 						onChange={this.handleChange.bind(this)}
+						spellCheck="false"
+						autoComplete="off"
 					/>
 
 					<Button className="okButton"

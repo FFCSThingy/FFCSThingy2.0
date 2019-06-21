@@ -69,11 +69,14 @@
 
 .dropdownButtonGroupContainer .form-control {
     width: 11em;
-    /* max-width: 15em; */
     margin-bottom: 1rem;
     border-radius: 0.5rem;
     border: none !important;
     display: initial;
+}
+
+.dropdownButtonGroupContainer .form-control::selection {
+    background: var(--card-highlight-color);
 }
 
 .dropdownButtonGroupContainer .form-control:focus {

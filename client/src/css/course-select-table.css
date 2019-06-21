@@ -129,7 +129,7 @@ TODO------
     height: 1.1em !important;
     font-weight: bold;
     font-size: 1.3em;
-    text-align: right;
+    text-align: left;
     text-transform: uppercase;
 }
 
@@ -200,5 +200,38 @@ TODO------
 @media only screen and (max-width: 1250px) {
     .filterButton{
         padding: 0.5rem 0.5rem;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .slotSelectionRow .col-md-4 {
+        flex: 0 0 40%;
+        max-width: 40%;
+}
+
+    .slotSelectionRow .col-md-8 {
+        flex: 0 0 60%;
+        max-width: 60%;
+}
+}
+
+@media only screen and (min-width: 1070px) {
+    .slotSelectionRow .col-md-4 {
+        flex: 0 0 33.333333%;
+        max-width: 33.333333%;
+    }
+    
+    .slotSelectionRow .col-md-8 {
+        flex: 0 0 66.666667%;
+        max-width: 66.666667%;
+    }
+    }
+
+@media only screen and (min-width: 768px) and (max-width:860px) {
+    .courseTypeFilter {
+        font-size: 0.8em;
+    }
+    .courseTypeFilter .filterButton{
+        padding: 0.3rem 0.3rem;
     }
 }

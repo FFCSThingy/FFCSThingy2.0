@@ -1,6 +1,6 @@
 .dropdownButtonGroupContainer {
     font-family: 'Montserrat', sans-serif;
-    padding-left: 1rem;
+    text-align: center;
 }
 
 
@@ -44,6 +44,7 @@
 
 .dropdownButtonGroup .dropdownButton {
     max-height: 36px;
+    width: 40px;
 }
 
 .dropdownButtonGroup .show {
@@ -64,10 +65,12 @@
 }
 
 .dropdownButtonGroupContainer .form-control {
-    width: 10em;
+    width: 11em;
+    /* max-width: 15em; */
     margin-bottom: 1rem;
     border-radius: 0.5rem;
     border: none !important;
+    display: initial;
 }
 
 .dropdownButtonGroupContainer .form-control:focus {
@@ -90,6 +93,7 @@
   }
 
 .okButton {
+    margin-left: 1rem;
     border-top: transparent !important;
     border-right: transparent !important;
     border-left: transparent !important;
@@ -97,6 +101,8 @@
     border-radius: 0.5rem !important;
     border: none;
     box-shadow: 0 6px var(--dropdown-border-color);
+    font-size: 0.9em;
+    vertical-align: top;
   }
 
 .okButton:active{

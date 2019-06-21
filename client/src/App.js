@@ -905,7 +905,7 @@ class App extends React.Component {
 					/>
 				</Row>
 
-				<Row>
+				<Row className="slotSelectionRow">
 					<Col xs={12} md={4}>
 						<CourseSelect
 							selectCourse={this.selectCourse}

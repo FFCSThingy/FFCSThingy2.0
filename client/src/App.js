@@ -51,7 +51,7 @@ class App extends React.Component {
 			curriculum: {},
 			selectedCurriculum: 'Curriculum',
 
-			activeTheme: 'default',
+			activeTheme: localStorage.getItem('theme') || 'default',
 			themes: {
 				default: {
 					name: 'Default',
@@ -1008,6 +1008,7 @@ class App extends React.Component {
 	
 	updateTheme = () => {
 		var theme = this.state.themes[this.state.activeTheme];
+		localStorage.setItem('theme', this.state.activeTheme);
 		Object.keys(theme.properties).map(v =>
 			document.documentElement.style.setProperty(`--${v}`, theme.properties[v])
 		);

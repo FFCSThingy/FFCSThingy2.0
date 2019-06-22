@@ -122,7 +122,7 @@ module.exports.addCourseToDB = (course) => {
 		var twentyfour = ['SWE3004', 'SWE599'];
 
 		var twoCreds = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2", "E1", "E2", "F1", "F2", "G1", "G2"];
-		var oneCreds = ["TA1", "TA2", "TAA1", "TAA2", "TB1", "TB2", "TBB2", "TC1", "TC2", "TCC1", "TCC2", "TD1", "TD2", "TDD2", "TE1", "TE2", "TF1", "TF2", "TG1", "TG2", "V1", "V10", "V11", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9"];
+		var oneCreds = ["TA1", "TA2", "TAA1", "TAA2", "TB1", "TB2", "TBB2", "TC1", "TC2", "TCC1", "TCC2", "TD1", "TD2", "TDD2", "TE1", "TE2", "TF1", "TF2", "TG1", "TG2"];
 
 		if (two.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
 			course.CREDITS = 2;

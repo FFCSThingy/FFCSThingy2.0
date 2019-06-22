@@ -185,7 +185,7 @@ class App extends React.Component {
 						'text-color-other': '#666666',
 						'card-clash-text-color': '#ff6961',
 						'card-selected-text-color': '#00b200',
-						'dropdown-border-color': '#4CB25C',
+						'dropdown-border-color': '#1d98ae',
 						'dropshadow-default': '#00000033',
 						'dropshadow-highlight': '#00000059',
 						'alternate-table-item-color': '#EDF9FF',

@@ -85,6 +85,14 @@ class CourseSelect extends React.Component {
 	}
 
 	renderSearchBar() {
+		var tabsDisabled = true;
+		
+		if (!this.props.curriculum || this.props.selectedCurriculum === 'Curriculum' 
+			|| Object.keys(this.props.curriculum).length === 0) {
+				tabsDisabled = true;
+		}
+		else tabsDisabled = false;
+		
 		return (
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>
@@ -113,16 +121,16 @@ class CourseSelect extends React.Component {
 							<Nav.Link className="filterButton" eventKey='ALL'>ALL</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey='PC'>PC</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='PC' disabled={tabsDisabled}>PC</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey='UC'>UC</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='UC' disabled={tabsDisabled}>UC</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey='PE'>PE</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='PE' disabled={tabsDisabled}>PE</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey='UE'>UE</Nav.Link>
+							<Nav.Link className="filterButton" eventKey='UE' disabled={tabsDisabled}>UE</Nav.Link>
 						</Nav.Item>
 					</Nav>
 				</Row>

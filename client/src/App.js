@@ -34,6 +34,7 @@ class App extends React.Component {
 			activeTimetable: 'Default',
 
 			user: {},
+			submitted_regno: '',
 
 			timetable: [],
 			timetableTimestamp: localStorage.getItem('timetableTimestamp') || null,
@@ -46,9 +47,9 @@ class App extends React.Component {
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
 
-			curriculumList: ['17BCE'],
-			curriculum: JSON.parse(localStorage.getItem('17BCE')) || {},
-			selectedCurriculum: '17BCE',
+			curriculumList: ['Curriculum'],
+			curriculum: {},
+			selectedCurriculum: 'Curriculum',
 
 			activeTheme: 'default',
 			themes: {
@@ -641,7 +642,7 @@ class App extends React.Component {
 		this.doGetCourseList();
 		this.doGetFullHeatmap();
 		this.doGetPrefixes();
-		this.doCurriculumFetch('17BCE');
+		this.doCurriculumFetch('Curriculum');
 		this.changeActiveTimetable();
 		this.doGetTimetableNames();
 
@@ -729,7 +730,7 @@ class App extends React.Component {
 		API.get("/curriculum/prefixes")
 			.then(res => {
 				if (res.data.success) {
-					this.setState({ curriculumList: res.data.data, selectedCurriculum: '17BCE' });
+					this.setState({ curriculumList: ['Curriculum', ...res.data.data], selectedCurriculum: 'Curriculum' });
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
@@ -738,6 +739,10 @@ class App extends React.Component {
 	}
 
 	doCurriculumFetch = (prefix) => {
+		if(prefix === 'Curriculum') {
+			return this.setState({ curriculum: {}, selectedCurriculum: 'Curriculum' });
+		}
+
 		API.get("/curriculum/curriculumFromPrefix/" + prefix)
 			.then(res => {
 				if (res.data.success) {
@@ -1042,6 +1047,7 @@ class App extends React.Component {
 							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}
 							curriculum={this.state.curriculum}
+							selectedCurriculum={this.state.selectedCurriculum}
 						/>
 					</Col>
 

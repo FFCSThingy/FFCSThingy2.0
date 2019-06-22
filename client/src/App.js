@@ -218,15 +218,15 @@ class App extends React.Component {
 
 			clashMap: {
 				A1: {
-					clashesWith: ['A1', 'L1', 'L2', 'L14', 'L15'],
+					clashesWith: ['A1', 'L1', 'L2', 'L13', 'L14'],
 					isFilled: false
 				},
 				B1: {
-					clashesWith: ['B1', 'L7', 'L8', 'L20', 'L21'],
+					clashesWith: ['B1', 'L7', 'L8', 'L19', 'L20'],
 					isFilled: false
 				},
 				C1: {
-					clashesWith: ['C1', 'L13', 'L14', 'L26', 'L27'],
+					clashesWith: ['C1', 'L13', 'L14', 'L25', 'L26'],
 					isFilled: false
 				},
 				D1: {
@@ -284,15 +284,15 @@ class App extends React.Component {
 
 
 				A2: {
-					clashesWith: ['A2', 'L31', 'L32', 'L44', 'L45'],
+					clashesWith: ['A2', 'L31', 'L32', 'L43', 'L44'],
 					isFilled: false
 				},
 				B2: {
-					clashesWith: ['B2', 'L37', 'L38', 'L50', 'L51'],
+					clashesWith: ['B2', 'L37', 'L38', 'L49', 'L50'],
 					isFilled: false
 				},
 				C2: {
-					clashesWith: ['C2', 'L43', 'L44', 'L56', 'L57'],
+					clashesWith: ['C2', 'L43', 'L44', 'L55', 'L56'],
 					isFilled: false
 				},
 				D2: {
@@ -304,11 +304,11 @@ class App extends React.Component {
 					isFilled: false
 				},
 				F2: {
-					clashesWith: ['F2', 'L32', 'L33', 'L45', 'L46'],
+					clashesWith: ['F2', 'L31', 'L32', 'L45', 'L46'],
 					isFilled: false
 				},
 				G2: {
-					clashesWith: ['G2', 'L38', 'L39', 'L51', 'L52'],
+					clashesWith: ['G2', 'L37', 'L38', 'L51', 'L52'],
 					isFilled: false
 				},
 				TA2: {

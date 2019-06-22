@@ -244,11 +244,29 @@ vertical-align: text-bottom;
 }
 
 .sync {
-    animation:blinkingText 1s infinite;
+    animation: blinkingText 7.5s forwards;
 }
 
 @keyframes blinkingText{
     0%{     color: #ffffff;    }
-    50%{ color: rgba(207, 199, 199, 0.52);}
-    100%{   color: #ffffff;    }
+    5% {    color: rgba(221, 221, 221, 0.486);}
+    10%{     color: #ffffff;    }
+    15% {    color: rgba(221, 221, 221, 0.486);}
+    20%{     color: #ffffff;    }
+    25% {    color: rgba(221, 221, 221, 0.486);}
+    30%{     color: #ffffff;    }
+    35% {    color: rgba(221, 221, 221, 0.486);}
+    40%{     color: #ffffff;    }
+    45% {    color: rgba(221, 221, 221, 0.486);}
+    50%{     color: #ffffff;    }
+    55% {    color: rgba(221, 221, 221, 0.486);}
+    60%{     color: #ffffff;    }
+    65% {    color: rgba(221, 221, 221, 0.486);}
+    70%{     color: #ffffff;    }
+    75% {    color: rgba(221, 221, 221, 0.486);}
+    80%{     color: #ffffff;    }
+    85% {    color: rgba(221, 221, 221, 0.486);}
+    90%{     color: #ffffff;    }
+    95% {    color: rgba(221, 221, 221, 0.486);}
+    100%{     color: #ffffff;    }
 }

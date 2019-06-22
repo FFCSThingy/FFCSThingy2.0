@@ -230,3 +230,15 @@ vertical-align: text-bottom;
 .navDropContainerUser .dropdown-toggle::after {
     color: var(--text-color-default);
 }
+
+.popup {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.popup a {
+    color: var(--brand-color);
+}
+
+.popup .closeButton {
+  background-color: var(--brand-color);
+}

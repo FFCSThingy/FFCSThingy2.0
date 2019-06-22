@@ -60,12 +60,12 @@ class CustomNavbar extends React.Component {
 		show={this.state.show}
 		onHide={this.handleClose}
       >
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="popup">
           <Modal.Title id="contained-modal-title-vcenter">
             Sync with VTOP
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="popup">
           <p>
 			Add an extension to your browser and sync with VTOP!
           </p>
@@ -73,8 +73,8 @@ class CustomNavbar extends React.Component {
 		  <br />
 		  <a href='https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh' target="_blank" rel="noopener noreferrer">Firefox Extension</a>
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={this.handleClose}>Close</Button>
+        <Modal.Footer className="popup">
+          <Button onClick={this.handleClose} className="closeButton">Close</Button>
         </Modal.Footer>
       </Modal>
 		);

@@ -113,24 +113,25 @@ module.exports.addCourseToDB = (course) => {
 	return new Promise((resolve, reject) => {
 		// Add deletes for all unnecessary fields or add them to DB Model
 		if (course.seats) delete course.seats;
+		
 
 		var queryData = {
-			code: course.code,
-			venue: course.venue,
-			course_type: course.course_type,
-			slot: course.slot,
-			faculty: course.faculty,
-			credits: course.credits
+			code: course.CODE,
+			venue: course.VENUE,
+			course_type: course.TYPE,
+			slot: course.SLOT,
+			faculty: course.FACULTY,
+			credits: course.CREDITS || 0
 		}
 
 		var updateData = {
-			code: course.code,
-			venue: course.venue,
-			course_type: course.course_type,
-			slot: course.slot,
-			faculty: course.faculty,
-			credits: course.credits,
-			title: course.title,
+			code: course.CODE,
+			venue: course.VENUE,
+			course_type: course.TYPE,
+			slot: course.SLOT,
+			faculty: course.FACULTY,
+			credits: course.CREDITS || 0,
+			title: course.TITLE,
 			timestamp: Date.now()
 		}
 

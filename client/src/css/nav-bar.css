@@ -259,10 +259,12 @@ box-shadow: 0 6px var(--dropdown-border-color) !important;
 
 .sync {
     animation: blinkingText 5s forwards;
+    animation-delay: 2s;
 }
 
 .blink {
     animation: blinkingText 5s forwards;
+    animation-delay: 2s;
 }
 
 @media only screen and (max-width: 768px){

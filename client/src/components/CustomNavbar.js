@@ -89,15 +89,15 @@ class CustomNavbar extends React.Component {
 					<span className="branding">FFCSThingy</span>
 				</NavbarBrand>
 
-				<div className="blink">
+				
 				<NavDropdown
 					title={this.props.selectedCurriculum}
-					className="navDropContainerCurriculum"
+					className="navDropContainerCurriculum blink"
 					onSelect={this.props.handleCurriculumChange}
 				>
 					{this.renderCurriculumChoices()}
 				</NavDropdown>
-				</div>
+				
 
 				<Navbar.Toggle className="fa fa-bars icon sync" aria-controls="responsive-navbar-nav" />
 

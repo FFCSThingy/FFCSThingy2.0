@@ -48,8 +48,8 @@ class App extends React.Component {
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
 
 			curriculumList: ['Curriculum'],
-			curriculum: {},
-			selectedCurriculum: 'Curriculum',
+			curriculum: localStorage.getItem(localStorage.getItem('selectedCurriculum')) || {},
+			selectedCurriculum: localStorage.getItem('selectedCurriculum') || 'Curriculum',
 
 			activeTheme: localStorage.getItem('theme') || 'default',
 			themes: {
@@ -642,7 +642,7 @@ class App extends React.Component {
 		this.doGetCourseList();
 		this.doGetFullHeatmap();
 		this.doGetPrefixes();
-		this.doCurriculumFetch('Curriculum');
+		this.doCurriculumFetch(this.state.selectedCurriculum);
 		this.changeActiveTimetable();
 		this.doGetTimetableNames();
 
@@ -740,7 +740,9 @@ class App extends React.Component {
 
 	doCurriculumFetch = (prefix) => {
 		if(prefix === 'Curriculum') {
-			return this.setState({ curriculum: {}, selectedCurriculum: 'Curriculum' });
+			this.setState({ curriculum: {}, selectedCurriculum: 'Curriculum' });
+			localStorage.setItem('selectedCurriculum', 'Curriculum');
+			return;
 		}
 
 		API.get("/curriculum/curriculumFromPrefix/" + prefix)
@@ -748,6 +750,7 @@ class App extends React.Component {
 				if (res.data.success) {
 					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
 					localStorage.setItem(prefix, JSON.stringify(res.data.data));
+					localStorage.setItem('selectedCurriculum', prefix);
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {

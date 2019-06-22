@@ -242,3 +242,13 @@ vertical-align: text-bottom;
 .popup .closeButton {
   background-color: var(--brand-color);
 }
+
+.sync {
+    animation:blinkingText 1s infinite;
+}
+
+@keyframes blinkingText{
+    0%{     color: #ffffff;    }
+    50%{ color: rgba(207, 199, 199, 0.52);}
+    100%{   color: #ffffff;    }
+}

@@ -103,7 +103,7 @@ class CustomNavbar extends React.Component {
 
 					<Nav className="mr-auto">
 						<Nav.Link href='/about' className="navLink">About</Nav.Link>
-						<Nav.Link onClick={this.handleShow} className="navLink">Sync</Nav.Link>
+						<Nav.Link onClick={this.handleShow} className="navLink sync">Sync</Nav.Link>
 					</Nav>
 					{this.renderModal()}
 					<Nav className="navLeft">

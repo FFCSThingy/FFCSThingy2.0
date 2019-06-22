@@ -261,6 +261,16 @@ box-shadow: 0 6px var(--dropdown-border-color) !important;
     animation: blinkingText 5s forwards;
 }
 
+.blink {
+    animation: blinkingText 5s forwards;
+}
+
+@media only screen and (max-width: 768px){
+.sync {
+    animation: none;
+}
+}
+
 @keyframes blinkingText{
     0%{     opacity:1;    }
     /* 5% {    opacity: 0.2;} */

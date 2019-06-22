@@ -89,7 +89,7 @@ class CustomNavbar extends React.Component {
 					<span className="branding">FFCSThingy</span>
 				</NavbarBrand>
 
-				<div className="sync">
+				<div className="blink">
 				<NavDropdown
 					title={this.props.selectedCurriculum}
 					className="navDropContainerCurriculum"

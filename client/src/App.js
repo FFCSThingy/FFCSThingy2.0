@@ -696,6 +696,7 @@ class App extends React.Component {
 			.then(res => {
 				if (res.data.success) {
 					var names = Array.from(new Set(res.data.data.map(v => v.timetableName)));
+					if(names.length === 0) names = ['Default'];
 					this.setState({timetableNames: names});
 					this.changeActiveTimetable();
 				} 

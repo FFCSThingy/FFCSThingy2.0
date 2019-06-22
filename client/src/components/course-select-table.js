@@ -10,7 +10,6 @@ class CourseSelect extends React.Component {
 		searchString: '',
 		filteredCourses: [],
 		error: null,
-		courseSlots: this.getCourseSlotsList(),
 	}
 
 	componentWillMount() {
@@ -23,25 +22,6 @@ class CourseSelect extends React.Component {
 		this.setState({ [fieldName]: fleldVal })
 
 		if (event.target.name === 'searchString') this.doSearch();
-	}
-
-	
-
-	getCourseSlotsList() {
-		var courseList = this.props.courseList;
-		var courseSlots = this.props.heatmap.reduce((a, v) => {
-			var slots = v.slot.split('+');
-
-			if (v.slot === 'NIL');
-			else if (a[v.code])
-				a[v.code].slots = a[v.code].slots.concat(slots);
-			else a[v.code] = { slots: slots, title: courseList.filter(c => c.code === v.code)[0].title };
-
-			return a;
-		}, {});
-		courseSlots = Object.keys(courseSlots)
-			.reduce((a, v) => [...a, { code: v, slots: Array.from(new Set(courseSlots[v].slots)), title: courseSlots[v].title }], []);
-		return courseSlots;
 	}
 
 	doSearch() {
@@ -148,7 +128,7 @@ class CourseSelect extends React.Component {
 						<Card.Body>
 							<Card.Title>{value.title}</Card.Title>
 							<Card.Text>{value.code} 
-								{/* <div className="courseCredits">{value.credits} Credits</div> */}
+								<div className="courseCredits">{value.credits} Credits</div>
 							</Card.Text>
 						</Card.Body>
 					</Card>

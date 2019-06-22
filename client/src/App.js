@@ -756,6 +756,7 @@ class App extends React.Component {
 	}
 
 	doGetCourseList = () => {
+		// API.get("/course/newCourseList")
 		API.get("/course/courseList")
 			.then(res => {
 				if (res.data.success) {

@@ -31,6 +31,39 @@ module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(file
 	});
 }
 
+module.exports.getCreditCounts = () => {
+	return new Promise((resolve, reject) => {
+		Curriculum.aggregate([
+			{ $project: { _id: 0, courses: { $concatArrays: ['$uc', '$pc', '$ue', '$pe'] } } },
+			{ $unwind: '$courses' },
+			{ 
+				$group: { 
+					_id: { 
+						code: '$courses.code',
+						credits: '$courses.c'
+					}
+					
+				} 
+			}, {
+				$project: {
+					code: '$_id.code',
+					credits: '$_id.credits',
+					_id: 0
+				}
+			}
+		], function(err, data) {
+			if(err) return reject(err);
+			// if(err) console.log(err);
+			data = data.reduce((a,v) => {
+				a[v.code] = v.credits;
+				return a;
+			}, {})
+
+			return resolve(data);
+		});
+	});
+}
+
 module.exports.findCurriculumFromPrefix = function findCurriculumFromPrefix(reg_prefix) {
 	return new Promise((resolve, reject) => {
 		Curriculum.findOne({ reg_prefix: reg_prefix }, function (err, doc) {

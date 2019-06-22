@@ -75,6 +75,29 @@ router.get('/courseList/:timestamp?', async (req, res, next) => {
 	}
 });
 
+router.get('/newCourseList', async (req, res, next) => {
+	var systemTimestamp = new Date(await system.getRepopulateTime());
+
+	var courseList = await course.getCourseList();
+	var creditList = await curriculum.getCreditCounts();
+	// res.json(creditList);
+	// res.json(creditList['ARB1001'])
+	var data = courseList.map(v => {
+		v.credits = creditList[v.code] || 0;
+		return v;
+	});
+
+	return res.json({
+		success: true,
+		data: {
+			courseList: data,
+			timestamp: systemTimestamp
+		}
+	});
+
+	// res.json(data);
+});
+
 // router.post('/parseCourses', async (req, res, next) => {
 // 	if (req.body.password != "SuckOnDeezNumbNutz")
 // 		res.status(403).json({ success: false, message: "Get the password right, bitchface." });

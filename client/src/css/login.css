@@ -5,16 +5,27 @@
     background-image: linear-gradient(to right,rgba(125,136,232,1), rgba(76,86,178,1));
 }
 
+@font-face {
+    font-family: 'futura_md_btmedium_italic';
+    src: url('futura_medium_italic_font-webfont.woff2') format('woff2'),
+         url('futura_medium_italic_font-webfont.woff') format('woff');
+}
+
 .ffcsthingy {
     margin: 0 auto;
     padding: 2rem;
     color: white;
-    font-size: 1.6rem;
+    font-size: 2.8rem !important;
     font-weight: bold;
+    font-style: italic;
+    font-family: 'futura_md_btmedium_italic';
+    cursor: default;
+    letter-spacing: 1px;
 }
 
 .ffcsthingy img {
-    width: 25px;
+    width: 40px;
+    vertical-align: sub;
 }
 
 .firstCard {
@@ -72,16 +83,13 @@
     margin: 0 auto;
 }
 
+
 @media (min-width: 1030px) {
 
     .ffcsthingy {
         margin: 3vh 0 0 7vw;
         font-size: 2.5rem;
         padding-bottom: 0;
-    }
-
-    .ffcsthingy img {
-        width: 40px;
     }
 
     .cards {

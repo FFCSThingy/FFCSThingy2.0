@@ -13,7 +13,7 @@
     "build:prod": "cd client && npm run build-prod",
     "start:prod": "NODE_BASE_URL=http://ffcs.ooo NODE_UN=backend NODE_PW=ffcsBackendPasswordThingy node backend/server.js",
     "build:stage": "cd client && npm run build-stage",
-    "start:stage": "NODE_BASE_URL=http://staging.ffcs.ooo NODE_UN=backend NODE_PW=ffcsBackendPasswordThingy API_PORT=8080 node backend/server.js"
+    "start:stage": "NODE_BASE_URL=http://staging.ffcs.ooo NODE_UN=backend NODE_PW=ffcsBackendPasswordThingy API_PORT=3001 node backend/server.js"
   },
   "repository": {
     "type": "git",

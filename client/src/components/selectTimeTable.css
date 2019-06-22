@@ -3,6 +3,12 @@
     text-align: center;
 }
 
+.dropdownButtonGroup .dropdown-menu {
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0;
+}
+
 
 .dropdownButton, .dropdownButtonGroup .dropdown .btn-primary{
     border-top: transparent !important;
@@ -53,7 +59,7 @@
 
 .dropdownButtonGroup .dropdown-menu {
 	transform: translate3d(0px, 53px, 0px) !important;
-	background-color: var(--card-background-color);
+    background-color: var(--card-background-color);
 }
 
 .dropdownButtonGroup .dropdown-menu .dropdown-item {

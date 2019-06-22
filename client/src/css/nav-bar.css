@@ -46,9 +46,13 @@
 }
 
 .navbar-brand {
-	color:var(--text-color-default) !important;
+    color:var(--text-color-default) !important;
+    padding: 0;
 }
 
+.navbar-brand > img {
+vertical-align: text-bottom;
+}
 .linksContainer {
     /* padding-top: 2rem; */
     padding-left: 2rem;
@@ -64,6 +68,8 @@
 
 .branding {
     margin-left: 7px;
+    font-family: 'futura_md_btmedium_italic';
+    font-size: 1.6rem;
 }
 
 

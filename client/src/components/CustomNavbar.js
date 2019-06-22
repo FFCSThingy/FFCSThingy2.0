@@ -89,6 +89,7 @@ class CustomNavbar extends React.Component {
 					<span className="branding">FFCSThingy</span>
 				</NavbarBrand>
 
+				<div className="sync">
 				<NavDropdown
 					title={this.props.selectedCurriculum}
 					className="navDropContainerCurriculum"
@@ -96,8 +97,9 @@ class CustomNavbar extends React.Component {
 				>
 					{this.renderCurriculumChoices()}
 				</NavDropdown>
+				</div>
 
-				<Navbar.Toggle className="fa fa-bars icon" aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle className="fa fa-bars icon sync" aria-controls="responsive-navbar-nav" />
 
 				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
 

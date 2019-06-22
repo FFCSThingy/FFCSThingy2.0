@@ -248,25 +248,25 @@ vertical-align: text-bottom;
 }
 
 @keyframes blinkingText{
-    0%{     color: #ffffff;    }
-    5% {    color: rgba(221, 221, 221, 0.486);}
-    10%{     color: #ffffff;    }
-    15% {    color: rgba(221, 221, 221, 0.486);}
-    20%{     color: #ffffff;    }
-    25% {    color: rgba(221, 221, 221, 0.486);}
-    30%{     color: #ffffff;    }
-    35% {    color: rgba(221, 221, 221, 0.486);}
-    40%{     color: #ffffff;    }
-    45% {    color: rgba(221, 221, 221, 0.486);}
-    50%{     color: #ffffff;    }
-    55% {    color: rgba(221, 221, 221, 0.486);}
-    60%{     color: #ffffff;    }
-    65% {    color: rgba(221, 221, 221, 0.486);}
-    70%{     color: #ffffff;    }
-    75% {    color: rgba(221, 221, 221, 0.486);}
-    80%{     color: #ffffff;    }
-    85% {    color: rgba(221, 221, 221, 0.486);}
-    90%{     color: #ffffff;    }
-    95% {    color: rgba(221, 221, 221, 0.486);}
-    100%{     color: #ffffff;    }
+    0%{     opacity:1;    }
+    5% {    opacity: 0.2;}
+    10%{     opacity:1;    }
+    15% {    opacity: 0.2;}
+    20%{     opacity:1;    }
+    25% {    opacity: 0.2;}
+    30%{     opacity:1;    }
+    35% {    opacity: 0.2;}
+    40%{     opacity:1;    }
+    45% {    opacity: 0.2;}
+    50%{     opacity:1;    }
+    55% {    opacity: 0.2;}
+    60%{     opacity:1;    }
+    65% {    opacity: 0.2;}
+    70%{     opacity:1;    }
+    75% {    opacity: 0.2;}
+    80%{     opacity:1;    }
+    85% {    opacity: 0.2;}
+    90%{     opacity:1;    }
+    95% {    opacity: 0.2;}
+    100%{     opacity:1;    }
 }

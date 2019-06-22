@@ -238,11 +238,11 @@ class App extends React.Component {
 					isFilled: false
 				},
 				F1: {
-					clashesWith: ['F1', 'L2', 'L3', 'L15', 'L16'],
+					clashesWith: ['F1', 'L1', 'L2', 'L15', 'L16'],
 					isFilled: false
 				},
 				G1: {
-					clashesWith: ['G1', 'L8', 'L9', 'L21', 'L22'],
+					clashesWith: ['G1', 'L7', 'L8', 'L21', 'L22'],
 					isFilled: false
 				},
 				TA1: {

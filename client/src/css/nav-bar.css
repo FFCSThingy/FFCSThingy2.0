@@ -241,32 +241,46 @@ vertical-align: text-bottom;
 
 .popup .closeButton {
   background-color: var(--brand-color);
+  border-radius: 0.5rem !important;
+  border: none;
+  box-shadow: 0 6px var(--dropdown-border-color);
+}
+
+.popup .closeButton:active {
+background-color: var(--brand-color) !important;
+transform: translateY(2px);
+box-shadow: 0 6px var(--dropdown-border-color) !important;
+border: none;
+}
+
+.popup .closeButton:focus {
+box-shadow: 0 6px var(--dropdown-border-color) !important;
 }
 
 .sync {
-    animation: blinkingText 7.5s forwards;
+    animation: blinkingText 5s forwards;
 }
 
 @keyframes blinkingText{
     0%{     opacity:1;    }
-    5% {    opacity: 0.2;}
-    10%{     opacity:1;    }
-    15% {    opacity: 0.2;}
+    /* 5% {    opacity: 0.2;} */
+    10%{     opacity:0.2;    }
+    /* 15% {    opacity: 0.2;} */
     20%{     opacity:1;    }
-    25% {    opacity: 0.2;}
-    30%{     opacity:1;    }
-    35% {    opacity: 0.2;}
+    /* 25% {    opacity: 0.2;} */
+    30%{     opacity:0.2;    }
+    /* 35% {    opacity: 0.2;} */
     40%{     opacity:1;    }
-    45% {    opacity: 0.2;}
-    50%{     opacity:1;    }
-    55% {    opacity: 0.2;}
+    /* 45% {    opacity: 0.2;} */
+    50%{     opacity:0.2;    }
+    /*55% {    opacity: 0.2;} */
     60%{     opacity:1;    }
-    65% {    opacity: 0.2;}
-    70%{     opacity:1;    }
-    75% {    opacity: 0.2;}
+    /* 65% {    opacity: 0.2;} */
+    70%{     opacity:0.2;    } 
+    /* 75% {    opacity: 0.2;} */
     80%{     opacity:1;    }
-    85% {    opacity: 0.2;}
-    90%{     opacity:1;    }
-    95% {    opacity: 0.2;}
+    /* 85% {    opacity: 0.2;} */
+    90%{     opacity:0.2;    }
+    /* 95% {    opacity: 0.2;} */
     100%{     opacity:1;    }
 }

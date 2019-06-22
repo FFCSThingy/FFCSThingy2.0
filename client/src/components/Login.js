@@ -6,10 +6,21 @@ import { Container, Row, Card } from 'react-bootstrap';
 import featuresImage from "../images/ffcsfeatures.png";
 import logo from "../images/logo.1.png";
 
+import API from '../API';
+
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-121295619-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 class Login extends React.Component {
+
+	componentDidMount() {
+		API.get("/account")
+			.then(res => {
+					this.props.history.push('/dashboard');
+			}).catch(err => {
+				if (err.response.status === 401);
+			});
+	}
 
 	render() {
 		return (

@@ -147,7 +147,8 @@ class CourseSelect extends React.Component {
 					<Card className={className}>
 						<Card.Body>
 							<Card.Title>{value.title}</Card.Title>
-							<Card.Text>{value.code} <div className="courseCredits">{value.credits} Credits</div>
+							<Card.Text>{value.code} 
+								{/* <div className="courseCredits">{value.credits} Credits</div> */}
 							</Card.Text>
 						</Card.Body>
 					</Card>

@@ -15,14 +15,28 @@ const userUtility = require('./userUtility');
 const xlsxInputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.xlsx');
 const jsonOutputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.json');
 
+var heatmap;
+
 module.exports.getFullHeatmap = () => {
 	return new Promise((resolve, reject) => {
-		Course.find({}, function (err, doc) {
-			if (err) return reject(err);
-			return resolve(doc);
-		});
+		if(!heatmap) {
+			Course.find({}, function (err, doc) {
+				if (err) return reject(err);
+				return resolve(doc);
+			});
+		} else return resolve(heatmap);
 	});
 }
+
+cron.schedule('*/1 * * * *', function () {
+	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	if(process.env.NODE_ENV !== 'staging') {
+		console.log("Updating cached heatmap");
+		module.exports.getFullHeatmap().then(function (dat) {
+			heatmap = dat;
+		});
+	}
+});
 
 module.exports.getCourseList = () => {
 	return new Promise((resolve, reject) => {

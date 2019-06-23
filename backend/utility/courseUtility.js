@@ -257,7 +257,7 @@ module.exports.updateHeatmap = () => {
 }
 
 cron.schedule('*/10 * * * *', () => {
-	if(NODE_ENV === 'staging' || NODE_ENV === 'development') {
+	if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'development') {
 		console.log('Running Heatmap Update');
 		module.exports.updateHeatmap();
 	}

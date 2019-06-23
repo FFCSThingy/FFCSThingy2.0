@@ -29,7 +29,8 @@ module.exports.getFullHeatmap = () => {
 }
 
 cron.schedule('*/1 * * * *', function () {
-	if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	if(process.env.NODE_ENV !== 'staging') {
 		console.log("Updating cached heatmap");
 		module.exports.getFullHeatmap().then(function (dat) {
 			heatmap = dat;

@@ -13,6 +13,7 @@ const extRoute = require('./routes/ext');
 const userRoute = require('./routes/user');
 const curriculumRoute = require('./routes/curriculum');
 const courseRoute = require('./routes/course');
+const ttgenRoute = require('./routes/ttgen');
 
 const User = require('./models/User');
 
@@ -139,6 +140,7 @@ app.use('/ext', ensureAuthenticated, extRoute);
 app.use('/curriculum', ensureAuthenticated, curriculumRoute);
 app.use('/course', ensureAuthenticated, courseRoute);
 app.use('/user', ensureAuthenticated, userRoute);
+app.use('/ttgen', ensureAuthenticated, ttgenRoute);
 
 app.get('/account', ensureAuthenticated, function (req, res) {
 	var data = {

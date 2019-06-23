@@ -256,7 +256,7 @@ module.exports.updateHeatmap = () => {
 	});
 }
 
-cron.schedule('* * * * *', () => {
+cron.schedule('*/10 * * * *', () => {
 	console.log('Running Heatmap Update');
 	module.exports.updateHeatmap();
 });

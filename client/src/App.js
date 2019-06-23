@@ -684,7 +684,7 @@ class App extends React.Component {
 						localStorage.setItem('timetable', JSON.stringify(res.data.data));
 						// localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
 					}
-					this.changeActiveTimetable();
+					this.changeActiveTimetable(this.state.activeTimetable);
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {

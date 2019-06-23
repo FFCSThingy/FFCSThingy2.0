@@ -157,6 +157,7 @@ TODO------
 
 .searchColumn {
     display: flex;
+    min-height: 1.75rem;
 }
 
 .searchIcon {
@@ -181,11 +182,7 @@ TODO------
       /* font-size: 80px; */
 }
 
-.codeText:after:focus {
-    display: none;
-}
-
-.codeText:focus {
+.searchColumn:focus-within .codeText {
     display: none;
 }
 

@@ -41,60 +41,63 @@ module.exports.parseUserHistory = (html) => {
 			baseScraper('tr.tableContent').each((i, elem) => {
 				if (i <= 0) {
 					return;
-				} 
+				}
 
 				const attrs = baseScraper(elem).children('td');
 
 				if(i == trCount - 1) {
 					for(var j = 0; j < grades.length; j++)
 						data.grades[grades[j]] = attrs.eq(j).text().trim();
-					return;	
+					return;
 				}
 
 				switch(i) {
-					case trCount - 10: 
+					case trCount - 11:
 						data.credit_summary.pc_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.pc_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 9:
+					case trCount - 10:
 						data.credit_summary.uc_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.uc_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 8:
+					case trCount - 9:
 						data.credit_summary.pe_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.pe_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 7:
+					case trCount - 8:
 						data.credit_summary.ue_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.ue_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 6:
+					case trCount - 7:
 						data.credit_summary.bridge_reqd = attrs.eq(1).text().trim();
+						if(data.credit_summary.bridge_reqd === "-"){
+							data.credit_summary.bridge_reqd = '0';
+						}
 						data.credit_summary.bridge_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 5:
+					case trCount - 6:
 						data.credit_summary.total_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.total_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 4:
+					case trCount - 5:
 						data.credit_summary.sts_distib = attrs.eq(1).text().trim();
 						data.credit_summary.sts_reqd = attrs.eq(2).text().trim();
 						data.credit_summary.sts_earned = attrs.eq(3).text().trim();
 						return;
 
-					case trCount - 3:
+					case trCount - 4:
 						data.credit_summary.exc_distib = attrs.eq(1).text().trim();
 						data.credit_summary.exc_reqd = attrs.eq(2).text().trim();
 						data.credit_summary.exc_earned = attrs.eq(3).text().trim();
 						return;
 
-					case trCount - 2:
+					case trCount - 3:
 						data.credit_summary.lang_distib = attrs.eq(1).text().trim();
 						data.credit_summary.lang_reqd = attrs.eq(2).text().trim();
 						data.credit_summary.lang_earned = attrs.eq(3).text().trim();

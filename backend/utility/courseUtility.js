@@ -17,9 +17,10 @@ const jsonOutputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'repo
 
 var heatmap;
 
-module.exports.getFullHeatmap = () => {
+module.exports.getFullHeatmap = (regardless=false) => {
 	return new Promise((resolve, reject) => {
-		if(!heatmap) {
+		if(!heatmap || regardless) {
+			// console.log('regardless = ' + regardless);
 			Course.find({}, function (err, doc) {
 				if (err) return reject(err);
 				return resolve(doc);
@@ -28,11 +29,12 @@ module.exports.getFullHeatmap = () => {
 	});
 }
 
+
 cron.schedule('*/1 * * * *', function () {
 	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	if(process.env.NODE_ENV !== 'staging') {
 		console.log("Updating cached heatmap");
-		module.exports.getFullHeatmap().then(function (dat) {
+		module.exports.getFullHeatmap(true).then(function (dat) {
 			heatmap = dat;
 		});
 	}

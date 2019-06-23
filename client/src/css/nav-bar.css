@@ -123,8 +123,9 @@ vertical-align: text-bottom;
 
 .navDropContainerCurriculum .dropdown-menu {
     /* margin-left: 1rem; */
-	min-width: 7rem !important;
+	min-width: 9rem !important;
 	background-color: var(--card-background-color);
+	/* text-align: center; */
 }
 
 .navDropContainerTheme .dropdown-menu {
@@ -143,7 +144,7 @@ vertical-align: text-bottom;
 
 .navDropContainerCurriculum .dropdown-menu.show {
     overflow-y: auto;
-    max-height: 40em;
+    max-height: 60vh;
 }
 
 .linksContainer{

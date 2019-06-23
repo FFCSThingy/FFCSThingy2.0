@@ -170,7 +170,7 @@ TODO------
     font-weight: bold;
     font-size: 1.3em;
     margin-top: -0.22rem;
-    cursor: text;
+    /* cursor: text; */
     /* align-items: center; */
     /* justify-content: center; */
     /* min-height: 100vh; */

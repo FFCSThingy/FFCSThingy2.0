@@ -20,8 +20,10 @@ module.exports.parseCurriculum = (html, userID='') => {
 
 			// curr.reg_prefix = page.find('span.VTopHeaderStyle span').text().trim().slice(0, 5);
 			// console.log(curr.reg_prefix);
-			curr.reg_prefix = userID.trim().slice(0, 5);
-			console.log(curr.reg_prefix);
+			if(userID) {
+				curr.reg_prefix = userID.trim().slice(0, 5);
+				console.log(curr.reg_prefix);
+			}
 
 			var td = credTable.find('td');
 			todo_creds['pc'] = td.eq(6).text().trim();

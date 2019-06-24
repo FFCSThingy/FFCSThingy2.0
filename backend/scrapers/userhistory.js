@@ -39,8 +39,9 @@ module.exports.parseUserHistory = (html, userID='') => {
 			const trCount = baseScraper('tr.tableContent').length;
 			// console.log(trCount);
 
-			if (userID.trim().startsWith('16'))
-				diff = 1;
+			if(userID)
+				if (userID.trim().startsWith('16'))
+					diff = 1;
 
 
 			baseScraper('tr.tableContent').each((i, elem) => {

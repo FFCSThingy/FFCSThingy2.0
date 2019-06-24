@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const Promise = require('bluebird');
 
-module.exports.parseUserHistory = (html, userID) => {
+module.exports.parseUserHistory = (html, userID='') => {
 	var data = {
 		"completed_courses": [],
 		"grades": {},

@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const Promise = require('bluebird');
 const moment = require('moment');
 
-module.exports.parseCurriculum = (html, userID) => {
+module.exports.parseCurriculum = (html, userID='') => {
 	return new Promise((resolve, reject) => {
 		try {
 			const $ = cheerio.load(html);

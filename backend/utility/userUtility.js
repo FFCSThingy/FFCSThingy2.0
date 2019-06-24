@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const cron = require('node-cron');
 
 // Scrapers
 const grades = require('../scrapers/userhistory');
@@ -32,6 +33,24 @@ module.exports.updateUser = (query, update,
 			});
 	});
 }
+
+cron.schedule('0 */1 * * *', function () {
+	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	if (process.env.NODE_ENV !== 'staging') {
+		console.log("Resetting Hourly Counts");
+		module.exports.updateUser({ hourlyCount: { $gt: 0 } }, { hourlyCount: 0 });
+	}
+});
+
+cron.schedule('0 0 */1 * *', function () {
+	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	if (process.env.NODE_ENV !== 'staging') {
+		console.log("Resetting Daily Counts");
+		module.exports.updateUser({ dailyCount: { $gt: 0 } }, { dailyCount: 0 });
+	}
+});
+
+
 
 module.exports.aggregateSpecificCourseCount = (course) => {
 	return new Promise((resolve, reject) => {

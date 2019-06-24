@@ -23,10 +23,13 @@ router.post('/processExtensionData', async (req, res, next) => {
 	if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') {
 		console.log('Parsing UserHistory Data for ' + req.user.display_name + " - " + req.body.ID);
 		var userhistory = await grades.parseUserHistory(req.body.data, req.body.ID);
-		userhistory.vtopSignedIn = true;
-		// console.log(userhistory);
-		var userDoc = userUtility.updateUser({_id: req.user._id}, userhistory);
-		res.send(userDoc);
+		if (typeof userhistory.completed_courses !== 'undefined' && userhistory.completed_courses.length > 0) {
+			userhistory.vtopSignedIn = true;
+			console.log(userhistory);
+			var userDoc = userUtility.updateUser({ _id: req.user._id }, userhistory);
+			res.json({ success: true, data: userDoc });
+		}
+		else res.json({ success: false, message: 'Error in parsing user history' });
 	}
 
 	if (req.body.url == 'academics/common/Curriculum') {

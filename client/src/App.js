@@ -4,7 +4,7 @@
 import React from 'react';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import {Container, Row, Col, Alert} from 'react-bootstrap';
 
 import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
@@ -1042,6 +1042,7 @@ class App extends React.Component {
 		API.post('/ttgen/generateTimetable', {pref: prefs}).then(res => {
 			if (res.data.success) {
 				const tt = res.data.data;
+				this.setState({ttError:undefined});
 				const newName = tt[0].timetableName;
 				this.setState(prevState => ({
 					timetableNames: [...prevState.timetableNames, newName],
@@ -1052,11 +1053,21 @@ class App extends React.Component {
 				});
 			}
 			else
-				this.setState({ error: res.data.message });
+				this.setState({ ttError: res.data.message });
 			this.setState({generatingInProcess:false});
 		}).catch(err => {
 			this.setState({generatingInProcess:false});
 		});;
+	}
+
+	renderTTErrors = () => {
+		if(this.state.ttError){
+			return (<Row><Alert variant='danger'  onClose={() => this.setState({ttError:undefined})} dismissible>
+				<p>
+					{this.state.ttError}
+				</p>
+			</Alert></Row>);
+		}
 	}
 
 	render() {
@@ -1113,6 +1124,7 @@ class App extends React.Component {
 						genTT={(prefs) => {this.genTT(prefs)}}
 					/>
 				</Row>
+				{this.renderTTErrors()}
 					<Row>
 					<Col>
 						<SelectTimeTable

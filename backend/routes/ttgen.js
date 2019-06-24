@@ -46,7 +46,7 @@ router.post('/generateTimetable', async (req, res, next) => {
 	pref.regno = user.reg_no;
 	const allowed = ["16BCE","16BEC","16BEM","16BIT","16BME","17BCE","17BCI","17BEC","17BEM","17BIS","17BIT","17BMD","17BME","18BCB","18BCE","18BCI","18BCL","18BEC","18BEE","18BIT"];
 	if(!allowed.includes(pref.regno.slice(0,5))){
-		return res.json({ success: false, message: "Coming soon for your curriculum" });
+		return res.json({ success: false, message: "Coming soon for your curriculum, check back soon" });
 	}
 
 	pref.credits = parseInt(pref.credits);
@@ -63,7 +63,13 @@ router.post('/generateTimetable', async (req, res, next) => {
 	var params = { FunctionName: 'gentt', InvocationType: 'RequestResponse', LogType: 'Tail' };
 	params.Payload = JSON.stringify(data);
 
-	var tt = await genTT(params);
+	try {
+		var tt = await genTT(params);
+	}
+	catch(e){
+		console.error(e);
+		return res.json({ success: false, message: "Some error occurred,we are looking into it" });
+	}
 	tt = JSON.parse(tt);
 	tt = tt.map(v => {
 		delete v.__v;

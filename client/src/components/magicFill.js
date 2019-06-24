@@ -77,8 +77,8 @@ class Generator extends Component {
 									   name='days'
 									   value={this.state.days}
 									   onChange={this.handleChanges} >
-				<ToggleButton value='monday' className='toggleCustom'>Less Classes on Monday</ToggleButton>
-				<ToggleButton value='friday' className='toggleCustom'>Less Classes on Friday</ToggleButton>
+				<ToggleButton value='Monday' className='toggleCustom'>Less Classes on Monday</ToggleButton>
+				<ToggleButton value='Friday' className='toggleCustom'>Less Classes on Friday</ToggleButton>
 			</ToggleButtonGroup>);
 		}
 		return null;
@@ -105,8 +105,8 @@ class Generator extends Component {
 									   name='lp'
 									   value={this.state.lp}
 									   onChange={this.handleChanges} >
-				<ToggleButton value='lab' className='toggleCustom'>Less Labs</ToggleButton>
-				<ToggleButton value='project' className='toggleCustom'>Less Projects</ToggleButton>
+				<ToggleButton value='ELA' className='toggleCustom'>Less Labs</ToggleButton>
+				<ToggleButton value='EPJ' className='toggleCustom'>Less Projects</ToggleButton>
 			</ToggleButtonGroup>);
 		}
 		return null;
@@ -140,10 +140,10 @@ class Generator extends Component {
 			const event = {target:{name:value,value:this.state[value]}};
 			const onClickHandler = () => {this.handleChanges(value,event)};
 			switch (this.state[value]){
-				case 'lab':
+				case 'ELA':
 					toPush = 'Less Labs ';
 					break;
-				case 'project':
+				case 'EPJ':
 					toPush = 'Less Projects';
 					break;
 				case 'gaps':
@@ -152,10 +152,10 @@ class Generator extends Component {
 				case 'nogaps':
 					toPush = 'No Gaps';
 					break;
-				case 'monday':
+				case 'Monday':
 					toPush = 'Less Classes on Monday';
 					break;
-				case 'friday':
+				case 'Friday':
 					toPush = 'Less Classes on Friday';
 					break;
 				case 'morning':
@@ -174,15 +174,25 @@ class Generator extends Component {
 	}
 
 	buildPrefAndSend = () => {
-		let prefArray = [];
+		let prefs = {'slot': {'evening': 1, 'morning': 1}, 'course': {'ELA': 1, 'EPJ': 1, 'ETH': 1},
+			'days': {'Monday': 1, 'Tuesday': 1, 'Wednesday': 1, 'Thursday': 1, 'Friday': -1}, 'misc':{'checkboard': 0}};
 		for(let elem in this.state.priorityList) {
 			const name = this.state.priorityList[elem];
 			const value = this.state[name];
-			const pref = { weight: 4 - elem };
-			pref[name] = value;
-			prefArray.push(pref);
+			if(name === 'slots'){
+				prefs.slot[value] = (4-elem+1)/2;
+			}
+			else if(name === 'lp'){
+				prefs.course[value] = -(4-elem+1)/2;
+			}
+			else if(name === 'days'){
+				prefs.days[value] = -(4-elem+1)/2;
+			}
+			else if(name === 'gaps'){
+				prefs.misc.checkboard = (value === 'gaps') ? 1 : 0;
+			}
 		}
-		console.log(prefArray);
+		console.log(prefs);
 	}
 	renderForm = () => {
 		if (this.state.showForm)

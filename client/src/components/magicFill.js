@@ -186,19 +186,19 @@ class Generator extends Component {
 
 	buildPrefAndSend = () => {
 		let prefs = {'slot': {'evening': 1, 'morning': 1}, 'course': {'ELA': 1, 'EPJ': 1, 'ETH': 1},
-			'days': {'Monday': 1, 'Tuesday': 1, 'Wednesday': 1, 'Thursday': 1, 'Friday': -1}, 'misc':{'checkboard': 0}};
+			'days': {'Monday': 1, 'Tuesday': 1, 'Wednesday': 1, 'Thursday': 1, 'Friday': 1}, 'misc':{'checkboard': 0}};
 		prefs.credits = this.state.credits;
 		for(let elem in this.state.priorityList) {
 			const name = this.state.priorityList[elem];
 			const value = this.state[name];
 			if(name === 'slots'){
-				prefs.slot[value] = (4-elem+1)/2;
+				prefs.slot[value] = (4-elem+1);
 			}
 			else if(name === 'lp'){
-				prefs.course[value] = -(4-elem+1)/2;
+				prefs.course[value] = -(4-elem+1)/4.8;
 			}
 			else if(name === 'days'){
-				prefs.days[value] = -(4-elem+1)/2;
+				prefs.days[value] = -(4-elem+1)/6;
 			}
 			else if(name === 'gaps'){
 				prefs.misc.checkboard = (value === 'gaps') ? 1 : 0;

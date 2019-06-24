@@ -67,11 +67,11 @@ class CustomNavbar extends React.Component {
         </Modal.Header>
         <Modal.Body className="popup">
           <p>
-			Add an extension to your browser and sync with VTOP!
+			Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
           </p>
 		  <a href='https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh' target="_blank" rel="noopener noreferrer">Chrome Extension</a>
 		  <br />
-		  <a href='https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh' target="_blank" rel="noopener noreferrer">Firefox Extension</a>
+		  <a href='https://ffcs.ooo/files_ext/ffcsooo-1.2-an+fx.xpi' rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
         </Modal.Body>
         <Modal.Footer className="popup">
           <Button onClick={this.handleClose} className="closeButton">Close</Button>
@@ -105,7 +105,7 @@ class CustomNavbar extends React.Component {
 
 					<Nav className="mr-auto">
 						<Nav.Link href='/about' className="navLink">About</Nav.Link>
-						<Nav.Link onClick={this.handleShow} className="navLink sync">Sync</Nav.Link>
+						<Nav.Link onClick={this.handleShow} className="navLink sync">Sync VTOP</Nav.Link>
 					</Nav>
 					{this.renderModal()}
 					<Nav className="navLeft">

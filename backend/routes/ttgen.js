@@ -45,7 +45,7 @@ router.get('/generateTimetable', async (req, res, next) => {
 	var pref = req.body.pref;
 	pref.regno = user.reg_no;
 	// pref.regno = '17BCE0113';
-	pref.credits = Number(req.body.credits) || 24;
+	// pref.credits = Number(req.body.credits) || 24;
 
 	pref.ue = user.credit_summary.ue_earned;
 	pref.uc = user.credit_summary.uc_earned;

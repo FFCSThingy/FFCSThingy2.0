@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const Promise = require('bluebird');
 
-module.exports.parseUserHistory = (html) => {
+module.exports.parseUserHistory = (html, userID) => {
 	var data = {
 		"completed_courses": [],
 		"grades": {},
@@ -32,11 +32,16 @@ module.exports.parseUserHistory = (html) => {
 
 			}
 
+			var diff = 0;	// For 16* Peeps who have an extra row in their thingy.
 
 			const baseScraper = cheerio.load(html);
-			const gradesScraper = cheerio.load(baseScraper('table.customTable').eq(0).html());
+			const IDScraper = cheerio.load(html);
 			const trCount = baseScraper('tr.tableContent').length;
-			console.log(trCount);
+			// console.log(trCount);
+
+			if (userID.trim().startsWith('16'))
+				diff = 1;
+
 
 			baseScraper('tr.tableContent').each((i, elem) => {
 				if (i <= 0) {
@@ -52,27 +57,27 @@ module.exports.parseUserHistory = (html) => {
 				}
 
 				switch(i) {
-					case trCount - 11:
+					case trCount - (10 + diff):
 						data.credit_summary.pc_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.pc_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 10:
+					case trCount - (9 + diff):
 						data.credit_summary.uc_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.uc_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 9:
+					case trCount - (8 + diff):
 						data.credit_summary.pe_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.pe_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 8:
+					case trCount - (7 + diff):
 						data.credit_summary.ue_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.ue_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 7:
+					case trCount - (6 + diff):
 						data.credit_summary.bridge_reqd = attrs.eq(1).text().trim();
 						if(data.credit_summary.bridge_reqd === "-"){
 							data.credit_summary.bridge_reqd = '0';
@@ -80,24 +85,31 @@ module.exports.parseUserHistory = (html) => {
 						data.credit_summary.bridge_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 6:
+					case trCount - (5 + diff):
 						data.credit_summary.total_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.total_earned = attrs.eq(2).text().trim();
 						return;
 
-					case trCount - 5:
+					case trCount - (4 + diff):
+						if(diff === 1) {
+							data.credit_summary.biochem_distib = attrs.eq(1).text().trim();
+							data.credit_summary.biochem_reqd = attrs.eq(2).text().trim();
+							data.credit_summary.biochem_earned = attrs.eq(3).text().trim();
+						}	
+
+					case trCount - 4:
 						data.credit_summary.sts_distib = attrs.eq(1).text().trim();
 						data.credit_summary.sts_reqd = attrs.eq(2).text().trim();
 						data.credit_summary.sts_earned = attrs.eq(3).text().trim();
 						return;
 
-					case trCount - 4:
+					case trCount - 3:
 						data.credit_summary.exc_distib = attrs.eq(1).text().trim();
 						data.credit_summary.exc_reqd = attrs.eq(2).text().trim();
 						data.credit_summary.exc_earned = attrs.eq(3).text().trim();
 						return;
 
-					case trCount - 3:
+					case trCount - 2:
 						data.credit_summary.lang_distib = attrs.eq(1).text().trim();
 						data.credit_summary.lang_reqd = attrs.eq(2).text().trim();
 						data.credit_summary.lang_earned = attrs.eq(3).text().trim();

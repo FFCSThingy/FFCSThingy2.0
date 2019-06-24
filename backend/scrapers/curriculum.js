@@ -2,7 +2,7 @@ const cheerio = require('cheerio');
 const Promise = require('bluebird');
 const moment = require('moment');
 
-module.exports.parseCurriculum = (html) => {
+module.exports.parseCurriculum = (html, userID) => {
 	return new Promise((resolve, reject) => {
 		try {
 			const $ = cheerio.load(html);
@@ -18,20 +18,22 @@ module.exports.parseCurriculum = (html) => {
 			var page = $.root();
 			var credTable = page.find('table').eq(0);
 
-			curr.reg_prefix = page.find('span.VTopHeaderStyle span').text().trim().slice(0, 5);
-			// console.log(regNo);
+			// curr.reg_prefix = page.find('span.VTopHeaderStyle span').text().trim().slice(0, 5);
+			// console.log(curr.reg_prefix);
+			curr.reg_prefix = userID.trim().slice(0, 5);
+			console.log(curr.reg_prefix);
 
 			var td = credTable.find('td');
 			todo_creds['pc'] = td.eq(6).text().trim();
 			todo_creds['pe'] = td.eq(9).text().trim();
 			todo_creds['uc'] = td.eq(12).text().trim();
 			todo_creds['ue'] = td.eq(15).text().trim();
-			console.log(todo_creds);
+			// console.log(todo_creds);
 			curr['todo_creds'] = todo_creds;
 
 			var table = page.find("tbody");
 			var table_count = table.length;
-			console.log(table_count)
+			// console.log(table_count)
 			
 			for (var i = 1; i < table_count; i++) {
 				courses = [];

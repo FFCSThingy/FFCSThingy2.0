@@ -5,17 +5,29 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Container, Form, Button, Row, Col, ToggleButton, ToggleButtonGroup, Alert } from 'react-bootstrap';
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import {FaTrashAlt} from "react-icons/fa";
+import API from "../API";
 
 class Generator extends Component {
-	state = {
-		gaps: undefined,
-		slots: undefined,
-		days: undefined,
-		lp: undefined,
-		numPrefSet:0,
-		showForm: true,
-		showAlert: false,
-		priorityList:[],
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			gaps: undefined,
+			slots: undefined,
+			days: undefined,
+			lp: undefined,
+			showForm: true,
+			showAlert: false,
+			credits:23,
+			generatingInProcess:props.inProcess,
+			priorityList:[],
+		};
+	}
+
+	componentDidUpdate(prevProps, prevState, snapshot) {
+		if(prevProps.inProcess !== this.props.inProcess){
+			this.setState({generatingInProcess:this.props.inProcess});
+		}
 	}
 
 	handleChanges = (value, event) => {
@@ -32,7 +44,6 @@ class Generator extends Component {
 
 
 	handleShow = () => {
-		// CHANGE THIS (remove !)
 		if(!this.props.user.vtopSignedIn)
 			this.setState(prevState => ({ showForm: !prevState.showForm }))
 		else
@@ -176,6 +187,7 @@ class Generator extends Component {
 	buildPrefAndSend = () => {
 		let prefs = {'slot': {'evening': 1, 'morning': 1}, 'course': {'ELA': 1, 'EPJ': 1, 'ETH': 1},
 			'days': {'Monday': 1, 'Tuesday': 1, 'Wednesday': 1, 'Thursday': 1, 'Friday': -1}, 'misc':{'checkboard': 0}};
+		prefs.credits = this.state.credits;
 		for(let elem in this.state.priorityList) {
 			const name = this.state.priorityList[elem];
 			const value = this.state[name];
@@ -192,7 +204,14 @@ class Generator extends Component {
 				prefs.misc.checkboard = (value === 'gaps') ? 1 : 0;
 			}
 		}
-		console.log(prefs);
+		const result = this.props.genTT(prefs);
+	}
+	renderGenButton() {
+		if(!this.state.generatingInProcess){
+			return (<Button className='magicButton dropdownButton' onClick={() => {this.buildPrefAndSend()}}>Generate Timetable</Button>);
+		}
+		return (<Button className='magicButton dropdownButton' style={{"opacity":0.3}}>Generate Timetable</Button>);
+
 	}
 	renderForm = () => {
 		if (this.state.showForm)
@@ -200,15 +219,14 @@ class Generator extends Component {
 				<div>
 					<Row>
 						<Form.Group className="creditsPlaceholder">
-							<Form.Control type="number" placeholder="No. of credits" />
+							<Form.Control type="number" placeholder="No. of credits" onChange={(e) => this.setState({credits:e.target.value})}/>
 						</Form.Group>
 					</Row>
 					<Row className="toggles">
 						{this.renderPriorityPref()}
 					</Row>
 					{this.renderToggles()}
-
-					<Button className='magicButton dropdownButton' onClick={() => {this.buildPrefAndSend()}}>Generate Timetable</Button>
+					{this.renderGenButton()}
 				</div>
 			)
 		else return;

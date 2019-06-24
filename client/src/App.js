@@ -1042,8 +1042,14 @@ class App extends React.Component {
 		API.post('/ttgen/generateTimetable', {pref: prefs}).then(res => {
 			if (res.data.success) {
 				const tt = res.data.data;
-				this.setState(prevState => ({timetable:[...prevState.timetable,...tt]}));
-				this.changeActiveTimetable(tt[0].timetableName);
+				const newName = tt[0].timetableName;
+				this.setState(prevState => ({
+					timetableNames: [...prevState.timetableNames, newName],
+					timetable: [...prevState.timetable, ...tt]
+				}), () => {
+					this.changeActiveTimetable(newName);
+					this.doSetSelectedCourses(this.state.timetable);
+				});
 			}
 			else
 				this.setState({ error: res.data.message });

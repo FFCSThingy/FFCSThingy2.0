@@ -680,9 +680,7 @@ class App extends React.Component {
 			.then(res => {
 				if (res.status === 304);
 				this.setState({ completedCourses: res.data.data });
-			}).catch(err => {
-				if (err.response.status === 401) this.handleUnauth();
-			});
+			})
 	}
 
 	doGetSelectedCourses = () => {

@@ -16,7 +16,7 @@ class Generator extends Component {
 			slots: undefined,
 			days: undefined,
 			lp: undefined,
-			showForm: true,
+			showForm: false,
 			showAlert: false,
 			credits:23,
 			generatingInProcess:props.inProcess,
@@ -44,7 +44,7 @@ class Generator extends Component {
 
 
 	handleShow = () => {
-		if(!this.props.user.vtopSignedIn)
+		if(this.props.user.vtopSignedIn)
 			this.setState(prevState => ({ showForm: !prevState.showForm }))
 		else
 			this.setState({ showAlert: true });

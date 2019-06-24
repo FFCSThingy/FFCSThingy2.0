@@ -10,6 +10,9 @@ var userSchema = new mongoose.Schema({
 	// FFCS.OOO
 	selected_curriculum: String,
 	timestamp: { type: Date, default: Date.now() },
+	hourlyCount: { type: Number, default: 0 },
+	dailyCount: { type: Number, default: 0 },
+	totalCount: { type: Number, default: 0 },
 
 
 	// VTOP

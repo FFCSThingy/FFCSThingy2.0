@@ -71,7 +71,7 @@ class CustomNavbar extends React.Component {
           </p>
 		  <a href='https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh' target="_blank" rel="noopener noreferrer">Chrome Extension</a>
 		  <br />
-		  <a href='https://ffcs.ooo/files_ext/ffcsooo-1.2-an+fx.xpi' rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
+		  <a href='https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi' rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
         </Modal.Body>
         <Modal.Footer className="popup">
           <Button onClick={this.handleClose} className="closeButton">Close</Button>
@@ -89,7 +89,7 @@ class CustomNavbar extends React.Component {
 					<span className="branding">FFCSThingy</span>
 				</NavbarBrand>
 
-				
+
 				<NavDropdown
 					title={this.props.selectedCurriculum}
 					className="navDropContainerCurriculum blink"
@@ -97,7 +97,7 @@ class CustomNavbar extends React.Component {
 				>
 					{this.renderCurriculumChoices()}
 				</NavDropdown>
-				
+
 
 				<Navbar.Toggle className="fa fa-bars icon sync" aria-controls="responsive-navbar-nav" />
 

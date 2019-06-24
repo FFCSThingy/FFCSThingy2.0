@@ -56,6 +56,18 @@ router.post('/selectedCurriculum', async (req, res, next) => {
 	}
 });
 
+router.get('/completedCourses', async (req, res, next) => {
+	if (req.user.vtopSignedIn)
+		res.json({ 
+			success: true, 
+			data: req.user.completed_courses.reduce((a,v) => {
+				a[v.code] = v.grade;
+				return a;
+			}, {}) 
+		});
+	else
+		res.json({ success: false, message: 'Not signed in to VTOP' });	
+});
 
 
 module.exports = router;

@@ -130,6 +130,11 @@ class CourseSelect extends React.Component {
 							<Card.Text>{value.code} 
 								<div className="courseCredits">{value.credits} Credits</div>
 							</Card.Text>
+							<Card.Subtitle className="cardCompletedSubtitle">{
+								(this.props.completedCourses[value.code]) ?
+								('Completed: ' + this.props.completedCourses[value.code]) : ''
+								}
+							</Card.Subtitle>
 						</Card.Body>
 					</Card>
 				</CardColumns>
@@ -140,6 +145,8 @@ class CourseSelect extends React.Component {
 	renderCourses() {
 		var list = this.doSearch();
 
+		var completed = [], normal = [];
+
 		if (this.state.selectedCategory !== 'ALL' && Object.keys(this.props.curriculum).length) {
 			var cat = this.state.selectedCategory.toLowerCase();
 			var currCourses = this.props.curriculum[cat].map(c => c.code);
@@ -148,6 +155,11 @@ class CourseSelect extends React.Component {
 				return currCourses.includes(v.code);
 			});
 		}
+
+		completed = list.filter(v => this.props.completedCourses[v.code]);
+		normal = list.filter(v => !this.props.completedCourses[v.code]);
+
+		list = [...normal, ...completed];
 
 		return list.map(value => {
 			return this.renderNormalCard(value)

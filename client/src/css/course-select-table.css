@@ -113,6 +113,11 @@ TODO------
     float: right;
 }
 
+.cardCompletedSubtitle {
+	margin-top: 0 !important;
+	color: var(--card-selected-text-color);
+}
+
 .courseSelectContainer {
     margin-top: 4rem !important;
     margin-bottom: 2rem !important;

@@ -43,6 +43,7 @@ class App extends React.Component {
 			courseList: JSON.parse(localStorage.getItem('courseList')) || [],
 			timestamp: localStorage.getItem('courseListTimestamp') || null,
 			selectedCourse: '',
+			completedCourses: {},
 
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
 			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
@@ -667,9 +668,19 @@ class App extends React.Component {
 				else {
 					this.setState({ user: res.data });
 				}	
+
+				if (res.data.vtopSignedIn) this.doGetCompletedCourses();
 			}).catch(err => {
 				if(err.response.status === 401) this.handleUnauth();
 			});
+	}
+
+	doGetCompletedCourses = () => {
+		API.get('/user/completedCourses')
+			.then(res => {
+				if (res.status === 304);
+				this.setState({ completedCourses: res.data.data });
+			})
 	}
 
 	doGetSelectedCourses = () => {
@@ -1049,6 +1060,7 @@ class App extends React.Component {
 							selectCourse={this.selectCourse}
 
 							courseList={this.state.courseList}
+							completedCourses={this.state.completedCourses}
 							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}
 							curriculum={this.state.curriculum}

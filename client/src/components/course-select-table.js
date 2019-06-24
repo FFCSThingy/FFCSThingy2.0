@@ -82,12 +82,13 @@ class CourseSelect extends React.Component {
 							className="searchBar"
 							name='searchString'
 							type='text'
-							placeholder='Search here'
+							placeholder='Search by'
 							spellCheck='false'
 							autoComplete='off'
 							defaultValue={this.state.searchString}
 							onChange={this.handleChange.bind(this)}
 						/>
+							<div className="codeText"></div>
 					</Col>
 				</Row>
 

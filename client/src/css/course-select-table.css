@@ -139,6 +139,7 @@ TODO------
     font-size: 1.3em;
     text-align: left;
     text-transform: uppercase;
+    width: 7.2rem;
 }
 
 
@@ -161,12 +162,56 @@ TODO------
 
 .searchColumn {
     display: flex;
+    min-height: 1.75rem;
 }
 
 .searchIcon {
     margin-top: 0.20rem;
     margin-right: 0.5rem;
 }
+
+.codeText {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-top: -0.22rem;
+    /* cursor: text; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    /* min-height: 100vh; */
+}
+
+.codeText:after {
+      animation: changeWord 3s linear infinite alternate;
+      content: "Slot";
+      /* font-size: 80px; */
+}
+
+.searchColumn:focus-within .codeText {
+    display: none;
+}
+
+
+@keyframes changeWord {
+    0% {
+      content: "Slot";
+    }
+    25% {
+      color: var(--brand-color);
+    }
+    50% {
+      content: "Title";
+      color: var(--text-color-default);
+    }
+    75% {
+      color: var(--brand-color);
+    }
+    100% {
+      content: "Code"
+    }
+  }
+
+
 
 .courseTypeFilter {
 	margin: 0 !important;

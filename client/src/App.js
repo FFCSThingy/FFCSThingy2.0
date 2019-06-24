@@ -4,7 +4,7 @@
 import React from 'react';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col } from 'react-bootstrap';
+import {Container, Row, Col, Alert} from 'react-bootstrap';
 
 import CourseSelect from './components/course-select-table';
 import SlotTable from './components/slotTable';
@@ -32,14 +32,14 @@ class App extends React.Component {
 		this.state = {
 			error: null,
 			activeTimetable: 'Default',
-
+			generatingInProcess:false,
 			user: {},
 			submitted_regno: '',
 
 			timetable: [],
 			timetableTimestamp: localStorage.getItem('timetableTimestamp') || null,
 			timetableNames: ['Default'],
-			
+
 			courseList: JSON.parse(localStorage.getItem('courseList')) || [],
 			timestamp: localStorage.getItem('courseListTimestamp') || null,
 			selectedCourse: '',
@@ -667,7 +667,7 @@ class App extends React.Component {
 				// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
 				else {
 					this.setState({ user: res.data });
-				}	
+				}
 
 				if (res.data.vtopSignedIn) this.doGetCompletedCourses();
 			}).catch(err => {
@@ -680,9 +680,7 @@ class App extends React.Component {
 			.then(res => {
 				if (res.status === 304);
 				this.setState({ completedCourses: res.data.data });
-			}).catch(err => {
-				if (err.response.status === 401) this.handleUnauth();
-			});
+			})
 	}
 
 	doGetSelectedCourses = () => {
@@ -713,7 +711,7 @@ class App extends React.Component {
 					if(names.length === 0) names = ['Default'];
 					this.setState({timetableNames: names});
 					this.changeActiveTimetable();
-				} 
+				}
 				else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
@@ -846,7 +844,7 @@ class App extends React.Component {
 		var count = this.state.timetable.reduce((a,v) => {
 			if (v.timetableName === this.state.activeTimetable)
 				return a + Number(v.credits);
-			return a;	
+			return a;
 		}, 0)
 
 		if(!count) return 0;
@@ -952,7 +950,7 @@ class App extends React.Component {
 					clashMap[v].isFilled = true;
 				else
 					clashMap[v].isFilled = false;
-				return v;	
+				return v;
 			})
 			return { clashMap: clashMap, activeTimetable: timetableName };
 		});
@@ -992,7 +990,7 @@ class App extends React.Component {
 			timetableNames: prevState.timetableNames.map(v => {
 				if(v === this.state.activeTimetable)
 					return newName;
-				return v;	
+				return v;
 			}),
 
 			timetable: prevState.timetable.map(v => {
@@ -1021,7 +1019,7 @@ class App extends React.Component {
 				this.changeActiveTimetable(newName);
 		});
 	}
-	
+
 	updateTheme = () => {
 		var theme = this.state.themes[this.state.activeTheme];
 		localStorage.setItem('theme', this.state.activeTheme);
@@ -1039,6 +1037,39 @@ class App extends React.Component {
 		this.setState({ selectedCurriculum: val });
 	}
 
+	genTT = (prefs) => {
+		this.setState({generatingInProcess:true});
+		API.post('/ttgen/generateTimetable', {pref: prefs}).then(res => {
+			if (res.data.success) {
+				const tt = res.data.data;
+				this.setState({ttError:undefined});
+				const newName = tt[0].timetableName;
+				this.setState(prevState => ({
+					timetableNames: [...prevState.timetableNames, newName],
+					timetable: [...prevState.timetable, ...tt]
+				}), () => {
+					this.changeActiveTimetable(newName);
+					this.doSetSelectedCourses(this.state.timetable);
+				});
+			}
+			else
+				this.setState({ ttError: res.data.message });
+			this.setState({generatingInProcess:false});
+		}).catch(err => {
+			this.setState({generatingInProcess:false});
+		});;
+	}
+
+	renderTTErrors = () => {
+		if(this.state.ttError){
+			return (<Row><Alert variant='danger'  onClose={() => this.setState({ttError:undefined})} dismissible>
+				<p>
+					{this.state.ttError}
+				</p>
+			</Alert></Row>);
+		}
+	}
+
 	render() {
 		return (
 			<Container fluid={true}>
@@ -1049,7 +1080,7 @@ class App extends React.Component {
 						themes={this.state.themes}
 						curriculumList={this.state.curriculumList}
 						selectedCurriculum={this.state.selectedCurriculum}
-						
+
 						handleCurriculumChange={this.handleCurriculumChange}
 						changeActiveTheme={this.changeActiveTheme}
 						doLogout={this.doLogout}
@@ -1086,14 +1117,15 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
-{/* 
 				<Row>
 					<Generator
 						user={this.state.user}
+						inProcess={this.state.generatingInProcess}
+						genTT={(prefs) => {this.genTT(prefs)}}
 					/>
-				</Row> */}
-
-				<Row>
+				</Row>
+				{this.renderTTErrors()}
+					<Row>
 					<Col>
 						<SelectTimeTable
 							activeTimetable={this.state.activeTimetable}
@@ -1108,7 +1140,7 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
-			
+
 				<Row>
 					<TimeTable
 						clashMap={this.state.clashMap}

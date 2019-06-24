@@ -3,28 +3,40 @@ import "../css/magicFill.css";
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import { Container, Form, Button, Row, Col, ToggleButton, ToggleButtonGroup, Alert } from 'react-bootstrap';
+import ButtonToolbar from "react-bootstrap/ButtonToolbar";
+import {FaTrashAlt} from "react-icons/fa";
 
 class Generator extends Component {
 	state = {
-		gaps: 'gaps',
-		slots: 'morning',
-		days: 'monday',
-		lp: 'lab',
-		showForm: false,
+		gaps: undefined,
+		slots: undefined,
+		days: undefined,
+		lp: undefined,
+		numPrefSet:0,
+		showForm: true,
 		showAlert: false,
+		priorityList:[],
 	}
 
 	handleChanges = (value, event) => {
 		let fieldName = event.target.name;
 		let fieldVal = event.target.value;
+		if(this.state[fieldName] == fieldVal){
+			fieldVal = undefined;
+			this.state.priorityList = this.state.priorityList.filter(item => item !== fieldName);
+		}else{
+			this.state.priorityList.push(fieldName);
+		}
 		this.setState({ [fieldName]: fieldVal });
 	}
 
+
 	handleShow = () => {
-		// if(this.props.user.vtopSignedIn)
+		// CHANGE THIS (remove !)
+		if(!this.props.user.vtopSignedIn)
 			this.setState(prevState => ({ showForm: !prevState.showForm }))
-		// else
-			// this.setState({ showAlert: true })
+		else
+			this.setState({ showAlert: true });
 	}
 
 	handleDismiss = () => {
@@ -35,7 +47,7 @@ class Generator extends Component {
 		if(this.state.showAlert)
 		return (
 			<Alert variant='danger' onClose={this.handleDismiss} dismissible>
-				<Alert.Heading>Oh snap! You haven't logged in to VTOP!</Alert.Heading>
+				<Alert.Heading>Oh snap! You haven't synced with VTOP!</Alert.Heading>
 				<p>
 					Login to VTOP using our extension to access this feature.
 				</p>
@@ -44,69 +56,149 @@ class Generator extends Component {
 		else return;
 	}
 
+	renderMorningEveningButton = () => {
+		if (this.state.slots === undefined && this.state.priorityList.length < 3) {
+			return (<ToggleButtonGroup className="slotFilter"
+									   type='checkbox'
+									   name='slots'
+									   value={this.state.slots}
+									   onChange={this.handleChanges}>
+				<ToggleButton value='morning' className='toggleCustom'>Morning</ToggleButton>
+				<ToggleButton value='evening' className='toggleCustom'>Evening</ToggleButton>
+			</ToggleButtonGroup>);
+		}
+		return null;
+	}
+
+	renderDayButtons = () => {
+		if(this.state.days === undefined && this.state.priorityList.length < 3){
+			return (<ToggleButtonGroup className="slotFilter"
+									   type='checkbox'
+									   name='days'
+									   value={this.state.days}
+									   onChange={this.handleChanges} >
+				<ToggleButton value='monday' className='toggleCustom'>Less Classes on Monday</ToggleButton>
+				<ToggleButton value='friday' className='toggleCustom'>Less Classes on Friday</ToggleButton>
+			</ToggleButtonGroup>);
+		}
+		return null;
+	}
+
+	renderGapButtons = () => {
+		if(this.state.gaps === undefined && this.state.priorityList.length < 3){
+			return (<ToggleButtonGroup className="slotFilter"
+									   type='checkbox'
+									   name='gaps'
+									   value={this.state.gaps}
+									   onChange={this.handleChanges} >
+				<ToggleButton value='gaps' className='toggleCustom'>Gaps</ToggleButton>
+				<ToggleButton value='nogaps' className='toggleCustom'>No Gaps</ToggleButton>
+			</ToggleButtonGroup>);
+		}
+		return null;
+	}
+
+	renderLPButtons = () => {
+		if(this.state.lp === undefined && this.state.priorityList.length < 3){
+			return (<ToggleButtonGroup className="slotFilter"
+									   type='checkbox'
+									   name='lp'
+									   value={this.state.lp}
+									   onChange={this.handleChanges} >
+				<ToggleButton value='lab' className='toggleCustom'>Less Labs</ToggleButton>
+				<ToggleButton value='project' className='toggleCustom'>Less Projects</ToggleButton>
+			</ToggleButtonGroup>);
+		}
+		return null;
+	}
+
 	renderToggles = () => {
 		return (
 			<Row className="toggles">
 				<Container className="togglesA">
 					<Col sm={12} md={3}>
-						<ToggleButtonGroup className="slotFilter"
-							type='radio'
-							name='slots'
-							value={this.state.slots}
-							onChange={this.handleChanges} >
-							<ToggleButton value='morning' className='toggleCustom'>Morning</ToggleButton>
-							<ToggleButton value='evening' className='toggleCustom'>Evening</ToggleButton>
-						</ToggleButtonGroup>
-						<ToggleButtonGroup className="slotFilter"
-							type='radio'
-							name='days'
-							value={this.state.days}
-							onChange={this.handleChanges} >
-							<ToggleButton value='monday' className='toggleCustom'>Less Classes on Monday</ToggleButton>
-							<ToggleButton value='friday' className='toggleCustom'>Less Classes on Friday</ToggleButton>
-						</ToggleButtonGroup>
+						{this.renderMorningEveningButton()}
+						{this.renderDayButtons()}
 					</Col>
 				</Container>
 
 				<Container className="togglesB">
 				<Col sm={12} md={3}>
-					<ToggleButtonGroup className="slotFilter"
-						type='radio'
-						name='gaps'
-						value={this.state.gaps}
-						onChange={this.handleChanges} >
-						<ToggleButton value='gaps' className='toggleCustom'>Gaps</ToggleButton>
-						<ToggleButton value='nogaps' className='toggleCustom'>No Gaps</ToggleButton>
-					</ToggleButtonGroup>
-					<ToggleButtonGroup className="slotFilter"
-						type='radio'
-						name='lp'
-						value={this.state.lp}
-						onChange={this.handleChanges} >
-						<ToggleButton value='lab' className='toggleCustom'>Less Labs</ToggleButton>
-						<ToggleButton value='project' className='toggleCustom'>Less Projects</ToggleButton>
-					</ToggleButtonGroup>
+					{this.renderGapButtons()}
+					{this.renderLPButtons()}
 				</Col>
 				</Container>
 			</Row>
 		)
 	}
 
+	renderPriorityPref(){
+		let selectedElements = [];
+		for(let elem in this.state.priorityList){
+			const value = this.state.priorityList[elem];
+			let toPush;
+			const event = {target:{name:value,value:this.state[value]}};
+			const onClickHandler = () => {this.handleChanges(value,event)};
+			switch (this.state[value]){
+				case 'lab':
+					toPush = 'Less Labs ';
+					break;
+				case 'project':
+					toPush = 'Less Projects';
+					break;
+				case 'gaps':
+					toPush = 'Gaps';
+					break;
+				case 'nogaps':
+					toPush = 'No Gaps';
+					break;
+				case 'monday':
+					toPush = 'Less Classes on Monday';
+					break;
+				case 'friday':
+					toPush = 'Less Classes on Friday';
+					break;
+				case 'morning':
+					toPush = 'Morning';
+					break;
+				case 'evening':
+					toPush = 'Evening';
+					break;
+			}
+			const btn = <Button onClick={onClickHandler} className='dropdownButton'>{toPush}<FaTrashAlt/></Button>;
+			selectedElements.push(btn);
+		}
+		return(<Col sm={12} md={8} className="form-group"><ButtonToolbar>
+			{selectedElements}
+			</ButtonToolbar></Col>);
+	}
+
+	buildPrefAndSend = () => {
+		let prefArray = [];
+		for(let elem in this.state.priorityList) {
+			const name = this.state.priorityList[elem];
+			const value = this.state[name];
+			const pref = { weight: 4 - elem };
+			pref[name] = value;
+			prefArray.push(pref);
+		}
+		console.log(prefArray);
+	}
 	renderForm = () => {
 		if (this.state.showForm)
 			return (
 				<div>
 					<Row>
 						<Form.Group className="creditsPlaceholder">
-							{/* <Form.Label>Number of credits:</Form.Label> */}
 							<Form.Control type="number" placeholder="No. of credits" />
 						</Form.Group>
 					</Row>
-					
-					{this.renderAlert()}
+					<Row className="toggles">
+						{this.renderPriorityPref()}
+					</Row>
 					{this.renderToggles()}
 
-					<Button className='magicButton dropdown-toggle'>Generate Timetable</Button>
+					<Button className='magicButton dropdownButton' onClick={() => {this.buildPrefAndSend()}}>Generate Timetable</Button>
 				</div>
 			)
 		else return;
@@ -118,7 +210,7 @@ class Generator extends Component {
 			<Container id="magicContainer">
 
 
-					<Button 
+					<Button
 						onClick={this.handleShow}
 						className="magicButton dropdown-toggle"
 					>
@@ -127,6 +219,8 @@ class Generator extends Component {
 
 
 				{this.renderForm()}
+				{this.renderAlert()}
+
 
 			</Container>
 		)

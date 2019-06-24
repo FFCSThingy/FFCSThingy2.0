@@ -21,7 +21,7 @@ router.post('/processExtensionData', async (req, res, next) => {
 
 	// var data;
 	if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') {
-		console.log('Parsing UserHistory Data for ' + req.user.display_name + " - " + req.user.ID);
+		console.log('Parsing UserHistory Data for ' + req.user.display_name + " - " + req.body.ID);
 		var userhistory = await grades.parseUserHistory(req.body.data, req.body.ID);
 		userhistory.vtopSignedIn = true;
 		// console.log(userhistory);
@@ -30,7 +30,7 @@ router.post('/processExtensionData', async (req, res, next) => {
 	}
 
 	if (req.body.url == 'academics/common/Curriculum') {
-		console.log('Parsing Curriculum Data for ' + req.user.display_name + " - " + req.user.ID);
+		console.log('Parsing Curriculum Data for ' + req.user.display_name + " - " + req.body.ID);
 		var curr = await curriculum.parseCurriculum(req.body.data, req.body.ID);
 		// console.log(curr.reg_prefix);
 		var currDoc = await curriculumUtility.addCurriculumFromExt(curr);

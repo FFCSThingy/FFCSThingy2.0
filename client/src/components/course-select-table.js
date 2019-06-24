@@ -64,15 +64,22 @@ class CourseSelect extends React.Component {
 		return filteredCourses;
 	}
 
+	renderText = () => {
+		if(!this.state.searchString)
+			return <div className="codeText"></div>;
+		else
+			return;
+	}
+
 	renderSearchBar() {
 		var tabsDisabled = true;
-		
-		if (!this.props.curriculum || this.props.selectedCurriculum === 'Curriculum' 
+
+		if (!this.props.curriculum || this.props.selectedCurriculum === 'Curriculum'
 			|| Object.keys(this.props.curriculum).length === 0) {
 				tabsDisabled = true;
 		}
 		else tabsDisabled = false;
-		
+
 		return (
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>
@@ -88,13 +95,13 @@ class CourseSelect extends React.Component {
 							defaultValue={this.state.searchString}
 							onChange={this.handleChange.bind(this)}
 						/>
-							<div className="codeText"></div>
+							{this.renderText()}
 					</Col>
 				</Row>
 
 				<Row style={{'padding': '2vh 2vh 0.95px 2vh'}}>
 					<Nav className="courseTypeFilter"
-						variant="tabs" 
+						variant="tabs"
 						defaultActiveKey='ALL'
 						onSelect={selected => this.setState({ selectedCategory: selected })}
 					>
@@ -128,7 +135,7 @@ class CourseSelect extends React.Component {
 					<Card className={className}>
 						<Card.Body>
 							<Card.Title>{value.title}</Card.Title>
-							<Card.Text>{value.code} 
+							<Card.Text>{value.code}
 								<div className="courseCredits">{value.credits} Credits</div>
 							</Card.Text>
 						</Card.Body>
@@ -175,7 +182,3 @@ class CourseSelect extends React.Component {
 
 
 export default CourseSelect;
-
-
-
-

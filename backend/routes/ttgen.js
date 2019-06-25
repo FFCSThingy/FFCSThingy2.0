@@ -63,23 +63,24 @@ router.post('/generateTimetable', async (req, res, next) => {
 	var params = { FunctionName: 'gentt', InvocationType: 'RequestResponse', LogType: 'Tail' };
 	params.Payload = JSON.stringify(data);
 
+
+	var tt = await genTT(params);
+	tt = JSON.parse(tt);
 	try {
-		var tt = await genTT(params);
-	}
-	catch(e){
+		tt = tt.map(v => {
+			delete v.__v;
+			delete v.count;
+			delete v.percent;
+			delete v.total;
+			v.timetableName = 'Auto_' + Date.now();
+
+			return v;
+		})
+	}catch (e) {
 		console.error(e);
+		console.error(tt);
 		return res.json({ success: false, message: "Some error occurred,we are looking into it" });
 	}
-	tt = JSON.parse(tt);
-	tt = tt.map(v => {
-		delete v.__v;
-		delete v.count;
-		delete v.percent;
-		delete v.total;
-		v.timetableName = 'Auto_' + Date.now();
-
-		return v;
-	})
 	res.json({ success: true, data: tt });
 });
 

@@ -44,7 +44,7 @@ router.post('/generateTimetable', async (req, res, next) => {
 	// };
 	var pref = req.body.pref;
 	pref.regno = user.reg_no;
-	const allowed = ["16BCE","16BEC","16BEM","16BIT","16BME","17BCE","17BCI","17BEC","17BEM","17BIS","17BIT","17BMD","17BME","18BCB","18BCE","18BCI","18BCL","18BEC","18BEE","18BIT"];
+	const allowed = ['16BCE', '16BME', '16BIT', '16BEC', '16BEM', '17BCI', '17BEC', '17BIT', '17BCE', '17BEM', '17BME', '17BIS', '18BCB', '18BCE', '18BCL', '18BCI', '18BEC', '18BIT', '18BEE', '17BMD', '17BCL', '17BEE', '16BCB', '16BCL', '18BME', '17BMA', '18BEM', '16BCI'];
 	if(!allowed.includes(pref.regno.slice(0,5))){
 		return res.json({ success: false, message: "Coming soon for your curriculum, check back soon" });
 	}

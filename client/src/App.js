@@ -910,7 +910,7 @@ class App extends React.Component {
 	}
 
 	unselectSlots = (course) => {
-		course.timetableName = this.state.activeTimetable
+		// course.timetableName = this.state.activeTimetable
 		if (course.slot !== 'NIL') {
 			course.slot.split('+').map(v => this.setState(prevState => {
 				let clashMap = { ...prevState.clashMap };

@@ -920,7 +920,7 @@ class App extends React.Component {
 		}
 
 		this.setState(prevState => {
-			let timetable = prevState.timetable.filter(v => !(course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && v.timetableName === prevState.activeTimetable));
+			let timetable = prevState.timetable.filter(v => !(course.code === v.code && course.faculty === v.faculty && course.slot === v.slot && course.venue === v.venue && course.timetableName === prevState.activeTimetable));
 
 			this.doSetSelectedCourses(timetable);
 			return { timetable }

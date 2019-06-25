@@ -7,7 +7,7 @@ const course = require('../utility/courseUtility');
 const system = require('../utility/systemUtility');
 const { resolve } = require('path');
 
-var courseReportJSON = require('../data/report.json');
+// var courseReportJSON = require('../data/report.json');
 
 const router = express.Router();
 
@@ -115,15 +115,15 @@ router.get('/newCourseList', async (req, res, next) => {
 
 router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 	try {
-		// var courses = await course.parseXLSX();
+		var courses = await course.parseXLSX();
 
 		var repopTime = await system.updateRepopulateTime();
 
 		// TODO: Replace this with the user timetable scrolling, verifying thing and update heatmap
 		system.updateHeatmapUpdateTime();
 
-		// var actions = courses.map(course.addCourseToDB);
-		var actions = courseReportJSON.map(course.addCourseToDB);
+		var actions = courses.map(course.addCourseToDB);
+		// var actions = courseReportJSON.map(course.addCourseToDB);
 		var results = await Promise.all(actions);
 
 		var deletes = await course.cleanCoursesAfterRepopulate(repopTime);

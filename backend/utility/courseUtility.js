@@ -130,42 +130,42 @@ module.exports.addCourseToDB = (course) => {
 		// Add deletes for all unnecessary fields or add them to DB Model
 		if (course.seats) delete course.seats;
 		
-		var two = ['EEE3999', 'CHE3999', 'CLE3999', 'CSE3999', 'ITE3999', 'SWE3999', 'MEE3999', 'ARC1013', 'ARC4008', 'BMG6007', 'MEE218', 'MEE305', 'ARC4008'];
-		var twelve = ['ITA3099', 'MMA3099'];
-		var fourteen = ['BST6099', 'ITA6099'];
-		var sixteen = ['BIT6099', 'EEE6099', 'ITE6099', 'MEE6099'];
-		var twenty = ['BIY599', 'CHE4099', 'CSE4099', 'CSE499', 'EEE4099', 'EEE499', 'EIE499', 'ECE4099', 'ITE4099', 'ITE499', 'MEE4099'];
-		var twentyfour = ['SWE3004', 'SWE599'];
+		// var two = ['EEE3999', 'CHE3999', 'CLE3999', 'CSE3999', 'ITE3999', 'SWE3999', 'MEE3999', 'ARC1013', 'ARC4008', 'BMG6007', 'MEE218', 'MEE305', 'ARC4008'];
+		// var twelve = ['ITA3099', 'MMA3099'];
+		// var fourteen = ['BST6099', 'ITA6099'];
+		// var sixteen = ['BIT6099', 'EEE6099', 'ITE6099', 'MEE6099'];
+		// var twenty = ['BIY599', 'CHE4099', 'CSE4099', 'CSE499', 'EEE4099', 'EEE499', 'EIE499', 'ECE4099', 'ITE4099', 'ITE499', 'MEE4099'];
+		// var twentyfour = ['SWE3004', 'SWE599'];
 
-		var twoCreds = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2", "E1", "E2", "F1", "F2", "G1", "G2"];
-		var oneCreds = ["TA1", "TA2", "TAA1", "TAA2", "TB1", "TB2", "TBB2", "TC1", "TC2", "TCC1", "TCC2", "TD1", "TD2", "TDD2", "TE1", "TE2", "TF1", "TF2", "TG1", "TG2"];
+		// var twoCreds = ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2", "E1", "E2", "F1", "F2", "G1", "G2"];
+		// var oneCreds = ["TA1", "TA2", "TAA1", "TAA2", "TB1", "TB2", "TBB2", "TC1", "TC2", "TCC1", "TCC2", "TD1", "TD2", "TDD2", "TE1", "TE2", "TF1", "TF2", "TG1", "TG2"];
 
-		if (two.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
-			course.CREDITS = 2;
-		else if (twelve.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
-			course.CREDITS = 12;
-		else if (fourteen.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
-			course.CREDITS = 14;
-		else if (sixteen.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
-			course.CREDITS = 16;
-		else if (twenty.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
-			course.CREDITS = 20;
-		else if (twentyfour.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
-			course.CREDITS = 24;
-		else if(course.TYPE === 'SS') 
-			course.CREDITS = 1;
-		else if (['TH', 'ETH'].includes(course.TYPE)) {
-			var slots = course.SLOT.split('+');
-			course.CREDITS = slots.reduce((a,v) => {
-				if(oneCreds.includes(v)) return a + 1;
-				if(twoCreds.includes(v)) return a + 2;
-				return a;
-			}, 0)
-		}
-		else if (['LO', 'ELA'].includes(course.TYPE))	
-			course.CREDITS = course.SLOT.split('+').length / 2;
-		else if(course.TYPE === 'EPJ') 
-			course.CREDITS = 1;	
+		// if (two.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
+		// 	course.CREDITS = 2;
+		// else if (twelve.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
+		// 	course.CREDITS = 12;
+		// else if (fourteen.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
+		// 	course.CREDITS = 14;
+		// else if (sixteen.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
+		// 	course.CREDITS = 16;
+		// else if (twenty.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
+		// 	course.CREDITS = 20;
+		// else if (twentyfour.includes(course.CODE) && ['PJT', 'EPJ'].includes(course.TYPE))
+		// 	course.CREDITS = 24;
+		// else if(course.TYPE === 'SS') 
+		// 	course.CREDITS = 1;
+		// else if (['TH', 'ETH'].includes(course.TYPE)) {
+		// 	var slots = course.SLOT.split('+');
+		// 	course.CREDITS = slots.reduce((a,v) => {
+		// 		if(oneCreds.includes(v)) return a + 1;
+		// 		if(twoCreds.includes(v)) return a + 2;
+		// 		return a;
+		// 	}, 0)
+		// }
+		// else if (['LO', 'ELA'].includes(course.TYPE))	
+		// 	course.CREDITS = course.SLOT.split('+').length / 2;
+		// else if(course.TYPE === 'EPJ') 
+		// 	course.CREDITS = 1;	
 
 
 		var queryData = {

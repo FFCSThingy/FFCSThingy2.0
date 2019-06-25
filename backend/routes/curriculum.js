@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
 
+const Curriculum = require('../models/Curriculum');
+
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
 const user = require('../utility/userUtility');
@@ -20,6 +22,13 @@ router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
 
 	results.then(data => res.send(data))
 	.catch(err => console.log(err));
+});
+
+router.get('/allCurriculums', async (req, res, next) => {
+	Curriculum.find({}, function (err, doc) {
+		if (err) return res.json({success: false, message: 'Route error'}); //reject(err);
+		return res.json({ success: true, data: doc });  // resolve(doc);
+	});
 });
 
 router.get('/prefixes', async (req, res, next) => {

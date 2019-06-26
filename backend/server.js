@@ -55,9 +55,9 @@ passport.use(new GoogleStrategy({
 	callbackURL: process.env.NODE_BASE_URL + "/auth/google/callback",
 	passReqToCallback: true
 },
-	function (request, accessToken, refreshToken, profile, done) {
+	async function (request, accessToken, refreshToken, profile, done) {
 		// asynchronous verification, for effect...
-		process.nextTick(async function () {
+		// process.nextTick(async function () {
 			var update_data = {
 				google_id: profile.id,
 				display_name: profile.displayName,
@@ -88,7 +88,7 @@ passport.use(new GoogleStrategy({
 			// to associate the Google account with a user record in your database,
 			// and return that user instead.
 			// return done(null, profile);
-		});
+		// });
 	}
 ));
 

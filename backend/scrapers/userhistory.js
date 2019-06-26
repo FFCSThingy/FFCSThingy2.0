@@ -35,6 +35,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 			var diff = 0;	// For 16* Peeps who have an extra row in their thingy.
 
 			const baseScraper = cheerio.load(html);
+                        const baseScraper2 = cheerio.load(html);
 			const IDScraper = cheerio.load(html);
 			const trCount = baseScraper('tr.tableContent').length;
 			// console.log(trCount);
@@ -42,6 +43,15 @@ module.exports.parseUserHistory = (html, userID='') => {
 			if(userID)
 				if (userID.trim().startsWith('16'))
 					diff = 1;
+			
+			try {
+				const check = baseScraper2(baseScraper2('tr.tableContent')[trCount - 5]).children('td').eq(1).text().trim();
+				if (check === 'UC') diff = 1;
+                                if (check === '-') diff = -1;
+			}
+			catch (e) {
+				console.error(e);
+			}
 
 
 			baseScraper('tr.tableContent').each((i, elem) => {

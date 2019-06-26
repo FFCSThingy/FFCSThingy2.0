@@ -146,7 +146,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 			return resolve(data);
 		}
 		catch (ex) {
-			console.log(ex);
+			console.log('Error in parsing userhistory: ' + errex);
 			return reject(ex);
 		}
 	});

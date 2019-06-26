@@ -22,7 +22,7 @@ router.get('/selectedCourses', async (req, res, next) => {
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });
-		console.log(err);
+		console.log('Error in getSelectedCourses: ' + err);
 	}
 });
 
@@ -35,7 +35,7 @@ router.post('/selectedCoursesBulk', async (req, res, next) => {
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/updateSelectedCoursesBulk failed' });
-		console.log(err);
+		console.log('Error in selectedCoursesBulk: ' + err);
 	}
 });
 
@@ -52,7 +52,7 @@ router.post('/selectedCurriculum', async (req, res, next) => {
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/setSelectedCurriculum failed' });
-		console.log(err);
+		console.log('Error in selectedCurriculum: ' + err);
 	}
 });
 

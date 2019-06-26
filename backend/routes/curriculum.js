@@ -21,7 +21,7 @@ router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
 	var results = Promise.all(actions);
 
 	results.then(data => res.send(data))
-	.catch(err => console.log(err));
+		.catch(err => console.log('updateCurriculums: ' + err));
 });
 
 router.get('/allCurriculums', async (req, res, next) => {
@@ -36,8 +36,8 @@ router.get('/prefixes', async (req, res, next) => {
 		var prefixes = await curriculum.getCurriculumPrefixes();
 		res.json({ success: true, data: prefixes });
 	} catch(err) {
-		console.log("Error in /getPrefixes");
-		console.log(err);
+		console.log("Error in /getPrefixes " + err);
+		// console.log(err);
 		res.status(500).json({ success: false, error: "Error in /getPrefixes" });
 	}
 });
@@ -47,8 +47,8 @@ router.get('/curriculumFromPrefix/:prefix', async (req, res, next) => {
 		var doc = await curriculum.findCurriculumFromPrefix(req.params.prefix);
 		res.json({ success:true, data: doc });
 	} catch(err) {
-		console.log("Error in /curriculumFromPrefix");
-		console.log(err);
+		console.log("Error in /curriculumFromPrefix " + err);
+		// console.log(err);
 		res.status(500).json({ success: false, error: "Error in /curriculumFromPrefix" });
 	}
 });
@@ -63,8 +63,8 @@ router.post('/curriculumForUser', async (req, res, next) => {
 		res.json({ succes: true, data: userDoc });
 
 	} catch(err) {
-		console.log("Error in /selectCurriculumForUser");
-		console.log(err);
+		console.log("Error in /selectCurriculumForUser " + err);
+		// console.log(err);
 		res.status(500).json({ success: false, error: "Error in /selectCurriculumForUser" });
 	}
 });

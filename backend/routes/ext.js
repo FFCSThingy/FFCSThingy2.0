@@ -25,7 +25,7 @@ router.post('/processExtensionData', async (req, res, next) => {
 		var userhistory = await grades.parseUserHistory(req.body.data, req.body.ID);
 		if (typeof userhistory.completed_courses !== 'undefined' && userhistory.completed_courses.length > 0) {
 			userhistory.vtopSignedIn = true;
-			console.log(userhistory);
+			console.log('UserHistory: ' + userhistory);
 			var userDoc = userUtility.updateUser({ _id: req.user._id }, userhistory);
 			res.json({ success: true, data: userDoc });
 		}
@@ -44,11 +44,11 @@ router.post('/processExtensionData', async (req, res, next) => {
 router.get('/testCurriculum', (req, res, next) => {
 	fs.readFile(path.join(__dirname, '../samples/curriculum/16BCE.html'), async function (error, pgResp) {
 		if (error) {
-			console.log(error);
+			console.log('Test Curriculum Error: ' + error);
 		} else {
 			// var resp = await curriculum.parseCurriculum(pgResp);
 			var curr = await curriculum.parseCurriculum(pgResp);
-			console.log(curr.reg_prefix);
+			console.log('Test Curriculum RegPrefix: ' + curr.reg_prefix);
 			var currDoc = await curriculumUtility.addCurriculumFromExt(curr);
 			res.send(currDoc);
 			// res.send(resp);
@@ -60,7 +60,7 @@ router.get('/testCurriculum', (req, res, next) => {
 router.get('/testGrades', (req, res, next) => {
 	fs.readFile(path.join(__dirname, '../samples/gradeHistory.html'), async function (error, pgResp) {
 		if (error) {
-			console.log(error);
+			console.log('Test Grades Error: ' + error);
 		} else {
 			var resp = await grades.parseUserHistory(pgResp);
 			res.send(resp);

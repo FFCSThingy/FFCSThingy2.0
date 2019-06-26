@@ -132,7 +132,7 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
-		console.log(err);
+		console.log('addCoursesToDB Error: ' + err);
 	}
 });
 
@@ -155,7 +155,7 @@ router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByDetails failed' });
-		console.log(err);
+		console.log('courseByDetails Error: ' + err);
 	}
 });
 
@@ -174,7 +174,7 @@ router.get('/courseByID/:id', async (req, res, next) => {
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByID failed' });
-		console.log(err);
+		console.log('courseByID Error: ' + err);
 	}
 });
 

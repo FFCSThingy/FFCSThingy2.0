@@ -22,7 +22,7 @@ module.exports.parseCurriculum = (html, userID='') => {
 			// console.log(curr.reg_prefix);
 			if(userID) {
 				curr.reg_prefix = userID.trim().slice(0, 5);
-				console.log(curr.reg_prefix);
+				console.log('CurriculumPrefix while Parsing: ' + errcurr.reg_prefix);
 			}
 
 			var td = credTable.find('td');
@@ -64,7 +64,7 @@ module.exports.parseCurriculum = (html, userID='') => {
 
 			return resolve(curr);
 		} catch (ex) {
-			console.log(ex);
+			console.log('Error in parsing Curriculum: ' + errex);
 			return reject(ex);
 		}
 	});

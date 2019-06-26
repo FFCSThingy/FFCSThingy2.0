@@ -94,7 +94,7 @@ module.exports.getCourseList = () => {
 				}
 			}
 		], function (err, doc) {
-			console.log(err);
+			console.log('Error in courseList Query: ' + errerr);
 			if (err) return reject(err);
 			return resolve(doc);
 		})
@@ -265,7 +265,7 @@ module.exports.updateHeatmap = () => {
 				console.log('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
 				return resolve({timestamp: timestamp, docs: updates});
 			} catch (err) {
-				console.log(err);
+				console.log('Error in updateHeatmap: ' + errerr);
 				return reject(err);
 			}
 		});

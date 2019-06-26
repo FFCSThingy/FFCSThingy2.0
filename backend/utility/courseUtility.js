@@ -265,7 +265,7 @@ module.exports.updateHeatmap = () => {
 				console.log('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
 				return resolve({timestamp: timestamp, docs: updates});
 			} catch (err) {
-				console.log('Error in updateHeatmap: ' + errerr);
+				console.log('Error in updateHeatmap: ' + err);
 				return reject(err);
 			}
 		});

@@ -94,7 +94,7 @@ module.exports.getCourseList = () => {
 				}
 			}
 		], function (err, doc) {
-			console.log('Error in courseList Query: ' + errerr);
+			console.log('Error in courseList Query: ' + err);
 			if (err) return reject(err);
 			return resolve(doc);
 		})

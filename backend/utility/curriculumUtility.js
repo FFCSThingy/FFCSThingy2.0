@@ -16,7 +16,7 @@ module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(file
 
 		fs.readFile(filepath, async function (error, pgResp) {
 			if (error) {
-				console.log('Error in doParseAndSaveCurriculum: ' + errerror);
+				console.log('Error in doParseAndSaveCurriculum: ' + error);
 			} else {
 				var resp = await curriculum.parseCurriculum(pgResp);
 				resp.reg_prefix = filename;
@@ -68,7 +68,7 @@ module.exports.findCurriculumFromPrefix = function findCurriculumFromPrefix(reg_
 	return new Promise((resolve, reject) => {
 		Curriculum.findOne({ reg_prefix: reg_prefix }, function (err, doc) {
 			if (err) {
-				console.log('Error in findCurriculumFromPrefix: ' + errerr);
+				console.log('Error in findCurriculumFromPrefix: ' + err);
 				return reject(err);
 			}
 

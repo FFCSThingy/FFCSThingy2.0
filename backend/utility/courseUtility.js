@@ -15,7 +15,7 @@ const userUtility = require('./userUtility');
 const xlsxInputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.xlsx');
 const jsonOutputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.json');
 
-var heatmap;
+var heatmap, courseList;
 
 module.exports.getFullHeatmap = (regardless=false) => {
 	return new Promise((resolve, reject) => {
@@ -29,19 +29,10 @@ module.exports.getFullHeatmap = (regardless=false) => {
 	});
 }
 
-
-cron.schedule('*/1 * * * *', function () {
-	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-	if(process.env.NODE_ENV !== 'staging') {
-		console.log("Updating cached heatmap");
-		module.exports.getFullHeatmap(true).then(function (dat) {
-			heatmap = dat;
-		});
-	}
-});
-
 module.exports.getCourseList = () => {
 	return new Promise((resolve, reject) => {
+		if(courseList) return resolve(courseList);
+
 		Course.aggregate([
 			{
 				$group: {
@@ -94,12 +85,27 @@ module.exports.getCourseList = () => {
 				}
 			}
 		], function (err, doc) {
-			console.log('Error in courseList Query: ' + err);
+			// console.log('Error in courseList Query: ' + err);
 			if (err) return reject(err);
 			return resolve(doc);
 		})
 	});
 }
+
+cron.schedule('*/1 * * * *', function () {
+	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	if (process.env.NODE_ENV !== 'staging') {
+		console.log("Updating cached heatmap");
+		module.exports.getFullHeatmap(true).then(function (dat) {
+			heatmap = dat;
+		});
+
+		console.log("Updating cached heatmap");
+		module.exports.getCourseList().then(function (dat) {
+			courseList = dat;
+		});
+	}
+});
 
 module.exports.getCourseDetails = (query) => {
 	return new Promise((resolve, reject) => {

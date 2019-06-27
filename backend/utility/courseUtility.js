@@ -29,9 +29,9 @@ module.exports.getFullHeatmap = (regardless=false) => {
 	});
 }
 
-module.exports.getCourseList = () => {
+module.exports.getCourseList = (regardless=false) => {
 	return new Promise((resolve, reject) => {
-		if(courseList) return resolve(courseList);
+		if(courseList && !regardless) return resolve(courseList);
 
 		Course.aggregate([
 			{
@@ -100,8 +100,8 @@ cron.schedule('*/1 * * * *', function () {
 			heatmap = dat;
 		});
 
-		console.log("Updating cached heatmap");
-		module.exports.getCourseList().then(function (dat) {
+		console.log("Updating cached courseList");
+		module.exports.getCourseList(true).then(function (dat) {
 			courseList = dat;
 		});
 	}

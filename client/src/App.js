@@ -968,6 +968,7 @@ class App extends React.Component {
 			timetable: prevState.timetable.filter(v => v.timetableName !== prevState.activeTimetable),
 			timetableNames: prevState.timetableNames.filter(v => v !== prevState.activeTimetable),
 		}), () => {
+			this.doSetSelectedCourses(this.state.timetable);
 			this.changeActiveTimetable();
 		});
 	}
@@ -1001,6 +1002,7 @@ class App extends React.Component {
 				return v;
 			})
 		}), () => {
+			this.doSetSelectedCourses(this.state.timetable);
 			this.changeActiveTimetable(newName);
 		});
 	}
@@ -1016,7 +1018,8 @@ class App extends React.Component {
 				return v;
 			})]
 		}), () => {
-				this.changeActiveTimetable(newName);
+			this.doSetSelectedCourses(this.state.timetable);
+			this.changeActiveTimetable(newName);
 		});
 	}
 

@@ -902,7 +902,7 @@ class App extends React.Component {
 		}
 
 		this.setState(prevState => {
-			let timetable = [...prevState.timetable, course];
+			let timetable = Array.from(new Set([...prevState.timetable, course]));
 			return { timetable }
 			// timetable: [...prevState.timetable, course]
 		}, () => {

@@ -13,12 +13,7 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.get('/selectedCourses', async (req, res, next) => {
 	try {
-		var userData = await user.findUserByID(req.user._id);
-
-		if(!userData)
-			res.status(404).json({ success: false, message: 'User not found' });
-
-		var data = userData.selected_courses;
+		var data = req.user.selected_courses;
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });

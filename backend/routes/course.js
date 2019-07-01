@@ -16,25 +16,25 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.get('/fullHeatmap/:timestamp?', async (req, res, next) => {
 	try {
-		var systemTimestamp = new Date(await system.getHeatmapUpdateTime());
-		if (!req.params.timestamp)
+		var systemTimestamp = await system.getHeatmapUpdateTime();
+		var reqTimestamp = req.params.timestamp;
+
+		if (!reqTimestamp)
 			return res.json({
 				success: true,
 				data: {
 					heatmap: await course.getFullHeatmap(),
-					timestamp: await system.getHeatmapUpdateTime()
+					timestamp: systemTimestamp
 				}
 			});
 
-		var reqTimestamp = new Date(req.params.timestamp)
 
-
-		if (reqTimestamp < systemTimestamp)
+		if (new Date(reqTimestamp) < new Date(systemTimestamp))
 			return res.json({
 				success: true,
 				data: {
 					heatmap: await course.getFullHeatmap(),
-					timestamp: await system.getHeatmapUpdateTime()
+					timestamp: systemTimestamp
 				}
 			});
 		else
@@ -47,9 +47,10 @@ router.get('/fullHeatmap/:timestamp?', async (req, res, next) => {
 
 router.get('/courseList/:timestamp?', async (req, res, next) => {
 	try {
-		var systemTimestamp = new Date(await system.getRepopulateTime());
+		var systemTimestamp = await system.getRepopulateTime();
+		var reqTimestamp = req.params.timestamp;
 
-		if (!req.params.timestamp)
+		if (!reqTimestamp)
 			return res.json({
 				success: true,
 				data: {
@@ -58,9 +59,7 @@ router.get('/courseList/:timestamp?', async (req, res, next) => {
 				}
 			});
 
-		var reqTimestamp = new Date(req.params.timestamp)
-
-		if (reqTimestamp < systemTimestamp)
+		if (new Date(reqTimestamp) < new Date(systemTimestamp))
 			return res.json({
 				success: true,
 				data: {
@@ -97,21 +96,6 @@ router.get('/newCourseList', async (req, res, next) => {
 
 	// res.json(data);
 });
-
-// router.post('/parseCourses', async (req, res, next) => {
-// 	if (req.body.password != "SuckOnDeezNumbNutz")
-// 		res.status(403).json({ success: false, message: "Get the password right, bitchface." });
-// });
-
-// router.get('/parseCourses', async (req, res, next) => {
-// 	try {
-// 		var parsedData = await course.parseXLSX();
-// 		res.json(parsedData);
-// 	} catch (err) {
-// 		res.status(500).json({ success: false, message: '/parseCourses failed' });
-// 		console.log(err);
-// 	}
-// });
 
 router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 	try {

@@ -92,9 +92,9 @@ module.exports.getCourseList = (regardless=false) => {
 	});
 }
 
-cron.schedule('*/1 * * * *', function () {
-	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-	if (process.env.NODE_ENV !== 'staging') {
+cron.schedule('*/5 * * * *', function () {
+	if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
+	// if (process.env.NODE_ENV !== 'staging') {
 		console.log("Updating cached heatmap");
 		module.exports.getFullHeatmap(true).then(function (dat) {
 			heatmap = dat;

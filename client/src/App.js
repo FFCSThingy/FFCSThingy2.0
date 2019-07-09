@@ -1120,15 +1120,15 @@ class App extends React.Component {
 						/>
 					</Col>
 				</Row>
-				<Row>
+				{/* <Row>
 					<Generator
 						user={this.state.user}
 						inProcess={this.state.generatingInProcess}
 						genTT={(prefs) => {this.genTT(prefs)}}
 					/>
 				</Row>
-				{this.renderTTErrors()}
-					<Row>
+				{this.renderTTErrors()} */}
+				<Row>
 					<Col>
 						<SelectTimeTable
 							activeTimetable={this.state.activeTimetable}

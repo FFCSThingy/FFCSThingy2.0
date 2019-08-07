@@ -1,5 +1,7 @@
 # FFCSThingy2.0
 
+![](Screenshots/LoginPage.png)
+
 ## Extension:
 ### https://github.com/namsnath/ffcs.ooo-scraper-extension
 - Basic UI with a Google Sign-In Button
@@ -15,11 +17,17 @@
 - Can filter these by slot and venue
 - Click one of the slots, it gets added. 
 - if there's a clash, show appropriate error on the card and don't allow adding
+![](Screenshots/Dashboard.png)
 - Update timetable and course list + credits accordingly
 - Multiple timetables ka feature. Choose which timetable to edit and work on
+![](Screenshots/Timetable.png)
+![](Screenshots/MobileTimetable.png)
+![](Screenshots/CourseList.png)
 - Integration with Palash's timetable generator (this isn't very tough)
 - Hover over timetable for details
 - Color coding per subject for easy readability
+
+![](Screenshots/Themes.png)
 
 ## Backend:
 ### Last Year: https://github.com/namsnath/FFCSThingy

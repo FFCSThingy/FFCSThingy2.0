@@ -19,44 +19,6 @@ class SelectTimeTable extends React.Component {
 		};
 	}
 
-	// handleClose = () => {
-	// 	this.setState({
-	// 		show: false,
-	// 		value: ''
-	// 	});
-	// }
-
-	// handleShow = () => {
-	// 	if(this.state.show===false)
-	// 		this.setState({ show: true });
-	// 	else
-	// 		this.setState({ show: false });
-	// }
-
-	// handleChange = (event) => {
-	// 	this.setState({
-	// 		value: event.target.value
-	// 	})
-	// }
-
-	// handleSave = (event) => {
-	// 	this.setState({ show: false });
-	// 	var newTimetable = this.state.value;
-	// 	if (newTimetable === "") return;
-	// 	if (newTimetable != null) {
-	// 		var timetableNames = this.props.timetableNames
-	// 		if (!timetableNames.includes(newTimetable)) {
-	// 			timetableNames.push(newTimetable)
-	// 			this.props.modifyTimetableNames(timetableNames);
-
-	// 			this.props.changeActiveTimetable(newTimetable);
-	// 		}
-	// 		else {
-	// 			this.handleShow();
-	// 		}
-	// 	}
-	// }
-
 	handleChange = (event) => {
 		let fieldName = event.target.name;
 		let fleldVal = event.target.value;
@@ -85,10 +47,6 @@ class SelectTimeTable extends React.Component {
 			showEdit: false,
 			showNew: !prevState.showNew
 		}));
-	}
-
-	handleDelete = () => {
-
 	}
 
 	renderInput = () => {

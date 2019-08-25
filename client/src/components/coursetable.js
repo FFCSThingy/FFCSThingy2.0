@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import '../css/courseTable.css';
 

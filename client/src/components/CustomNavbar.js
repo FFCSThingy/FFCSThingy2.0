@@ -2,7 +2,6 @@ import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, NavDropdown, NavbarBrand, Modal, Button } from 'react-bootstrap';
-import {FaBars} from 'react-icons/fa';
 
 import "whatwg-fetch";
 import '../App.css';

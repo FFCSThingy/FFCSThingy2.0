@@ -39,7 +39,6 @@ class CourseSelect extends React.Component {
 			searchBySlots = true;
 
 		var searchStringSlots = searchString.toUpperCase().split("+");
-		var search_val_type = new Set(searchString.toUpperCase().split("*"));
 
 		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), searchBySlots);
 

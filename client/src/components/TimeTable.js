@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive';
 import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
 
-import "./TimeTable.css";
+import "../css/TimeTable.css";
 class TimeTable extends Component {
 
 	state = {

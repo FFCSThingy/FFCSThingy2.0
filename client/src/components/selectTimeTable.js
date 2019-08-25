@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Dropdown, ButtonGroup, Button, Card, Form, DropdownButton } from 'react-bootstrap';
 import { FaTrashAlt, FaCopy, FaPlusSquare, FaPen } from 'react-icons/fa';
-import './selectTimeTable.css';
-import "./TimeTable.css";
+import '../css/selectTimeTable.css';
+import "../css/TimeTable.css";
 // import { log } from 'util';
 class SelectTimeTable extends React.Component {
 

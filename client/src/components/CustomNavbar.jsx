@@ -27,7 +27,7 @@ class CustomNavbar extends React.Component {
 	}
 
 	handleShow = () => {
-		if(this.state.show===false)
+		if (this.state.show === false)
 			this.setState({ show: true });
 		else
 			this.setState({ show: false });
@@ -45,37 +45,37 @@ class CustomNavbar extends React.Component {
 
 	renderCurriculumChoices = () => {
 		return this.props.curriculumList.map(v => <NavDropdown.Item eventKey={v}>{v}
-				<NavDropdown.Divider />
-			</NavDropdown.Item>);
+			<NavDropdown.Divider />
+		</NavDropdown.Item>);
 	}
 
 	renderModal = () => {
 		return (
 			<Modal
-        {...this.props}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-		centered
-		show={this.state.show}
-		onHide={this.handleClose}
-      >
-        <Modal.Header closeButton className="popup">
-          <Modal.Title id="contained-modal-title-vcenter">
-            Sync with VTOP
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="popup">
-          <p>
-			Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
-          </p>
-		  <a href='https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh' target="_blank" rel="noopener noreferrer">Chrome Extension</a>
-		  <br />
-		  <a href='https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi' rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
-        </Modal.Body>
-        <Modal.Footer className="popup">
-          <Button onClick={this.handleClose} className="closeButton">Close</Button>
-        </Modal.Footer>
-      </Modal>
+				{...this.props}
+				size="lg"
+				aria-labelledby="contained-modal-title-vcenter"
+				centered
+				show={this.state.show}
+				onHide={this.handleClose}
+			>
+				<Modal.Header closeButton className="popup">
+					<Modal.Title id="contained-modal-title-vcenter">
+						Sync with VTOP
+					</Modal.Title>
+				</Modal.Header>
+				<Modal.Body className="popup">
+					<p>
+						Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
+					</p>
+					<a href='https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh' target="_blank" rel="noopener noreferrer">Chrome Extension</a>
+					<br />
+					<a href='https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi' rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
+				</Modal.Body>
+				<Modal.Footer className="popup">
+					<Button onClick={this.handleClose} className="closeButton">Close</Button>
+				</Modal.Footer>
+			</Modal>
 		);
 	}
 
@@ -124,7 +124,7 @@ class CustomNavbar extends React.Component {
 						<NavDropdown
 							alignRight
 							title={<img className="userProfileImage" alt=""
-							src={this.props.user.picture} />}
+								src={this.props.user.picture} />}
 							className="navDropContainerUser"
 						>
 							<NavDropdown.Item disabled>

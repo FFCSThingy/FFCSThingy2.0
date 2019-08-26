@@ -6,6 +6,7 @@ import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Alert} from 'react-bootstrap';
 
+// Components
 import CourseSelect from './components/CourseSelectTable';
 import SlotTable from './components/SlotTable';
 import TimeTable from './components/Timetable';
@@ -13,10 +14,10 @@ import CourseTable from './components/SelectedCoursesTable';
 import SelectTimeTable from './components/TimetableSwitcher';
 import CustomNavbar from './components/CustomNavbar';
 
+
 import "whatwg-fetch";
 import './App.css';
 import './css/CustomNavbar.css'
-import './components/Timetable'
 
 import API from './API';
 import Generator from './components/MagicFill';

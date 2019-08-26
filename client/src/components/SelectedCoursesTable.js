@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
-import '../css/courseTable.css';
+import '../css/SelectedCoursesTable.css';
 
 class CourseTable extends React.Component {
 	

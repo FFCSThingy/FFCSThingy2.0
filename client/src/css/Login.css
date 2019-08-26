@@ -7,8 +7,8 @@
 
 @font-face {
     font-family: 'futura_md_btmedium_italic';
-    src: url('futura_medium_italic_font-webfont.woff2') format('woff2'),
-         url('futura_medium_italic_font-webfont.woff') format('woff');
+    src: url('../fonts/futura_medium_italic_font-webfont.woff2') format('woff2'),
+         url('../fonts/futura_medium_italic_font-webfont.woff') format('woff');
 }
 
 .ffcsthingy {

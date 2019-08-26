@@ -1,7 +1,7 @@
 import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../css/login.css'
+import '../css/Login.css'
 import { Container, Row, Card } from 'react-bootstrap';
 import featuresImage from "../images/ffcsfeatures.png";
 import logo from "../images/logo.1.png";

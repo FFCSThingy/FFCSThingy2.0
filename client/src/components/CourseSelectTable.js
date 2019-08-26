@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardColumns, Col, Container, Form, Row, Nav } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../css/course-select-table.css';
+import '../css/CourseSelectTable.css';
 import {FaSearch} from 'react-icons/fa';
 
 class CourseSelect extends React.Component {

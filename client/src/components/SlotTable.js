@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { Card, Col, CardColumns, Container, ToggleButtonGroup, ToggleButton, Row } from 'react-bootstrap';
 
-import '../css/slotTable.css';
+import '../css/SlotTable.css';
 
 class SlotTable extends Component {
 

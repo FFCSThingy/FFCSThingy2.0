@@ -6,20 +6,20 @@ import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Alert} from 'react-bootstrap';
 
-import CourseSelect from './components/course-select-table';
-import SlotTable from './components/slotTable';
-import TimeTable from './components/TimeTable';
-import CourseTable from './components/coursetable';
-import SelectTimeTable from './components/selectTimeTable';
+import CourseSelect from './components/CourseSelectTable';
+import SlotTable from './components/SlotTable';
+import TimeTable from './components/Timetable';
+import CourseTable from './components/SelectedCoursesTable';
+import SelectTimeTable from './components/TimetableSwitcher';
 import CustomNavbar from './components/CustomNavbar';
 
 import "whatwg-fetch";
 import './App.css';
-import './css/nav-bar.css'
-import './components/TimeTable'
+import './css/CustomNavbar.css'
+import './components/Timetable'
 
 import API from './API';
-import Generator from './components/magicFill';
+import Generator from './components/MagicFill';
 
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-121295619-1');

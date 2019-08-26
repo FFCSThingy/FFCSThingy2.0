@@ -5,7 +5,7 @@ import { Navbar, Nav, NavDropdown, NavbarBrand, Modal, Button } from 'react-boot
 
 import "whatwg-fetch";
 import '../App.css';
-import '../css/nav-bar.css'
+import '../css/CustomNavbar.css'
 
 import navbarImage from '../images/logo.1.png';
 

@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
 
 import "../css/TimeTable.css";
-class TimeTable extends Component {
+class Timetable extends Component {
 
 	state = {
 		skip: []
@@ -429,4 +429,4 @@ class TimeTable extends Component {
 
 }
 
-export default TimeTable;
+export default Timetable;

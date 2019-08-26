@@ -4,7 +4,7 @@ import { FaTrashAlt, FaPlusSquare, FaPen } from 'react-icons/fa';
 import '../css/TimetableSwitcher.css';
 import "../css/TimeTable.css";
 // import { log } from 'util';
-class SelectTimeTable extends React.Component {
+class TimetableSwitcher extends React.Component {
 
 	constructor(props, context) {
 		super(props, context);
@@ -133,4 +133,4 @@ class SelectTimeTable extends React.Component {
 	}
 }
 
-export default SelectTimeTable;
+export default TimetableSwitcher;

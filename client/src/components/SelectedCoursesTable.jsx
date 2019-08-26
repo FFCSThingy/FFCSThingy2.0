@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import '../css/SelectedCoursesTable.css';
 
-class CourseTable extends React.Component {
+class SelectedCoursesTable extends React.Component {
 	
 	sortTimetable = ((a, b) => {
 		return a.code.localeCompare(b.code)	
@@ -59,4 +59,4 @@ class CourseTable extends React.Component {
 	}
 }
 
-export default CourseTable;
+export default SelectedCoursesTable;

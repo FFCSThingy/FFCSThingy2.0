@@ -7,11 +7,11 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {Container, Row, Col, Alert} from 'react-bootstrap';
 
 // Components
-import CourseSelect from './components/CourseSelectTable';
+import CourseSelectTable from './components/CourseSelectTable';
 import SlotTable from './components/SlotTable';
-import TimeTable from './components/Timetable';
-import CourseTable from './components/SelectedCoursesTable';
-import SelectTimeTable from './components/TimetableSwitcher';
+import Timetable from './components/Timetable';
+import SelectedCoursesTable from './components/SelectedCoursesTable';
+import TimetableSwitcher from './components/TimetableSwitcher';
 import CustomNavbar from './components/CustomNavbar';
 
 // Constants
@@ -21,7 +21,7 @@ import './App.css';
 import './css/CustomNavbar.css'
 
 import API from './API';
-import Generator from './components/MagicFill';
+import MagicFill from './components/MagicFill';
 
 import ReactGA from 'react-ga';
 ReactGA.initialize('UA-121295619-1');
@@ -931,7 +931,7 @@ class App extends React.Component {
 
 				<Row className="slotSelectionRow">
 					<Col xs={12} md={4}>
-						<CourseSelect
+						<CourseSelectTable
 							selectCourse={this.selectCourse}
 
 							courseList={this.state.courseList}
@@ -960,7 +960,7 @@ class App extends React.Component {
 					</Col>
 				</Row>
 				{/* <Row>
-					<Generator
+					<MagicFill
 						user={this.state.user}
 						inProcess={this.state.generatingInProcess}
 						genTT={(prefs) => {this.genTT(prefs)}}
@@ -969,7 +969,7 @@ class App extends React.Component {
 				{this.renderTTErrors()} */}
 				<Row>
 					<Col>
-						<SelectTimeTable
+						<TimetableSwitcher
 							activeTimetable={this.state.activeTimetable}
 							timetableNames={this.state.timetableNames}
 							changeActiveTimetable={this.changeActiveTimetable}
@@ -984,7 +984,7 @@ class App extends React.Component {
 				</Row>
 
 				<Row>
-					<TimeTable
+					<Timetable
 						clashMap={this.state.clashMap}
 						filledSlots={this.getFilledSlots()}
 						timetable={this.state.timetable}
@@ -993,7 +993,7 @@ class App extends React.Component {
 				</Row>
 
 				<Row>
-					<CourseTable
+					<SelectedCoursesTable
 						timetable={this.state.timetable}
 						unselectSlot={this.unselectSlots}
 						activeTimetable={this.state.activeTimetable}

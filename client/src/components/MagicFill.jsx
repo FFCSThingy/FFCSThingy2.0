@@ -6,7 +6,7 @@ import { Container, Form, Button, Row, Col, ToggleButton, ToggleButtonGroup, Ale
 import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import { FaTrashAlt } from "react-icons/fa";
 
-class Generator extends Component {
+class MagicFill extends Component {
 
 	constructor(props) {
 		super(props);
@@ -256,4 +256,4 @@ class Generator extends Component {
 	}
 }
 
-export default Generator;
+export default MagicFill;

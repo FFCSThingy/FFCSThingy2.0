@@ -4,7 +4,7 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
 import {FaSearch} from 'react-icons/fa';
 
-class CourseSelect extends React.Component {
+class CourseSelectTable extends React.Component {
 	state = {
 		selectedCategory: 'ALL',
 		searchString: '',
@@ -192,4 +192,4 @@ class CourseSelect extends React.Component {
 
 
 
-export default CourseSelect;
+export default CourseSelectTable;

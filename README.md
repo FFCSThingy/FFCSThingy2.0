@@ -1,6 +1,6 @@
 # FFCSThingy2.0
 
-![](Screenshots/LoginPage.png)
+![](screenshots/LoginPage.png)
 
 ## Extension:
 ### https://github.com/namsnath/ffcs.ooo-scraper-extension

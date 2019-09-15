@@ -363,9 +363,25 @@ class Timetable extends Component {
 	renderFilledTheory = (c, slotString, reqdCourse) => {
 		return (
 			<td key={c} className="timetableFilledTheory">
+				<OverlayTrigger
+					key={ `${c}-Overlay` }
+					placement="top"
+					overlay={
+						<Tooltip>
+							<h6 className="courseDetails">
+								<b>{reqdCourse.title}</b> <br/>
+								{reqdCourse.faculty} <br/>
+								{reqdCourse.slot}
+							</h6>
+						</Tooltip>
+					}
+				>
+					<div>
 				<b className="slotDetails">{slotString}</b>
 				<h6 className="courseCode">{reqdCourse.code}</h6>
 				<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
+					</div>
+				</OverlayTrigger>
 			</td>
 		)
 	}
@@ -373,10 +389,25 @@ class Timetable extends Component {
 	renderFilledLab = (c, slotString, reqdCourse) => {
 		return (
 			<td key={c} className="timetableFilledLab">
+				<OverlayTrigger
+					key={ `${c}-Overlay`}
+					placement="top"
+					overlay={
+						<Tooltip>
+							<h6 className="courseDetails">
+								<b>{reqdCourse.title}</b> <br />
+								{reqdCourse.faculty} <br />
+								{reqdCourse.slot}
+							</h6>
+						</Tooltip>
+					}
+				>
+					<div>
 				<b className="slotDetails">{slotString}</b>
 				<h6 className="courseCode">{reqdCourse.code}</h6>
 				<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
-				
+					</div>
+				</OverlayTrigger>
 			</td>
 		)
 	}

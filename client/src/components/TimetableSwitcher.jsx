@@ -83,7 +83,7 @@ class TimetableSwitcher extends React.Component {
 	}
 
 	renderDropdownItems = () => {
-		return this.props.timetableNames.map(v => <Dropdown.Item eventKey={v}>{v}</Dropdown.Item>);
+		return this.props.timetableNames.map(v => <Dropdown.Item eventKey={v} className="timetableSwitcherDropdownItem">{v}</Dropdown.Item>);
 	}
 
 	render() {

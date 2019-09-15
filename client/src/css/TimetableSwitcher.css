@@ -69,6 +69,13 @@
 	color: var(--text-color-other);
 }
 
+.dropdownButtonGroup .dropdown-menu .dropdown-item:hover {
+    padding: 0.25rem 0.7rem;
+	font-weight: bold;
+	background-color: var(--card-highlight-color);
+	color: var(--text-color-other);
+}
+
 .dropdownButtonGroup {
     margin-bottom: 1.2rem;
 }
@@ -103,6 +110,7 @@
     transition: opacity 0.17s ease;
     opacity: 0;
   }
+
 
 .okButton {
     margin-left: 1rem;

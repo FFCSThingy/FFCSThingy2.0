@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MediaQuery from 'react-responsive';
-import { Container } from 'react-bootstrap';
+import { Container, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
 
 import "../css/TimeTable.css";
@@ -16,18 +16,18 @@ class Timetable extends Component {
 				<FaSun className="morningIcon" size="2x" color="yellow"></FaSun>
 				<table className="timetableA">
 					<tbody className="timetableBody">
-						{this.renderHeader1A()}
-						{this.renderHeader2A()}
-						{this.renderBodyA()}
+						{this.renderMobileMorningHeader1()}
+						{this.renderMobileMorningHeader2()}
+						{this.renderMobileMorningBody()}
 					</tbody>
 				</table>
 
 				<FaSun className="eveningIcon"size="2x"></FaSun>
 				<table className="timetableB">
 					<tbody className="timetableBody">
-						{this.renderHeader1B()}
-						{this.renderHeader2B()}
-						{this.renderBodyB()}
+						{this.renderMobileAfternoonHeader1()}
+						{this.renderMobileAfternoonHeader2()}
+						{this.renderMobileAfternoonBody()}
 					</tbody>
 				</table>
 			</Container>
@@ -39,9 +39,9 @@ class Timetable extends Component {
 			<Container className="timetableContainer" fluid='true'>
 				<table className="timetableA">
 					<tbody className="timetableBody">
-						{this.renderHeader1()}
-						{this.renderHeader2()}
-						{this.renderBody()}
+						{this.renderDesktopHeader1()}
+						{this.renderDesktopHeader2()}
+						{this.renderDesktopBody()}
 					</tbody>
 				</table>
 			</Container>
@@ -62,7 +62,7 @@ class Timetable extends Component {
 		)
 	}
 
-	renderHeader1 = () => {
+	renderDesktopHeader1 = () => {
 		return (
 			<tr className="timetableHeader1">
 				<td className="timetableDay">THEORY<br />HOURS
@@ -123,7 +123,7 @@ class Timetable extends Component {
 		)
 	}
 
-	renderHeader2 = () => {
+	renderDesktopHeader2 = () => {
 		return (
 			<tr className="timetableHeader2">
 				<td className="timetableDay">LAB
@@ -181,7 +181,7 @@ class Timetable extends Component {
 		)
 	}
 
-	renderHeader1A = () => {
+	renderMobileMorningHeader1 = () => {
 		return (
 			<tr className="timetableHeader1A">
 				<td className="timetableDay">THEORY<br />HOURS
@@ -210,7 +210,7 @@ class Timetable extends Component {
 		)
 	}
 
-	renderHeader1B = () => {
+	renderMobileAfternoonHeader1 = () => {
 		return (
 			<tr className="timetableHeader1B">
 				<td className="timetableDay">THEORY<br />HOURS
@@ -243,7 +243,7 @@ class Timetable extends Component {
 		)
 	}
 
-	renderHeader2A = () => {
+	renderMobileMorningHeader2 = () => {
 		return (
 			<tr className="timetableHeader2A">
 				<td className="timetableDay">LAB<br />HOURS
@@ -275,7 +275,7 @@ class Timetable extends Component {
 			</tr>
 		)
 	}
-	renderHeader2B = () => {
+	renderMobileAfternoonHeader2 = () => {
 		return (
 			<tr className="timetableHeader2B">
 				<td className="timetableDay">LAB<br />HOURS
@@ -320,30 +320,32 @@ class Timetable extends Component {
 			else slotString = c;
 
 
-			if (!this.props.filledSlots.includes(slots[0]) && !this.props.filledSlots.includes(slots[1]))
+			if (!this.props.filledSlots.includes(slots[0]) && !this.props.filledSlots.includes(slots[1])) {
 				return this.renderEmpty(c, slotString);
-			else if (this.props.filledSlots.includes(slots[0])) {
-
+			} else if (this.props.filledSlots.includes(slots[0])) {		// Is a theory slot
+				
 				reqdCourse = this.props.timetable.find(e => (
 					e.slot.split('+').includes(slots[0]) &&
 					e.timetableName === this.props.activeTimetable
 				));
         
-				if (!reqdCourse) return this.renderEmpty(c, slotString);
+				if (!reqdCourse) 
+					return this.renderEmpty(c, slotString);
 				
 				return this.renderFilledTheory(c, slotString, reqdCourse);
-			}
-			else if (this.props.filledSlots.includes(slots[1])) {
+			} else if (this.props.filledSlots.includes(slots[1])) {		// Is a lab slot
+				
 				reqdCourse = this.props.timetable.find(e => (
 					e.slot.split('+').includes(slots[1]) &&
 					e.timetableName === this.props.activeTimetable
 				));
 
-				if (!reqdCourse) return this.renderEmpty(c, slotString);
+				if (!reqdCourse) 
+					return this.renderEmpty(c, slotString);
 
 				return this.renderFilledLab(c, slotString, reqdCourse);		
 			}
-		})
+		});
 
 		return (
 			<tr>
@@ -377,9 +379,9 @@ class Timetable extends Component {
 					}
 				>
 					<div>
-				<b className="slotDetails">{slotString}</b>
-				<h6 className="courseCode">{reqdCourse.code}</h6>
-				<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
+						<b className="slotDetails">{slotString}</b>
+						<h6 className="courseCode">{reqdCourse.code}</h6>
+						<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
 					</div>
 				</OverlayTrigger>
 			</td>
@@ -403,16 +405,16 @@ class Timetable extends Component {
 					}
 				>
 					<div>
-				<b className="slotDetails">{slotString}</b>
-				<h6 className="courseCode">{reqdCourse.code}</h6>
-				<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
+						<b className="slotDetails">{slotString}</b>
+						<h6 className="courseCode">{reqdCourse.code}</h6>
+						<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
 					</div>
 				</OverlayTrigger>
 			</td>
 		)
 	}
 
-	renderBody = () => {
+	renderDesktopBody = () => {
 		var slots = [
 			['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
 			['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
@@ -426,7 +428,7 @@ class Timetable extends Component {
 		return rows;
 	}
 
-	renderBodyA = () => {
+	renderMobileMorningBody = () => {
 		var slots = [
 			['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6'],
 			['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12'],
@@ -440,7 +442,7 @@ class Timetable extends Component {
 		return rows;
 	}
 
-	renderBodyB = () => {
+	renderMobileAfternoonBody = () => {
 		var slots = [
 			['MON', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
 			['TUE', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],

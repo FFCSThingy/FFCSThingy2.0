@@ -368,6 +368,7 @@ class Timetable extends Component {
 				<OverlayTrigger
 					key={ `${c}-Overlay` }
 					placement="top"
+					trigger={['hover', 'click']}
 					overlay={
 						<Tooltip>
 							<h6 className="courseDetails">
@@ -394,6 +395,7 @@ class Timetable extends Component {
 				<OverlayTrigger
 					key={ `${c}-Overlay`}
 					placement="top"
+					trigger={['hover', 'click']}
 					overlay={
 						<Tooltip>
 							<h6 className="courseDetails">

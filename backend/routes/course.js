@@ -162,13 +162,13 @@ router.get('/courseByID/:id', async (req, res, next) => {
 	}
 });
 
-// router.get('/updateHeatmap', async(req, res, next) => {
-// 	try {
-// 		var doc = await course.updateHeatmap();
-// 		res.json(doc);
-// 	} catch(err) {
-// 		console.log(err);
-// 	}
-// });
+router.get('/updateHeatmap', async(req, res, next) => {
+	try {
+		var doc = await course.updateHeatmap();
+		res.json(doc);
+	} catch(err) {
+		console.log(err);
+	}
+});
 
 module.exports = router;

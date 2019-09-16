@@ -21,7 +21,18 @@ module.exports.getFullHeatmap = (regardless=false) => {
 	return new Promise((resolve, reject) => {
 		if(!heatmap || regardless) {
 			// console.log('regardless = ' + regardless);
-			Course.find({}, function (err, doc) {
+			Course.aggregate([
+				{
+					$sort: {
+						percent: -1,
+						code: 1,
+						slot: 1,
+						faculty: 1, 
+						venue: 1,
+						course_type: 1,
+					}
+				}
+			], function (err, doc) {
 				if (err) return reject(err);
 				return resolve(doc);
 			});
@@ -221,66 +232,64 @@ function updateCourse(query, update) {
 	});
 }
 
-async function doHeatmapUpdate(doc, counts) {
-	return await Promise.all(doc.map(async c => {
-		var total = counts.find((e) => e._id.code === c.code && e._id.course_type === c.course_type);
-		
-		if (total) {
-			var countData = (await userUtility.aggregateSpecificCourseCount(c))[0];
-			if(countData) {
-				c.count = countData.count;
-				c.percent = await c.count / total.count * 100;
-				c.timestamp = new Date();
-			}
-			c.total = total.count;
-		}
-		else {
-			if(c.count === 0 && c.total === 0 && c.percent === 0) return Promise.resolve(c);
-			c.count = 0;
-			c.total = 0;
-			c.percent = 0;
-			c.timestamp = new Date();
-		}
-		// console.log(total);
-
+async function doHeatmapUpdate(counts, specificSlot) {
+	return new Promise(async (resolve, reject) => {
+		var total = counts.find((e) => e._id.code === specificSlot.code && e._id.course_type === specificSlot.course_type);
 		var query = {
-			code: c.code,
-			venue: c.venue,
-			slot: c.slot,
-			faculty: c.faculty,
-			course_type: c.course_type
+			code: specificSlot.code,
+			slot: specificSlot.slot,
+			faculty: specificSlot.faculty,
+			course_type: specificSlot.course_type
 		}
 
-		return await updateCourse(query, c);
-	}))
+		var update = {
+			count: 0,
+			total: 0,
+			percent: 0,
+			timestamp: Date.now()
+		}
+
+		if(total) {
+			update.count = specificSlot.count;
+			update.total = total.count;
+			update.percent = specificSlot.count / total.count * 100;
+			update.timestamp = Date.now();
+		}
+
+		try {
+			var updateStatus = await updateCourse(query, update);
+			return resolve(updateStatus);
+		} catch(err) {
+			return reject(err);
+		}
+	});
 }
 
 module.exports.updateHeatmap = () => {
-	return new Promise((resolve, reject) => {
-		Course.find({}, async function (err, doc) {
-			try {
-				console.log('Heatmap update started at: ' + new Date());
+	return new Promise(async (resolve, reject) => {
+		try {
+			var initTime = new Date();
+			console.log('Heatmap update started at: ' + initTime);
 
-				var initTime = Date.now();
-				var counts = await userUtility.aggregateCounts();
-				// console.log(counts);
-				var updates = await doHeatmapUpdate(doc, counts);
-				// console.log(updates);
-				var timestamp = await systemUtility.updateHeatmapUpdateTime();
+			var counts = await userUtility.aggregateCounts();
+			var specificCounts = await userUtility.aggregateSlotCounts();
 
-				console.log('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
-				return resolve({timestamp: timestamp, docs: updates});
-			} catch (err) {
-				console.log('Error in updateHeatmap: ' + err);
-				return reject(err);
-			}
-		});
+			var updates = await Promise.all(specificCounts.map(slot => doHeatmapUpdate(counts, slot)));
+
+			var timestamp = await systemUtility.updateHeatmapUpdateTime();
+			console.log('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
+
+			return resolve({ timestamp: timestamp, docs: updates });
+		} catch (err) {
+			console.log('Error in updateHeatmap: ' + err);
+			return reject(err);
+		}
 	});
 }
 
 cron.schedule('*/10 * * * *', () => {
 	if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'development') {
 		console.log('Running Heatmap Update');
-		// module.exports.updateHeatmap();
+		module.exports.updateHeatmap();
 	}
 });

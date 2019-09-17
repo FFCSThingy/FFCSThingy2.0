@@ -172,7 +172,7 @@ module.exports.addCourseToDB = (course) => {
 		// else if(course.TYPE === 'SS') 
 		// 	course.CREDITS = 1;
 		// else if (['TH', 'ETH'].includes(course.TYPE)) {
-		// 	var slots = course.SLOT.split('+');
+		// 	var slots = course.SLOT.replace(' ', '').split('+');
 		// 	course.CREDITS = slots.reduce((a,v) => {
 		// 		if(oneCreds.includes(v)) return a + 1;
 		// 		if(twoCreds.includes(v)) return a + 2;
@@ -180,7 +180,7 @@ module.exports.addCourseToDB = (course) => {
 		// 	}, 0)
 		// }
 		// else if (['LO', 'ELA'].includes(course.TYPE))	
-		// 	course.CREDITS = course.SLOT.split('+').length / 2;
+		// 	course.CREDITS = course.SLOT.replace(' ', '').split('+').length / 2;
 		// else if(course.TYPE === 'EPJ') 
 		// 	course.CREDITS = 1;	
 
@@ -189,7 +189,7 @@ module.exports.addCourseToDB = (course) => {
 			code: course.CODE,
 			venue: course.VENUE,
 			course_type: course.TYPE,
-			slot: course.SLOT,
+			slot: course.SLOT.replace(' ', ''),
 			faculty: course.FACULTY,
 			credits: course.CREDITS || 0
 		}
@@ -198,7 +198,7 @@ module.exports.addCourseToDB = (course) => {
 			code: course.CODE,
 			venue: course.VENUE,
 			course_type: course.TYPE,
-			slot: course.SLOT,
+			slot: course.SLOT.replace(' ', ''),
 			faculty: course.FACULTY,
 			credits: course.CREDITS || 0,
 			title: course.TITLE,

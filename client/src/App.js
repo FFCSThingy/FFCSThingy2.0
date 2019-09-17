@@ -696,7 +696,7 @@ class App extends React.Component {
 		if (filledSlots.length === 0) return false;
 
 		return filledSlots.map(v => {
-			return slot.split('+')
+			return slot.replace(' ', '').split('+')
 				.map(s => this.state.clashMap[s].clashesWith.includes(v))
 				.reduce((a, v) => a || v, false)
 		}).reduce((a, v) => a || v, false);
@@ -730,7 +730,7 @@ class App extends React.Component {
 		console.log(course);
 
 		if (course.slot !== 'NIL') {
-			course.slot.split('+').map(v => this.setState(prevState => {
+			course.slot.replace(' ', '').split('+').map(v => this.setState(prevState => {
 				let clashMap = { ...prevState.clashMap };
 				clashMap[v].isFilled = true;
 				return { clashMap };
@@ -751,7 +751,7 @@ class App extends React.Component {
 
 	unselectSlots = (course) => {
 		if (course.slot !== 'NIL') {
-			course.slot.split('+').map(v => this.setState(prevState => {
+			course.slot.replace(' ', '').split('+').map(v => this.setState(prevState => {
 				let clashMap = { ...prevState.clashMap };
 				clashMap[v].isFilled = false;
 				return { clashMap };
@@ -778,7 +778,7 @@ class App extends React.Component {
 
 		var slots = this.state.timetable.reduce((a, v) => {
 			if (v.timetableName === timetableName && v.slot !== 'NIL')
-				return [...a, ...v.slot.split('+')];
+				return [...a, ...v.slot.replace(' ', '').split('+')];
 			else return a;
 		}, [])
 

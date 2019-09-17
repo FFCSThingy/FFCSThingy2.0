@@ -45,7 +45,7 @@ class CourseSelectTable extends React.Component {
 		var filteredCodes = [];
 		if (searchBySlots) {
 			filteredCodes = this.props.heatmap.filter(v => {
-				return searchStringSlots.every(c => v.slot.split('+').includes(c));
+				return searchStringSlots.every(c => v.slot.replace(' ', '').split('+').includes(c));
 			}).map(v => v.code);
 		} else {
 			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code)

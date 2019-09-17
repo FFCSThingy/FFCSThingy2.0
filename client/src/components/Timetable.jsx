@@ -325,7 +325,7 @@ class Timetable extends Component {
 			} else if (this.props.filledSlots.includes(slots[0])) {		// Is a theory slot
 				
 				reqdCourse = this.props.timetable.find(e => (
-					e.slot.split('+').includes(slots[0]) &&
+					e.slot.replace(' ', '').split('+').includes(slots[0]) &&
 					e.timetableName === this.props.activeTimetable
 				));
         
@@ -336,7 +336,7 @@ class Timetable extends Component {
 			} else if (this.props.filledSlots.includes(slots[1])) {		// Is a lab slot
 				
 				reqdCourse = this.props.timetable.find(e => (
-					e.slot.split('+').includes(slots[1]) &&
+					e.slot.replace(' ', '').split('+').includes(slots[1]) &&
 					e.timetableName === this.props.activeTimetable
 				));
 

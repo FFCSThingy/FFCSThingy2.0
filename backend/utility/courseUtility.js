@@ -189,7 +189,7 @@ module.exports.addCourseToDB = (course) => {
 			code: course.CODE,
 			venue: course.VENUE,
 			course_type: course.TYPE,
-			slot: course.SLOT,
+			slot: course.SLOT.replace(' ', ''),
 			faculty: course.FACULTY,
 			credits: course.CREDITS || 0
 		}

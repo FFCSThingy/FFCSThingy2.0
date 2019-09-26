@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import MediaQuery from 'react-responsive';
 import { Container, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
+import TimetableCell from './TimetableCell';
+
+import { SLOTS } from '../constants/Slots';
 
 import "../css/TimeTable.css";
 class Timetable extends Component {
@@ -308,43 +311,37 @@ class Timetable extends Component {
 		)
 	}
 
-	renderRow = (row) => {
+	findReqdCourse = (slots, lab=false) => {
+		return this.props.timetable.find(e => (
+			e.slot.replace(' ', '').split('+').includes((lab) ? slots[1] : slots[0]) &&
+			e.timetableName === this.props.activeTimetable
+		));
+	}
+
+	renderRow = (row, mobile=false, morning=false) => {
 		var elems = row.map((c, i) => {
-			if (i === 0) return this.renderDays(c);
+			if (i === 0) return <TimetableCell dayString={c} day />;
+
+			if(mobile && morning && i > 6) return;
+			if(mobile && !morning && i < 7) return;
 
 			var slots = c.split('/');
-			var slotString, reqdCourse;
+			var reqdLabSlot = this.findReqdCourse(slots, true);
+			var reqdTheorySlot = this.findReqdCourse(slots, false);
+			var slotString;
 
 			if (slots[0] === '') slotString = slots[1];
 			else if (slots[1] === '') slotString = slots[0];
 			else slotString = c;
 
+			if (this.props.filledSlots.includes(slots[0]) && reqdTheorySlot) // Is a theory slot
+				return <TimetableCell slotString={slotString} reqdCourse={reqdTheorySlot} filled />
 
-			if (!this.props.filledSlots.includes(slots[0]) && !this.props.filledSlots.includes(slots[1])) {
-				return this.renderEmpty(c, slotString);
-			} else if (this.props.filledSlots.includes(slots[0])) {		// Is a theory slot
-				
-				reqdCourse = this.props.timetable.find(e => (
-					e.slot.replace(' ', '').split('+').includes(slots[0]) &&
-					e.timetableName === this.props.activeTimetable
-				));
-        
-				if (!reqdCourse) 
-					return this.renderEmpty(c, slotString);
-				
-				return this.renderFilledTheory(c, slotString, reqdCourse);
-			} else if (this.props.filledSlots.includes(slots[1])) {		// Is a lab slot
-				
-				reqdCourse = this.props.timetable.find(e => (
-					e.slot.replace(' ', '').split('+').includes(slots[1]) &&
-					e.timetableName === this.props.activeTimetable
-				));
+			else if (this.props.filledSlots.includes(slots[1]) && reqdLabSlot)	// Is a lab slot
+				return <TimetableCell slotString={slotString} reqdCourse={reqdLabSlot} filled lab />
 
-				if (!reqdCourse) 
-					return this.renderEmpty(c, slotString);
-
-				return this.renderFilledLab(c, slotString, reqdCourse);		
-			}
+			else
+				return <TimetableCell slotString={slotString} />
 		});
 
 		return (
@@ -354,109 +351,11 @@ class Timetable extends Component {
 		)
 	}
 
-	renderDays = (day) => {
-		return <td key={day} className="timetableDay">{day}</td>
-	}
+	renderDesktopBody = () => SLOTS.map(row => this.renderRow(row));
 
-	renderEmpty = (c, slotString) => {
-		return <td key={c} className="timetableEmpty"><b>{slotString}</b></td>
-	}
+	renderMobileMorningBody = () => SLOTS.map(row => this.renderRow(row, true, true));
 
-	renderFilledTheory = (c, slotString, reqdCourse) => {
-		return (
-			<td key={c} className="timetableFilledTheory">
-				<OverlayTrigger
-					key={ `${c}-Overlay` }
-					placement="top"
-					trigger={['hover', 'click']}
-					overlay={
-						<Tooltip>
-							<h6 className="courseDetails">
-								<b>{reqdCourse.title}</b> <br/>
-								{reqdCourse.faculty} <br/>
-								{reqdCourse.slot}
-							</h6>
-						</Tooltip>
-					}
-				>
-					<div>
-						<b className="slotDetails">{slotString}</b>
-						<h6 className="courseCode">{reqdCourse.code}</h6>
-						<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
-					</div>
-				</OverlayTrigger>
-			</td>
-		)
-	}
-
-	renderFilledLab = (c, slotString, reqdCourse) => {
-		return (
-			<td key={c} className="timetableFilledLab">
-				<OverlayTrigger
-					key={ `${c}-Overlay`}
-					placement="top"
-					trigger={['hover', 'click']}
-					overlay={
-						<Tooltip>
-							<h6 className="courseDetails">
-								<b>{reqdCourse.title}</b> <br />
-								{reqdCourse.faculty} <br />
-								{reqdCourse.slot}
-							</h6>
-						</Tooltip>
-					}
-				>
-					<div>
-						<b className="slotDetails">{slotString}</b>
-						<h6 className="courseCode">{reqdCourse.code}</h6>
-						<h6 className="courseDetails">{reqdCourse.venue}-{reqdCourse.course_type}</h6>
-					</div>
-				</OverlayTrigger>
-			</td>
-		)
-	}
-
-	renderDesktopBody = () => {
-		var slots = [
-			['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
-			['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
-			['WED', 'C1/L13', 'A1/L14', 'F1/L15', 'V1/L16', 'V2/', 'EXTM/', 'C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
-			['THU', 'D1/L19', 'B1/L20', 'G1/L21', 'TE1/L22', 'TCC1/L23', '/L24', 'D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
-			['FRI', 'E1/L25', 'C1/L26', 'TA1/L27', 'TF1/L28', 'TD1/L29', '/L30', 'E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
-		];
-
-		var rows = slots.map(row => this.renderRow(row));
-
-		return rows;
-	}
-
-	renderMobileMorningBody = () => {
-		var slots = [
-			['MON', 'A1/L1', 'F1/L2', 'D1/L3', 'TB1/L4', 'TG1/L5', '/L6'],
-			['TUE', 'B1/L7', 'G1/L8', 'E1/L9', 'TC1/L10', 'TAA1/L11', '/L12'],
-			['WED', 'C1/L13', 'A1/L14', 'F1/L15', 'V1/L16', 'V2/', 'EXTM/'],
-			['THU', 'D1/L19', 'B1/L20', 'G1/L21', 'TE1/L22', 'TCC1/L23', '/L24'],
-			['FRI', 'E1/L25', 'C1/L26', 'TA1/L27', 'TF1/L28', 'TD1/L29', '/L30']
-		];
-
-		var rows = slots.map(row => this.renderRow(row));
-
-		return rows;
-	}
-
-	renderMobileAfternoonBody = () => {
-		var slots = [
-			['MON', 'A2/L31', 'F2/L32', 'D2/L33', 'TB2/L34', 'TG2/L35', 'V3/L36'],
-			['TUE', 'B2/L37', 'G2/L38', 'E2/L39', 'TC2/L40', 'TAA2/L41', 'V4/L42'],
-			['WED', 'C2/L43', 'A2/L44', 'F2/L45', 'TD2/L46', 'TBB2/L47', 'V5/L48'],
-			['THU', 'D2/L49', 'B2/L50', 'G2/L51', 'TE2/L52', 'TCC2/L53', 'V6/L54'],
-			['FRI', 'E2/L55', 'C2/L56', 'TA2/L57', 'TF2/L58', 'TDD2/L59', 'V7/L60']
-		];
-
-		var rows = slots.map(row => this.renderRow(row));
-
-		return rows;
-	}
+	renderMobileAfternoonBody = () => SLOTS.map(row => this.renderRow(row, true, false));
 
 	render() {
 		return this.renderTT();

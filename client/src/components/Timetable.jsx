@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import MediaQuery from 'react-responsive';
-import { Container, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
 import TimetableCell from './TimetableCell';
 
@@ -25,7 +25,7 @@ class Timetable extends Component {
 					</tbody>
 				</table>
 
-				<FaSun className="eveningIcon"size="2x"></FaSun>
+				<FaSun className="eveningIcon" size="2x"></FaSun>
 				<table className="timetableB">
 					<tbody className="timetableBody">
 						{this.renderMobileAfternoonHeader1()}
@@ -91,7 +91,7 @@ class Timetable extends Component {
 					<br />12:50
 				</td>
 				<td className="timetableTheoryHours"></td>
-				<td widtd="8px" rowSpan={9} className="timetableBreak">
+				<td width="8px" rowSpan={9} className="timetableBreak">
 					<strong>B
 					<br />R
 					<br />E
@@ -322,8 +322,8 @@ class Timetable extends Component {
 		var elems = row.map((c, i) => {
 			if (i === 0) return <TimetableCell dayString={c} day />;
 
-			if(mobile && morning && i > 6) return;
-			if(mobile && !morning && i < 7) return;
+			if(mobile && morning && i > 6) return null;
+			if (mobile && !morning && i < 7) return null;
 
 			var slots = c.split('/');
 			var reqdLabSlot = this.findReqdCourse(slots, true);

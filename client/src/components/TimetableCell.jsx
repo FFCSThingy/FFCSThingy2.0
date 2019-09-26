@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import MediaQuery from 'react-responsive';
-import { Container, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { FaSun } from 'react-icons/fa';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import "../css/TimeTable.css";
 class TimetableCell extends Component { 

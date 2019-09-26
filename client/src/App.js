@@ -15,7 +15,7 @@ import TimetableSwitcher from './components/TimetableSwitcher';
 import CustomNavbar from './components/CustomNavbar';
 
 // Constants
-import { THEMES as THEMES } from './constants/Themes';
+import { THEMES } from './constants/Themes';
 
 import './App.css';
 import './css/CustomNavbar.css'

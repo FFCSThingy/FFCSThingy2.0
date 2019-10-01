@@ -138,7 +138,7 @@ TODO------
 	font-size: 1.3em;
 	text-align: left;
 	text-transform: uppercase;
-	width: 7.2rem;
+	width: 100%;
 }
 
 .searchBarContainer input:focus {
@@ -177,6 +177,11 @@ TODO------
 	font-weight: bold;
 	font-size: 1.3em;
 	margin-top: -0.22rem;
+
+	pointer-events: none;
+	position: absolute;
+	left: 9.5rem;
+	z-index: 1;
 }
 
 .codeText:after {

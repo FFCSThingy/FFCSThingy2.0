@@ -4,7 +4,7 @@ import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
 import TimetableCell from './TimetableCell';
 
-import { SLOTS } from '../constants/Slots';
+import { SLOTS, HEADERS } from '../constants/Timetable';
 
 import "../css/TimeTable.css";
 class Timetable extends Component {
@@ -19,8 +19,13 @@ class Timetable extends Component {
 				<FaSun className="morningIcon" size="2x" color="yellow"></FaSun>
 				<table className="timetableA">
 					<tbody className="timetableBody">
-						{this.renderMobileMorningHeader1()}
-						{this.renderMobileMorningHeader2()}
+						<tr className="timetableHeader1A">
+							{this.renderHeaderRow(HEADERS[0], true, true, true)}
+						</tr>
+
+						<tr className="timetableHeader2A">
+							{this.renderHeaderRow(HEADERS[1], true, true, false)}
+						</tr>
 						{this.renderMobileMorningBody()}
 					</tbody>
 				</table>
@@ -28,8 +33,13 @@ class Timetable extends Component {
 				<FaSun className="eveningIcon" size="2x"></FaSun>
 				<table className="timetableB">
 					<tbody className="timetableBody">
-						{this.renderMobileAfternoonHeader1()}
-						{this.renderMobileAfternoonHeader2()}
+						<tr className="timetableHeader1B">
+							{this.renderHeaderRow(HEADERS[0], true, false, true)}
+						</tr>
+
+						<tr className="timetableHeader2B">
+							{this.renderHeaderRow(HEADERS[1], true, false, false)}
+						</tr>
 						{this.renderMobileAfternoonBody()}
 					</tbody>
 				</table>
@@ -42,8 +52,13 @@ class Timetable extends Component {
 			<Container className="timetableContainer" fluid='true'>
 				<table className="timetableA">
 					<tbody className="timetableBody">
-						{this.renderDesktopHeader1()}
-						{this.renderDesktopHeader2()}
+						<tr className="timetableHeader1">
+							{this.renderHeaderRow(HEADERS[0], false, false, true)}
+						</tr>
+
+						<tr className="timetableHeader2">
+							{this.renderHeaderRow(HEADERS[1], false, false, false)}
+						</tr>
 						{this.renderDesktopBody()}
 					</tbody>
 				</table>
@@ -52,7 +67,7 @@ class Timetable extends Component {
 	}
 
 	renderTT = () => {
-		return(
+		return (
 			<MediaQuery minDeviceWidth={768}>
 				{(matches) => {
 					if (matches) {
@@ -65,269 +80,43 @@ class Timetable extends Component {
 		)
 	}
 
-	renderDesktopHeader1 = () => {
-		return (
-			<tr className="timetableHeader1">
-				<td className="timetableDay">THEORY<br />HOURS
-				</td>
-				<td className="timetableTheoryHours">08:00
-					
-					<br />08:50
-				</td>
-				<td className="timetableTheoryHours">09:00
-					
-					<br />09:50
-				</td>
-				<td className="timetableTheoryHours">10:00
-					
-					<br />10:50
-				</td>
-				<td className="timetableTheoryHours">11:00
-					
-					<br />11:50
-				</td>
-				<td className="timetableTheoryHours">12:00
-					
-					<br />12:50
-				</td>
-				<td className="timetableTheoryHours"></td>
-				<td width="8px" rowSpan={9} className="timetableBreak">
-					<strong>B
-					<br />R
-					<br />E
-					<br />A
-					<br />K</strong>
-				</td>
-				<td className="timetableTheoryHours">02:00
-					
-					<br />02:50
-				</td>
-				<td className="timetableTheoryHours">03:00
-					
-					<br />03:50
-				</td>
-				<td className="timetableTheoryHours">04:00
-					
-					<br />04:50
-				</td>
-				<td className="timetableTheoryHours">05:00
-					
-					<br />05:50
-				</td>
-				<td className="timetableTheoryHours">06:00
-					
-					<br />06:50
-				</td>
-				<td className="timetableTheoryHours">07:00
-					
-					<br />07:50
-				</td>
-			</tr>
-		)
+	renderHeaderRow = (row, mobile = false, morning = false, row1 = true) => {
+		return row.map((val, i) => {
+
+			// Split at spaces, join with <br>
+			var cellVal = val.split(' ').reduce((acc, v) => acc === null ? <>{v}</> : <> {acc} <br /> {v} </>, null);
+
+			if (i === 0) return <TimetableCell day>{ cellVal }</TimetableCell>;
+
+			if(mobile) {
+				if (morning && i > 6) return null;	// Only need first 7 cells for morning
+				if (!morning && row1 && i < 8) return null;	// Only need cells after 8 for evening row1 (Because break cell)
+				if (!morning && i < 7) return null;	// Only need cells after 7 for evening row2
+			} else {
+				if (i === 7 && row1) return <TimetableCell break>{cellVal}</TimetableCell>;
+			}
+
+			return <TimetableCell time>{ cellVal }</TimetableCell>;
+		});
 	}
 
-	renderDesktopHeader2 = () => {
-		return (
-			<tr className="timetableHeader2">
-				<td className="timetableDay">LAB
-					<br />HOURS
-				</td>
-				<td className="timetableLabHours">08:00
-					
-					<br />08:45
-				</td>
-				<td className="timetableLabHours">08:45
-					
-					<br />09:30
-				</td>
-				<td className="timetableLabHours">10:00
-					
-					<br />10:45
-				</td>
-				<td className="timetableLabHours">10:45
-					
-					<br />11:30
-				</td>
-				<td className="timetableLabHours">11:30
-					
-					<br />12:15
-				</td>
-				<td className="timetableLabHours">12:15
-					
-					<br />01:00
-				</td>
-				<td className="timetableLabHours">02:00
-					
-					<br />02:45
-				</td>
-				<td className="timetableLabHours">02:45
-					
-					<br />03:30
-				</td>
-				<td className="timetableLabHours">04:00
-					
-					<br />04:45
-				</td>
-				<td className="timetableLabHours">04:45
-					
-					<br />05:30
-				</td>
-				<td className="timetableLabHours">05:30
-					
-					<br />06:15
-				</td>
-				<td className="timetableLabHours">06:15
-					
-					<br />07:00
-				</td>
-			</tr>
-		)
-	}
-
-	renderMobileMorningHeader1 = () => {
-		return (
-			<tr className="timetableHeader1A">
-				<td className="timetableDay">THEORY<br />HOURS
-				</td>
-				<td className="timetableTheoryHours">08:00
-					<br />08:50
-				</td>
-				<td className="timetableTheoryHours">09:00
-					
-					<br />09:50
-				</td>
-				<td className="timetableTheoryHours">10:00
-					
-					<br />10:50
-				</td>
-				<td className="timetableTheoryHours">11:00
-					
-					<br />11:50
-				</td>
-				<td className="timetableTheoryHours">12:00
-					
-					<br />12:50
-				</td>
-				<td className="timetableTheoryHours"></td>
-			</tr>
-		)
-	}
-
-	renderMobileAfternoonHeader1 = () => {
-		return (
-			<tr className="timetableHeader1B">
-				<td className="timetableDay">THEORY<br />HOURS
-				</td>
-				<td className="timetableTheoryHours">02:00
-					
-					<br />02:50
-				</td>
-				<td className="timetableTheoryHours">03:00
-					
-					<br />03:50
-				</td>
-				<td className="timetableTheoryHours">04:00
-					
-					<br />04:50
-				</td>
-				<td className="timetableTheoryHours">05:00
-					
-					<br />05:50
-				</td>
-				<td className="timetableTheoryHours">06:00
-					
-					<br />06:50
-				</td>
-				<td className="timetableTheoryHours">07:00
-					
-					<br />07:50
-				</td>
-			</tr>
-		)
-	}
-
-	renderMobileMorningHeader2 = () => {
-		return (
-			<tr className="timetableHeader2A">
-				<td className="timetableDay">LAB<br />HOURS
-				</td>
-				<td className="timetableLabHours">08:00
-					
-					<br />08:45
-				</td>
-				<td className="timetableLabHours">08:45
-					
-					<br />09:30
-				</td>
-				<td className="timetableLabHours">10:00
-					
-					<br />10:45
-				</td>
-				<td className="timetableLabHours">10:45
-					
-					<br />11:30
-				</td>
-				<td className="timetableLabHours">11:30
-					
-					<br />12:15
-				</td>
-				<td className="timetableLabHours">12:15
-					
-					<br />01:00
-				</td>
-			</tr>
-		)
-	}
-	renderMobileAfternoonHeader2 = () => {
-		return (
-			<tr className="timetableHeader2B">
-				<td className="timetableDay">LAB<br />HOURS
-				</td>
-				<td className="timetableLabHours">02:00
-					
-					<br />02:45
-				</td>
-				<td className="timetableLabHours">02:45
-					
-					<br />03:30
-				</td>
-				<td className="timetableLabHours">04:00
-					
-					<br />04:45
-				</td>
-				<td className="timetableLabHours">04:45
-					
-					<br />05:30
-				</td>
-				<td className="timetableLabHours">05:30
-					
-					<br />06:15
-				</td>
-				<td className="timetableLabHours">06:15
-					
-					<br />07:00
-				</td>
-			</tr>
-		)
-	}
-
-	findReqdCourse = (slots, lab=false) => {
+	findReqdCourse = (slots, lab = false) => {
 		return this.props.timetable.find(e => (
 			e.slot.replace(' ', '').split('+').includes((lab) ? slots[1] : slots[0]) &&
 			e.timetableName === this.props.activeTimetable
 		));
 	}
 
-	renderRow = (row, mobile=false, morning=false) => {
+	renderRow = (row, mobile = false, morning = false) => {
 		var elems = row.map((c, i) => {
-			if (i === 0) return <TimetableCell dayString={c} day />;
+			if (i === 0) return <TimetableCell day>{c}</TimetableCell>;
 
-			if(mobile && morning && i > 6) return null;
+			if (mobile && morning && i > 6) return null;
 			if (mobile && !morning && i < 7) return null;
 
 			var slots = c.split('/');
-			var reqdLabSlot = this.findReqdCourse(slots, true);
-			var reqdTheorySlot = this.findReqdCourse(slots, false);
+			var reqdLabSlot = this.findReqdCourse(slots, true);	// Checks if current lab slot is filled
+			var reqdTheorySlot = this.findReqdCourse(slots, false);	// Checks if current theory slot is filled
 			var slotString;
 
 			if (slots[0] === '') slotString = slots[1];
@@ -335,13 +124,13 @@ class Timetable extends Component {
 			else slotString = c;
 
 			if (this.props.filledSlots.includes(slots[0]) && reqdTheorySlot) // Is a theory slot
-				return <TimetableCell slotString={slotString} reqdCourse={reqdTheorySlot} filled />
+				return <TimetableCell reqdCourse={reqdTheorySlot} filled>{slotString}</TimetableCell>
 
 			else if (this.props.filledSlots.includes(slots[1]) && reqdLabSlot)	// Is a lab slot
-				return <TimetableCell slotString={slotString} reqdCourse={reqdLabSlot} filled lab />
+				return <TimetableCell reqdCourse={reqdLabSlot} filled lab>{slotString}</TimetableCell>
 
 			else
-				return <TimetableCell slotString={slotString} />
+				return <TimetableCell>{slotString}</TimetableCell>
 		});
 
 		return (

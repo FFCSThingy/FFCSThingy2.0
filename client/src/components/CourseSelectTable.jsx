@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, CardColumns, Col, Container, Form, Row, Nav } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
-import {FaSearch} from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 
 class CourseSelectTable extends React.Component {
 	state = {
@@ -64,7 +64,7 @@ class CourseSelectTable extends React.Component {
 	}
 
 	renderText = () => {
-		if(!this.state.searchString)
+		if (!this.state.searchString)
 			return <div className="codeText"></div>;
 		else
 			return;
@@ -75,7 +75,7 @@ class CourseSelectTable extends React.Component {
 
 		if (!this.props.curriculum || this.props.selectedCurriculum === 'Curriculum'
 			|| Object.keys(this.props.curriculum).length === 0) {
-				tabsDisabled = true;
+			tabsDisabled = true;
 		}
 		else tabsDisabled = false;
 
@@ -94,11 +94,11 @@ class CourseSelectTable extends React.Component {
 							defaultValue={this.state.searchString}
 							onChange={this.handleChange.bind(this)}
 						/>
-							{this.renderText()}
+						{this.renderText()}
 					</Col>
 				</Row>
 
-				<Row style={{'padding': '2vh 2vh 0.95px 2vh'}}>
+				<Row style={{ 'padding': '2vh 2vh 0.95px 2vh' }}>
 					<Nav className="courseTypeFilter"
 						variant="tabs"
 						defaultActiveKey='ALL'
@@ -127,7 +127,7 @@ class CourseSelectTable extends React.Component {
 
 	renderNormalCard(value) {
 		var className = "courseCard";
-		if(value.code === this.props.selectedCourse) className = "courseCard active"
+		if (value.code === this.props.selectedCourse) className = "courseCard active"
 		return (
 			<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
 				<CardColumns className="courseList">
@@ -139,8 +139,8 @@ class CourseSelectTable extends React.Component {
 							</Card.Text>
 							<Card.Subtitle className="cardCompletedSubtitle">{
 								(this.props.completedCourses[value.code]) ?
-								('Completed: ' + this.props.completedCourses[value.code]) : ''
-								}
+									('Completed: ' + this.props.completedCourses[value.code]) : ''
+							}
 							</Card.Subtitle>
 						</Card.Body>
 					</Card>

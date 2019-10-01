@@ -14,10 +14,10 @@ class SlotTable extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if(nextProps.selectedCourse !== this.props.selectedCourse)
+		if (nextProps.selectedCourse !== this.props.selectedCourse)
 			this.setState({
 				typeFilters: [],
-				venueFilters: [] 
+				venueFilters: []
 			});
 	}
 
@@ -65,15 +65,15 @@ class SlotTable extends Component {
 			<Card
 				className="cardContainer"
 				key={value._id}
-				>
+			>
 
 				<Card.Body className="cardBodyClash">
 					<Card.Text>{value.slot}</Card.Text>
 					<Card.Title>{value.faculty}</Card.Title>
 					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
-					<Card.Subtitle className="cardClashSubtitle">Clashing</Card.Subtitle>
+						<Card.Subtitle className="cardClashSubtitle">Clashing</Card.Subtitle>
 					</Card.Subtitle>
-					
+
 					<Card.Subtitle className="cardSubtitle">Popularity - <b>{Math.floor(value.percent)}%</b></Card.Subtitle>
 				</Card.Body>
 
@@ -108,9 +108,9 @@ class SlotTable extends Component {
 		this.doFilter().map(value => {
 			var clash = this.props.checkClash(value.slot);
 			var selected = this.props.checkSelected(value);
-			
-			if(selected) return selectedCourses.push(this.renderSelectedCard(value));
-			else if(clash) return clashingCourses.push(this.renderClashCard(value));
+
+			if (selected) return selectedCourses.push(this.renderSelectedCard(value));
+			else if (clash) return clashingCourses.push(this.renderClashCard(value));
 			else return normalCourses.push(this.renderNormalCard(value));
 		});
 
@@ -125,7 +125,7 @@ class SlotTable extends Component {
 		applicableVenues = Array.from(new Set(applicableVenues)).sort();
 
 		var venueButtons = applicableVenues.map(v => {
-			if(applicableVenues.length > 4)
+			if (applicableVenues.length > 4)
 				return <ToggleButton value={v} className='toggleCustom' size='sm'>{v}</ToggleButton>
 			return <ToggleButton value={v} className='toggleCustom'>{v}</ToggleButton>
 		});
@@ -147,7 +147,7 @@ class SlotTable extends Component {
 									{typeButtons}
 								</ToggleButtonGroup>
 							</Col>
-							
+
 							<Col xs={12} sm={8} className="slotFilterContainer">
 								<ToggleButtonGroup className="slotFilter"
 									type='checkbox'
@@ -160,9 +160,9 @@ class SlotTable extends Component {
 					</Card.Header>
 				</Card>
 				<Card className="slotTableBody">
-						<CardColumns>
-							{courses}
-						</CardColumns>
+					<CardColumns>
+						{courses}
+					</CardColumns>
 				</Card>
 
 			</Container>

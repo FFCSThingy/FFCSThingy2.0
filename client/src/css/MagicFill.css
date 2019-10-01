@@ -1,87 +1,87 @@
-.hide{
-    display: none;
+.hide {
+	display: none;
 }
 
 .magicButton.dropdown-toggle {
-    margin-bottom: 1.2rem;
-    margin-top: 0;
-    border-top: transparent !important;
-    border-right: transparent !important;
-    border-left: transparent !important;
-    background-color: var(--brand-color);
-    border-radius: 0.5rem !important;
-    box-shadow: 0 6px var(--dropdown-border-color);
-    border: none !important;
-    outline: none;
+	margin-bottom: 1.2rem;
+	margin-top: 0;
+	border-top: transparent !important;
+	border-right: transparent !important;
+	border-left: transparent !important;
+	background-color: var(--brand-color);
+	border-radius: 0.5rem !important;
+	box-shadow: 0 6px var(--dropdown-border-color);
+	border: none !important;
+	outline: none;
 }
 
 .magicButton.dropdown-toggle:active {
-    background-color: var(--brand-color) !important;
-    transform: translateY(2px);
+	background-color: var(--brand-color) !important;
+	transform: translateY(2px);
 }
 
 .magicButton.dropdown-toggle:hover {
-    background-color: var(--brand-color) !important;
-    border-color: var(--dropdown-border-color) !important;
-    background-color: var(--brand-color) !important;
+	background-color: var(--brand-color) !important;
+	border-color: var(--dropdown-border-color) !important;
+	background-color: var(--brand-color) !important;
 }
 
 .magicButton.dropdown-toggle:focus {
-    box-shadow: 0 6px var(--dropdown-border-color) !important;
+	box-shadow: 0 6px var(--dropdown-border-color) !important;
 }
 
 .creditsPlaceholder {
-    margin-left: 1rem;
-
+	margin-left: 1rem;
 }
 
 .creditsPlaceholder .form-control {
-    border-radius: 0.5rem;
-    border: none !important;
+	border-radius: 0.5rem;
+	border: none !important;
 }
 
 .creditsPlaceholder .form-control:focus {
-    box-shadow: 0 0 0 0.1rem var(--card-highlight-color) !important;
+	box-shadow: 0 0 0 0.1rem var(--card-highlight-color) !important;
 }
 
 .creditsPlaceholder input::placeholder {
-    opacity:1;
-    transition: opacity 0.17s ease;
+	opacity: 1;
+	transition: opacity 0.17s ease;
 }
 
 .creditsPlaceholder input[placeholder]:focus::-webkit-input-placeholder {
-    transition: opacity 0.17s ease;
-    opacity: 0;
-  }
+	transition: opacity 0.17s ease;
+	opacity: 0;
+}
 
 .creditsPlaceholder input[placeholder]:focus::-moz-placeholder {
-    transition: opacity 0.17s ease;
-    opacity: 0;
-  }
-
-@media (min-width: 768px){
-    .toggles .col-md-3 {
-        max-width: 100%;
-}
+	transition: opacity 0.17s ease;
+	opacity: 0;
 }
 
-.togglesA, .togglesB {
-    padding: 0;
+@media (min-width: 768px) {
+	.toggles .col-md-3 {
+		max-width: 100%;
+	}
+}
+
+.togglesA,
+.togglesB {
+	padding: 0;
 }
 
 .slotFilter {
-    padding-bottom: 1rem;
-    padding-right: 1rem;
+	padding-bottom: 1rem;
+	padding-right: 1rem;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-#magicContainer{
-    margin-left: 1rem;
-    font-family: 'Montserrat', sans-serif;
-    margin-bottom: 1rem;
+#magicContainer {
+	margin-left: 1rem;
+	font-family: 'Montserrat', sans-serif;
+	margin-bottom: 1rem;
 }

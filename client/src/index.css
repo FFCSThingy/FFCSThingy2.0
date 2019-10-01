@@ -3,8 +3,7 @@ css files for each component */
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
 
-
 body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }

@@ -5,9 +5,9 @@ import { FaTrashAlt } from 'react-icons/fa';
 import '../css/SelectedCoursesTable.css';
 
 class SelectedCoursesTable extends React.Component {
-	
+
 	sortTimetable = ((a, b) => {
-		return a.code.localeCompare(b.code)	
+		return a.code.localeCompare(b.code)
 	});
 
 	render() {
@@ -24,12 +24,12 @@ class SelectedCoursesTable extends React.Component {
 					<td>
 						<FaTrashAlt className="trashButton" onClick={() => this.props.unselectSlot(value)}>
 						</FaTrashAlt>
-						
+
 					</td>
 				</tr>
 			)
 		});
-		
+
 		return (
 			<Container className="selectedCourseContainer">
 				<table className="selectedCourseTable">

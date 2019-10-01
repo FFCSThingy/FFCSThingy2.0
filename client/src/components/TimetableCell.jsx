@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import "../css/TimeTable.css";
-class TimetableCell extends Component { 
+class TimetableCell extends Component {
 	static defaultProps = {
 		filled: false,
 		lab: false,
@@ -57,10 +57,10 @@ class TimetableCell extends Component {
 	}
 
 	render() {
-		if(this.props.break) return this.renderBreak();
-		if(this.props.day) return this.renderDay();
-		if(this.props.time) return this.renderTime();
-		
+		if (this.props.break) return this.renderBreak();
+		if (this.props.day) return this.renderDay();
+		if (this.props.time) return this.renderTime();
+
 		return (this.props.filled) ? this.renderFilled() : this.renderEmpty();
 	}
 }

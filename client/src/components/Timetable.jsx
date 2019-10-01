@@ -72,9 +72,9 @@ class Timetable extends Component {
 			// Split at spaces, join with <br>
 			var cellVal = val.split(' ').reduce((acc, v) => acc === null ? <>{v}</> : <> {acc} <br /> {v} </>, null);
 
-			if (i === 0) return <TimetableCell day>{ cellVal }</TimetableCell>;
+			if (i === 0) return <TimetableCell day>{cellVal}</TimetableCell>;
 
-			if(mobile) {
+			if (mobile) {
 				if (morning && i > 6) return null;	// Only need first 7 cells for morning
 				if (!morning && row1 && i < 8) return null;	// Only need cells after 8 for evening row1 (Because break cell)
 				if (!morning && i < 7) return null;	// Only need cells after 7 for evening row2
@@ -82,7 +82,7 @@ class Timetable extends Component {
 				if (i === 7 && row1) return <TimetableCell break>{cellVal}</TimetableCell>;
 			}
 
-			return <TimetableCell time>{ cellVal }</TimetableCell>;
+			return <TimetableCell time>{cellVal}</TimetableCell>;
 		});
 	}
 

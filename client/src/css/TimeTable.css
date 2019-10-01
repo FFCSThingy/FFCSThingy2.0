@@ -24,7 +24,6 @@
 	color: hsl(39, 70%, 60%);
 }
 
-
 .timetableA {
 	width: 100%;
 }
@@ -35,11 +34,11 @@
 	z-index: 1;
 }
 
-.timetableA tr, 
-.timetableA td, 
+.timetableA tr,
+.timetableA td,
 .timetableA th,
-.timetableB tr, 
-.timetableB td, 
+.timetableB tr,
+.timetableB td,
 .timetableB th {
 	border: none !important;
 }
@@ -66,9 +65,9 @@
 	border: none !important;
 }
 
-.timetableHeader1A td, 
-.timetableHeader2A td, 
-.timetableHeader1B td, 
+.timetableHeader1A td,
+.timetableHeader2A td,
+.timetableHeader1B td,
 .timetableHeader2B td,
 .timetableHeader1 td,
 .timetableHeader2 td {
@@ -138,30 +137,26 @@ table tr:first-child td:last-child {
 	border-top-right-radius: 0.7rem;
 }
 
-
 .tableLabel {
 	font-weight: bold;
 	font-size: 1.2rem;
 	margin-top: 1rem;
 }
 
-
-
 @media only screen and (min-width: 768px) {
-
 	.timetableContainer {
 		width: 100%;
 		margin-top: 2rem;
 		font-size: 1em;
 		overflow-x: auto;
 	}
-	
+
 	.timetable {
 		width: 100%;
 	}
-	
-	.timetable tr, 
-	.timetable td, 
+
+	.timetable tr,
+	.timetable td,
 	.timetable th {
 		border: none !important;
 		padding: 5px;
@@ -170,21 +165,21 @@ table tr:first-child td:last-child {
 	.timetableBody td {
 		background-color: var(--select-table-background-color);
 	}
-	
+
 	.timetableBody td {
 		text-align: center;
 		padding: 5px;
 		height: auto;
 	}
-	
+
 	.timetableBody tr {
 		border: none !important;
 	}
-	
+
 	.timetableHeader1 td {
 		background-color: var(--brand-color);
 	}
-	
+
 	.timetableHeader2 td {
 		background-color: var(--brand-color);
 	}
@@ -196,36 +191,34 @@ table tr:first-child td:last-child {
 	td.timetableDay {
 		background-color: var(--timetable-col1-color);
 	}
-	
+
 	td.timetableFilledTheory {
 		background-color: var(--timetable-theory-color);
 		font-size: 1em;
 	}
-	
+
 	td.timetableFilledLab {
 		background-color: var(--timetable-lab-color);
 		font-size: 1em;
-	
 	}
 
 	.courseCode {
 		font-size: 1em;
 	}
-	
+
 	table tr:last-child td:first-child {
 		border-bottom-left-radius: 0.7rem;
 	}
-	
+
 	table tr:last-child td:last-child {
 		border-bottom-right-radius: 0.7rem;
 	}
-	
+
 	table tr:first-child td:first-child {
 		border-top-left-radius: 0.7rem;
 	}
-	
+
 	table tr:first-child td:last-child {
 		border-top-right-radius: 0.7rem;
 	}
-	
 }

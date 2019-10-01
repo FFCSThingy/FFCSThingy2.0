@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-var API =  axios.create({
+var API = axios.create({
 	baseURL: (process.env.NODE_ENV === 'development') ? '' : process.env.REACT_APP_BASE_URL
 });
 

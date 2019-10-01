@@ -65,14 +65,14 @@ class TimetableSwitcher extends React.Component {
 
 					<Button className="okButton"
 						onClick={() => {
-								(this.state.showEdit) ? this.props.doEdit(this.state.newName)
-									: (this.state.showNew) ? this.props.doNew(this.state.newName)
-										: this.props.doCopy(this.state.newName);
+							(this.state.showEdit) ? this.props.doEdit(this.state.newName)
+								: (this.state.showNew) ? this.props.doNew(this.state.newName)
+									: this.props.doCopy(this.state.newName);
 
-								(this.state.showEdit) ? this.handleEdit()
-									: (this.state.showNew) ? this.handleNew()
-										: this.handleCopy();
-							}
+							(this.state.showEdit) ? this.handleEdit()
+								: (this.state.showNew) ? this.handleNew()
+									: this.handleCopy();
+						}
 						}
 					>
 						Ok

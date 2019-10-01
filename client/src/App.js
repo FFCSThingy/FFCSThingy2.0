@@ -4,7 +4,7 @@
 import React from 'react';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import {Container, Row, Col, Alert} from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 
 // Components
 import CourseSelectTable from './components/CourseSelectTable';
@@ -34,7 +34,7 @@ class App extends React.Component {
 		this.state = {
 			error: null,
 			activeTimetable: 'Default',
-			generatingInProcess:false,
+			generatingInProcess: false,
 			user: {},
 			submitted_regno: '',
 
@@ -471,7 +471,7 @@ class App extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		if(this.state.activeTheme !== prevState.activeTheme)
+		if (this.state.activeTheme !== prevState.activeTheme)
 			this.updateTheme();
 	}
 
@@ -486,8 +486,8 @@ class App extends React.Component {
 		this.changeActiveTimetable();
 		this.doGetTimetableNames();
 
-		this.heatmapInterval = setInterval(() => this.doGetFullHeatmap(), 1000*2*60);
-		this.courseSyncInterval = setInterval(() => this.doGetSelectedCourses(), 1000*60);
+		this.heatmapInterval = setInterval(() => this.doGetFullHeatmap(), 1000 * 2 * 60);
+		this.courseSyncInterval = setInterval(() => this.doGetSelectedCourses(), 1000 * 60);
 	}
 
 	componentWillUnmount() {
@@ -510,7 +510,7 @@ class App extends React.Component {
 
 				if (res.data.vtopSignedIn) this.doGetCompletedCourses();
 			}).catch(err => {
-				if(err.response.status === 401) this.handleUnauth();
+				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
 
@@ -547,8 +547,8 @@ class App extends React.Component {
 			.then(res => {
 				if (res.data.success) {
 					var names = Array.from(new Set(res.data.data.map(v => v.timetableName)));
-					if(names.length === 0) names = ['Default'];
-					this.setState({timetableNames: names});
+					if (names.length === 0) names = ['Default'];
+					this.setState({ timetableNames: names });
 					this.changeActiveTimetable();
 				}
 				else
@@ -589,7 +589,7 @@ class App extends React.Component {
 	}
 
 	doCurriculumFetch = (prefix) => {
-		if(prefix === 'Curriculum') {
+		if (prefix === 'Curriculum') {
 			this.setState({ curriculum: {}, selectedCurriculum: 'Curriculum' });
 			localStorage.setItem('selectedCurriculum', 'Curriculum');
 			return;
@@ -638,7 +638,7 @@ class App extends React.Component {
 	}
 
 	doSetSelectedCourses = (timetable) => {
-		API.post('/user/selectedCoursesBulk', {selected_courses: timetable}).then(res => {
+		API.post('/user/selectedCoursesBulk', { selected_courses: timetable }).then(res => {
 		}).catch(err => {
 			if (err.response.status === 401) this.handleUnauth();
 		});;
@@ -680,13 +680,13 @@ class App extends React.Component {
 	}
 
 	getCreditCount() {
-		var count = this.state.timetable.reduce((a,v) => {
+		var count = this.state.timetable.reduce((a, v) => {
 			if (v.timetableName === this.state.activeTimetable)
 				return a + Number(v.credits);
 			return a;
 		}, 0)
 
-		if(!count) return 0;
+		if (!count) return 0;
 		return count;
 	}
 
@@ -772,9 +772,9 @@ class App extends React.Component {
 		})
 	}
 
-	changeActiveTimetable = (timetableName='Default') => {
+	changeActiveTimetable = (timetableName = 'Default') => {
 		// if(timetableName === this.state.activeTimetable)
-			// return;
+		// return;
 
 		var slots = this.state.timetable.reduce((a, v) => {
 			if (v.timetableName === timetableName && v.slot !== 'NIL')
@@ -802,7 +802,7 @@ class App extends React.Component {
 	}
 
 	doTimetableDelete = () => {
-		if(this.state.activeTimetable === 'Default') return;
+		if (this.state.activeTimetable === 'Default') return;
 		this.setState(prevState => ({
 			timetable: prevState.timetable.filter(v => v.timetableName !== prevState.activeTimetable),
 			timetableNames: prevState.timetableNames.filter(v => v !== prevState.activeTimetable),
@@ -813,7 +813,7 @@ class App extends React.Component {
 	}
 
 	doTimetableAdd = (newName) => {
-		if(this.state.timetableNames.includes(newName)) return;
+		if (this.state.timetableNames.includes(newName)) return;
 
 		this.setState(prevState => ({
 			timetableNames: [...prevState.timetableNames, newName]
@@ -828,13 +828,13 @@ class App extends React.Component {
 
 		this.setState(prevState => ({
 			timetableNames: prevState.timetableNames.map(v => {
-				if(v === this.state.activeTimetable)
+				if (v === this.state.activeTimetable)
 					return newName;
 				return v;
 			}),
 
 			timetable: prevState.timetable.map(v => {
-				if(v.timetableName === this.state.activeTimetable) {
+				if (v.timetableName === this.state.activeTimetable) {
 					v.timetableName = newName;
 					return v;
 				}
@@ -852,7 +852,7 @@ class App extends React.Component {
 		this.setState(prevState => ({
 			timetableNames: [...prevState.timetableNames, newName],
 			timetable: [...prevState.timetable, ...prevState.timetable.map(v => {
-				if(v.timetableName === prevState.activeTimetable)
+				if (v.timetableName === prevState.activeTimetable)
 					v.timetableName = newName;
 				return v;
 			})]
@@ -880,11 +880,11 @@ class App extends React.Component {
 	}
 
 	genTT = (prefs) => {
-		this.setState({generatingInProcess:true});
-		API.post('/ttgen/generateTimetable', {pref: prefs}).then(res => {
+		this.setState({ generatingInProcess: true });
+		API.post('/ttgen/generateTimetable', { pref: prefs }).then(res => {
 			if (res.data.success) {
 				const tt = res.data.data;
-				this.setState({ttError:undefined});
+				this.setState({ ttError: undefined });
 				const newName = tt[0].timetableName;
 				this.setState(prevState => ({
 					timetableNames: [...prevState.timetableNames, newName],
@@ -896,15 +896,15 @@ class App extends React.Component {
 			}
 			else
 				this.setState({ ttError: res.data.message });
-			this.setState({generatingInProcess:false});
+			this.setState({ generatingInProcess: false });
 		}).catch(err => {
-			this.setState({generatingInProcess:false});
+			this.setState({ generatingInProcess: false });
 		});;
 	}
 
 	renderTTErrors = () => {
-		if(this.state.ttError){
-			return (<Row><Alert variant='danger'  onClose={() => this.setState({ttError:undefined})} dismissible>
+		if (this.state.ttError) {
+			return (<Row><Alert variant='danger' onClose={() => this.setState({ ttError: undefined })} dismissible>
 				<p>
 					{this.state.ttError}
 				</p>

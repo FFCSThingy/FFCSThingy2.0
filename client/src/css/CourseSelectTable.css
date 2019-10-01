@@ -180,7 +180,7 @@ TODO------
 
 	pointer-events: none;
 	position: absolute;
-	left: 9.5rem;
+	left: 8.5rem;
 	z-index: 1;
 }
 
@@ -283,6 +283,11 @@ TODO------
 		flex: 0 0 60%;
 		max-width: 60%;
 	}
+
+	.codeText {
+		position: absolute;
+		left: 8.5rem;
+	}
 }
 
 @media only screen and (min-width: 1070px) {
@@ -295,6 +300,11 @@ TODO------
 		flex: 0 0 66.666667%;
 		max-width: 66.666667%;
 	}
+
+	.codeText {
+		position: absolute;
+		left: 9.5rem;
+	}
 }
 
 @media only screen and (min-width: 768px) and (max-width: 860px) {
@@ -303,5 +313,10 @@ TODO------
 	}
 	.courseTypeFilter .filterButton {
 		padding: 0.3rem 0.3rem;
+	}
+
+	.codeText {
+		position: absolute;
+		left: 8.5rem;
 	}
 }

@@ -180,7 +180,7 @@ TODO------
 }
 
 .codeText:after {
-	animation: changeWord 3s linear infinite alternate;
+	animation: changeWord 6s linear infinite alternate;
 	content: 'Slot';
 }
 
@@ -191,19 +191,35 @@ TODO------
 @keyframes changeWord {
 	0% {
 		content: 'Slot';
+		color: var(--text-color-default);
 	}
-	25% {
+	12.5% {
 		color: var(--brand-color);
 	}
-	50% {
+	25% {
 		content: 'Title';
 		color: var(--text-color-default);
 	}
+	37.5% {
+		color: var(--brand-color);
+	}
+	50% {
+		content: 'Code';
+		color: var(--text-color-default);
+	}
+	62.5% {
+		color: var(--brand-color);
+	}
 	75% {
+		content: 'Title';
+		color: var(--text-color-default);
+	}
+	87.5% {
 		color: var(--brand-color);
 	}
 	100% {
-		content: 'Code';
+		content: 'Slot';
+		color: var(--text-color-default);
 	}
 }
 

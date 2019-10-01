@@ -66,20 +66,6 @@ class Timetable extends Component {
 		)
 	}
 
-	renderTT = () => {
-		return (
-			<MediaQuery minDeviceWidth={768}>
-				{(matches) => {
-					if (matches) {
-						return this.renderTTDesktop()
-					} else {
-						return this.renderTTMobile()
-					}
-				}}
-			</MediaQuery>
-		)
-	}
-
 	renderHeaderRow = (row, mobile = false, morning = false, row1 = true) => {
 		return row.map((val, i) => {
 
@@ -147,9 +133,18 @@ class Timetable extends Component {
 	renderMobileAfternoonBody = () => SLOTS.map(row => this.renderRow(row, true, false));
 
 	render() {
-		return this.renderTT();
+		return (
+			<MediaQuery minDeviceWidth={768}>
+				{(matches) => {
+					if (matches) {
+						return this.renderTTDesktop()
+					} else {
+						return this.renderTTMobile()
+					}
+				}}
+			</MediaQuery>
+		);
 	}
-
 }
 
 export default Timetable;

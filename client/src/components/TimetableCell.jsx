@@ -9,29 +9,31 @@ class TimetableCell extends Component {
 		day: false,
 		time: false,
 		slotString: '',
-		dayString: '',
-		timeString: ''
+	}
+
+	renderBreak = () => {
+		return <td width="8px" rowSpan={9} className="timetableBreak"><strong>{this.props.children}</strong></td>
 	}
 
 	renderTime = () => {
 		var cellClass = (this.props.lab) ? 'timetableLabHours' : 'timetableTheoryHours';
-		return <td className={cellClass}>{this.props.timeString}</td>
+		return <td key={this.props.children} className={cellClass}>{this.props.children}</td>
 	}
 
 	renderDay = () => {
-		return <td key={this.props.dayString} className="timetableDay">{this.props.dayString}</td>
+		return <td key={this.props.children} className="timetableDay">{this.props.children}</td>
 	}
 
 	renderEmpty = () => {
-		return <td key={this.props.slotString} className="timetableEmpty"><b>{this.props.slotString}</b></td>
+		return <td key={this.props.children} className="timetableEmpty"><b>{this.props.children}</b></td>
 	}
 
 	renderFilled = () => {
 		var cellClass = (this.props.lab) ? 'timetableFilledLab' : 'timetableFilledTheory';
 		return (
-			<td key={this.props.slotString} className={cellClass}>
+			<td key={this.props.children} className={cellClass}>
 				<OverlayTrigger
-					key={`${this.props.slotString}-Overlay`}
+					key={`${this.props.children}-Overlay`}
 					placement="top"
 					trigger={['hover', 'click']}
 					overlay={
@@ -45,7 +47,7 @@ class TimetableCell extends Component {
 					}
 				>
 					<div>
-						<b className="slotDetails">{this.props.slotString}</b>
+						<b className="slotDetails">{this.props.children}</b>
 						<h6 className="courseCode">{this.props.reqdCourse.code}</h6>
 						<h6 className="courseDetails">{this.props.reqdCourse.venue} - {this.props.reqdCourse.course_type}</h6>
 					</div>
@@ -55,6 +57,7 @@ class TimetableCell extends Component {
 	}
 
 	render() {
+		if(this.props.break) return this.renderBreak();
 		if(this.props.day) return this.renderDay();
 		if(this.props.time) return this.renderTime();
 		

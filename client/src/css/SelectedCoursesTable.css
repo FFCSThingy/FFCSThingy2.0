@@ -59,6 +59,7 @@ td {
 .creditsRow {
 	font-size: 1.3em;
 	color: var(--text-color-inverted);
+	border-radius: .7rem;
 }
 
 .trashButton {

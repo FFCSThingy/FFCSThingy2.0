@@ -46,12 +46,14 @@ class SelectedCoursesTable extends React.Component {
 					</thead>
 					<tbody className="selectedCourseBody">
 						{appendList}
+					</tbody>
+					<tfoot className="creditsRow">
 						<tr>
-							<td colSpan="7" className="creditsRow">
-								<strong>Total Credits: { this.props.creditCount }</strong>
+							<td colSpan="7">
+								<strong>Total Credits: {this.props.creditCount}</strong>
 							</td>
 						</tr>
-					</tbody>
+					</tfoot>
 				</table>
 			</Container>
 

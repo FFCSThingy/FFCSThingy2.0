@@ -127,20 +127,30 @@ class CourseSelectTable extends React.Component {
 
 	renderNormalCard(value) {
 		var className = "courseCard";
-		if (value.code === this.props.selectedCourse) className = "courseCard active"
+		if (value.code === this.props.selectedCourse) className = "courseCard active";
+
+		var typeString = new Set();
+		if (value.types.filter(type => ['TH', 'ETH', 'SS'].includes(type)).length > 0) typeString.add('T');
+		if (value.types.filter(type => ['LO', 'ELA'].includes(type)).length > 0) typeString.add('L');
+		if (value.types.filter(type => ['PJT', 'EPJ'].includes(type)).length > 0) typeString.add('P');
+
+
 		return (
 			<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
 				<CardColumns className="courseList">
 					<Card className={className}>
 						<Card.Body>
 							<Card.Title>{value.title}</Card.Title>
-							<Card.Text>{value.code}
+							<Card.Text className="courseDetails">
+								<div className="courseCodeText">{value.code}</div>
+								<div className="courseTypes"> <b> {Array.from(typeString).join(' | ')} </b> </div>
 								<div className="courseCredits">{value.credits} Credits</div>
 							</Card.Text>
-							<Card.Subtitle className="cardCompletedSubtitle">{
-								(this.props.completedCourses[value.code]) ?
-									('Completed: ' + this.props.completedCourses[value.code]) : ''
-							}
+							<Card.Subtitle className="cardCompletedSubtitle">
+								{
+									(this.props.completedCourses[value.code]) ?
+										('Completed: ' + this.props.completedCourses[value.code]) : ''
+								}
 							</Card.Subtitle>
 						</Card.Body>
 					</Card>

@@ -100,7 +100,7 @@ TODO------
 	margin: 0 !important;
 }
 
-.cardOneHeader > .courseCode {
+.cardOneHeader > .courseCodeText {
 	margin: 0 !important;
 }
 
@@ -108,8 +108,23 @@ TODO------
 	margin: 0 !important;
 }
 
+.courseDetails {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	font-size: 1rem;
+}
+
+.courseCredits, .courseTypes, .courseCodeText {
+	flex-grow: 1;
+}
+
 .courseCredits {
-	float: right;
+	text-align: right;
+}
+
+.courseTypes {
+	text-align: center;
 }
 
 .cardCompletedSubtitle {

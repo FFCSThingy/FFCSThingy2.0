@@ -82,12 +82,14 @@ module.exports.getCourseList = (regardless=false) => {
 					titles: { $addToSet: "$title" },
 					lengths: { $addToSet: { $strLenCP: "$title" } },
 					credits: { $sum: "$credits" },
+					types: { $addToSet: "$types" }
 				}
 			}, {
 				$project: {
 					code: "$_id.code",
 					credits: { $sum: "$credits" },
 					title: { $arrayElemAt: ["$titles", { $indexOfArray: ["$lengths", { $max: "$lengths" }] }] },
+					types: { $arrayElemAt: ["$types", 0] },
 					_id: 0
 				}
 			}, {

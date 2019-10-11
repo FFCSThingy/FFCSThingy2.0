@@ -256,7 +256,7 @@ class CourseSelectTable extends React.Component {
 							<Card.Text className="courseSelectDetails">
 								<div className="courseCodeText">{value.code}</div>
 								<div className="courseTypes"> <b> {Array.from(typeString).join(' | ')} </b> </div>
-								<div className="courseCredits">{value.credits} Credits</div>
+								<div className="courseCredits">{value.credits} Credit{(value.credits == 1)?'':'s'}</div>
 							</Card.Text>
 							<Card.Subtitle className="cardCompletedSubtitle">
 								{

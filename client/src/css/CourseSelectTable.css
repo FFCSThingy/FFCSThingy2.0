@@ -10,14 +10,14 @@ TODO------
 - card-title
 - card-text  */
 
-input[type=number]::-webkit-outer-spin-button,
-input[type=number]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance:textfield;
+input[type='number'] {
+	-moz-appearance: textfield;
 }
 
 .courseTable {
@@ -125,7 +125,9 @@ input[type=number] {
 	font-size: 0.9rem;
 }
 
-.courseCredits, .courseTypes, .courseCodeText {
+.courseCredits,
+.courseTypes,
+.courseCodeText {
 	flex-grow: 1;
 }
 
@@ -245,12 +247,23 @@ input[type=number] {
 	transition: background-color 0.17s ease-in;
 }
 
+.typeFilterCol {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.creditFormGroup {
+	margin: 0;
+}
+
 .creditField {
 	background-color: var(--brand-color) !important;
 	color: var(--text-color-default) !important;
 	font-family: 'Montserrat', sans-serif;
 	border: none;
 	border-bottom: 2px solid var(--text-color-default);
+	border-radius: 0;
 	box-shadow: none !important;
 	padding: 0 !important;
 	height: 1.3em !important;
@@ -259,6 +272,7 @@ input[type=number] {
 	text-align: center;
 	text-transform: uppercase;
 	width: 100% !important;
+	margin-left: 10px;
 }
 
 .creditField:focus {
@@ -273,7 +287,6 @@ input[type=number] {
 	font-weight: bold;
 	font-size: 1.3em;
 }
-
 
 @keyframes changeWord {
 	0% {

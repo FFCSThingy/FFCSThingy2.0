@@ -163,7 +163,7 @@ class CourseSelectTable extends React.Component {
 				</Row>
 
 				<Row>
-					<Col xs={6} md={6}>
+					<Col xs={6} md={6} className="typeFilterCol">
 						<ToggleButtonGroup className="typeFilter"
 							type='checkbox'
 							value={this.state.typeFilters}
@@ -173,7 +173,7 @@ class CourseSelectTable extends React.Component {
 					</Col>
 
 					<Col xs={6} md={6}>
-						<Form.Group as={Row}>
+						<Form.Group as={Row} className="creditFormGroup">
 							<Col sm={5}>
 								<Form.Label className="creditLabel">Credits:</Form.Label>
 							</Col>

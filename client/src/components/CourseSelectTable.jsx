@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardColumns, Col, Container, Form, Row, Nav } from 'react-bootstrap';
+import { Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
 import { FaSearch } from 'react-icons/fa';
@@ -10,6 +10,7 @@ class CourseSelectTable extends React.Component {
 		searchString: '',
 		filteredCourses: [],
 		error: null,
+		typeFilters: [],
 	}
 
 	componentWillMount() {
@@ -24,10 +25,16 @@ class CourseSelectTable extends React.Component {
 		if (event.target.name === 'searchString') this.doSearch();
 	}
 
+	handleTypeChange = (value, event) => {
+		this.setState({ typeFilters: value });
+	}
+
 	doSearch() {
 		var searchString = this.state.searchString.toUpperCase();
 
-		if (searchString === '') return this.props.courseList;
+		if (searchString === '' && this.state.typeFilters.length === 0) return this.props.courseList;
+		else if (searchString === '' && this.state.typeFilters.length !== 0) 
+			return this.doFilter(this.props.courseList);
 		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1)
 
 		var searchBySlots = true;
@@ -51,9 +58,11 @@ class CourseSelectTable extends React.Component {
 			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code)
 		}
 
-		var filteredCourses = this.props.courseList.filter(v => {
+		var filteredCourses = this.props.courseList.filter(v => {	// Filter based on search
 			return filteredCodes.includes(v.code);
 		});
+
+		filteredCourses = this.doFilter(filteredCourses);
 
 		filteredCourses.sort();
 		filteredCourses.sort(function (a, b) {
@@ -70,6 +79,39 @@ class CourseSelectTable extends React.Component {
 			return;
 	}
 
+	checkTheory = (course) => course.types.filter(type => ['TH', 'ETH', 'SS'].includes(type)).length > 0;
+
+	checkLab = (course) => course.types.filter(type => ['LO', 'ELA'].includes(type)).length > 0;
+
+	checkProject = (course) => course.types.filter(type => ['PJT', 'EPJ'].includes(type)).length > 0;
+
+	doFilter = (courses) => {
+		return courses.filter(course => {	// Filter on course_type
+			if (this.state.typeFilters.length === 0) return true;
+
+			if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Lab') && this.state.typeFilters.includes('Project'))
+				return this.checkTheory(course) && this.checkLab(course) && this.checkProject(course);
+
+
+			else if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Lab'))
+				return this.checkTheory(course) && this.checkLab(course) && !this.checkProject(course);
+
+			else if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Project'))
+				return this.checkTheory(course) && !this.checkLab(course) && this.checkProject(course);
+
+			else if (this.state.typeFilters.includes('Project') && this.state.typeFilters.includes('Lab'))
+				return !this.checkTheory(course) && this.checkLab(course) && this.checkProject(course);
+
+
+			else if (this.state.typeFilters.includes('Theory'))
+				return this.checkTheory(course) && !this.checkLab(course) && !this.checkProject(course);
+			else if (this.state.typeFilters.includes('Lab'))
+				return !this.checkTheory(course) && this.checkLab(course) && !this.checkProject(course);
+			else if (this.state.typeFilters.includes('Project'))
+				return !this.checkTheory(course) && !this.checkLab(course) && this.checkProject(course);
+		});
+	}
+
 	renderSearchBar() {
 		var tabsDisabled = true;
 
@@ -78,6 +120,9 @@ class CourseSelectTable extends React.Component {
 			tabsDisabled = true;
 		}
 		else tabsDisabled = false;
+
+		var typeButtons = ['Theory', 'Lab', 'Project'].map(v =>
+			<ToggleButton value={v} className='toggleCustom' size='sm'>{v}</ToggleButton>);
 
 		return (
 			<Container className="searchBarContainer" fluid={true}>
@@ -95,6 +140,17 @@ class CourseSelectTable extends React.Component {
 							onChange={this.handleChange.bind(this)}
 						/>
 						{this.renderText()}
+					</Col>
+				</Row>
+
+				<Row>
+					<Col xs={{ offset: 3, span: 4 }} md={{ offset: 3, span: 4 }}>
+						<ToggleButtonGroup className="typeFilter"
+							type='checkbox'
+							value={this.state.typeFilters}
+							onChange={this.handleTypeChange} >
+							{typeButtons}
+						</ToggleButtonGroup>
 					</Col>
 				</Row>
 
@@ -141,7 +197,7 @@ class CourseSelectTable extends React.Component {
 					<Card className={className}>
 						<Card.Body>
 							<Card.Title>{value.title}</Card.Title>
-							<Card.Text className="courseDetails">
+							<Card.Text className="courseSelectDetails">
 								<div className="courseCodeText">{value.code}</div>
 								<div className="courseTypes"> <b> {Array.from(typeString).join(' | ')} </b> </div>
 								<div className="courseCredits">{value.credits} Credits</div>

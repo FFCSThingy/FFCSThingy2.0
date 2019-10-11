@@ -108,11 +108,11 @@ TODO------
 	margin: 0 !important;
 }
 
-.courseDetails {
+.courseSelectDetails {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
-	font-size: 1rem;
+	font-size: 0.9rem;
 }
 
 .courseCredits, .courseTypes, .courseCodeText {
@@ -206,6 +206,33 @@ TODO------
 
 .searchColumn:focus-within .codeText {
 	display: none;
+}
+
+.toggleCustom {
+	background: var(--select-table-background-color) !important;
+	border: none !important;
+	color: var(--text-color-inverted) !important;
+	transition: margin 0.17s ease-in-out;
+	transition: padding 0.17s ease-in-out;
+	transition: background-color 0.17s ease-in;
+	cursor: pointer;
+}
+
+.toggleCustom.focus {
+	box-shadow: none !important;
+}
+
+.toggleCustom.hover {
+	border: none !important;
+	background-color: var(--select-table-background-color) !important;
+	transition: background-color 0.17s ease-in;
+}
+
+.toggleCustom.active {
+	border: none !important;
+	background-color: var(--button-highlight-color) !important;
+	color: var(--text-color-default) !important;
+	transition: background-color 0.17s ease-in;
 }
 
 @keyframes changeWord {

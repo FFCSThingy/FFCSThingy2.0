@@ -178,7 +178,7 @@ class CourseSelectTable extends React.Component {
 								<Form.Label className="creditLabel">Credits:</Form.Label>
 							</Col>
 
-							<Col sm={{offset: 1, span: 6}}>
+							<Col sm={7}>
 								<Form.Control
 									column sm={4}
 									className="creditField"

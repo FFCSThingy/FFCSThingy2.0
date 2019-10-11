@@ -255,6 +255,9 @@ input[type='number'] {
 
 .creditFormGroup {
 	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .creditField {
@@ -268,7 +271,7 @@ input[type='number'] {
 	padding: 0 !important;
 	height: 1.3em !important;
 	font-weight: bold;
-	font-size: 1.3em;
+	font-size: 1rem;
 	text-align: center;
 	text-transform: uppercase;
 	width: 100% !important;
@@ -283,9 +286,11 @@ input[type='number'] {
 .creditLabel {
 	color: var(--text-color-default) !important;
 	font-family: 'Montserrat', sans-serif;
-
 	font-weight: bold;
-	font-size: 1.3em;
+	font-size: 1rem;
+	text-align: right;
+
+	margin: 0;
 }
 
 @keyframes changeWord {

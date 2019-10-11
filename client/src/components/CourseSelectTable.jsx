@@ -34,7 +34,7 @@ class CourseSelectTable extends React.Component {
 
 		if (searchString === '' && this.state.typeFilters.length === 0) return this.props.courseList;
 		else if (searchString === '' && this.state.typeFilters.length !== 0) 
-			return this.doFilter(this.props.courseList);
+			return this.doTypeFilter(this.props.courseList);
 		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1)
 
 		var searchBySlots = true;
@@ -62,7 +62,7 @@ class CourseSelectTable extends React.Component {
 			return filteredCodes.includes(v.code);
 		});
 
-		filteredCourses = this.doFilter(filteredCourses);
+		filteredCourses = this.doTypeFilter(filteredCourses);
 
 		filteredCourses.sort();
 		filteredCourses.sort(function (a, b) {
@@ -85,7 +85,7 @@ class CourseSelectTable extends React.Component {
 
 	checkProject = (course) => course.types.filter(type => ['PJT', 'EPJ'].includes(type)).length > 0;
 
-	doFilter = (courses) => {
+	doTypeFilter = (courses) => {
 		return courses.filter(course => {	// Filter on course_type
 			if (this.state.typeFilters.length === 0) return true;
 

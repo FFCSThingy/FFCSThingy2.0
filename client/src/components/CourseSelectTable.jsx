@@ -11,6 +11,7 @@ class CourseSelectTable extends React.Component {
 		filteredCourses: [],
 		error: null,
 		typeFilters: [],
+		creditFilter: '',
 	}
 
 	componentWillMount() {
@@ -31,10 +32,17 @@ class CourseSelectTable extends React.Component {
 
 	doSearch() {
 		var searchString = this.state.searchString.toUpperCase();
+		var filteredCourses = this.props.courseList;
 
-		if (searchString === '' && this.state.typeFilters.length === 0) return this.props.courseList;
-		else if (searchString === '' && this.state.typeFilters.length !== 0) 
-			return this.doTypeFilter(this.props.courseList);
+		if (searchString === '' && this.state.typeFilters.length === 0 && [0, ''].includes(this.state.creditFilter))
+			return filteredCourses;
+
+		// else if (searchString === '' && this.state.typeFilters.length !== 0)
+		// 	return this.doTypeFilter(this.props.courseList);
+		// else if (searchString === '' && this.state.typeFilters.length !== 0)
+		// 	return this.doTypeFilter(this.props.courseList);
+
+
 		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1)
 
 		var searchBySlots = true;
@@ -58,11 +66,14 @@ class CourseSelectTable extends React.Component {
 			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code)
 		}
 
-		var filteredCourses = this.props.courseList.filter(v => {	// Filter based on search
+		
+		
+		filteredCourses = this.props.courseList.filter(v => {	// Filter based on search
 			return filteredCodes.includes(v.code);
 		});
 
 		filteredCourses = this.doTypeFilter(filteredCourses);
+		filteredCourses = this.doCreditFilter(filteredCourses);
 
 		filteredCourses.sort();
 		filteredCourses.sort(function (a, b) {
@@ -112,6 +123,14 @@ class CourseSelectTable extends React.Component {
 		});
 	}
 
+	doCreditFilter = (courses) => {
+		return courses.filter(course => {
+			if (this.state.creditFilter <= 0 || this.state.creditFilter === '') return true;
+			if (course.credits === Number(this.state.creditFilter)) return true;
+			return false;
+		});
+	}
+
 	renderSearchBar() {
 		var tabsDisabled = true;
 
@@ -144,13 +163,50 @@ class CourseSelectTable extends React.Component {
 				</Row>
 
 				<Row>
-					<Col xs={{ offset: 3, span: 4 }} md={{ offset: 3, span: 4 }}>
+					<Col xs={6} md={6}>
 						<ToggleButtonGroup className="typeFilter"
 							type='checkbox'
 							value={this.state.typeFilters}
 							onChange={this.handleTypeChange} >
 							{typeButtons}
 						</ToggleButtonGroup>
+					</Col>
+
+					<Col xs={6} md={6}>
+						<Form.Group as={Row}>
+							<Col sm={5}>
+								<Form.Label className="creditLabel">Credits:</Form.Label>
+							</Col>
+
+							<Col sm={{offset: 1, span: 6}}>
+								<Form.Control
+									column sm={4}
+									className="creditField"
+									name='creditFilter'
+									type='number'
+									min='0'
+									max='30'
+									spellCheck='false'
+									autoComplete='off'
+									defaultValue={this.state.creditFilter}
+									onChange={this.handleChange.bind(this)}
+								/>
+							</Col>
+						</Form.Group>
+
+						{/* <Form.Control
+							column sm={4}
+							className="creditField"
+							name='creditFilter'
+							type='number'
+							min='0'
+							max='30'
+							placeholder='Credits'
+							spellCheck='false'
+							autoComplete='off'
+							defaultValue={this.state.creditFilter}
+							onChange={this.handleChange.bind(this)}
+						/> */}
 					</Col>
 				</Row>
 

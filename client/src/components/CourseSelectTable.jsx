@@ -39,12 +39,6 @@ class CourseSelectTable extends React.Component {
 		if (searchString === '' && this.state.typeFilters.length === 0 && [0, ''].includes(this.state.creditFilter))
 			return filteredCourses;
 
-		// else if (searchString === '' && this.state.typeFilters.length !== 0)
-		// 	return this.doTypeFilter(this.props.courseList);
-		// else if (searchString === '' && this.state.typeFilters.length !== 0)
-		// 	return this.doTypeFilter(this.props.courseList);
-
-
 		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1)
 
 		var searchBySlots = true;

@@ -16,6 +16,7 @@ import CustomNavbar from './components/CustomNavbar';
 
 // Constants
 import { THEMES } from './constants/Themes';
+import * as COURSE from './constants/Courses';
 
 import './App.css';
 import './css/CustomNavbar.css'
@@ -647,9 +648,9 @@ class App extends React.Component {
 	filterCourse = () => {
 		return this.state.heatmap.filter(course => course.code === this.state.selectedCourse)
 			.map(course => {
-				if (['TH', 'ETH', 'SS'].includes(course.course_type)) course.simple_type = 'Theory';
-				if (['LO', 'ELA'].includes(course.course_type)) course.simple_type = 'Lab';
-				if (['PJT', 'EPJ'].includes(course.course_type)) course.simple_type = 'Project';
+				if (COURSE.isLabType(course.course_type)) course.simple_type = 'Lab';
+				if (COURSE.isProjectType(course.course_type)) course.simple_type = 'Project';
+				if (COURSE.isTheoryType(course.course_type)) course.simple_type = 'Theory';
 
 				return course;
 			});

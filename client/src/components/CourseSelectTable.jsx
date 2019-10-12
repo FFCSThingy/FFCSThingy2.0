@@ -4,6 +4,8 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
 import { FaSearch } from 'react-icons/fa';
 
+import * as COURSE from '../constants/Courses';
+
 class CourseSelectTable extends React.Component {
 	state = {
 		selectedCategory: 'ALL',
@@ -90,11 +92,11 @@ class CourseSelectTable extends React.Component {
 			return;
 	}
 
-	checkTheory = (course) => course.types.filter(type => ['TH', 'ETH', 'SS'].includes(type)).length > 0;
+	checkTheory = (course) => course.types.filter(type => COURSE.isTheoryType(type)).length > 0;
 
-	checkLab = (course) => course.types.filter(type => ['LO', 'ELA'].includes(type)).length > 0;
+	checkLab = (course) => course.types.filter(type => COURSE.isLabType(type)).length > 0;
 
-	checkProject = (course) => course.types.filter(type => ['PJT', 'EPJ'].includes(type)).length > 0;
+	checkProject = (course) => course.types.filter(type => COURSE.isProjectType(type)).length > 0;
 
 	doTypeFilter = (courses) => {
 		return courses.filter(course => {	// Filter on course_type
@@ -140,7 +142,7 @@ class CourseSelectTable extends React.Component {
 		}
 		else tabsDisabled = false;
 
-		var typeButtons = ['Theory', 'Lab', 'Project'].map(v =>
+		var typeButtons = COURSE.simpleTypes.map(v =>
 			<ToggleButton value={v} className='toggleCustom' size='sm'>{v}</ToggleButton>);
 
 		return (
@@ -242,9 +244,9 @@ class CourseSelectTable extends React.Component {
 		if (value.code === this.props.selectedCourse) className = "courseCard active";
 
 		var typeString = new Set();
-		if (value.types.filter(type => ['TH', 'ETH', 'SS'].includes(type)).length > 0) typeString.add('T');
-		if (value.types.filter(type => ['LO', 'ELA'].includes(type)).length > 0) typeString.add('L');
-		if (value.types.filter(type => ['PJT', 'EPJ'].includes(type)).length > 0) typeString.add('P');
+		if (value.types.filter(type => COURSE.isLabType(type)).length > 0) typeString.add('L');
+		if (value.types.filter(type => COURSE.isProjectType(type)).length > 0) typeString.add('P');
+		if (value.types.filter(type => COURSE.isTheoryType(type)).length > 0) typeString.add('T');
 
 
 		return (

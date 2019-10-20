@@ -78,39 +78,48 @@ class CourseSelectTable extends React.Component {
 	}
 
 	doSearch() {
-		var searchString = this.state.searchString.toUpperCase();
-		var filteredCourses = this.props.courseList;
-
-		if (searchString === '' && this.state.typeFilters.length === 0 && [0, ''].includes(this.state.creditFilter))
-			return filteredCourses;
-
-		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1)
-
-		var searchBySlots = true;
-
 		var slots_title = new Set(["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2", "E1", "E2", "F1", "F2", "G1", "G2", "L1", "L10", "L11", "L12", "L13", "L14", "L15", "L16", "L19", "L2", "L20", "L21", "L22", "L23", "L24", "L25", "L26", "L27", "L28", "L29", "L3", "L30", "L31", "L32", "L33", "L34", "L35", "L36", "L37", "L38", "L39", "L4", "L40", "L41", "L42", "L43", "L44", "L45", "L46", "L47", "L48", "L49", "L5", "L50", "L51", "L52", "L53", "L54", "L55", "L56", "L57", "L58", "L59", "L6", "L60", "L7", "L71", "L72", "L73", "L74", "L75", "L76", "L77", "L78", "L79", "L8", "L80", "L81", "L82", "L83", "L84", "L85", "L86", "L87", "L88", "L89", "L9", "L90", "L91", "L92", "L93", "L94", "TA1", "TA2", "TAA1", "TAA2", "TB1", "TB2", "TBB2", "TC1", "TC2", "TCC1", "TCC2", "TD1", "TD2", "TDD2", "TE1", "TE2", "TF1", "TF2", "TG1", "TG2", "V1", "V10", "V11", "V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "W2", "X1", "X2", "Y1", "Y2", "Z", ""]);
 
-		if (searchString === "")
-			searchBySlots = false;
-		else
-			searchBySlots = true;
-
-		var searchStringSlots = searchString.toUpperCase().split("+");
-
-		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), searchBySlots);
-
+		var searchBySlots = false;
+		var searchByFaculty = false;
+		var filteredCourses = this.state.courseList;
 		var filteredCodes = [];
+
+		// Clean the input
+		var searchString = this.state.searchString.toUpperCase().trim();
+		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1);
+		var searchStringSlots = searchString.split("+");
+
+		// Default search
+		if (['', '*'].includes(searchString) && this.state.typeFilters.length === 0 && [0, ''].includes(this.state.creditFilter))
+			return filteredCourses;
+
+		// Set value of searchBySlots
+		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), true);	
+
+		// Set value of searchByFaculty
+		searchByFaculty = searchString.startsWith('*');
+
 		if (searchBySlots) {
-			filteredCodes = this.props.heatmap.filter(v => {
-				return searchStringSlots.every(c => v.slot.replace(' ', '').split('+').includes(c));
-			}).map(v => v.code);
+			filteredCodes = this.props.heatmap.filter(v => 
+				searchStringSlots.every(c => 
+					v.slot.replace(' ', '').split('+').includes(c))
+			).map(v => v.code);
+		} else if (searchByFaculty) {
+			// Remove all instances of *
+			var tempSearchString = searchString.replace('\*', '');
+
+			// Filter faculty list
+			var faculties = Object.keys(this.state.courseFacultyList)
+				.filter(v => v.includes(tempSearchString));
+
+			// Map courses from courseFacultyList and flatten it
+			filteredCodes = Array.from(new Set(faculties.flatMap(v => this.state.courseFacultyList[v])));
 		} else {
-			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code)
+			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code);
 		}
 
-		
-		
-		filteredCourses = this.props.courseList.filter(v => {	// Filter based on search
+		filteredCourses = this.state.courseList.filter(v => {	// Filter based on search
 			return filteredCodes.includes(v.code);
 		});
 
@@ -118,9 +127,12 @@ class CourseSelectTable extends React.Component {
 		filteredCourses = this.doCreditFilter(filteredCourses);
 
 		filteredCourses.sort();
+
+		if(!searchByFaculty) {
 		filteredCourses.sort(function (a, b) {
 			return b.title.indexOf(searchString) - a.title.indexOf(searchString) + b.code.indexOf(searchString) - a.code.indexOf(searchString);
 		});
+		}	
 
 		return filteredCourses;
 	}

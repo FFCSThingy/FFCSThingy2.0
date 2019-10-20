@@ -12,8 +12,8 @@ import * as COURSE from '../constants/Courses';
 class CourseSelectTable extends React.Component {
 	state = {
 		courseList: JSON.parse(localStorage.getItem('courseList')) || [],
-
 		courseFacultyList: JSON.parse(localStorage.getItem('courseFacultyList')) || [],
+		prereqs: JSON.parse(localStorage.getItem('prereqs')) || {},
 
 		selectedCategory: 'ALL',
 		searchString: '',
@@ -26,6 +26,7 @@ class CourseSelectTable extends React.Component {
 	componentDidMount() {
 		this.doGetCourseList();
 		this.doGetCourseFacultyList();
+		this.doGetPrereqs();
 	}
 
 	doGetCourseList = () => {
@@ -58,6 +59,25 @@ class CourseSelectTable extends React.Component {
 					else {
 						this.setState({ courseFacultyList: res.data.data.courseFacultyList });
 						localStorage.setItem('courseFacultyList', JSON.stringify(res.data.data.courseFacultyList));
+					}
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				if (err.response.status === 401) this.handleUnauth();
+			});
+	}
+
+	doGetPrereqs = () => {
+		API.get("/course/prereqs")
+			.then(res => {
+				if (res.data.success) {
+					if (res.status === 304) {
+						var prereqs = JSON.parse(localStorage.getItem('prereqs'));
+						this.setState({ prereqs: prereqs });
+					}
+					else {
+						this.setState({ prereqs: res.data.data });
+						localStorage.setItem('prereqs', JSON.stringify(res.data.data));
 					}
 				} else
 					this.setState({ error: res.data.message })
@@ -314,22 +334,44 @@ class CourseSelectTable extends React.Component {
 		return (
 			<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
 				<CardColumns className="courseList">
-					<Card className={className}>
-						<Card.Body>
-							<Card.Title>{value.title}</Card.Title>
-							<Card.Text className="courseSelectDetails">
-								<div className="courseCodeText">{value.code}</div>
-								<div className="courseTypes"> <b> {Array.from(typeString).join(' | ')} </b> </div>
-								<div className="courseCredits">{value.credits} Credit{(value.credits == 1) ? '' : 's'}</div>
-							</Card.Text>
-							<Card.Subtitle className="cardCompletedSubtitle">
+					<OverlayTrigger
+						key={`${value.code}-Prereq-Overlay`}
+						placement="top-start"
+						trigger={['hover', 'focus']}
+						overlay={
+							<Tooltip>
 								{
-									(this.props.completedCourses[value.code]) ?
-										('Completed: ' + this.props.completedCourses[value.code]) : ''
+									this.state.prereqs ?
+										this.state.prereqs[value.code] ?
+											<div className="coursePrereq">
+												<b>Prerequisites:</b> <br />
+												{ 
+													this.state.prereqs[value.code].split(',').map(v => <p>{v}</p>)
+												}
+											</div> 
+											: <b>No Prerequisites</b>
+										: ''
 								}
-							</Card.Subtitle>
-						</Card.Body>
-					</Card>
+							</Tooltip>
+						}
+					>
+						<Card className={className}>
+							<Card.Body>
+								<Card.Title>{value.title}</Card.Title>
+								<Card.Text className="courseSelectDetails">
+									<div className="courseCodeText">{value.code}</div>
+									<div className="courseTypes"> <b> {Array.from(typeString).join(' | ')} </b> </div>
+									<div className="courseCredits">{value.credits} Credit{(value.credits == 1) ? '' : 's'}</div>
+								</Card.Text>
+								<Card.Subtitle className="cardCompletedSubtitle">
+									{
+										(this.props.completedCourses[value.code]) ?
+											('Completed: ' + this.props.completedCourses[value.code]) : ''
+									}
+								</Card.Subtitle>
+							</Card.Body>
+						</Card>
+					</OverlayTrigger>
 				</CardColumns>
 			</div>
 		)

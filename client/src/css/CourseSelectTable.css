@@ -364,6 +364,11 @@ input[type='number'] {
 	padding: 0 5px;
 }
 
+.coursePrereq p:last-child {
+	margin: 0;
+	padding: 0;
+}
+
 @media only screen and (min-width: 420px) {
 	.curriculumDropdown {
 		width: 70%;

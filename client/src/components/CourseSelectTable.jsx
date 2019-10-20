@@ -1,5 +1,6 @@
 import React from 'react';
-import { Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup, Media } from 'react-bootstrap';
+import MediaQuery from 'react-responsive';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
 import { FaSearch } from 'react-icons/fa';
@@ -139,7 +140,7 @@ class CourseSelectTable extends React.Component {
 		else tabsDisabled = false;
 
 		var typeButtons = COURSE.simpleTypes.map(v =>
-			<ToggleButton value={v} className='toggleCustom' size='sm'>{v}</ToggleButton>);
+			<ToggleButton value={v} className='toggleCustom filterToggles' size='sm'>{v}</ToggleButton> );
 
 		return (
 			<Container className="searchBarContainer" fluid={true}>
@@ -161,7 +162,7 @@ class CourseSelectTable extends React.Component {
 				</Row>
 
 				<Row>
-					<Col xs={6} md={6} className="typeFilterCol">
+					<Col xs={7} md={5} lg={6} className="typeFilterCol">
 						<ToggleButtonGroup className="typeFilter"
 							type='checkbox'
 							value={this.state.typeFilters}
@@ -170,15 +171,14 @@ class CourseSelectTable extends React.Component {
 						</ToggleButtonGroup>
 					</Col>
 
-					<Col xs={6} md={6}>
+					<Col xs={5} md={7} lg={6} className="creditFilterCol">
 						<Form.Group as={Row} className="creditFormGroup">
-							<Col sm={5}>
+							<Col xs={7} sm={5} md={7} lg={5}>
 								<Form.Label className="creditLabel">Credits:</Form.Label>
 							</Col>
 
-							<Col sm={7}>
+							<Col xs={5} sm={7} md={5} lg={7}>
 								<Form.Control
-									column sm={4}
 									className="creditField"
 									name='creditFilter'
 									type='number'
@@ -191,20 +191,6 @@ class CourseSelectTable extends React.Component {
 								/>
 							</Col>
 						</Form.Group>
-
-						{/* <Form.Control
-							column sm={4}
-							className="creditField"
-							name='creditFilter'
-							type='number'
-							min='0'
-							max='30'
-							placeholder='Credits'
-							spellCheck='false'
-							autoComplete='off'
-							defaultValue={this.state.creditFilter}
-							onChange={this.handleChange.bind(this)}
-						/> */}
 					</Col>
 				</Row>
 

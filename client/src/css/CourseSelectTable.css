@@ -245,6 +245,7 @@ input[type='number'] {
 	transition: background-color 0.17s ease-in;
 }
 
+
 .typeFilterCol {
 	display: flex;
 	justify-content: center;
@@ -369,6 +370,14 @@ input[type='number'] {
 	.filterButton {
 		padding: 0.5rem 0.5rem;
 	}
+
+	.typeFilterCol.typeFilter {
+		padding: 0;
+	}
+
+	.creditFilterCol div{
+		padding: 0;
+	}
 }
 
 @media only screen and (min-width: 768px) {
@@ -424,5 +433,27 @@ input[type='number'] {
 
 	.searchBar:focus { 
 		width: 90%;
+	}
+
+	.toggleCustom.filterToggles {
+		font-size: 0.65rem !important;
+		padding: 0.15rem 0.35rem;
+	}
+
+	.noGutters {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	.typeFilterCol.typeFilter {
+		padding: 0;
+	}
+
+	.creditFilterCol div{
+		padding: 0;
+	}
+
+	.creditField {
+		margin-left: 4px;
 	}
 }

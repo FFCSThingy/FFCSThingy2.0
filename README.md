@@ -46,10 +46,11 @@
 - Run ```mongod``` in a terminal somewhere (Not required if it's running as a service)
 - In root, run ```npm i```
 - ```npm i -g express nodemon concurrently babel-cli```
-- In client, run ```npm i```
-- In root, run ```npm run start:server```
+- In backend, client, run ```npm i```
+- In backend, run ```npm run start:server```
+- In client, run ```npm start```
 - Navigate to: 
 	-  ```http://localhost:3001/course/addCoursesToDB```    
     -  ```http://localhost:3001/curriculum/updateCurriculums```
-- ```Ctrl+C``` out of the npm run command
-- ```npm run start:dev```  and you'll be up and running   
+- Go to ```http://localhost:3001/auth/google``` and login
+- Go to ```http://localhost:3000/dashboard``` and you're up and running.

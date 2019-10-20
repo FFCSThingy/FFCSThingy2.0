@@ -4,11 +4,16 @@ import MediaQuery from 'react-responsive';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
 import { FaSearch } from 'react-icons/fa';
+import API from '../API';
 
 import * as COURSE from '../constants/Courses';
 
 class CourseSelectTable extends React.Component {
 	state = {
+		courseList: JSON.parse(localStorage.getItem('courseList')) || [],
+
+		courseFacultyList: JSON.parse(localStorage.getItem('courseFacultyList')) || [],
+
 		selectedCategory: 'ALL',
 		searchString: '',
 		filteredCourses: [],
@@ -18,10 +23,48 @@ class CourseSelectTable extends React.Component {
 		searchByFaulty: false,
 	}
 
-	componentWillMount() {
-
+	componentDidMount() {
+		this.doGetCourseList();
+		this.doGetCourseFacultyList();
 	}
 
+	doGetCourseList = () => {
+		API.get("/course/courseList")
+			.then(res => {
+				if (res.data.success) {
+					if (res.status === 304) {
+						var courses = JSON.parse(localStorage.getItem('courseList'));
+						this.setState({ courseList: courses });
+	}
+					else {
+						this.setState({ courseList: res.data.data.courseList });
+						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
+					}
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				if (err.response.status === 401) this.handleUnauth();
+			});
+	}
+
+	doGetCourseFacultyList = () => {
+		API.get("/course/courseFacultyList")
+			.then(res => {
+				if (res.data.success) {
+					if (res.status === 304) {
+						var courses = JSON.parse(localStorage.getItem('courseFacultyList'));
+						this.setState({ courseFacultyList: courses });
+					}
+					else {
+						this.setState({ courseFacultyList: res.data.data.courseFacultyList });
+						localStorage.setItem('courseFacultyList', JSON.stringify(res.data.data.courseFacultyList));
+					}
+				} else
+					this.setState({ error: res.data.message })
+			}).catch(err => {
+				if (err.response.status === 401) this.handleUnauth();
+			});
+	}
 	handleChange = (event) => {
 		let fieldName = event.target.name;
 		let fleldVal = event.target.value;

@@ -43,8 +43,6 @@ class App extends React.Component {
 			timetableTimestamp: localStorage.getItem('timetableTimestamp') || null,
 			timetableNames: ['Default'],
 
-			courseList: JSON.parse(localStorage.getItem('courseList')) || [],
-			timestamp: localStorage.getItem('courseListTimestamp') || null,
 			selectedCourse: '',
 			completedCourses: {},
 
@@ -480,7 +478,6 @@ class App extends React.Component {
 		this.updateTheme();
 		this.doGetAccount();
 		this.doGetSelectedCourses();
-		this.doGetCourseList();
 		this.doGetFullHeatmap();
 		this.doGetPrefixes();
 		this.doCurriculumFetch(this.state.selectedCurriculum);
@@ -602,27 +599,6 @@ class App extends React.Component {
 					this.setState({ curriculum: res.data.data, selectedCurriculum: prefix });
 					localStorage.setItem(prefix, JSON.stringify(res.data.data));
 					localStorage.setItem('selectedCurriculum', prefix);
-				} else
-					this.setState({ error: res.data.message })
-			}).catch(err => {
-				if (err.response.status === 401) this.handleUnauth();
-			});
-	}
-
-	doGetCourseList = () => {
-		// API.get("/course/newCourseList")
-		API.get("/course/courseList")
-			.then(res => {
-				if (res.data.success) {
-					if (res.status === 304) {
-						var courses = JSON.parse(localStorage.getItem('courseList'));
-						this.setState({ courseList: courses });
-					}
-					else {
-						this.setState({ courseList: res.data.data.courseList });
-						localStorage.setItem('courseListTimestamp', res.data.data.timestamp);
-						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
-					}
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
@@ -935,7 +911,6 @@ class App extends React.Component {
 						<CourseSelectTable
 							selectCourse={this.selectCourse}
 
-							courseList={this.state.courseList}
 							completedCourses={this.state.completedCourses}
 							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}

@@ -267,14 +267,13 @@ input[type='number'] {
 	border-bottom: 2px solid var(--text-color-default);
 	border-radius: 0;
 	box-shadow: none !important;
-	padding: 0 !important;
+	padding: 0;
 	height: 1.3em !important;
 	font-weight: bold;
 	font-size: 1rem;
 	text-align: center;
 	text-transform: uppercase;
-	width: 100% !important;
-	margin-left: 10px;
+	width: 100%;
 }
 
 .creditField:focus {

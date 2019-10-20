@@ -160,16 +160,13 @@ input[type='number'] {
 	border: none;
 	box-shadow: none !important;
 	padding: 0 !important;
-	height: 1.1em !important;
 	font-weight: bold;
 	font-size: 1.3em;
 	text-align: left;
 	text-transform: uppercase;
-	width: 100%;
-}
 
-.searchBarContainer input:focus {
-	width: 15rem;
+	width: 92%;
+	height: 1.1em !important;
 }
 
 .searchBarContainer ::placeholder {
@@ -197,6 +194,7 @@ input[type='number'] {
 .searchIcon {
 	margin-top: 0.2rem;
 	margin-right: 0.5rem;
+	flex-shrink: 0;
 }
 
 .codeText {
@@ -207,7 +205,7 @@ input[type='number'] {
 
 	pointer-events: none;
 	position: absolute;
-	left: 8.5rem;
+	left: 9.5rem;
 	z-index: 1;
 }
 
@@ -386,7 +384,7 @@ input[type='number'] {
 
 	.codeText {
 		position: absolute;
-		left: 8.5rem;
+		left: 9.5rem;
 	}
 }
 
@@ -417,6 +415,14 @@ input[type='number'] {
 
 	.codeText {
 		position: absolute;
-		left: 8.5rem;
+		left: 9.5rem;
+	}
+
+	.searchBar { 
+		width: 90%;
+	}
+
+	.searchBar:focus { 
+		width: 90%;
 	}
 }

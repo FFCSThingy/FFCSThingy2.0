@@ -359,6 +359,11 @@ input[type='number'] {
 	transition: background-color 0.17s ease-in;
 }
 
+.searchTooltip td,
+.searchTooltip th{
+	padding: 0 5px;
+}
+
 @media only screen and (min-width: 420px) {
 	.curriculumDropdown {
 		width: 70%;

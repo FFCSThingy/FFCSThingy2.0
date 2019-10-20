@@ -74,6 +74,42 @@ router.get('/courseList/:timestamp?', async (req, res, next) => {
 	}
 });
 
+router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
+	try {
+		var systemTimestamp = await system.getRepopulateTime();
+		var reqTimestamp = req.params.timestamp;
+		var courseFacultyList;
+
+		if (!reqTimestamp) {
+			courseFacultyList = await course.getCourseFacultyList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseFacultyList: courseFacultyList[0].list,
+					timestamp: systemTimestamp
+				}
+			});
+		}
+		else if (new Date(reqTimestamp) < new Date(systemTimestamp)) {
+			courseFacultyList = await course.getCourseFacultyList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseFacultyList: courseFacultyList[0].list,
+					timestamp: systemTimestamp
+				}
+			});
+		}
+		else
+			res.status(304).json({ success: true, message: "Up To Date" });
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ success: false, message: '/getCourseFacultyList failed' });
+	}
+});
+
 router.get('/newCourseList', async (req, res, next) => {
 	var systemTimestamp = new Date(await system.getRepopulateTime());
 

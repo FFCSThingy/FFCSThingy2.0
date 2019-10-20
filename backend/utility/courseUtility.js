@@ -105,6 +105,44 @@ module.exports.getCourseList = (regardless=false) => {
 	});
 }
 
+module.exports.getCourseFacultyList = (regardless = false) => { 
+	return new Promise((resolve, reject) => {
+		Course.aggregate([
+			{
+				$group: {
+					_id: {
+						faculty: "$faculty",
+					},
+					courseList: { $addToSet: "$code" }
+				}
+			}, {
+				$sort: {
+					"_id.faculty": 1
+					}
+			}, {
+				$group: {
+					_id: null,
+					array: {
+						$push: {
+							k: "$_id.faculty",
+							v: "$courseList"
+						}
+					}
+				}
+			}, {
+				$project: {
+					_id: 0,
+					list: { $arrayToObject: "$array" }
+				}
+			}
+		], function (err, doc) {
+			console.log('Error in courseFacultyList Query: ' + err);
+			if (err) return reject(err);
+			return resolve(doc);
+		})
+	});
+}
+
 cron.schedule('*/5 * * * *', function () {
 	if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	// if (process.env.NODE_ENV !== 'staging') {

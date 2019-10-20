@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
@@ -7,7 +8,7 @@ const course = require('../utility/courseUtility');
 const system = require('../utility/systemUtility');
 const { resolve } = require('path');
 
-// var courseReportJSON = require('../data/report.json');
+const prereqJSON = require(path.join(__dirname, '..', 'data', 'prereqs.json'));
 
 const router = express.Router();
 
@@ -205,6 +206,10 @@ router.get('/updateHeatmap', async(req, res, next) => {
 	} catch(err) {
 		console.log(err);
 	}
+});
+
+router.get('/prereqs', async(req, res, next) => {
+	res.json({ success: true, data: prereqJSON });
 });
 
 module.exports = router;

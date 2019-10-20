@@ -4,6 +4,7 @@ import MediaQuery from 'react-responsive';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
 import { FaSearch } from 'react-icons/fa';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import API from '../API';
 
 import * as COURSE from '../constants/Courses';
@@ -20,7 +21,6 @@ class CourseSelectTable extends React.Component {
 		error: null,
 		typeFilters: [],
 		creditFilter: '',
-		searchByFaulty: false,
 	}
 
 	componentDidMount() {
@@ -35,7 +35,7 @@ class CourseSelectTable extends React.Component {
 					if (res.status === 304) {
 						var courses = JSON.parse(localStorage.getItem('courseList'));
 						this.setState({ courseList: courses });
-	}
+					}
 					else {
 						this.setState({ courseList: res.data.data.courseList });
 						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
@@ -65,6 +65,7 @@ class CourseSelectTable extends React.Component {
 				if (err.response.status === 401) this.handleUnauth();
 			});
 	}
+
 	handleChange = (event) => {
 		let fieldName = event.target.name;
 		let fleldVal = event.target.value;
@@ -129,9 +130,9 @@ class CourseSelectTable extends React.Component {
 		filteredCourses.sort();
 
 		if(!searchByFaculty) {
-		filteredCourses.sort(function (a, b) {
-			return b.title.indexOf(searchString) - a.title.indexOf(searchString) + b.code.indexOf(searchString) - a.code.indexOf(searchString);
-		});
+			filteredCourses.sort(function (a, b) {
+				return b.title.indexOf(searchString) - a.title.indexOf(searchString) + b.code.indexOf(searchString) - a.code.indexOf(searchString);
+			});
 		}	
 
 		return filteredCourses;
@@ -195,23 +196,47 @@ class CourseSelectTable extends React.Component {
 		else tabsDisabled = false;
 
 		var typeButtons = COURSE.simpleTypes.map(v =>
-			<ToggleButton value={v} className='toggleCustom filterToggles' size='sm'>{v}</ToggleButton> );
+			<ToggleButton value={v} className='toggleCustom filterToggles' size='sm'>{v}</ToggleButton>);
 
 		return (
 			<Container className="searchBarContainer" fluid={true}>
 				<Row>
 					<Col className="searchColumn" xs={12} md={12}>
 						<FaSearch className="searchIcon"></FaSearch>
-						<Form.Control
-							className="searchBar"
-							name='searchString'
-							type='text'
-							placeholder='Search by'
-							spellCheck='false'
-							autoComplete='off'
-							defaultValue={this.state.searchString}
-							onChange={this.handleChange.bind(this)}
-						/>
+						<OverlayTrigger
+							key={`SearchBar-Overlay`}
+							placement="top"
+							trigger={['hover', 'focus']}
+							overlay={
+								<Tooltip>
+									<table className="searchTooltip">
+										<thead>	
+											<tr>
+												<th>Prefix</th>
+												<th>Search By</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>*</td>
+												<td>Faculty</td>
+											</tr>
+										</tbody>	
+									</table>
+								</Tooltip>
+							}
+						>
+							<Form.Control
+								className="searchBar"
+								name='searchString'
+								type='text'
+								placeholder='Search by'
+								spellCheck='false'
+								autoComplete='off'
+								defaultValue={this.state.searchString}
+								onChange={this.handleChange.bind(this)}
+							/>
+						</OverlayTrigger>
 						{this.renderText()}
 					</Col>
 				</Row>
@@ -295,7 +320,7 @@ class CourseSelectTable extends React.Component {
 							<Card.Text className="courseSelectDetails">
 								<div className="courseCodeText">{value.code}</div>
 								<div className="courseTypes"> <b> {Array.from(typeString).join(' | ')} </b> </div>
-								<div className="courseCredits">{value.credits} Credit{(value.credits == 1)?'':'s'}</div>
+								<div className="courseCredits">{value.credits} Credit{(value.credits == 1) ? '' : 's'}</div>
 							</Card.Text>
 							<Card.Subtitle className="cardCompletedSubtitle">
 								{

@@ -139,7 +139,7 @@ class CourseSelectTable extends React.Component {
 			filteredCodes = Array.from(new Set(faculties.flatMap(v => this.state.courseFacultyList[v])));
 		} else {
 			filteredCodes = this.state.courseList.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code);
-		}
+		} 
 
 
 		filteredCourses = this.state.courseList.filter(v => {	// Filter based on search
@@ -354,6 +354,7 @@ class CourseSelectTable extends React.Component {
 											: <b>No Prerequisites</b>
 										: ''
 								}
+								<div className="courseTypes"> <b> Course Type: </b>{Array.from(typeString).join(' | ')} </div>
 							</Tooltip>
 						}
 					>
@@ -362,7 +363,6 @@ class CourseSelectTable extends React.Component {
 								<Card.Title>{value.title}</Card.Title>
 								<Card.Text className="courseSelectDetails">
 									<div className="courseCodeText">{value.code}</div>
-									<div className="courseTypes"> <b> {Array.from(typeString).join(' | ')} </b> </div>
 									<div className="courseCredits">{value.credits} Credit{(value.credits == 1) ? '' : 's'}</div>
 								</Card.Text>
 								<Card.Subtitle className="cardCompletedSubtitle">

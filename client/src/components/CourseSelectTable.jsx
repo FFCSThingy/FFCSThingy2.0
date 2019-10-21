@@ -11,9 +11,9 @@ import * as COURSE from '../constants/Courses';
 
 class CourseSelectTable extends React.Component {
 	state = {
-		courseList: [],
-		courseFacultyList: [],
-		prereqs: {},
+		courseList: JSON.parse(localStorage.getItem('courseList')) || [],
+		courseFacultyList: JSON.parse(localStorage.getItem('courseFacultyList')) || [],
+		prereqs: JSON.parse(localStorage.getItem('prereqs')) || {},
 
 		selectedCategory: 'ALL',
 		searchString: '',

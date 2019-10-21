@@ -116,7 +116,8 @@ class CourseSelectTable extends React.Component {
 			return filteredCourses;
 
 		// Set value of searchBySlots
-		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), true);	
+		// searchBySlots will default to true in case of empty strings
+		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), true) && searchString.length > 0;
 
 		// Set value of searchByFaculty
 		searchByFaculty = searchString.startsWith('*');
@@ -137,8 +138,9 @@ class CourseSelectTable extends React.Component {
 			// Map courses from courseFacultyList and flatten it
 			filteredCodes = Array.from(new Set(faculties.flatMap(v => this.state.courseFacultyList[v])));
 		} else {
-			filteredCodes = this.props.heatmap.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code);
+			filteredCodes = this.state.courseList.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code);
 		}
+
 
 		filteredCourses = this.state.courseList.filter(v => {	// Filter based on search
 			return filteredCodes.includes(v.code);

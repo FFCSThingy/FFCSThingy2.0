@@ -346,12 +346,37 @@ class CourseSelectTable extends React.Component {
 									this.state.prereqs ?
 										this.state.prereqs[value.code] ?
 											<div className="coursePrereq">
-												<b>Prerequisites:</b> <br />
-												{ 
-													this.state.prereqs[value.code].split(',').map(v => <p>{v}</p>)
-												}
+												
+												{this.state.prereqs[value.code].prereq ? 
+													<> 
+														<b>Pre-Requisites:</b> 
+														<br /> 
+														{ this.state.prereqs[value.code].prereq.split(',').map(v => <>{v}<br/></>) } 
+													</> 
+													: <><b>Pre-Requisites:</b> None <br /></>}
+
+												{this.state.prereqs[value.code].antireq ?
+													<> 
+														<b>Anti-Requisites:</b> 
+														<br /> 
+														{this.state.prereqs[value.code].antireq.split(',').map(v => <>{v}<br /></>) }
+													</>
+													: <><b>Anti-Requisites:</b> None <br /></>}
+
+												{this.state.prereqs[value.code].coreq ?
+													<> 
+														<b>Co-Requisites:</b> 
+														<br /> 
+														{this.state.prereqs[value.code].coreq.split(',').map(v => <>{v}<br /></>) } 
+													</>
+													: <><b>Co-Requisites:</b> None <br /></>}
+												<br />	
 											</div> 
-											: <b>No Prerequisites</b>
+											: <div className="coursePrereq">
+												<b>Pre-Requisites:</b> None <br />
+												<b>Anti-Requisites:</b> None <br />
+												<b>Co-Requisites:</b> None <br />
+											</div> 
 										: ''
 								}
 								<div className="courseTypes"> <b> Course Type: </b>{Array.from(typeString).join(' | ')} </div>

@@ -148,8 +148,9 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 		var results = await Promise.all(actions);
 
 		var deletes = await course.cleanCoursesAfterRepopulate(repopTime);
+		var cleanDetails = await course.doCleanRemovedCourses();
 
-		res.json({ updates: results, deletes: deletes });
+		res.json({ updates: results, deletes: deletes, cleanDetails: cleanDetails });
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
@@ -207,6 +208,15 @@ router.get('/updateHeatmap', async(req, res, next) => {
 		console.log(err);
 	}
 });
+
+router.get('/cleanDemOldCourses/SuckOnDeezNumbNutz', async(req, res, next) => {
+	try {
+		var data = await course.doCleanRemovedCourses();
+		res.send(data);
+	} catch(err) {
+		console.log(err);
+	}
+})
 
 router.get('/prereqs', async(req, res, next) => {
 	res.json({ success: true, data: prereqJSON });

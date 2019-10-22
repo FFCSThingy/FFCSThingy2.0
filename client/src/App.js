@@ -55,6 +55,8 @@ class App extends React.Component {
 
 			activeTheme: localStorage.getItem('theme') || 'default',
 
+			alertShow: true,
+
 			clashMap: {
 				A1: {
 					clashesWith: ['A1', 'L1', 'L2', 'L13', 'L14'],
@@ -905,6 +907,18 @@ class App extends React.Component {
 						doLogout={this.doLogout}
 					/>
 				</Row>
+
+				{/*
+					this.state.alertShow ?
+						<Row>
+							<Alert variant="danger" onClose={() => this.setState({ alertShow: false })} dismissible>
+								<Alert.Heading>Courses Updated</Alert.Heading>
+								<p>
+									If you notice courses missing from your timetable, it might be due to them being removed to keep it in sync with the available courses from the Course Allocation Report.
+								</p>
+							</Alert>
+						</Row> : <></>
+				*/}
 
 				<Row className="slotSelectionRow">
 					<Col xs={12} md={4}>

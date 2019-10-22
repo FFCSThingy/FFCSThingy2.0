@@ -226,22 +226,22 @@ module.exports.addCourseToDB = (course) => {
 
 
 		var queryData = {
-			code: course.CODE,
-			venue: course.VENUE,
-			course_type: course.TYPE,
-			slot: course.SLOT.replace(' ', ''),
-			faculty: course.FACULTY,
-			credits: course.CREDITS || 0
+			code: course.code,
+			venue: course.venue,
+			course_type: course.course_type,
+			slot: course.slot.replace(' ', ''),
+			faculty: course.faculty,
+			credits: course.credits || 0
 		}
 
 		var updateData = {
-			code: course.CODE,
-			venue: course.VENUE,
-			course_type: course.TYPE,
-			slot: course.SLOT.replace(' ', ''),
-			faculty: course.FACULTY,
-			credits: course.CREDITS || 0,
-			title: course.TITLE,
+			code: course.code,
+			venue: course.venue,
+			course_type: course.course_type,
+			slot: course.slot.replace(' ', ''),
+			faculty: course.faculty,
+			credits: course.credits || 0,
+			title: course.title,
 			timestamp: Date.now()
 		}
 

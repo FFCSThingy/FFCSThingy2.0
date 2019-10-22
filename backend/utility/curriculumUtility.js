@@ -112,7 +112,7 @@ module.exports.getCurriculumPrefixes = () => {
 				}
 			}, {
 				$sort: {
-					reg_prefix: 1
+					reg_prefix: -1
 				}
 			}], function (err, data) {
 				if (err) return reject(err);

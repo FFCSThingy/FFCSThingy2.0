@@ -104,6 +104,7 @@ class CustomNavbar extends React.Component {
 
 					<Nav className="mr-auto">
 						<Nav.Link href='/about' className="navLink">About</Nav.Link>
+						<Nav.Link href='https://discord.gg/Un4UanH' className="navLink" target="_blank">Join our Discord</Nav.Link>
 						{/* <Nav.Link onClick={this.handleShow} className="navLink sync">Sync VTOP</Nav.Link> */}
 					</Nav>
 					{this.renderModal()}

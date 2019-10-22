@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const xlsx = require('xlsx-to-json');
 const cron = require('node-cron');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 // Models
 const Curriculum = require('../models/Curriculum');
@@ -251,6 +252,121 @@ module.exports.addCourseToDB = (course) => {
 				if (err) return reject(err);
 				return resolve(doc._id);
 			});
+	});
+}
+
+module.exports.doCleanRemovedCourses = () => {
+	return new Promise(async (resolve, reject) => {
+		try {
+			var current = await getCurrentCourseIDs();
+			current = current.map(v => v._id.toString());
+
+			var selected = await getSelectedCourseIDs();
+			selected = selected.map(v => v._id.toString());
+
+			var deletes = selected.filter(value => !current.includes(value));
+
+			var details = {
+				currentCourses: current.length,
+				selectedCourses: selected.length,
+				deletes: deletes.length
+			}
+
+			console.log(details);
+			
+			var cleanDetails = await removeOldCoursesBulk(deletes);
+			return resolve(cleanDetails);
+		} catch(err) {
+			console.log("Error in doCleanRemovedCourses()");
+			return reject(err)
+		}
+	});
+}
+
+function removeOldCoursesBulk(deletes) {
+	return new Promise((resolve, reject) => {
+		User.updateMany(
+			{
+				selected_courses: {
+					$elemMatch: {
+						_id: {
+							$in: deletes
+						}
+					}
+				}
+			},
+			{
+				$pull: {
+					selected_courses: {
+						_id: {
+							$in: deletes
+						}
+					}
+				}
+			},
+			function (err, doc) {
+				if (err) return reject(err);
+				console.log(doc);
+				return resolve(doc);
+			}
+		);
+	});
+}
+
+function removeOldCourses(deleteID) {
+	return new Promise((resolve, reject) => {
+		User.updateMany( 
+			{
+				selected_courses: {
+					$elemMatch: {
+						_id: deleteID
+					}
+				}
+			},
+			{
+				$pull: {
+					selected_courses: {
+						_id: deleteID
+					}	
+				}
+			}, 
+			function(err, doc) {
+				if(err) return reject(err);
+				console.log(doc);
+				return resolve(doc);
+			}
+		);
+	});
+}
+
+function getCurrentCourseIDs() {
+	return new Promise((resolve, reject) => {
+		Course.aggregate([
+			{
+				$project: {
+					_id: 1
+				}
+			}
+		], function(err, doc) {
+			if (err) return reject(err);
+			return resolve(doc);
+		})
+	});
+}
+
+function getSelectedCourseIDs() {
+	return new Promise((resolve, reject) => {
+		User.aggregate([
+			{ $unwind: '$selected_courses' }, 
+			{
+				$group: {
+					_id: "$selected_courses._id"
+				}
+			}
+		], function (err, doc) {
+			if (err) return reject(err);
+			return resolve(doc);
+		})
 	});
 }
 

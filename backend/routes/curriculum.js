@@ -24,6 +24,15 @@ router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
 		.catch(err => console.log('updateCurriculums: ' + err));
 });
 
+router.get('/updateSpecificCurriculum/SuckOnDeezNumbNutz/:regPrefix', async (req, res, next) => {
+	try {
+		var data = await curriculum.doParseAndSaveCurriculum(req.params.regPrefix);
+		res.send(data);
+	} catch(err) {
+		console.log('updateCurriculums: ' + err);
+	}
+});
+
 router.get('/allCurriculums', async (req, res, next) => {
 	Curriculum.find({}, function (err, doc) {
 		if (err) return res.json({success: false, message: 'Route error'}); //reject(err);

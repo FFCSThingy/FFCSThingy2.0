@@ -113,7 +113,12 @@ class CourseSelectTable extends React.Component {
 		var searchString = this.state.searchString.toUpperCase().trim();
 		searchString = this.escapeRegExp(searchString);
 
-		if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1);
+		// This check made sense. UNTIL entering just + in search fucks the website.
+		// if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1);
+
+		// Alternative: (But entering just + renders it as empty string.)
+		// if (searchString.endsWith('\\+')) searchString = searchString.substring(0, searchString.length - 2);
+		
 		var searchStringSlots = searchString.split("+");
 
 		// Default search
@@ -143,6 +148,7 @@ class CourseSelectTable extends React.Component {
 			// Map courses from courseFacultyList and flatten it
 			filteredCodes = Array.from(new Set(faculties.flatMap(v => this.state.courseFacultyList[v])));
 		} else {
+			console.log(searchString);
 			filteredCodes = this.state.courseList.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code);
 		} 
 

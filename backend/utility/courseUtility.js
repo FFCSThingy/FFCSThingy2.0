@@ -21,7 +21,6 @@ var heatmap, courseList;
 module.exports.getFullHeatmap = (regardless=false) => {
 	return new Promise((resolve, reject) => {
 		if(!heatmap || regardless) {
-			// console.log('regardless = ' + regardless);
 			Course.aggregate([
 				{
 					$sort: {
@@ -99,7 +98,6 @@ module.exports.getCourseList = (regardless=false) => {
 				}
 			}
 		], function (err, doc) {
-			// console.log('Error in courseList Query: ' + err);
 			if (err) return reject(err);
 			return resolve(doc);
 		})
@@ -137,7 +135,6 @@ module.exports.getCourseFacultyList = (regardless = false) => {
 				}
 			}
 		], function (err, doc) {
-			console.log('Error in courseFacultyList Query: ' + err);
 			if (err) return reject(err);
 			return resolve(doc);
 		})

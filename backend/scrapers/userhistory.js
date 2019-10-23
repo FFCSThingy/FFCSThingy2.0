@@ -47,10 +47,10 @@ module.exports.parseUserHistory = (html, userID='') => {
 			try {
 				const check = baseScraper2(baseScraper2('tr.tableContent')[trCount - 5]).children('td').eq(1).text().trim();
 				if (check === 'UC') diff = 1;
-                                if (check === '-') diff = -1;
+				if (check === '-') diff = -1;
 			}
 			catch (e) {
-				console.error(e);
+				console.error(`userhistory error in check: ${e}`);
 			}
 
 
@@ -146,7 +146,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 			return resolve(data);
 		}
 		catch (ex) {
-			console.log('Error in parsing userhistory: ' + ex);
+			console.error(`Error in parsing userhistory for ${userID}: ${ex}`);
 			return reject(ex);
 		}
 	});

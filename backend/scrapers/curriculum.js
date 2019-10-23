@@ -64,7 +64,7 @@ module.exports.parseCurriculum = (html, userID='') => {
 
 			return resolve(curr);
 		} catch (ex) {
-			console.log('Error in parsing Curriculum: ' + ex);
+			console.error(`Error in parsing Curriculum for ${userID}: ${ex}`);
 			return reject(ex);
 		}
 	});

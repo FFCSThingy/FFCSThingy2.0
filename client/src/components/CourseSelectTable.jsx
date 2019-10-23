@@ -119,7 +119,7 @@ class CourseSelectTable extends React.Component {
 		// Alternative: (But entering just + renders it as empty string.)
 		// if (searchString.endsWith('\\+')) searchString = searchString.substring(0, searchString.length - 2);
 		
-		var searchStringSlots = searchString.split("+");
+		var searchStringSlots = searchString.split("\\+");
 
 		// Default search
 		if (['', '*'].includes(searchString) && this.state.typeFilters.length === 0 && [0, ''].includes(this.state.creditFilter))
@@ -130,7 +130,8 @@ class CourseSelectTable extends React.Component {
 		searchBySlots = searchStringSlots.reduce((a, v) => (a && slots_title.has(v)), true) && searchString.length > 0;
 
 		// Set value of searchByFaculty
-		searchByFaculty = searchString.startsWith('*');
+		searchByFaculty = searchString.startsWith('\\*');
+
 
 		if (searchBySlots) {
 			filteredCodes = this.props.heatmap.filter(v => 
@@ -139,7 +140,7 @@ class CourseSelectTable extends React.Component {
 			).map(v => v.code);
 		} else if (searchByFaculty) {
 			// Remove all instances of *
-			var tempSearchString = searchString.replace('\*', '');
+			var tempSearchString = searchString.replace('\\\*', '');
 
 			// Filter faculty list
 			var faculties = Object.keys(this.state.courseFacultyList)
@@ -148,7 +149,6 @@ class CourseSelectTable extends React.Component {
 			// Map courses from courseFacultyList and flatten it
 			filteredCodes = Array.from(new Set(faculties.flatMap(v => this.state.courseFacultyList[v])));
 		} else {
-			console.log(searchString);
 			filteredCodes = this.state.courseList.filter(v => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map(v => v.code);
 		} 
 

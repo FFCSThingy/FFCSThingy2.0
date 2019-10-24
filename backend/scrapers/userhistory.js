@@ -36,7 +36,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 			var diff = 0;	// For 16* Peeps who have an extra row in their thingy.
 
 			const baseScraper = cheerio.load(html);
-                        const baseScraper2 = cheerio.load(html);
+			const baseScraper2 = cheerio.load(html);
 			const IDScraper = cheerio.load(html);
 			const trCount = baseScraper('tr.tableContent').length;
 

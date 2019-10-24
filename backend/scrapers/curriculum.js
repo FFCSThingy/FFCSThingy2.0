@@ -21,7 +21,7 @@ module.exports.parseCurriculum = (html, userID='') => {
 
 			if(userID) {
 				curr.reg_prefix = userID.trim().slice(0, 5);
-				logger.log(`Parsing reg_prefix: ${curr.reg_prefix} from user: ${userID}`);
+				logger.debug(`Parsing reg_prefix: ${curr.reg_prefix} from user: ${userID}`);
 			}
 
 			var td = credTable.find('td');

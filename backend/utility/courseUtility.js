@@ -145,12 +145,12 @@ module.exports.getCourseFacultyList = (regardless = false) => {
 cron.schedule('*/5 * * * *', function () {
 	if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	// if (process.env.NODE_ENV !== 'staging') {
-		logger.log("Updating cached heatmap");
+		logger.info("Updating cached heatmap");
 		module.exports.getFullHeatmap(true).then(function (dat) {
 			heatmap = dat;
 		});
 
-		logger.log("Updating cached courseList");
+		logger.info("Updating cached courseList");
 		module.exports.getCourseList(true).then(function (dat) {
 			courseList = dat;
 		});
@@ -270,7 +270,7 @@ module.exports.doCleanRemovedCourses = () => {
 				deletes: deletes.length
 			}
 
-			logger.log('Course Clean Details: ', details);
+			logger.info('Course Clean Details: ', details);
 			
 			var cleanDetails = await removeOldCoursesBulk(deletes);
 			return resolve(cleanDetails);
@@ -421,7 +421,7 @@ module.exports.updateHeatmap = () => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			var initTime = new Date();
-			logger.log('Heatmap update started at: ' + initTime);
+			logger.info('Heatmap update started at: ' + initTime);
 
 			var counts = await userUtility.aggregateCounts();
 			var specificCounts = await userUtility.aggregateSlotCounts();
@@ -429,11 +429,11 @@ module.exports.updateHeatmap = () => {
 			var updates = await Promise.all(specificCounts.map(slot => doHeatmapUpdate(counts, slot)));
 
 			var timestamp = await systemUtility.updateHeatmapUpdateTime();
-			logger.log('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
+			logger.info('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
 
 			return resolve({ timestamp: timestamp, docs: updates });
 		} catch (err) {
-			logger.log('Error in updateHeatmap: ' + err);
+			logger.info('Error in updateHeatmap: ' + err);
 			return reject(err);
 		}
 	});
@@ -441,7 +441,7 @@ module.exports.updateHeatmap = () => {
 
 cron.schedule('*/10 * * * *', () => {
 	if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'development') {
-		logger.log('Running Heatmap Update');
+		logger.info('Running Heatmap Update');
 		module.exports.updateHeatmap();
 	}
 });

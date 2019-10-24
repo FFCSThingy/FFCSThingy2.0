@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const cron = require('node-cron');
+const { logger } = require('./loggers.js');
 
 // Scrapers
 const grades = require('../scrapers/userhistory');
@@ -37,7 +38,7 @@ module.exports.updateUser = (query, update,
 cron.schedule('0 */1 * * *', function () {
 	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	if (process.env.NODE_ENV !== 'staging') {
-		console.log("Resetting Hourly Counts");
+		logger.info(`Resetting Hourly Counts ${new Date().toLocaleString()}`);
 		module.exports.updateUser({ hourlyCount: { $gt: 0 } }, { hourlyCount: 0 });
 	}
 });
@@ -45,7 +46,7 @@ cron.schedule('0 */1 * * *', function () {
 cron.schedule('0 0 */1 * *', function () {
 	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	if (process.env.NODE_ENV !== 'staging') {
-		console.log("Resetting Daily Counts");
+		logger.info(`Resetting Daily Counts ${new Date().toLocaleString()}`);
 		module.exports.updateUser({ dailyCount: { $gt: 0 } }, { dailyCount: 0 });
 	}
 });
@@ -78,9 +79,7 @@ module.exports.aggregateSpecificCourseCount = (course) => {
 				}
 			}
 		], function(err, doc) {
-			// console.log()
 			if (err) return reject(err);
-			// console.log("SpecificAggDoc: " + JSON.stringify(doc))
 			return resolve(doc);
 		});
 	});

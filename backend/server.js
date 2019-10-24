@@ -1,13 +1,11 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const logger = require('morgan');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const  mongoStore = require('connect-mongo')(session);
+const mongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
-
 
 const extRoute = require('./routes/ext');
 const userRoute = require('./routes/user');
@@ -18,6 +16,7 @@ const ttgenRoute = require('./routes/ttgen');
 const User = require('./models/User');
 
 const user = require('./utility/userUtility');
+const { logger, expressWinstonLogger } = require('./utility/loggers.js');
 
 const GOOGLE_CLIENT_ID = "524977778563-rqfsuge27b7se639i2n4ellt82uhtosv.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET = "UUNrcLqOXmnP_HweyJirA9VA";
@@ -32,9 +31,9 @@ else
 
 const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', logger.error.bind(logger, 'connection error:'));
 db.once('open', function () {
-	console.log("Connected to MongoDB Instance");
+	logger.info("Connected to MongoDB Instance");
 });
 
 
@@ -95,7 +94,8 @@ app.use(passport.session());
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: false }));
-app.use(logger('dev'));
+
+app.use(expressWinstonLogger);
 
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");
@@ -177,4 +177,4 @@ function redirectUnauthenticated(req, res, next) {
 	return res.redirect('/');
 }
 
-app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
+app.listen(API_PORT, () => logger.info(`Listening on port ${API_PORT}`));

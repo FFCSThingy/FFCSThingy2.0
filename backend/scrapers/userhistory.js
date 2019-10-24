@@ -1,5 +1,6 @@
 const cheerio = require('cheerio');
 const Promise = require('bluebird');
+const { logger } = require('../utility/loggers.js');
 
 module.exports.parseUserHistory = (html, userID='') => {
 	var data = {
@@ -35,10 +36,9 @@ module.exports.parseUserHistory = (html, userID='') => {
 			var diff = 0;	// For 16* Peeps who have an extra row in their thingy.
 
 			const baseScraper = cheerio.load(html);
-                        const baseScraper2 = cheerio.load(html);
+			const baseScraper2 = cheerio.load(html);
 			const IDScraper = cheerio.load(html);
 			const trCount = baseScraper('tr.tableContent').length;
-			// console.log(trCount);
 
 			if(userID)
 				if (userID.trim().startsWith('16'))
@@ -50,7 +50,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 				if (check === '-') diff = -1;
 			}
 			catch (e) {
-				console.error(`userhistory error in check: ${e}`);
+				logger.error(`userhistory error in check: ${e} for ${userID}`);
 			}
 
 
@@ -136,7 +136,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 					'credits': attrs.eq(4).text().trim(),
 					'grade': attrs.eq(5).text().trim(),
 				};
-				// console.log(course);
+				
 				data.completed_courses.push(course);
 
 				data["completed_courses"] = data["completed_courses"].filter((course) => course["credits"] != null && !isNaN(course["credits"]));
@@ -146,7 +146,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 			return resolve(data);
 		}
 		catch (ex) {
-			console.error(`Error in parsing userhistory for ${userID}: ${ex}`);
+			logger.error(`Error in parsing userhistory for ${userID}: ${ex}`);
 			return reject(ex);
 		}
 	});

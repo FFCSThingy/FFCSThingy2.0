@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { logger } = require('../utility/loggers.js');
 
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
@@ -20,17 +21,7 @@ router.get('/fullHeatmap/:timestamp?', async (req, res, next) => {
 		var systemTimestamp = await system.getHeatmapUpdateTime();
 		var reqTimestamp = req.params.timestamp;
 
-		if (!reqTimestamp)
-			return res.json({
-				success: true,
-				data: {
-					heatmap: await course.getFullHeatmap(),
-					timestamp: systemTimestamp
-				}
-			});
-
-
-		if (new Date(reqTimestamp) < new Date(systemTimestamp))
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp))
 			return res.json({
 				success: true,
 				data: {
@@ -51,16 +42,7 @@ router.get('/courseList/:timestamp?', async (req, res, next) => {
 		var systemTimestamp = await system.getRepopulateTime();
 		var reqTimestamp = req.params.timestamp;
 
-		if (!reqTimestamp)
-			return res.json({
-				success: true,
-				data: {
-					courseList: await course.getCourseList(),
-					timestamp: systemTimestamp
-				}
-			});
-
-		if (new Date(reqTimestamp) < new Date(systemTimestamp))
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp))
 			return res.json({
 				success: true,
 				data: {
@@ -81,7 +63,7 @@ router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
 		var reqTimestamp = req.params.timestamp;
 		var courseFacultyList;
 
-		if (!reqTimestamp) {
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
 			courseFacultyList = await course.getCourseFacultyList();
 
 			return res.json({
@@ -91,23 +73,12 @@ router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
 					timestamp: systemTimestamp
 				}
 			});
-		}
-		else if (new Date(reqTimestamp) < new Date(systemTimestamp)) {
-			courseFacultyList = await course.getCourseFacultyList();
-
-			return res.json({
-				success: true,
-				data: {
-					courseFacultyList: courseFacultyList[0].list,
-					timestamp: systemTimestamp
-				}
-			});
-		}
+		} 
 		else
 			res.status(304).json({ success: true, message: "Up To Date" });
 	} catch (err) {
-		console.log(err);
-		res.status(500).json({ success: false, message: '/getCourseFacultyList failed' });
+		logger.error(err);
+		res.status(500).json({ success: false, message: `${req.url} failed` });
 	}
 });
 
@@ -116,8 +87,6 @@ router.get('/newCourseList', async (req, res, next) => {
 
 	var courseList = await course.getCourseList();
 	var creditList = await curriculum.getCreditCounts();
-	// res.json(creditList);
-	// res.json(creditList['ARB1001'])
 	var data = courseList.map(v => {
 		v.credits = creditList[v.code] || 0;
 		return v;
@@ -130,8 +99,6 @@ router.get('/newCourseList', async (req, res, next) => {
 			timestamp: systemTimestamp
 		}
 	});
-
-	// res.json(data);
 });
 
 router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
@@ -154,7 +121,7 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
-		console.log('addCoursesToDB Error: ' + err);
+		logger.error('addCoursesToDB Error: ' + err);
 	}
 });
 
@@ -177,7 +144,7 @@ router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByDetails failed' });
-		console.log('courseByDetails Error: ' + err);
+		logger.error('courseByDetails Error: ' + err);
 	}
 });
 
@@ -196,7 +163,7 @@ router.get('/courseByID/:id', async (req, res, next) => {
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByID failed' });
-		console.log('courseByID Error: ' + err);
+		logger.error('courseByID Error: ' + err);
 	}
 });
 
@@ -205,7 +172,7 @@ router.get('/updateHeatmap', async(req, res, next) => {
 		var doc = await course.updateHeatmap();
 		res.json(doc);
 	} catch(err) {
-		console.log(err);
+		logger.error(err);
 	}
 });
 
@@ -214,7 +181,7 @@ router.get('/cleanDemOldCourses/SuckOnDeezNumbNutz', async(req, res, next) => {
 		var data = await course.doCleanRemovedCourses();
 		res.send(data);
 	} catch(err) {
-		console.log(err);
+		logger.error(err);
 	}
 })
 

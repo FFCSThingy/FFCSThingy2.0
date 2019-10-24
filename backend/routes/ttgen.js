@@ -5,6 +5,7 @@ const path = require('path');
 const sdk = require('aws-sdk');
 
 const userUtility = require('../utility/userUtility');
+const { logger } = require('../utility/loggers.js');
 
 const router = express.Router();
 
@@ -77,8 +78,8 @@ router.post('/generateTimetable', async (req, res, next) => {
 			return v;
 		})
 	}catch (e) {
-		console.error(e);
-		console.error(tt);
+		logger.error(e);
+		logger.error(tt);
 		return res.json({ success: false, message: "Some error occurred,we are looking into it" });
 	}
 	res.json({ success: true, data: tt });

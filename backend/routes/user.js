@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
+const { logger } = require('../utility/loggers.js');
 
 const user = require('../utility/userUtility');
 
@@ -17,7 +18,7 @@ router.get('/selectedCourses', async (req, res, next) => {
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });
-		console.log('Error in getSelectedCourses: ' + err);
+		logger.error('Error in getSelectedCourses: ' + err);
 	}
 });
 
@@ -30,7 +31,7 @@ router.post('/selectedCoursesBulk', async (req, res, next) => {
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/updateSelectedCoursesBulk failed' });
-		console.log('Error in selectedCoursesBulk: ' + err);
+		logger.error('Error in selectedCoursesBulk: ' + err);
 	}
 });
 
@@ -47,7 +48,7 @@ router.post('/selectedCurriculum', async (req, res, next) => {
 		res.json({ success: true, data: data });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/setSelectedCurriculum failed' });
-		console.log('Error in selectedCurriculum: ' + err);
+		logger.error('Error in selectedCurriculum: ' + err);
 	}
 });
 

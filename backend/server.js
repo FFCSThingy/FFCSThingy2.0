@@ -31,9 +31,9 @@ else
 
 const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection error:'));
+db.on('error', logger.error.bind(logger, 'connection error:'));
 db.once('open', function () {
-	console.log("Connected to MongoDB Instance");
+	logger.info("Connected to MongoDB Instance");
 });
 
 
@@ -177,4 +177,4 @@ function redirectUnauthenticated(req, res, next) {
 	return res.redirect('/');
 }
 
-app.listen(API_PORT, () => console.log(`Listening on port ${API_PORT}`));
+app.listen(API_PORT, () => logger.info(`Listening on port ${API_PORT}`));

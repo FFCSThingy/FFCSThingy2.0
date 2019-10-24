@@ -8,7 +8,7 @@ const curriculum = require('../scrapers/curriculum');
 
 const userUtility = require('../utility/userUtility');
 const curriculumUtility = require('../utility/curriculumUtility');
-
+const { logger } = require('../utility/loggers.js');
 
 const router = express.Router();
 
@@ -17,15 +17,13 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 
 router.post('/processExtensionData', async (req, res, next) => {
-	// console.log(req.body.ID);
-
-	// var data;
 	if (req.body.url == 'examinations/examGradeView/StudentGradeHistory') {
-		console.log('Parsing UserHistory Data for ' + req.user.display_name + " - " + req.body.ID);
+		logger.log('Parsing UserHistory Data for ' + req.user.display_name + " - " + req.body.ID);
 		var userhistory = await grades.parseUserHistory(req.body.data, req.body.ID);
+		
 		if (typeof userhistory.completed_courses !== 'undefined' && userhistory.completed_courses.length > 0) {
 			userhistory.vtopSignedIn = true;
-			console.log('UserHistory: ' + userhistory);
+			logger.log('UserHistory: ' + userhistory);
 			var userDoc = userUtility.updateUser({ _id: req.user._id }, userhistory);
 			res.json({ success: true, data: userDoc });
 		}
@@ -33,9 +31,8 @@ router.post('/processExtensionData', async (req, res, next) => {
 	}
 
 	if (req.body.url == 'academics/common/Curriculum') {
-		console.log('Parsing Curriculum Data for ' + req.user.display_name + " - " + req.body.ID);
+		logger.log('Parsing Curriculum Data for ' + req.user.display_name + " - " + req.body.ID);
 		var curr = await curriculum.parseCurriculum(req.body.data, req.body.ID);
-		// console.log(curr.reg_prefix);
 		var currDoc = await curriculumUtility.addCurriculumFromExt(curr);
 		res.send(currDoc);
 	}
@@ -44,14 +41,12 @@ router.post('/processExtensionData', async (req, res, next) => {
 router.get('/testCurriculum', (req, res, next) => {
 	fs.readFile(path.join(__dirname, '../samples/curriculum/16BCE.html'), async function (error, pgResp) {
 		if (error) {
-			console.log('Test Curriculum Error: ' + error);
+			logger.error('Test Curriculum Error: ' + error);
 		} else {
-			// var resp = await curriculum.parseCurriculum(pgResp);
 			var curr = await curriculum.parseCurriculum(pgResp);
-			console.log('Test Curriculum RegPrefix: ' + curr.reg_prefix);
+			logger.log('Test Curriculum RegPrefix: ' + curr.reg_prefix);
 			var currDoc = await curriculumUtility.addCurriculumFromExt(curr);
 			res.send(currDoc);
-			// res.send(resp);
 		}
 
 	});
@@ -60,7 +55,7 @@ router.get('/testCurriculum', (req, res, next) => {
 router.get('/testGrades', (req, res, next) => {
 	fs.readFile(path.join(__dirname, '../samples/gradeHistory.html'), async function (error, pgResp) {
 		if (error) {
-			console.log('Test Grades Error: ' + error);
+			logger.error('Test Grades Error: ' + error);
 		} else {
 			var resp = await grades.parseUserHistory(pgResp);
 			res.send(resp);

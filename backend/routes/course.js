@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const { logger } = require('../utility/loggers.js');
 
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
@@ -106,8 +107,8 @@ router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
 		else
 			res.status(304).json({ success: true, message: "Up To Date" });
 	} catch (err) {
-		console.log(err);
-		res.status(500).json({ success: false, message: '/getCourseFacultyList failed' });
+		logger.error(err);
+		res.status(500).json({ success: false, message: `${req.url} failed` });
 	}
 });
 
@@ -154,7 +155,7 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
-		console.log('addCoursesToDB Error: ' + err);
+		logger.error('addCoursesToDB Error: ' + err);
 	}
 });
 
@@ -177,7 +178,7 @@ router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByDetails failed' });
-		console.log('courseByDetails Error: ' + err);
+		logger.error('courseByDetails Error: ' + err);
 	}
 });
 
@@ -196,7 +197,7 @@ router.get('/courseByID/:id', async (req, res, next) => {
 
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByID failed' });
-		console.log('courseByID Error: ' + err);
+		logger.error('courseByID Error: ' + err);
 	}
 });
 
@@ -205,7 +206,7 @@ router.get('/updateHeatmap', async(req, res, next) => {
 		var doc = await course.updateHeatmap();
 		res.json(doc);
 	} catch(err) {
-		console.log(err);
+		logger.error(err);
 	}
 });
 
@@ -214,7 +215,7 @@ router.get('/cleanDemOldCourses/SuckOnDeezNumbNutz', async(req, res, next) => {
 		var data = await course.doCleanRemovedCourses();
 		res.send(data);
 	} catch(err) {
-		console.log(err);
+		logger.error(err);
 	}
 })
 

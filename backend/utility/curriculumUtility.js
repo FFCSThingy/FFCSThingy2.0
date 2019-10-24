@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const { logger } = require('./loggers.js');
 
 // Scrapers
 const grades = require('../scrapers/userhistory');
@@ -16,7 +17,7 @@ module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(file
 
 		fs.readFile(filepath, async function (error, pgResp) {
 			if (error) {
-				console.log('Error in doParseAndSaveCurriculum: ' + error);
+				logger.log('Error in doParseAndSaveCurriculum: ' + error);
 			} else {
 				var resp = await curriculum.parseCurriculum(pgResp);
 				resp.reg_prefix = filename;
@@ -53,7 +54,6 @@ module.exports.getCreditCounts = () => {
 			}
 		], function(err, data) {
 			if(err) return reject(err);
-			// if(err) console.log(err);
 			data = data.reduce((a,v) => {
 				a[v.code] = v.credits;
 				return a;
@@ -68,7 +68,7 @@ module.exports.findCurriculumFromPrefix = function findCurriculumFromPrefix(reg_
 	return new Promise((resolve, reject) => {
 		Curriculum.findOne({ reg_prefix: reg_prefix }, function (err, doc) {
 			if (err) {
-				console.log('Error in findCurriculumFromPrefix: ' + err);
+				logger.log('Error in findCurriculumFromPrefix: ' + err);
 				return reject(err);
 			}
 
@@ -90,16 +90,6 @@ module.exports.addCurriculumFromExt = (curriculum) => {
 			else return resolve('Unmodified, Already Exists.');	
 		})
 	});
-	// 	Curriculum.findOneAndUpdate(curriculum,
-	// 		// { $setOnInsert: curriculum },
-	// 		curriculum,
-	// 		{ upsert: true, new: true, rawResult: true }, function (err, doc, res) {
-	// 			console.log(err);
-	// 			// console.log(doc);
-	// 			console.log(res);
-	// 			return resolve({ timestamp: new Date(), doc: doc })
-	// 		});
-	// });
 }
 
 module.exports.getCurriculumPrefixes = () => {

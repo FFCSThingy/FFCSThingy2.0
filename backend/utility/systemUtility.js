@@ -1,4 +1,5 @@
 const System = require('../models/System');
+const { logger } = require('./loggers.js');
 
 module.exports.updateRepopulateTime = () => {
 	return new Promise((resolve, reject) => {

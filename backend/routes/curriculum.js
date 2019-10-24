@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
+const { logger } = require('../utility/loggers.js');
 
 const Curriculum = require('../models/Curriculum');
 
@@ -21,7 +22,7 @@ router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
 	var results = Promise.all(actions);
 
 	results.then(data => res.send(data))
-		.catch(err => console.log('updateCurriculums: ' + err));
+		.catch(err => logger.error('updateCurriculums: ' + err));
 });
 
 router.get('/updateSpecificCurriculum/SuckOnDeezNumbNutz/:regPrefix', async (req, res, next) => {
@@ -29,7 +30,7 @@ router.get('/updateSpecificCurriculum/SuckOnDeezNumbNutz/:regPrefix', async (req
 		var data = await curriculum.doParseAndSaveCurriculum(req.params.regPrefix);
 		res.send(data);
 	} catch(err) {
-		console.log('updateCurriculums: ' + err);
+		logger.error('updateCurriculums: ' + err);
 	}
 });
 
@@ -45,8 +46,7 @@ router.get('/prefixes', async (req, res, next) => {
 		var prefixes = await curriculum.getCurriculumPrefixes();
 		res.json({ success: true, data: prefixes });
 	} catch(err) {
-		console.log("Error in /getPrefixes " + err);
-		// console.log(err);
+		logger.error("Error in /getPrefixes " + err);
 		res.status(500).json({ success: false, error: "Error in /getPrefixes" });
 	}
 });
@@ -56,8 +56,7 @@ router.get('/curriculumFromPrefix/:prefix', async (req, res, next) => {
 		var doc = await curriculum.findCurriculumFromPrefix(req.params.prefix);
 		res.json({ success:true, data: doc });
 	} catch(err) {
-		console.log("Error in /curriculumFromPrefix " + err);
-		// console.log(err);
+		logger.error("Error in /curriculumFromPrefix " + err);
 		res.status(500).json({ success: false, error: "Error in /curriculumFromPrefix" });
 	}
 });
@@ -72,8 +71,7 @@ router.post('/curriculumForUser', async (req, res, next) => {
 		res.json({ succes: true, data: userDoc });
 
 	} catch(err) {
-		console.log("Error in /selectCurriculumForUser " + err);
-		// console.log(err);
+		logger.error("Error in /selectCurriculumForUser " + err);
 		res.status(500).json({ success: false, error: "Error in /selectCurriculumForUser" });
 	}
 });

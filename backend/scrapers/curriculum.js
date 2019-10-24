@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 const Promise = require('bluebird');
 const moment = require('moment');
+const { logger } = require('../utility/loggers.js');
 
 module.exports.parseCurriculum = (html, userID='') => {
 	return new Promise((resolve, reject) => {
@@ -18,11 +19,9 @@ module.exports.parseCurriculum = (html, userID='') => {
 			var page = $.root();
 			var credTable = page.find('table').eq(0);
 
-			// curr.reg_prefix = page.find('span.VTopHeaderStyle span').text().trim().slice(0, 5);
-			// console.log(curr.reg_prefix);
 			if(userID) {
 				curr.reg_prefix = userID.trim().slice(0, 5);
-				console.log('CurriculumPrefix while Parsing: ' + curr.reg_prefix);
+				logger.log(`Parsing reg_prefix: ${curr.reg_prefix} from user: ${userID}`);
 			}
 
 			var td = credTable.find('td');
@@ -30,12 +29,10 @@ module.exports.parseCurriculum = (html, userID='') => {
 			todo_creds['pe'] = td.eq(9).text().trim();
 			todo_creds['uc'] = td.eq(12).text().trim();
 			todo_creds['ue'] = td.eq(15).text().trim();
-			// console.log(todo_creds);
 			curr['todo_creds'] = todo_creds;
 
 			var table = page.find("tbody");
 			var table_count = table.length;
-			// console.log(table_count)
 			
 			for (var i = 1; i < table_count; i++) {
 				courses = [];
@@ -64,7 +61,7 @@ module.exports.parseCurriculum = (html, userID='') => {
 
 			return resolve(curr);
 		} catch (ex) {
-			console.error(`Error in parsing Curriculum for ${userID}: ${ex}`);
+			logger.error(`Error in parsing Curriculum for ${userID}: ${ex}`);
 			return reject(ex);
 		}
 	});

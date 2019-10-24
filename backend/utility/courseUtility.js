@@ -3,6 +3,7 @@ const path = require('path');
 const xlsx = require('xlsx-to-json');
 const cron = require('node-cron');
 const ObjectId = require('mongoose').Types.ObjectId;
+const { logger } = require('./loggers.js');
 
 // Models
 const Curriculum = require('../models/Curriculum');
@@ -144,12 +145,12 @@ module.exports.getCourseFacultyList = (regardless = false) => {
 cron.schedule('*/5 * * * *', function () {
 	if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	// if (process.env.NODE_ENV !== 'staging') {
-		console.log("Updating cached heatmap");
+		logger.log("Updating cached heatmap");
 		module.exports.getFullHeatmap(true).then(function (dat) {
 			heatmap = dat;
 		});
 
-		console.log("Updating cached courseList");
+		logger.log("Updating cached courseList");
 		module.exports.getCourseList(true).then(function (dat) {
 			courseList = dat;
 		});
@@ -269,12 +270,12 @@ module.exports.doCleanRemovedCourses = () => {
 				deletes: deletes.length
 			}
 
-			console.log(details);
+			logger.log('Course Clean Details: ', details);
 			
 			var cleanDetails = await removeOldCoursesBulk(deletes);
 			return resolve(cleanDetails);
 		} catch(err) {
-			console.log("Error in doCleanRemovedCourses()");
+			logger.error("Error in doCleanRemovedCourses()");
 			return reject(err)
 		}
 	});
@@ -303,7 +304,6 @@ function removeOldCoursesBulk(deletes) {
 			},
 			function (err, doc) {
 				if (err) return reject(err);
-				console.log(doc);
 				return resolve(doc);
 			}
 		);
@@ -329,7 +329,6 @@ function removeOldCourses(deleteID) {
 			}, 
 			function(err, doc) {
 				if(err) return reject(err);
-				console.log(doc);
 				return resolve(doc);
 			}
 		);
@@ -422,7 +421,7 @@ module.exports.updateHeatmap = () => {
 	return new Promise(async (resolve, reject) => {
 		try {
 			var initTime = new Date();
-			console.log('Heatmap update started at: ' + initTime);
+			logger.log('Heatmap update started at: ' + initTime);
 
 			var counts = await userUtility.aggregateCounts();
 			var specificCounts = await userUtility.aggregateSlotCounts();
@@ -430,11 +429,11 @@ module.exports.updateHeatmap = () => {
 			var updates = await Promise.all(specificCounts.map(slot => doHeatmapUpdate(counts, slot)));
 
 			var timestamp = await systemUtility.updateHeatmapUpdateTime();
-			console.log('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
+			logger.log('Heatmap update processed at: ' + timestamp + ' in ' + (timestamp.getTime() - initTime) + 'ms');
 
 			return resolve({ timestamp: timestamp, docs: updates });
 		} catch (err) {
-			console.log('Error in updateHeatmap: ' + err);
+			logger.log('Error in updateHeatmap: ' + err);
 			return reject(err);
 		}
 	});
@@ -442,7 +441,7 @@ module.exports.updateHeatmap = () => {
 
 cron.schedule('*/10 * * * *', () => {
 	if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'development') {
-		console.log('Running Heatmap Update');
+		logger.log('Running Heatmap Update');
 		module.exports.updateHeatmap();
 	}
 });

@@ -21,17 +21,7 @@ router.get('/fullHeatmap/:timestamp?', async (req, res, next) => {
 		var systemTimestamp = await system.getHeatmapUpdateTime();
 		var reqTimestamp = req.params.timestamp;
 
-		if (!reqTimestamp)
-			return res.json({
-				success: true,
-				data: {
-					heatmap: await course.getFullHeatmap(),
-					timestamp: systemTimestamp
-				}
-			});
-
-
-		if (new Date(reqTimestamp) < new Date(systemTimestamp))
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp))
 			return res.json({
 				success: true,
 				data: {
@@ -52,16 +42,7 @@ router.get('/courseList/:timestamp?', async (req, res, next) => {
 		var systemTimestamp = await system.getRepopulateTime();
 		var reqTimestamp = req.params.timestamp;
 
-		if (!reqTimestamp)
-			return res.json({
-				success: true,
-				data: {
-					courseList: await course.getCourseList(),
-					timestamp: systemTimestamp
-				}
-			});
-
-		if (new Date(reqTimestamp) < new Date(systemTimestamp))
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp))
 			return res.json({
 				success: true,
 				data: {
@@ -82,7 +63,7 @@ router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
 		var reqTimestamp = req.params.timestamp;
 		var courseFacultyList;
 
-		if (!reqTimestamp) {
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
 			courseFacultyList = await course.getCourseFacultyList();
 
 			return res.json({
@@ -92,18 +73,7 @@ router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
 					timestamp: systemTimestamp
 				}
 			});
-		}
-		else if (new Date(reqTimestamp) < new Date(systemTimestamp)) {
-			courseFacultyList = await course.getCourseFacultyList();
-
-			return res.json({
-				success: true,
-				data: {
-					courseFacultyList: courseFacultyList[0].list,
-					timestamp: systemTimestamp
-				}
-			});
-		}
+		} 
 		else
 			res.status(304).json({ success: true, message: "Up To Date" });
 	} catch (err) {
@@ -117,8 +87,6 @@ router.get('/newCourseList', async (req, res, next) => {
 
 	var courseList = await course.getCourseList();
 	var creditList = await curriculum.getCreditCounts();
-	// res.json(creditList);
-	// res.json(creditList['ARB1001'])
 	var data = courseList.map(v => {
 		v.credits = creditList[v.code] || 0;
 		return v;
@@ -131,8 +99,6 @@ router.get('/newCourseList', async (req, res, next) => {
 			timestamp: systemTimestamp
 		}
 	});
-
-	// res.json(data);
 });
 
 router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {

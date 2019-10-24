@@ -38,7 +38,7 @@ module.exports.updateUser = (query, update,
 cron.schedule('0 */1 * * *', function () {
 	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	if (process.env.NODE_ENV !== 'staging') {
-		logger.info(`Resetting Hourly Counts ${new Date().toLocaleString}`);
+		logger.info(`Resetting Hourly Counts ${new Date().toLocaleString()}`);
 		module.exports.updateUser({ hourlyCount: { $gt: 0 } }, { hourlyCount: 0 });
 	}
 });
@@ -46,7 +46,7 @@ cron.schedule('0 */1 * * *', function () {
 cron.schedule('0 0 */1 * *', function () {
 	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
 	if (process.env.NODE_ENV !== 'staging') {
-		logger.info(`Resetting Daily Counts ${new Date().toLocaleString}`);
+		logger.info(`Resetting Daily Counts ${new Date().toLocaleString()}`);
 		module.exports.updateUser({ dailyCount: { $gt: 0 } }, { dailyCount: 0 });
 	}
 });

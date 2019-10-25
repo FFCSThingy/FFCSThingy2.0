@@ -400,10 +400,11 @@ class CourseSelectTable extends React.Component {
 									<div className="courseCodeText">{value.code}</div>
 									<div className="courseCredits">{value.credits} Credit{(value.credits === 1) ? '' : 's'}</div>
 								</Card.Text>
-								<Card.Subtitle className="cardCompletedSubtitle">
+								<Card.Subtitle className={(this.props.completedCourses[value.code] === 'N' || this.props.completedCourses[value.code] === 'F') ? "cardCompetionFailedSubtitle" :"cardCompletedSubtitle"}>
 									{
 										(this.props.completedCourses[value.code]) ?
-											('Completed: ' + this.props.completedCourses[value.code]) : ''
+											((this.props.completedCourses[value.code] === 'N' || this.props.completedCourses[value.code] === 'F') ?
+												('Failed: ' + this.props.completedCourses[value.code]) : ('Completed: ' + this.props.completedCourses[value.code])) : ''
 									}
 								</Card.Subtitle>
 							</Card.Body>

@@ -34,7 +34,8 @@ class MagicFill extends Component {
 		let fieldVal = event.target.value;
 		if (this.state[fieldName] === fieldVal) {
 			fieldVal = undefined;
-			this.state.priorityList = this.state.priorityList.filter(item => item !== fieldName);
+			var newPriorityList = this.state.priorityList.filter(item => item !== fieldName);
+			this.setState({ priorityList: newPriorityList });
 		} else {
 			this.state.priorityList.push(fieldName);
 		}
@@ -174,6 +175,7 @@ class MagicFill extends Component {
 				case 'evening':
 					toPush = 'Evening';
 					break;
+				default: ;
 			}
 			const btn = <Button onClick={onClickHandler} className='dropdownButton'>{toPush}<FaTrashAlt /></Button>;
 			selectedElements.push(btn);
@@ -205,15 +207,16 @@ class MagicFill extends Component {
 				prefs.misc.checkboard = (value === 'gaps') ? 1 : 0;
 			}
 		}
-		const result = this.props.genTT(prefs);
+		this.props.genTT(prefs);
 	}
+
 	renderGenButton() {
 		if (!this.state.generatingInProcess) {
 			return (<Button className='magicButton dropdownButton' onClick={() => { this.buildPrefAndSend() }}>Generate Timetable</Button>);
 		}
 		return (<Button className='magicButton dropdownButton' style={{ "opacity": 0.3 }}>Generate Timetable</Button>);
-
 	}
+
 	renderForm = () => {
 		if (this.state.showForm)
 			return (

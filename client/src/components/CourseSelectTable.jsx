@@ -1,10 +1,8 @@
 import React from 'react';
-import { Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup, Media } from 'react-bootstrap';
-import MediaQuery from 'react-responsive';
+import { Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/CourseSelectTable.css';
 import { FaSearch } from 'react-icons/fa';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import API from '../API';
 
 import * as COURSE from '../constants/Courses';
@@ -208,6 +206,7 @@ class CourseSelectTable extends React.Component {
 				return !this.checkTheory(course) && this.checkLab(course) && !this.checkProject(course);
 			else if (this.state.typeFilters.includes('Project'))
 				return !this.checkTheory(course) && !this.checkLab(course) && this.checkProject(course);
+			return true;	
 		});
 	}
 
@@ -399,7 +398,7 @@ class CourseSelectTable extends React.Component {
 								<Card.Title>{value.title}</Card.Title>
 								<Card.Text className="courseSelectDetails">
 									<div className="courseCodeText">{value.code}</div>
-									<div className="courseCredits">{value.credits} Credit{(value.credits == 1) ? '' : 's'}</div>
+									<div className="courseCredits">{value.credits} Credit{(value.credits === 1) ? '' : 's'}</div>
 								</Card.Text>
 								<Card.Subtitle className="cardCompletedSubtitle">
 									{

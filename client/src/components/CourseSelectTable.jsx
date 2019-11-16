@@ -342,7 +342,6 @@ class CourseSelectTable extends React.Component {
 		if (value.types.filter(type => COURSE.isProjectType(type)).length > 0) typeString.add('P');
 		if (value.types.filter(type => COURSE.isTheoryType(type)).length > 0) typeString.add('T');
 
-
 		return (
 			<div className="courses" key={value.code} onClick={() => this.props.selectCourse(value.code)}>
 				<CardColumns className="courseList">
@@ -400,7 +399,7 @@ class CourseSelectTable extends React.Component {
 									<div className="courseCodeText">{value.code}</div>
 									<div className="courseCredits">{value.credits} Credit{(value.credits === 1) ? '' : 's'}</div>
 								</Card.Text>
-								<Card.Subtitle className="cardCompletedSubtitle">
+								<Card.Subtitle className={['N', 'F'].includes(this.props.completedCourses[value.code]) ? "cardCompletionFailedSubtitle" : "cardCompletedSubtitle"}>
 									{
 										(this.props.completedCourses[value.code]) ?
 											('Completed: ' + this.props.completedCourses[value.code]) : ''

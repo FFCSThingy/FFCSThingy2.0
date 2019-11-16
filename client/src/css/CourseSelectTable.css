@@ -144,6 +144,11 @@ input[type='number'] {
 	color: var(--card-selected-text-color);
 }
 
+.cardCompletionFailedSubtitle{
+	margin-top: 0 !important;
+	color: var(--card-clash-text-color);
+}
+
 .courseSelectContainer {
 	margin-top: 4rem !important;
 	margin-bottom: 2rem !important;

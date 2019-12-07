@@ -30,5 +30,6 @@
     "> 1%",
     "maintained node versions",
     "not dead"
-  ]
+  ],
+  "proxy": "http://localhost:3001"
 }

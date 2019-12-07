@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 var API = axios.create({
-	baseURL: process.env.REACT_APP_BASE_URL || 'http://localhost:3001'
+	baseURL: (process.env.NODE_ENV === 'development') ? 
+		'' : process.env.REACT_APP_BASE_URL
 });
 
 API.interceptors.response.use(response => {

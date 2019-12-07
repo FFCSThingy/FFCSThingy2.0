@@ -72,13 +72,13 @@
 .cardClashSubtitle {
 	margin-top: 0 !important;
 	color: var(--card-clash-text-color);
-	float: right;
+	/* float: right; */
 }
 
 .cardSelectedSubtitle {
 	margin-top: 0 !important;
 	color: var(--card-selected-text-color);
-	float: right;
+	/* float: right; */
 }
 
 .cardBody {

@@ -60,7 +60,8 @@ class SlotTable extends Component {
 		)
 	}
 
-	renderClashCard(value) {
+	renderClashCard(value, clashingSlots) {
+		const clashingString = clashingSlots.join(', ');
 		return (
 			<Card
 				className="cardContainer"
@@ -70,11 +71,15 @@ class SlotTable extends Component {
 				<Card.Body className="cardBodyClash">
 					<Card.Text>{value.slot}</Card.Text>
 					<Card.Title>{value.faculty}</Card.Title>
-					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
-						<Card.Subtitle className="cardClashSubtitle">Clashing</Card.Subtitle>
+					<Card.Subtitle className="cardSubtitle">
+						{value.venue} - {value.course_type}
 					</Card.Subtitle>
-
-					<Card.Subtitle className="cardSubtitle">Popularity - <b>{Math.floor(value.percent)}%</b></Card.Subtitle>
+					<Card.Subtitle className="cardSubtitle">
+						Popularity - <b>{Math.floor(value.percent)}%</b>
+					</Card.Subtitle>
+					<Card.Subtitle className="cardClashSubtitle">
+						Clashes with <b>{clashingString}</b>
+					</Card.Subtitle>
 				</Card.Body>
 
 			</Card>
@@ -91,11 +96,12 @@ class SlotTable extends Component {
 				<Card.Body className="cardBodySelected">
 					<Card.Text>{value.slot}</Card.Text>
 					<Card.Title>{value.faculty}</Card.Title>
+					<Card.Subtitle className="cardSubtitle">
+						Popularity - <b>{Math.floor(value.percent)}%</b>
+					</Card.Subtitle>
 					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
 						<Card.Subtitle className="cardSelectedSubtitle">Selected</Card.Subtitle>
 					</Card.Subtitle>
-
-					<Card.Subtitle className="cardSubtitle">Popularity - <b>{Math.floor(value.percent)}%</b></Card.Subtitle>
 				</Card.Body>
 
 			</Card>
@@ -106,11 +112,12 @@ class SlotTable extends Component {
 		var normalCourses = [], selectedCourses = [], clashingCourses = [];
 
 		this.doFilter().map(value => {
-			var clash = this.props.checkClash(value.slot);
+			var clashingSlots = this.props.checkClash(value.slot);
+			const doesClash = clashingSlots && clashingSlots.length > 0;
 			var selected = this.props.checkSelected(value);
 
 			if (selected) return selectedCourses.push(this.renderSelectedCard(value));
-			else if (clash) return clashingCourses.push(this.renderClashCard(value));
+			else if (doesClash) return clashingCourses.push(this.renderClashCard(value, clashingSlots));
 			else return normalCourses.push(this.renderNormalCard(value));
 		});
 

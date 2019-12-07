@@ -264,11 +264,20 @@ class App extends React.Component {
 		if (slot === 'NIL') return false;
 		if (filledSlots.length === 0) return false;
 
-		return filledSlots.map(v => {
-			return slot.replace(' ', '').split('+')
-				.map(s => this.state.clashMap[s].clashesWith.includes(v))
-				.reduce((a, v) => a || v, false)
-		}).reduce((a, v) => a || v, false);
+		const clashingSlots = filledSlots.map(v => {
+			const clash = slot.replace(' ', '').split('+')
+				.reduce((a, s) => {
+					if(this.state.clashMap[s].clashesWith.includes(v))
+						return a + v;
+					else return a + '';
+				}, '');
+			return clash;
+			// 	.map(s => this.state.clashMap[s].clashesWith.includes(v) ? v : null)
+			// 	.filter(s => s);
+			// return clash[0];	
+		}).filter(v => v && v.length > 0);
+
+		return clashingSlots;
 	}
 
 	checkSelected = (course) => {
@@ -277,7 +286,7 @@ class App extends React.Component {
 
 	getFilledSlots = () => {
 		return Object.keys(this.state.clashMap).reduce((a, v) => {
-			if (this.state.clashMap[v].isFilled) a = [...a, v];
+			if (this.state.clashMap[v].isFilled) a.push(v);
 			return a;
 		}, [])
 	}

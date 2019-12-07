@@ -16,7 +16,7 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
-    "start": "REACT_APP_BASE_URL=http://localhost:3001 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -30,5 +30,6 @@
     "> 1%",
     "maintained node versions",
     "not dead"
-  ]
+  ],
+  "proxy": "http://localhost:3001"
 }

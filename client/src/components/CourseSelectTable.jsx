@@ -42,7 +42,7 @@ class CourseSelectTable extends React.Component {
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
-				if (err.response.status === 401) this.handleUnauth();
+				if (err.response.status === 401) this.props.handleUnauth();
 			});
 	}
 
@@ -61,7 +61,7 @@ class CourseSelectTable extends React.Component {
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
-				if (err.response.status === 401) this.handleUnauth();
+				if (err.response.status === 401) this.props.handleUnauth();
 			});
 	}
 
@@ -80,7 +80,7 @@ class CourseSelectTable extends React.Component {
 				} else
 					this.setState({ error: res.data.message })
 			}).catch(err => {
-				if (err.response.status === 401) this.handleUnauth();
+				if (err.response.status === 401) this.props.handleUnauth();
 			});
 	}
 

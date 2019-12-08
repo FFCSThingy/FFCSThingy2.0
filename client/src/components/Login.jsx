@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../css/Login.css'
@@ -13,19 +14,34 @@ ReactGA.initialize('UA-121295619-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 class Login extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			authenticated: false,
+		};
+	}
+
+	authRedirect = (
+		<Redirect to="/dashboard" />
+	)
+
 	componentDidMount() {
 		API.get("/account")
 			.then(res => {
-				this.props.history.push('/dashboard');
+				this.setState({
+					authenticated: true
+				})
 			}).catch(err => {
 				if (err.response.status === 401);
 			});
 	}
 
 	render() {
-		const loginUrl = `${process.env.REACT_APP_BASE_URL || 'localhost:3001'}/auth/google`;
+		const loginUrl = `${process.env.REACT_APP_BASE_URL || 'http://localhost:3001'}/auth/google`;
 
 		return (
+			this.state.authenticated ? 
+				this.authRedirect :
 			<Container className="loginContainer">
 				<Row className="logoContainer">
 					<span className="ffcsthingy"><img src={logo} alt="" /> FFCS Thingy</span>

@@ -2,6 +2,7 @@
 // 'CourseTable' is the final bottom table for regisered courses
 
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Alert } from 'react-bootstrap';
@@ -31,9 +32,10 @@ ReactGA.pageview(window.location.pathname + window.location.search);
 
 class App extends React.Component {
 
-	constructor(state) {
-		super(state);
+	constructor(props) {
+		super(props);
 		this.state = {
+			authenticated: true,
 			error: null,
 			activeTimetable: 'Default',
 			generatingInProcess: false,
@@ -86,14 +88,19 @@ class App extends React.Component {
 	}
 
 	handleUnauth = () => {
-		return this.props.history.push('/');
+		this.setState({
+			authenticated: false
+		})
 	}
+
+	unauthRedirect = (
+		<Redirect to="/" />
+	);
 
 	doGetAccount = () => {
 		API.get("/account")
 			.then(res => {
 				if (res.status === 304);
-				// this.setState({ heatmap: JSON.parse(localStorage.getItem('heatmap')) })
 				else {
 					this.setState({ user: res.data });
 				}
@@ -492,104 +499,107 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<Container fluid={true}>
-				<Row className='navBarRow'>
-					<CustomNavbar
-						user={this.state.user}
-						creditCount={this.getCreditCount()}
-						themes={THEMES}
-						curriculumList={this.state.curriculumList}
-						selectedCurriculum={this.state.selectedCurriculum}
-
-						handleCurriculumChange={this.handleCurriculumChange}
-						changeActiveTheme={this.changeActiveTheme}
-						doLogout={this.doLogout}
-					/>
-				</Row>
-
-				{/*
-					this.state.alertShow ?
-						<Row>
-							<Alert variant="danger" onClose={() => this.setState({ alertShow: false })} dismissible>
-								<Alert.Heading>Courses Updated</Alert.Heading>
-								<p>
-									If you notice courses missing from your timetable, it might be due to them being removed to keep it in sync with the available courses from the Course Allocation Report.
-								</p>
-							</Alert>
-						</Row> : <></>
-				*/}
-
-				<Row className="slotSelectionRow">
-					<Col xs={12} md={4}>
-						<CourseSelectTable
-							selectCourse={this.selectCourse}
-
-							completedCourses={this.state.completedCourses}
-							heatmap={this.state.heatmap}
-							selectedCourse={this.state.selectedCourse}
-							curriculum={this.state.curriculum}
+			this.state.authenticated ?
+				<Container fluid={true}>
+					<Row className='navBarRow'>
+						<CustomNavbar
+							user={this.state.user}
+							creditCount={this.getCreditCount()}
+							themes={THEMES}
+							curriculumList={this.state.curriculumList}
 							selectedCurriculum={this.state.selectedCurriculum}
-						/>
-					</Col>
 
-					<Col xs={12} md={8}>
-						<SlotTable
-							selectSlots={this.selectSlots}
-							checkClash={this.checkClash}
-							checkSelected={this.checkSelected}
-							slots={this.filterCourse()}
-
-							selectedCourse={this.state.selectedCourse}
-							types={this.findAvailableCourseTypes()}
-							venues={this.findAvailableVenues()}
-							theoryVenues={this.findAvailableVenues('Theory')}
-							labVenues={this.findAvailableVenues('Lab')}
-							projectVenues={this.findAvailableVenues('Project')}
+							handleCurriculumChange={this.handleCurriculumChange}
+							changeActiveTheme={this.changeActiveTheme}
+							doLogout={this.doLogout}
 						/>
-					</Col>
-				</Row>
-				{/* <Row>
-					<MagicFill
-						user={this.state.user}
-						inProcess={this.state.generatingInProcess}
-						genTT={(prefs) => {this.genTT(prefs)}}
-					/>
-				</Row>
-				{this.renderTTErrors()} */}
-				<Row>
-					<Col>
-						<TimetableSwitcher
+					</Row>
+
+					{/*
+						this.state.alertShow ?
+							<Row>
+								<Alert variant="danger" onClose={() => this.setState({ alertShow: false })} dismissible>
+									<Alert.Heading>Courses Updated</Alert.Heading>
+									<p>
+										If you notice courses missing from your timetable, it might be due to them being removed to keep it in sync with the available courses from the Course Allocation Report.
+									</p>
+								</Alert>
+							</Row> : <></>
+					*/}
+
+					<Row className="slotSelectionRow">
+						<Col xs={12} md={4}>
+							<CourseSelectTable
+								selectCourse={this.selectCourse}
+								handleUnauth={this.handleUnauth}
+
+								completedCourses={this.state.completedCourses}
+								heatmap={this.state.heatmap}
+								selectedCourse={this.state.selectedCourse}
+								curriculum={this.state.curriculum}
+								selectedCurriculum={this.state.selectedCurriculum}
+							/>
+						</Col>
+
+						<Col xs={12} md={8}>
+							<SlotTable
+								selectSlots={this.selectSlots}
+								checkClash={this.checkClash}
+								checkSelected={this.checkSelected}
+								slots={this.filterCourse()}
+
+								selectedCourse={this.state.selectedCourse}
+								types={this.findAvailableCourseTypes()}
+								venues={this.findAvailableVenues()}
+								theoryVenues={this.findAvailableVenues('Theory')}
+								labVenues={this.findAvailableVenues('Lab')}
+								projectVenues={this.findAvailableVenues('Project')}
+							/>
+						</Col>
+					</Row>
+					{/* <Row>
+						<MagicFill
+							user={this.state.user}
+							inProcess={this.state.generatingInProcess}
+							genTT={(prefs) => {this.genTT(prefs)}}
+						/>
+					</Row>
+					{this.renderTTErrors()} */}
+					<Row>
+						<Col>
+							<TimetableSwitcher
+								activeTimetable={this.state.activeTimetable}
+								timetableNames={this.state.timetableNames}
+								changeActiveTimetable={this.changeActiveTimetable}
+								modifyTimetableNames={this.modifyTimetableNames}
+
+								doEdit={this.doTimetableEdit}
+								doDelete={this.doTimetableDelete}
+								doNew={this.doTimetableAdd}
+								doCopy={this.doTimetableCopy}
+							/>
+						</Col>
+					</Row>
+
+					<Row>
+						<Timetable
+							clashMap={this.state.clashMap}
+							filledSlots={this.getFilledSlots()}
+							timetable={this.state.timetable}
 							activeTimetable={this.state.activeTimetable}
-							timetableNames={this.state.timetableNames}
-							changeActiveTimetable={this.changeActiveTimetable}
-							modifyTimetableNames={this.modifyTimetableNames}
-
-							doEdit={this.doTimetableEdit}
-							doDelete={this.doTimetableDelete}
-							doNew={this.doTimetableAdd}
-							doCopy={this.doTimetableCopy}
 						/>
-					</Col>
-				</Row>
+					</Row>
 
-				<Row>
-					<Timetable
-						clashMap={this.state.clashMap}
-						filledSlots={this.getFilledSlots()}
-						timetable={this.state.timetable}
-						activeTimetable={this.state.activeTimetable}
-					/>
-				</Row>
-
-				<Row>
-					<SelectedCoursesTable
-						timetable={this.state.timetable}
-						unselectSlot={this.unselectSlots}
-						activeTimetable={this.state.activeTimetable}
-						creditCount={this.getCreditCount()}
-					/>
-				</Row>
-			</Container>
+					<Row>
+						<SelectedCoursesTable
+							timetable={this.state.timetable}
+							unselectSlot={this.unselectSlots}
+							activeTimetable={this.state.activeTimetable}
+							creditCount={this.getCreditCount()}
+						/>
+					</Row>
+				</Container> 
+			: this.unauthRedirect
 		);
 	}
 }

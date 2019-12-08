@@ -79,7 +79,6 @@ passport.use(new GoogleStrategy({
 
 // and create our instances
 const app = express();
-app.use(express.static(path.join(__dirname, '..', 'client', 'build')));
 
 app.use(session({
 	secret: 'foo',
@@ -126,12 +125,7 @@ app.get('/account', ensureAuthenticated, function (req, res) {
 	return res.json(data);
 });
 
-
-
-app.get('/auth/google', passport.authenticate('google', {
-	scope: [
-		'email', 'profile']
-}));
+app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 app.get('/auth/google/callback',
 	passport.authenticate('google', {
@@ -144,21 +138,9 @@ app.get('/logout', function (req, res) {
 	res.redirect('/');
 });
 
-app.get('/dashboard', redirectUnauthenticated, function(req, res) {
-	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));		
-});
-
 app.get('/about', function(req, res) {
 	res.sendFile(path.join(__dirname, 'about.txt'));
 })
-
-app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname, '..', 'client', 'build', 'index.html'));
-});
-
-app.get('/*', function (req, res) {
-	res.redirect('/');
-});
 
 function ensureAuthenticated(req, res, next) {
 	req.authenticated = req.isAuthenticated();

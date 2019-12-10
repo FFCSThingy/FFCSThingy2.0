@@ -1,4 +1,4 @@
-export const THEMES = {
+const THEMES = {
 	default: {
 		name: 'Default',
 		properties: {
@@ -20,7 +20,7 @@ export const THEMES = {
 			'dropshadow-default': '#00000033',
 			'dropshadow-highlight': '#00000059',
 			'alternate-table-item-color': '#ECEBFE',
-		}
+		},
 	},
 	dark: {
 		name: 'Eerie Black',
@@ -43,7 +43,7 @@ export const THEMES = {
 			'dropshadow-default': '#00000033',
 			'dropshadow-highlight': '#000000',
 			'alternate-table-item-color': '#1f2229',
-		}
+		},
 	},
 	yellowish: {
 		name: 'Mellow Yellow',
@@ -66,7 +66,7 @@ export const THEMES = {
 			'dropshadow-default': '#00000033',
 			'dropshadow-highlight': '#00000059',
 			'alternate-table-item-color': '#FFFAE9',
-		}
+		},
 	},
 	coral: {
 		name: 'Light Coral',
@@ -89,7 +89,7 @@ export const THEMES = {
 			'dropshadow-default': '#00000033',
 			'dropshadow-highlight': '#00000059',
 			'alternate-table-item-color': '#FFEDED',
-		}
+		},
 	},
 	green: {
 		name: 'Pretty Green',
@@ -112,7 +112,7 @@ export const THEMES = {
 			'dropshadow-default': '#00000033',
 			'dropshadow-highlight': '#00000059',
 			'alternate-table-item-color': '#EDFFF2',
-		}
+		},
 	},
 	blue: {
 		name: 'Devspace Light',
@@ -135,7 +135,7 @@ export const THEMES = {
 			'dropshadow-default': '#00000033',
 			'dropshadow-highlight': '#00000059',
 			'alternate-table-item-color': '#EDF9FF',
-		}
+		},
 	},
 	pink: {
 		name: 'Persian Pink',
@@ -158,6 +158,8 @@ export const THEMES = {
 			'dropshadow-default': '#00000033',
 			'dropshadow-highlight': '#00000059',
 			'alternate-table-item-color': '#FFEDF4',
-		}
-	}
-}
+		},
+	},
+};
+
+export default THEMES;

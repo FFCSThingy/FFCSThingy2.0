@@ -39,7 +39,9 @@ router.get('/allCurriculums', async (req, res) => {
 
 router.get('/prefixes', async (req, res) => {
 	try {
-		const prefixes = await curriculum.getCurriculumPrefixes();
+		const prefixesQueryResult = await curriculum.getCurriculumPrefixes();
+		const prefixes = prefixesQueryResult.map((v) => v.reg_prefix);
+
 		res.json({ success: true, data: prefixes });
 	} catch (err) {
 		logger.error(`Error in /getPrefixes ${err}`);

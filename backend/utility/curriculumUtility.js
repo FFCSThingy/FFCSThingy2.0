@@ -8,28 +8,6 @@ const curriculumScraper = require('../scrapers/curriculum');
 // Models
 const Curriculum = require('../models/Curriculum');
 
-module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(filename) {
-	return new Promise((resolve, reject) => {
-		const filepath = path.join(__dirname, `../samples/curriculum/${filename}.html`);
-
-		fs.readFile(filepath, async (error, pgResp) => {
-			if (error) {
-				logger.info(`Error in doParseAndSaveCurriculum: ${error}`);
-			} else {
-				const resp = await curriculumScraper.parseCurriculum(pgResp);
-				resp.reg_prefix = filename;
-
-				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp,
-					{ upsert: true, new: true, setDefaultsOnInsert: true },
-					(err, doc) => {
-						if (err) return reject(err);
-						return resolve(doc);
-					});
-			}
-		});
-	});
-};
-
 module.exports.getCreditsFromCurriculum = () => Curriculum.aggregate([
 	{ $project: { _id: 0, courses: { $concatArrays: ['$uc', '$pc', '$ue', '$pe'] } } },
 	{ $unwind: '$courses' },
@@ -60,15 +38,41 @@ module.exports.getCreditsFromCurriculum = () => Curriculum.aggregate([
 	},
 ]).exec();
 
-module.exports.findCurriculumFromPrefix = function findCurriculumFromPrefix(regPrefix) {
-	return new Promise((resolve, reject) => {
-		Curriculum.findOne({ reg_prefix: regPrefix }, (err, doc) => {
-			if (err) {
-				logger.error(`Error in findCurriculumFromPrefix: ${err}`);
-				return reject(err);
-			}
+module.exports.findCurriculumFromPrefix = (regPrefix) => Curriculum.findOne({
+	reg_prefix: regPrefix,
+}).exec();
 
-			return resolve(doc);
+module.exports.getCurriculumPrefixes = () => Curriculum.aggregate(
+	[{
+		$project: {
+			reg_prefix: 1,
+			_id: 0,
+		},
+	}, {
+		$sort: {
+			reg_prefix: -1,
+		},
+	}],
+).exec();
+
+module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(filename) {
+	return new Promise((resolve, reject) => {
+		const filepath = path.join(__dirname, `../samples/curriculum/${filename}.html`);
+
+		fs.readFile(filepath, async (error, pgResp) => {
+			if (error) {
+				logger.info(`Error in doParseAndSaveCurriculum: ${error}`);
+			} else {
+				const resp = await curriculumScraper.parseCurriculum(pgResp);
+				resp.reg_prefix = filename;
+
+				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp,
+					{ upsert: true, new: true, setDefaultsOnInsert: true },
+					(err, doc) => {
+						if (err) return reject(err);
+						return resolve(doc);
+					});
+			}
 		});
 	});
 };
@@ -83,24 +87,4 @@ module.exports.addCurriculumFromExt = (curriculum) => new Promise((resolve, reje
 		} else if (err) return reject(err);
 		return resolve('Unmodified, Already Exists.');
 	});
-});
-
-module.exports.getCurriculumPrefixes = () => new Promise((resolve, reject) => {
-	Curriculum.aggregate(
-		[{
-			$project: {
-				reg_prefix: 1,
-				_id: 0,
-			},
-		}, {
-			$sort: {
-				reg_prefix: -1,
-			},
-		}], (err, data) => {
-			if (err) return reject(err);
-
-			data = data.map((dat) => dat.reg_prefix);
-			return resolve(data);
-		},
-	);
 });

@@ -5,30 +5,24 @@ import { FaTrashAlt } from 'react-icons/fa';
 import '../css/SelectedCoursesTable.css';
 
 class SelectedCoursesTable extends React.Component {
-
-	sortTimetable = ((a, b) => {
-		return a.code.localeCompare(b.code)
-	});
+	sortTimetable = ((a, b) => a.code.localeCompare(b.code));
 
 	render() {
-		var timetable = this.props.timetable.filter(v => v.timetableName === this.props.activeTimetable)
-		var appendList = timetable.sort(this.sortTimetable).map(value => {
-			return (
-				<tr key={value._id}>
-					<td>{value.slot}</td>
-					<td>{value.code}</td>
-					<td>{value.title}</td>
-					<td>{value.faculty}</td>
-					<td>{value.venue}</td>
-					<td>{value.credits}</td>
-					<td>
-						<FaTrashAlt className="trashButton" onClick={() => this.props.unselectSlot(value)}>
-						</FaTrashAlt>
+		const timetable = this.props.timetable.filter((v) => v.timetableName === this.props.activeTimetable);
+		const appendList = timetable.sort(this.sortTimetable).map((value) => (
+			<tr key={value._id}>
+				<td>{value.slot}</td>
+				<td>{value.code}</td>
+				<td>{value.title}</td>
+				<td>{value.faculty}</td>
+				<td>{value.venue}</td>
+				<td>{value.credits}</td>
+				<td>
+					<FaTrashAlt className="trashButton" onClick={() => this.props.unselectSlot(value)} />
 
-					</td>
-				</tr>
-			)
-		});
+				</td>
+			</tr>
+		));
 
 		return (
 			<Container className="selectedCourseContainer">
@@ -41,7 +35,7 @@ class SelectedCoursesTable extends React.Component {
 							<th>Faculty</th>
 							<th>Venue</th>
 							<th>Credits</th>
-							<th></th>
+							<th> </th>
 						</tr>
 					</thead>
 					<tbody className="selectedCourseBody">
@@ -50,14 +44,16 @@ class SelectedCoursesTable extends React.Component {
 					<tfoot className="creditsRow">
 						<tr>
 							<td colSpan="7">
-								<strong>Total Credits: {this.props.creditCount}</strong>
+								<strong>
+									{`Total Credits: ${this.props.creditCount}`}
+								</strong>
 							</td>
 						</tr>
 					</tfoot>
 				</table>
 			</Container>
 
-		)
+		);
 	}
 }
 

@@ -1,11 +1,12 @@
 import React from 'react';
-import { Dropdown, ButtonGroup, Button, Form, DropdownButton } from 'react-bootstrap';
+import {
+	Dropdown, ButtonGroup, Button, Form, DropdownButton,
+} from 'react-bootstrap';
 import { FaTrashAlt, FaPlusSquare, FaPen } from 'react-icons/fa';
 import '../css/TimetableSwitcher.css';
-import "../css/TimeTable.css";
+import '../css/TimeTable.css';
 // import { log } from 'util';
 class TimetableSwitcher extends React.Component {
-
 	constructor(props, context) {
 		super(props, context);
 		this.state = {
@@ -13,78 +14,79 @@ class TimetableSwitcher extends React.Component {
 			showNew: false,
 			showCopy: false,
 			newName: '',
-
-			show: false,
-			value: ""
 		};
 	}
 
 	handleChange = (event) => {
-		let fieldName = event.target.name;
-		let fleldVal = event.target.value;
-		this.setState({ [fieldName]: fleldVal })
+		const fieldName = event.target.name;
+		const fleldVal = event.target.value;
+		this.setState({ [fieldName]: fleldVal });
 	}
 
 	handleCopy = () => {
-		this.setState(prevState => ({
+		this.setState((prevState) => ({
 			showCopy: !prevState.showCopy,
 			showEdit: false,
-			showNew: false
+			showNew: false,
 		}));
 	}
 
 	handleEdit = () => {
-		this.setState(prevState => ({
+		this.setState((prevState) => ({
 			showCopy: false,
 			showEdit: !prevState.showEdit,
-			showNew: false
+			showNew: false,
 		}));
 	}
 
 	handleNew = () => {
-		this.setState(prevState => ({
+		this.setState((prevState) => ({
 			showCopy: false,
 			showEdit: false,
-			showNew: !prevState.showNew
+			showNew: !prevState.showNew,
 		}));
 	}
 
+	okButtonClickHandler = () => {
+		if (this.state.showEdit) {
+			this.props.doEdit(this.state.newName);
+			this.handleEdit();
+		} else if (this.state.showNew) {
+			this.props.doNew(this.state.newName);
+			this.handleNew();
+		} else if (this.state.showCopy) {
+			this.props.doCopy(this.state.newName);
+			this.handleCopy();
+		}
+	}
+
 	renderInput = () => {
-		if (this.state.showEdit || this.state.showCopy || this.state.showNew)
+		if (this.state.showEdit || this.state.showCopy || this.state.showNew) {
 			return (
 				<Form>
 					<Form.Control
-						type='text'
+						type="text"
 						value={this.state.newName}
-						placeholder='Timetable Name'
-						name='newName'
-						onChange={this.handleChange.bind(this)}
+						placeholder="Timetable Name"
+						name="newName"
+						onChange={this.handleChange}
 						spellCheck="false"
 						autoComplete="off"
 					/>
 
-					<Button className="okButton"
-						onClick={() => {
-							(this.state.showEdit) ? this.props.doEdit(this.state.newName)
-								: (this.state.showNew) ? this.props.doNew(this.state.newName)
-									: this.props.doCopy(this.state.newName);
-
-							(this.state.showEdit) ? this.handleEdit()
-								: (this.state.showNew) ? this.handleNew()
-									: this.handleCopy();
-						}
-						}
+					<Button
+						className="okButton"
+						onClick={this.okButtonClickHandler}
 					>
 						Ok
-						</Button>
+					</Button>
 				</Form>
-			)
-		else return;
+			);
+		}
+		return <></>;
 	}
 
-	renderDropdownItems = () => {
-		return this.props.timetableNames.map(v => <Dropdown.Item eventKey={v} className="timetableSwitcherDropdownItem">{v}</Dropdown.Item>);
-	}
+	renderDropdownItems = () => this.props.timetableNames.map((v) => <Dropdown.Item eventKey={v} className="timetableSwitcherDropdownItem">{v}</Dropdown.Item>)
 
 	render() {
 		return (

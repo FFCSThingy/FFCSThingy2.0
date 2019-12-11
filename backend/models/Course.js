@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-var courseSchema = mongoose.Schema({	// From the data given in the sheet
+const courseSchema = mongoose.Schema({
 	code: String,
 	title: String,
 	course_type: String,
 	credits: Number,
-	slot: String, 
+	slot: String,
 	faculty: String,
 	venue: String,
 	count: { type: Number, default: 0 },
@@ -14,4 +14,4 @@ var courseSchema = mongoose.Schema({	// From the data given in the sheet
 	timestamp: { type: Date, default: Date.now() },
 });
 
-module.exports = mongoose.model("Course", courseSchema);
+module.exports = mongoose.model('Course', courseSchema);

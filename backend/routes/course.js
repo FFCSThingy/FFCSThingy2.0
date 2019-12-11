@@ -1,67 +1,64 @@
 const express = require('express');
-const path = require('path');
 const { logger } = require('../utility/loggers.js');
 
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
-const user = require('../utility/userUtility');
 const course = require('../utility/courseUtility');
 const system = require('../utility/systemUtility');
-const { resolve } = require('path');
 
-const prereqJSON = require(path.join(__dirname, '..', 'data', 'prereqs.json'));
+const prereqJSON = require('../data/prereqs.json');
 
 const router = express.Router();
 
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-router.get('/fullHeatmap/:timestamp?', async (req, res, next) => {
+router.get('/fullHeatmap/:timestamp?', async (req, res) => {
 	try {
-		var systemTimestamp = await system.getHeatmapUpdateTime();
-		var reqTimestamp = req.params.timestamp;
+		const systemTimestamp = await system.getHeatmapUpdateTime();
+		const reqTimestamp = req.params.timestamp;
 
-		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp))
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
 			return res.json({
 				success: true,
 				data: {
 					heatmap: await course.getFullHeatmap(),
-					timestamp: systemTimestamp
-				}
+					timestamp: systemTimestamp,
+				},
 			});
-		else
-			res.status(304).json({ success: true, message: "Up To Date" });
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
 	} catch (err) {
-		res.status(500).json({ success: false, message: '/getFullHeatmap failed' });
+		return res.status(500).json({ success: false, message: '/getFullHeatmap failed' });
 	}
-
 });
 
-router.get('/courseList/:timestamp?', async (req, res, next) => {
+router.get('/courseList/:timestamp?', async (req, res) => {
 	try {
-		var systemTimestamp = await system.getRepopulateTime();
-		var reqTimestamp = req.params.timestamp;
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
 
-		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp))
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
 			return res.json({
 				success: true,
 				data: {
 					courseList: await course.getCourseList(),
-					timestamp: systemTimestamp
-				}
+					timestamp: systemTimestamp,
+				},
 			});
-		else
-			res.status(304).json({ success: true, message: "Up To Date" });
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
 	} catch (err) {
-		res.status(500).json({ success: false, message: '/getCourseList failed' });
+		logger.error(err);
+		return res.status(500).json({ success: false, message: '/getCourseList failed' });
 	}
 });
 
-router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
+router.get('/courseFacultyList/:timestamp?', async (req, res) => {
 	try {
-		var systemTimestamp = await system.getRepopulateTime();
-		var reqTimestamp = req.params.timestamp;
-		var courseFacultyList;
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
+		let courseFacultyList;
 
 		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
 			courseFacultyList = await course.getCourseFacultyList();
@@ -70,24 +67,28 @@ router.get('/courseFacultyList/:timestamp?', async (req, res, next) => {
 				success: true,
 				data: {
 					courseFacultyList: courseFacultyList[0].list,
-					timestamp: systemTimestamp
-				}
+					timestamp: systemTimestamp,
+				},
 			});
-		} 
-		else
-			res.status(304).json({ success: true, message: "Up To Date" });
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
 	} catch (err) {
 		logger.error(err);
-		res.status(500).json({ success: false, message: `${req.url} failed` });
+		return res.status(500).json({ success: false, message: `${req.url} failed` });
 	}
 });
 
-router.get('/newCourseList', async (req, res, next) => {
-	var systemTimestamp = new Date(await system.getRepopulateTime());
+// Gets credits from curriculuma dn populates the list
+router.get('/courseListFromCurriculum', async (req, res) => {
+	let creditList;
+	const systemTimestamp = new Date(await system.getRepopulateTime());
 
-	var courseList = await course.getCourseList();
-	var creditList = await curriculum.getCreditCounts();
-	var data = courseList.map(v => {
+	const courseList = await course.getCourseList();
+	// const creditList = await curriculum.getCreditCounts();
+	creditList = await curriculum.creditsFromCurriculumQuery();
+	creditList = creditList[0].list;
+
+	const data = courseList.map((v) => {
 		v.credits = creditList[v.code] || 0;
 		return v;
 	});
@@ -96,96 +97,87 @@ router.get('/newCourseList', async (req, res, next) => {
 		success: true,
 		data: {
 			courseList: data,
-			timestamp: systemTimestamp
-		}
+			timestamp: systemTimestamp,
+		},
 	});
 });
 
-router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res, next) => {
+router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res) => {
 	try {
-		var courses = await course.parseXLSX();
+		const courses = await course.parseXLSX();
 
-		var repopTime = await system.updateRepopulateTime();
+		const repopTime = await system.updateRepopulateTime();
 
 		// TODO: Replace this with the user timetable scrolling, verifying thing and update heatmap
 		system.updateHeatmapUpdateTime();
 
-		var actions = courses.map(course.addCourseToDB);
+		const actions = courses.map(course.addCourseToDB);
 		// var actions = courseReportJSON.map(course.addCourseToDB);
-		var results = await Promise.all(actions);
+		const results = await Promise.all(actions);
 
-		var deletes = await course.cleanCoursesAfterRepopulate(repopTime);
-		var cleanDetails = await course.doCleanRemovedCourses();
+		const deletes = await course.cleanCoursesAfterRepopulate(repopTime);
+		const cleanDetails = await course.doCleanRemovedCourses();
 
-		res.json({ updates: results, deletes: deletes, cleanDetails: cleanDetails });
-
+		return res.json({ updates: results, deletes, cleanDetails });
 	} catch (err) {
-		res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
-		logger.error('addCoursesToDB Error: ' + err);
+		logger.error(`addCoursesToDB Error: ${err}`);
+		return res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
 	}
 });
 
-router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res, next) => {
+router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res) => {
 	try {
-		var data = {
+		const data = {
 			code: req.params.code,
 			course_type: req.params.type,
 			faculty: req.params.faculty,
 			venue: req.params.venue,
-			slot: req.params.slot
+			slot: req.params.slot,
 		};
 
-		var doc = await course.getCourseDetails(data)
+		const doc = await course.getCourseDetails(data);
 
-		if (doc)
-			res.json({ success: true, data: doc });
-		else
-			res.status(404).json({ success: false, message: 'Not found' });
-
+		if (doc) { res.json({ success: true, data: doc }); } else { res.status(404).json({ success: false, message: 'Not found' }); }
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByDetails failed' });
-		logger.error('courseByDetails Error: ' + err);
+		logger.error(`courseByDetails Error: ${err}`);
 	}
 });
 
-router.get('/courseByID/:id', async (req, res, next) => {
+router.get('/courseByID/:id', async (req, res) => {
 	try {
-		var data = {
+		const data = {
 			_id: req.params.id,
 		};
 
-		var doc = await course.getCourseDetails(data)
+		const doc = await course.getCourseDetails(data);
 
-		if (doc)
-			res.json({ success: true, data: doc });
-		else
-			res.status(404).json({ success: false, message: 'Not found' });
-
+		if (doc) { res.json({ success: true, data: doc }); } else { res.status(404).json({ success: false, message: 'Not found' }); }
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getCourseByID failed' });
-		logger.error('courseByID Error: ' + err);
+		logger.error(`courseByID Error: ${err}`);
 	}
 });
 
-router.get('/updateHeatmap', async(req, res, next) => {
+router.get('/updateHeatmap', async (req, res) => {
 	try {
-		var doc = await course.updateHeatmap();
+		const doc = await course.updateHeatmap();
 		res.json(doc);
-	} catch(err) {
+	} catch (err) {
 		logger.error(err);
 	}
 });
 
-router.get('/cleanDemOldCourses/SuckOnDeezNumbNutz', async(req, res, next) => {
+router.get('/cleanDemOldCourses/SuckOnDeezNumbNutz', async (req, res) => {
 	try {
-		var data = await course.doCleanRemovedCourses();
+		const data = await course.doCleanRemovedCourses();
 		res.send(data);
-	} catch(err) {
+	} catch (err) {
 		logger.error(err);
 	}
-})
+});
 
-router.get('/prereqs', async(req, res, next) => {
+router.get('/prereqs', async (req, res) => {
 	res.json({ success: true, data: prereqJSON });
 });
 

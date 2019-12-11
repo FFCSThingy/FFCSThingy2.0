@@ -3,114 +3,88 @@ const path = require('path');
 const { logger } = require('./loggers.js');
 
 // Scrapers
-const grades = require('../scrapers/userhistory');
-const curriculum = require('../scrapers/curriculum');
+const curriculumScraper = require('../scrapers/curriculum');
 
 // Models
 const Curriculum = require('../models/Curriculum');
-const User = require('../models/User');
 
+module.exports.getCreditsFromCurriculum = () => Curriculum.aggregate([
+	{ $project: { _id: 0, courses: { $concatArrays: ['$uc', '$pc', '$ue', '$pe'] } } },
+	{ $unwind: '$courses' },
+	{
+		$group: {
+			_id: {
+				code: '$courses.code',
+				credits: '$courses.c',
+			},
+
+		},
+	}, {
+		$group: {
+			_id: null,
+			array: {
+				$push: {
+					k: '$_id.code',
+					v: '$_id.credits',
+				},
+			},
+		},
+	},
+	{
+		$project: {
+			_id: 0,
+			list: { $arrayToObject: '$array' },
+		},
+	},
+]).exec();
+
+module.exports.findCurriculumFromPrefix = (regPrefix) => Curriculum.findOne({
+	reg_prefix: regPrefix,
+}).exec();
+
+module.exports.getCurriculumPrefixes = () => Curriculum.aggregate(
+	[{
+		$project: {
+			reg_prefix: 1,
+			_id: 0,
+		},
+	}, {
+		$sort: {
+			reg_prefix: -1,
+		},
+	}],
+).exec();
 
 module.exports.doParseAndSaveCurriculum = function doParseAndSaveCurriculum(filename) {
 	return new Promise((resolve, reject) => {
-		var filepath = path.join(__dirname, '../samples/curriculum/' + filename + '.html');
+		const filepath = path.join(__dirname, `../samples/curriculum/${filename}.html`);
 
-		fs.readFile(filepath, async function (error, pgResp) {
+		fs.readFile(filepath, async (error, pgResp) => {
 			if (error) {
-				logger.info('Error in doParseAndSaveCurriculum: ' + error);
+				logger.info(`Error in doParseAndSaveCurriculum: ${error}`);
 			} else {
-				var resp = await curriculum.parseCurriculum(pgResp);
+				const resp = await curriculumScraper.parseCurriculum(pgResp);
 				resp.reg_prefix = filename;
 
-				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp, { upsert: true, new: true, setDefaultsOnInsert: true },
-					function (err, doc) {
+				Curriculum.findOneAndUpdate({ reg_prefix: filename }, resp,
+					{ upsert: true, new: true, setDefaultsOnInsert: true },
+					(err, doc) => {
 						if (err) return reject(err);
 						return resolve(doc);
 					});
 			}
 		});
 	});
-}
+};
 
-module.exports.getCreditCounts = () => {
-	return new Promise((resolve, reject) => {
-		Curriculum.aggregate([
-			{ $project: { _id: 0, courses: { $concatArrays: ['$uc', '$pc', '$ue', '$pe'] } } },
-			{ $unwind: '$courses' },
-			{ 
-				$group: { 
-					_id: { 
-						code: '$courses.code',
-						credits: '$courses.c'
-					}
-					
-				} 
-			}, {
-				$project: {
-					code: '$_id.code',
-					credits: '$_id.credits',
-					_id: 0
-				}
-			}
-		], function(err, data) {
-			if(err) return reject(err);
-			data = data.reduce((a,v) => {
-				a[v.code] = v.credits;
-				return a;
-			}, {})
-
-			return resolve(data);
-		});
-	});
-}
-
-module.exports.findCurriculumFromPrefix = function findCurriculumFromPrefix(reg_prefix) {
-	return new Promise((resolve, reject) => {
-		Curriculum.findOne({ reg_prefix: reg_prefix }, function (err, doc) {
-			if (err) {
-				logger.info('Error in findCurriculumFromPrefix: ' + err);
-				return reject(err);
-			}
-
-			else return resolve(doc);
-		});
-	});
-}
-
-module.exports.addCurriculumFromExt = (curriculum) => {
-	return new Promise((resolve, reject) => {
-		Curriculum.findOne({reg_prefix: curriculum.reg_prefix}, (err, doc) => {
-			if (!doc) Curriculum.findOneAndUpdate({ reg_prefix: curriculum.reg_prefix },
+module.exports.addCurriculumFromExt = (curriculum) => new Promise((resolve, reject) => {
+	Curriculum.findOne({ reg_prefix: curriculum.reg_prefix }, (err, doc) => {
+		if (!doc) {
+			Curriculum.findOneAndUpdate({ reg_prefix: curriculum.reg_prefix },
 				curriculum,
-				{ upsert: true, new: true, rawResult: true }, function(err, doc) {
-					// return resolve(doc)
-					return resolve('Curriculum not found, adding.')
-				});
-			else if(err) return reject(err);
-			else return resolve('Unmodified, Already Exists.');	
-		})
+				{ upsert: true, new: true, rawResult: true },
+				() => resolve('Curriculum not found, adding.'));
+		} else if (err) return reject(err);
+		return resolve('Unmodified, Already Exists.');
 	});
-}
-
-module.exports.getCurriculumPrefixes = () => {
-	return new Promise((resolve, reject) => {
-		Curriculum.aggregate(
-			[{
-				$project: {
-					reg_prefix: 1,
-					_id: 0
-				}
-			}, {
-				$sort: {
-					reg_prefix: -1
-				}
-			}], function (err, data) {
-				if (err) return reject(err);
-				else {
-					data = data.map((dat) => dat.reg_prefix);
-					return resolve(data);
-				}
-			}
-		);
-	})
-}
+});

@@ -1,55 +1,49 @@
 const cheerio = require('cheerio');
-const Promise = require('bluebird');
 const { logger } = require('../utility/loggers.js');
 
-module.exports.parseUserHistory = (html, userID='') => {
-	var data = {
-		"completed_courses": [],
-		"grades": {},
-		"credit_summary": {},
+module.exports.parseUserHistory = (html, userID = '') => {
+	const data = {
+		completed_courses: [],
+		grades: {},
+		credit_summary: {},
 	};
+
 	return new Promise((resolve, reject) => {
 		try {
+			// User Data Scraper
+			const $ = cheerio.load(html);
+			const userDataHeadings = ['reg_no', 'name', 'Programme and Branch', 'mode', 'system', 'gender', 'joined_yr', 'edu_status', 'school', 'campus'];
+			const gradeTableHeadings = ['creds_reg', 'creds_earned', 'cgpa', 's', 'a', 'b', 'c', 'd', 'e', 'f', 'n'];
 
-			//User Data Scraper
-			var $ = cheerio.load(html);
-			var user_headings = ['reg_no', 'name', 'Programme and Branch', 'mode', 'system', 'gender', 'joined_yr', 'edu_status', 'school', 'campus'];
-			var grades = ['creds_reg', 'creds_earned', 'cgpa', 's', 'a', 'b', 'c', 'd', 'e', 'f', 'n'];
+			const tr = $('tr');
+			const row = tr.eq(1);
+			const td = row.find('td');
 
-			var tr = $('tr');
-			var row = tr.eq(1);
-			var td = row.find('td');
-
-			for (var i = 0; i < td.length; i++) {
-				if (i == 3 || i == 4 || i == 7)
-					continue;
-				if (i == 2) {
-					var str = td.eq(i).text().split(" - ");
-					data["programme"] = str[0];
-					data["branch"] = str[1];
-				}
-				else
-					data[user_headings[i]] = td.eq(i).text();
-
+			for (let i = 0; i < td.length; i += 1) {
+				// eslint-disable-next-line no-continue
+				if (i === 3 || i === 4 || i === 7) { continue; }
+				if (i === 2) {
+					const str = td.eq(i).text().split(' - ');
+					[data.programme, data.branch] = str;
+				} else { data[userDataHeadings[i]] = td.eq(i).text(); }
 			}
 
-			var diff = 0;	// For 16* Peeps who have an extra row in their thingy.
+			let diff = 0;	// For 16* Peeps who have an extra row in their thingy.
 
 			const baseScraper = cheerio.load(html);
 			const baseScraper2 = cheerio.load(html);
-			const IDScraper = cheerio.load(html);
 			const trCount = baseScraper('tr.tableContent').length;
 
-			if(userID)
-				if (userID.trim().startsWith('16'))
-					diff = 1;
-			
+			if (userID) {
+				if (userID.trim().startsWith('16')) { diff = 1; }
+			}
+
 			try {
-				const check = baseScraper2(baseScraper2('tr.tableContent')[trCount - 5]).children('td').eq(1).text().trim();
+				const check = baseScraper2(baseScraper2('tr.tableContent')[trCount - 5]).children('td').eq(1).text()
+					.trim();
 				if (check === 'UC') diff = 1;
 				if (check === '-') diff = -1;
-			}
-			catch (e) {
+			} catch (e) {
 				logger.error(`userhistory error in check: ${e} for ${userID}`);
 			}
 
@@ -61,13 +55,14 @@ module.exports.parseUserHistory = (html, userID='') => {
 
 				const attrs = baseScraper(elem).children('td');
 
-				if(i == trCount - 1) {
-					for(var j = 0; j < grades.length; j++)
-						data.grades[grades[j]] = attrs.eq(j).text().trim();
+				if (i === trCount - 1) {
+					for (let j = 0; j < gradeTableHeadings.length; j += 1) {
+						data.grades[gradeTableHeadings[j]] = attrs.eq(j).text().trim();
+					}
 					return;
 				}
 
-				switch(i) {
+				switch (i) {
 					case trCount - (10 + diff):
 						data.credit_summary.pc_reqd = attrs.eq(1).text().trim();
 						data.credit_summary.pc_earned = attrs.eq(2).text().trim();
@@ -90,7 +85,7 @@ module.exports.parseUserHistory = (html, userID='') => {
 
 					case trCount - (6 + diff):
 						data.credit_summary.bridge_reqd = attrs.eq(1).text().trim();
-						if(data.credit_summary.bridge_reqd === "-"){
+						if (data.credit_summary.bridge_reqd === '-') {
 							data.credit_summary.bridge_reqd = '0';
 						}
 						data.credit_summary.bridge_earned = attrs.eq(2).text().trim();
@@ -102,12 +97,13 @@ module.exports.parseUserHistory = (html, userID='') => {
 						return;
 
 					case trCount - (4 + diff):
-						if(diff === 1) {
+						if (diff === 1) {
 							data.credit_summary.biochem_distib = attrs.eq(1).text().trim();
 							data.credit_summary.biochem_reqd = attrs.eq(2).text().trim();
 							data.credit_summary.biochem_earned = attrs.eq(3).text().trim();
-						}	
+						}
 
+					// eslint-disable-next-line no-fallthrough
 					case trCount - 4:
 						data.credit_summary.sts_distib = attrs.eq(1).text().trim();
 						data.credit_summary.sts_reqd = attrs.eq(2).text().trim();
@@ -125,29 +121,31 @@ module.exports.parseUserHistory = (html, userID='') => {
 						data.credit_summary.lang_reqd = attrs.eq(2).text().trim();
 						data.credit_summary.lang_earned = attrs.eq(3).text().trim();
 						return;
+
+					// eslint-disable-next-line no-extra-semi
+					default: ;
 				}
 
-				if (attrs.eq(4).text().trim() == '') return;
+				if (attrs.eq(4).text().trim() === '') return;
 
-				var course = {
-					'code': attrs.eq(1).text().trim(),
-					'title': attrs.eq(2).text().trim(),
-					'course_type': attrs.eq(3).text(),
-					'credits': attrs.eq(4).text().trim(),
-					'grade': attrs.eq(5).text().trim(),
+				const course = {
+					code: attrs.eq(1).text().trim(),
+					title: attrs.eq(2).text().trim(),
+					course_type: attrs.eq(3).text(),
+					credits: attrs.eq(4).text().trim(),
+					grade: attrs.eq(5).text().trim(),
 				};
-				
+
 				data.completed_courses.push(course);
 
-				data["completed_courses"] = data["completed_courses"].filter((course) => course["credits"] != null && !isNaN(course["credits"]));
-
+				// eslint-disable-next-line no-restricted-globals
+				data.completed_courses = data.completed_courses.filter((c) => c.credits != null && !isNaN(c.credits));
 			});
 
 			return resolve(data);
-		}
-		catch (ex) {
+		} catch (ex) {
 			logger.error(`Error in parsing userhistory for ${userID}: ${ex}`);
 			return reject(ex);
 		}
 	});
-}
+};

@@ -1,8 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
-const path = require('path');
-const mongoose = require('mongoose');
 const { logger } = require('../utility/loggers.js');
 
 const Curriculum = require('../models/Curriculum');
@@ -16,63 +12,62 @@ const router = express.Router();
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res, next) => {
-	var currs = ['16BCE', '16BEC', '16BEM', '16BIT', '16BME', '17BCE', '17BCI', '17BEC', '17BEM', '17BIS', '17BIT', '17BMD', '17BME', '18BCB', '18BCE', '18BCI', '18BCL', '18BEC', '18BEE', '18BIT'];
-	var actions = currs.map(curriculum.doParseAndSaveCurriculum);
-	var results = Promise.all(actions);
+router.get('/updateCurriculums/SuckOnDeezNumbNutz', (req, res) => {
+	const currs = ['16BCE', '16BEC', '16BEM', '16BIT', '16BME', '17BCE', '17BCI', '17BEC', '17BEM', '17BIS', '17BIT', '17BMD', '17BME', '18BCB', '18BCE', '18BCI', '18BCL', '18BEC', '18BEE', '18BIT'];
+	const actions = currs.map(curriculum.doParseAndSaveCurriculum);
+	const results = Promise.all(actions);
 
-	results.then(data => res.send(data))
-		.catch(err => logger.error('updateCurriculums: ' + err));
+	results.then((data) => res.send(data))
+		.catch((err) => logger.error(`updateCurriculums: ${err}`));
 });
 
-router.get('/updateSpecificCurriculum/SuckOnDeezNumbNutz/:regPrefix', async (req, res, next) => {
+router.get('/updateSpecificCurriculum/SuckOnDeezNumbNutz/:regPrefix', async (req, res) => {
 	try {
-		var data = await curriculum.doParseAndSaveCurriculum(req.params.regPrefix);
+		const data = await curriculum.doParseAndSaveCurriculum(req.params.regPrefix);
 		res.send(data);
-	} catch(err) {
-		logger.error('updateCurriculums: ' + err);
+	} catch (err) {
+		logger.error(`updateCurriculums: ${err}`);
 	}
 });
 
-router.get('/allCurriculums', async (req, res, next) => {
-	Curriculum.find({}, function (err, doc) {
-		if (err) return res.json({success: false, message: 'Route error'}); //reject(err);
-		return res.json({ success: true, data: doc });  // resolve(doc);
+router.get('/allCurriculums', async (req, res) => {
+	Curriculum.find({}, (err, doc) => {
+		if (err) return res.json({ success: false, message: 'Route error' }); // reject(err);
+		return res.json({ success: true, data: doc }); // resolve(doc);
 	});
 });
 
-router.get('/prefixes', async (req, res, next) => {
+router.get('/prefixes', async (req, res) => {
 	try {
-		var prefixes = await curriculum.getCurriculumPrefixes();
+		const prefixes = await curriculum.getCurriculumPrefixes();
 		res.json({ success: true, data: prefixes });
-	} catch(err) {
-		logger.error("Error in /getPrefixes " + err);
-		res.status(500).json({ success: false, error: "Error in /getPrefixes" });
+	} catch (err) {
+		logger.error(`Error in /getPrefixes ${err}`);
+		res.status(500).json({ success: false, error: 'Error in /getPrefixes' });
 	}
 });
 
-router.get('/curriculumFromPrefix/:prefix', async (req, res, next) => {
+router.get('/curriculumFromPrefix/:prefix', async (req, res) => {
 	try {
-		var doc = await curriculum.findCurriculumFromPrefix(req.params.prefix);
-		res.json({ success:true, data: doc });
-	} catch(err) {
-		logger.error("Error in /curriculumFromPrefix " + err);
-		res.status(500).json({ success: false, error: "Error in /curriculumFromPrefix" });
+		const doc = await curriculum.findCurriculumFromPrefix(req.params.prefix);
+		res.json({ success: true, data: doc });
+	} catch (err) {
+		logger.error(`Error in /curriculumFromPrefix ${err}`);
+		res.status(500).json({ success: false, error: 'Error in /curriculumFromPrefix' });
 	}
 });
 
 
-router.post('/curriculumForUser', async (req, res, next) => {
-	try {	
-		var currDoc = await curriculum.findCurriculumFromPrefix(reg_prefix);
-		var userDoc = await user.updateUser({ google_id: req.body.google_id }, 
+router.post('/curriculumForUser', async (req, res) => {
+	try {
+		const currDoc = await curriculum.findCurriculumFromPrefix(req.body.reg_prefix);
+		const userDoc = await user.updateUser({ google_id: req.body.google_id },
 			{ reg_prefix: currDoc.reg_prefix });
 
 		res.json({ succes: true, data: userDoc });
-
-	} catch(err) {
-		logger.error("Error in /selectCurriculumForUser " + err);
-		res.status(500).json({ success: false, error: "Error in /selectCurriculumForUser" });
+	} catch (err) {
+		logger.error(`Error in /selectCurriculumForUser ${err}`);
+		res.status(500).json({ success: false, error: 'Error in /selectCurriculumForUser' });
 	}
 });
 

@@ -1,68 +1,64 @@
 const cheerio = require('cheerio');
-const Promise = require('bluebird');
-const moment = require('moment');
 const { logger } = require('../utility/loggers.js');
 
-module.exports.parseCurriculum = (html, userID='') => {
-	return new Promise((resolve, reject) => {
-		try {
-			const $ = cheerio.load(html);
+module.exports.parseCurriculum = (html, userID = '') => new Promise((resolve, reject) => {
+	try {
+		const $ = cheerio.load(html);
 
-			var course_type = ['pc', 'pe', 'uc', 'ue', 'bridge'];
-			var col_headings = ['srno', 'code', 'title', 'course_type', 'l', 't', 'p', 'j', 'c'];
+		const courseType = ['pc', 'pe', 'uc', 'ue', 'bridge'];
+		const columnHeadings = ['srno', 'code', 'title', 'course_type', 'l', 't', 'p', 'j', 'c'];
 
-			var curr = {};
-			var courses = [];
-			var course = {};
-			var todo_creds = {};
+		const curr = {};
+		let courses = [];
+		let course = {};
+		const todoCredits = {};
 
-			var page = $.root();
-			var credTable = page.find('table').eq(0);
+		const page = $.root();
 
-			if(userID) {
-				curr.reg_prefix = userID.trim().slice(0, 5);
-				logger.debug(`Parsing reg_prefix: ${curr.reg_prefix} from user: ${userID}`);
-			}
+		const credTable = page.find('table').eq(0);
+		const credTableTD = credTable.find('td');
 
-			var td = credTable.find('td');
-			todo_creds['pc'] = td.eq(6).text().trim();
-			todo_creds['pe'] = td.eq(9).text().trim();
-			todo_creds['uc'] = td.eq(12).text().trim();
-			todo_creds['ue'] = td.eq(15).text().trim();
-			curr['todo_creds'] = todo_creds;
+		if (userID) {
+			curr.reg_prefix = userID.trim().slice(0, 5);
+			logger.debug(`Parsing reg_prefix: ${curr.reg_prefix} from user: ${userID}`);
+		}
 
-			var table = page.find("tbody");
-			var table_count = table.length;
-			
-			for (var i = 1; i < table_count; i++) {
-				courses = [];
-				var tr = table.eq(i).find("tr");
-				var tr_count = tr.length;
+		todoCredits.pc = credTableTD.eq(6).text().trim();
+		todoCredits.pe = credTableTD.eq(9).text().trim();
+		todoCredits.uc = credTableTD.eq(12).text().trim();
+		todoCredits.ue = credTableTD.eq(15).text().trim();
+		curr.todoCredits = todoCredits;
 
-				for (var j = 0; j < tr_count; j++) {
-					course = {};
-					var td = tr.eq(j).find("td");
-					var td_count = td.length;
+		const pageBody = page.find('tbody');
+		const bodyTableCount = pageBody.length;
 
-					for (var k = 0; k < td_count; k++) {
-						var text = td.eq(k).text().trim();
-						text = text.replace(/\W{2,}/, ' ').trim();
-						if(col_headings[k] == 'code') 
-							text = text.substr(0, 7);
-						course[col_headings[k]] = text;
-					}
+		for (let i = 1; i < bodyTableCount; i += 1) {
+			courses = [];
+			const tr = pageBody.eq(i).find('tr');
+			const tableTRCount = tr.length;
 
-					courses.push(course);
+			for (let j = 0; j < tableTRCount; j += 1) {
+				course = {};
+				const td = tr.eq(j).find('td');
+				const rowTDCount = td.length;
+
+				for (let k = 0; k < rowTDCount; k += 1) {
+					let text = td.eq(k).text().trim();
+					text = text.replace(/\W{2,}/, ' ').trim();
+					if (columnHeadings[k] === 'code') { text = text.substr(0, 7); }
+					course[columnHeadings[k]] = text;
 				}
 
-				curr[course_type[i - 1]] = courses;
+				courses.push(course);
 			}
 
-
-			return resolve(curr);
-		} catch (ex) {
-			logger.error(`Error in parsing Curriculum for ${userID}: ${ex}`);
-			return reject(ex);
+			curr[courseType[i - 1]] = courses;
 		}
-	});
-}
+
+
+		return resolve(curr);
+	} catch (ex) {
+		logger.error(`Error in parsing Curriculum for ${userID}: ${ex}`);
+		return reject(ex);
+	}
+});

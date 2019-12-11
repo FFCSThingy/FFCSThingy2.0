@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-var curriculumSchema = mongoose.Schema({	// From My Curriculum
+const curriculumSchema = mongoose.Schema({	// From My Curriculum
 	branch: String,
 	programme: String,
 	year: String,
@@ -65,7 +65,7 @@ var curriculumSchema = mongoose.Schema({	// From My Curriculum
 		pe: Number,
 		ue: Number,
 		uc: Number,
-	}
+	},
 });
 
-module.exports = mongoose.model("Curriculum", curriculumSchema);
+module.exports = mongoose.model('Curriculum', curriculumSchema);

@@ -18,65 +18,44 @@ let heatmap;
 let courseList;
 let courseFacultyList;
 
-function removeOldCoursesBulk(deletes) {
-	return new Promise((resolve, reject) => {
-		User.updateMany(
-			{
-				selected_courses: {
-					$elemMatch: {
-						_id: {
-							$in: deletes,
-						},
-					},
+this.removeOldCoursesBulk = (deletes) => User.updateMany(
+	{
+		selected_courses: {
+			$elemMatch: {
+				_id: {
+					$in: deletes,
 				},
 			},
-			{
-				$pull: {
-					selected_courses: {
-						_id: {
-							$in: deletes,
-						},
-					},
+		},
+	},
+	{
+		$pull: {
+			selected_courses: {
+				_id: {
+					$in: deletes,
 				},
 			},
-			(err, doc) => {
-				if (err) return reject(err);
-				return resolve(doc);
-			},
-		);
-	});
-}
+		},
+	},
+).exec();
 
-function getCurrentCourseIDs() {
-	return new Promise((resolve, reject) => {
-		Course.aggregate([
-			{
-				$project: {
-					_id: 1,
-				},
-			},
-		], (err, doc) => {
-			if (err) return reject(err);
-			return resolve(doc);
-		});
-	});
-}
+this.getCurrentCourseIDs = () => Course.aggregate([
+	{
+		$project: {
+			_id: 1,
+		},
+	},
+]).exec();
 
-function getSelectedCourseIDs() {
-	return new Promise((resolve, reject) => {
-		User.aggregate([
-			{ $unwind: '$selected_courses' },
-			{
-				$group: {
-					_id: '$selected_courses._id',
-				},
-			},
-		], (err, doc) => {
-			if (err) return reject(err);
-			return resolve(doc);
-		});
-	});
-}
+this.getSelectedCourseIDs = () => User.aggregate([
+	{ $unwind: '$selected_courses' },
+	{
+		$group: {
+			_id: '$selected_courses._id',
+		},
+	},
+]).exec();
+
 
 this.fullHeatmapQuery = () => Course.aggregate([
 	{
@@ -303,10 +282,10 @@ module.exports.addCourseToDB = (course) => {
 
 module.exports.doCleanRemovedCourses = () => new Promise(async (resolve, reject) => {
 	try {
-		let current = await getCurrentCourseIDs();
+		let current = await this.getCurrentCourseIDs();
 		current = current.map((v) => v._id.toString());
 
-		let selected = await getSelectedCourseIDs();
+		let selected = await this.getSelectedCourseIDs();
 		selected = selected.map((v) => v._id.toString());
 
 		const deletes = selected.filter((value) => !current.includes(value));
@@ -319,7 +298,7 @@ module.exports.doCleanRemovedCourses = () => new Promise(async (resolve, reject)
 
 		logger.info('Course Clean Details: ', details);
 
-		const cleanDetails = await removeOldCoursesBulk(deletes);
+		const cleanDetails = await this.removeOldCoursesBulk(deletes);
 		return resolve(cleanDetails);
 	} catch (err) {
 		logger.error('Error in doCleanRemovedCourses()');

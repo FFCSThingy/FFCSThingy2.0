@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -15,13 +16,17 @@ const ttgenRoute = require('./routes/ttgen');
 const userUtility = require('./utility/userUtility');
 const { logger, expressWinstonLogger } = require('./utility/loggers.js');
 
-const GOOGLE_CLIENT_ID = '524977778563-rqfsuge27b7se639i2n4ellt82uhtosv.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = 'UUNrcLqOXmnP_HweyJirA9VA';
-
 // set our port to either a predetermined port number if you have set it up, or 3001
 const API_PORT = process.env.API_PORT || 3001;
 
-if (!process.env.NODE_UN) { mongoose.connect('mongodb://localhost:27017/FFCS', { useFindAndModify: false }); } else { mongoose.connect(`mongodb://${process.env.NODE_UN}:${process.env.NODE_PW}@localhost:27017/FFCS`, { useFindAndModify: false }); }
+if (!process.env.NODE_MONGO_UN) {
+	mongoose.connect('mongodb://localhost:27017/FFCS', { useFindAndModify: false });
+} else {
+	mongoose.connect(
+		`mongodb://${process.env.NODE_MONGO_UN}:${process.env.NODE_MONGO_PW}@localhost:27017/FFCS`,
+		{ useFindAndModify: false },
+	);
+}
 
 const db = mongoose.connection;
 
@@ -52,8 +57,8 @@ passport.deserializeUser(async (doc, done) => {
 });
 
 passport.use(new GoogleStrategy({
-	clientID: GOOGLE_CLIENT_ID,
-	clientSecret: GOOGLE_CLIENT_SECRET,
+	clientID: process.env.NODE_GOOGLE_CLIENT_ID,
+	clientSecret: process.env.NODE_GOOGLE_CLIENT_SECRET,
 	callbackURL: `${process.env.NODE_BASE_URL}/auth/google/callback`,
 	passReqToCallback: true,
 },
@@ -77,7 +82,6 @@ passport.use(new GoogleStrategy({
 })));
 
 
-// and create our instances
 const app = express();
 
 app.use(session({
@@ -121,7 +125,6 @@ app.get('/account', ensureAuthenticated, (req, res) => {
 
 		vtopSignedIn: req.user.vtopSignedIn,
 	};
-	// res.json({ success: true, data: data });
 	return res.json(data);
 });
 

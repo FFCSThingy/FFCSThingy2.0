@@ -11,8 +11,8 @@ const systemUtility = require('./systemUtility');
 const userUtility = require('./userUtility');
 
 // Files
-const xlsxInputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.xlsx');
-const jsonOutputFile = path.join(__dirname, '..', '..', 'backend', 'data', 'report.json');
+const xlsxInputFile = path.join(__dirname, '..', 'data', 'report.xlsx');
+const jsonOutputFile = path.join(__dirname, '..', 'data', 'report.json');
 
 let heatmap;
 let courseList;

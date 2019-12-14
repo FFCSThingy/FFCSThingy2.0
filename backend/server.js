@@ -19,13 +19,19 @@ const { logger, expressWinstonLogger } = require('./utility/loggers.js');
 // set our port to either a predetermined port number if you have set it up, or 3001
 const API_PORT = process.env.API_PORT || 3001;
 
-if (!process.env.NODE_MONGO_UN) {
-	mongoose.connect('mongodb://localhost:27017/FFCS', { useFindAndModify: false });
-} else {
+if (process.env.NODE_MONGO_URL) {
+	mongoose.connect(`${process.env.NODE_MONGO_URL}/${process.env.NODE_MONGO_DB}?retryWrites=true&w=majority`, {
+		useFindAndModify: false,
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+	});
+} else if (process.env.NODE_MONGO_UN) {
 	mongoose.connect(
 		`mongodb://${process.env.NODE_MONGO_UN}:${process.env.NODE_MONGO_PW}@localhost:27017/FFCS`,
 		{ useFindAndModify: false },
 	);
+} else {
+	mongoose.connect('mongodb://localhost:27017/FFCS', { useFindAndModify: false });
 }
 
 const db = mongoose.connection;

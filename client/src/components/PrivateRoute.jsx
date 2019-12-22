@@ -16,11 +16,14 @@ const PrivateRoute = ({
 			// eslint-disable-next-line react/jsx-props-no-spreading
 			<Component {...rest} {...props} />
 		) : (
+			// <Redirect to="/" />
 			<Redirect
-				to={{
-					pathname,
-					state: { from: props.location },
-				}}
+				to={
+					{
+						pathname: pathname || '/',
+						state: { from: props.location },
+					}
+				}
 			/>
 		))}
 	/>

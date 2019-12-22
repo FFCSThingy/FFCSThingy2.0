@@ -288,18 +288,7 @@ class Dashboard extends React.Component {
 		if (slot === 'NIL') return false;
 		if (filledSlots.length === 0) return false;
 
-		const clashingSlots = filledSlots
-			.map((v) => {
-				const clash = slot
-					.replace(' ', '')
-					.split('+')
-					.reduce((a, s) => {
-						if (this.state.clashMap[s].clashesWith.includes(v)) { return a + v; }
-						return `${a}`;
-					}, '');
-				return clash;
-			})
-			.filter((v) => v && v.length > 0);
+		const clashingSlots = slot.replace(' ', '').split('+').reduce((a, v) => Array.from(new Set([...a, this.state.clashMap[v].currentlyClashesWith])), []).filter((v) => v && v.length > 0);
 
 		return clashingSlots;
 	};
@@ -333,6 +322,23 @@ class Dashboard extends React.Component {
 		}
 	};
 
+	updateCurrentlyClashesWith = () => this.setState((prevState) => {
+		const { clashMap } = prevState;
+		const filledSlots = this.getFilledSlots();
+
+		Object.keys(clashMap).map((slot) => {
+			const currentClashes = clashMap[slot].clashesWith.reduce((acc, clashesWithSlot) => {
+				if (filledSlots.includes(clashesWithSlot)) { acc.push(clashesWithSlot); }
+				return acc;
+			}, []);
+
+			clashMap[slot].currentlyClashesWith = currentClashes;
+			return slot;
+		});
+
+		return { clashMap };
+	});
+
 	selectSlots = (course) => {
 		course.timetableName = this.state.activeTimetable;
 
@@ -358,6 +364,7 @@ class Dashboard extends React.Component {
 			},
 			() => {
 				this.setSelectedCourses(this.state.timetable);
+				this.updateCurrentlyClashesWith();
 			},
 		);
 	};
@@ -389,6 +396,7 @@ class Dashboard extends React.Component {
 			},
 			() => {
 				this.setSelectedCourses(this.state.timetable);
+				this.updateCurrentlyClashesWith();
 			},
 		);
 	};
@@ -416,7 +424,7 @@ class Dashboard extends React.Component {
 				return v;
 			});
 			return { clashMap, activeTimetable: timetableName };
-		});
+		}, () => this.updateCurrentlyClashesWith());
 	};
 
 	modifyTimetableNames = (newList) => {

@@ -1,6 +1,3 @@
-// 'Course' is now 'CourseSelect' to avoid confusion (left table)
-// 'CourseTable' is the final bottom table for regisered courses
-
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
@@ -301,11 +298,6 @@ class Dashboard extends React.Component {
 						return `${a}`;
 					}, '');
 				return clash;
-				// 	.map(s => this.state.clashMap[s].clashesWith.includes(v) ? v : null)
-				// 	.filter(s => s);
-				// return clash[0];
-				// return clash[0];
-				// return clash[0];
 			})
 			.filter((v) => v && v.length > 0);
 
@@ -343,7 +335,6 @@ class Dashboard extends React.Component {
 
 	selectSlots = (course) => {
 		course.timetableName = this.state.activeTimetable;
-		console.log(course);
 
 		if (course.slot !== 'NIL') {
 			course.slot
@@ -364,7 +355,6 @@ class Dashboard extends React.Component {
 					new Set([...prevState.timetable, course]),
 				);
 				return { timetable };
-				// timetable: [...prevState.timetable, course]
 			},
 			() => {
 				this.setSelectedCourses(this.state.timetable);
@@ -577,7 +567,6 @@ class Dashboard extends React.Component {
 	};
 
 	render() {
-		// return this.state.authenticated ? (
 		return (
 			<Container fluid>
 				<Row className="navBarRow">
@@ -674,9 +663,6 @@ class Dashboard extends React.Component {
 					/>
 				</Row>
 			</Container>
-		// ) : (
-		// 	this.unauthRedirect
-		// );
 		);
 	}
 }

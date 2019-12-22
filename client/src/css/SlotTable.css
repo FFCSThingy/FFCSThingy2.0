@@ -111,11 +111,13 @@
 	-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
 	-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
 	box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-	cursor: pointer;
+
 	background-color: var(--card-background-color);
 	transition: box-shadow 0.17s ease-in-out;
 	transition: background-color 0.1s ease-in-out;
 	color: var(--text-color-inverted);
+
+	cursor: not-allowed;
 }
 
 .cardBodyClash:hover {
@@ -137,10 +139,12 @@
 	-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
 	-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
 	box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-	cursor: default;
+
 	background-color: var(--card-highlight-color) !important;
 	transition: box-shadow 0.17s ease-in-out;
 	color: var(--text-color-inverted);
+
+	cursor: not-allowed;
 }
 
 .cardContainer {

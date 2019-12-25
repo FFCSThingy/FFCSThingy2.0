@@ -1,0 +1,76 @@
+td, th {
+	color: var(--text-color-inverted);
+	background-color: var(--select-table-background-color);
+
+	text-align: center;
+	
+	border: none !important;
+	padding: 0.25rem;
+	height: 5.5vh;
+}
+
+.timeHeader {
+	background-color: var(--brand-color);
+	color: var(--text-color-default);
+	font-weight: normal;
+
+	height: 4vh;
+}
+
+.dayHeader {
+	background-color: var(--timetable-col1-color);
+	font-size: 0.8em;
+
+	width: 5vw;
+}
+
+.break {
+	background-color: var(--timetable-col1-color);
+
+	width: 8px;
+}
+
+.empty {
+	background-color: var(--select-table-background-color);
+	font-weight: bold;
+}
+
+.filledTheory {
+	background-color: var(--timetable-theory-color);
+
+	font-size: 0.9em;
+}
+
+.filledLab {
+	background-color: var(--timetable-lab-color);
+
+	font-size: 0.9em;
+}
+
+.courseDetails {
+	font-size: 0.8em;
+	margin-bottom: 0;
+	line-height: 1.5;
+}
+
+.courseCode {
+	font-weight: 600;
+	font-size: 0.96em;
+	margin-bottom: 0;
+	line-height: 1.5;
+}
+
+@media only screen and (min-width: 768px) {
+	td, th {
+		padding: 5px;
+		height: auto;
+	}
+
+	.filledTheory, .filledLab {
+		font-size: 1em;
+	}
+
+	.courseCode {
+		font-size: 1em;
+	}
+}

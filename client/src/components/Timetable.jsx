@@ -75,15 +75,15 @@ class Timetable extends Component {
 			</>
 		)), null);
 
-		if (i === 0) return <TimetableCell day>{cellVal}</TimetableCell>;
+		if (i === 0) return <TimetableCell dayHeader>{cellVal}</TimetableCell>;
 
 		if (mobile) {
 			if (morning && i > 6) return null;	// Only need first 7 cells for morning
 			if (!morning && row1 && i < 8) return null;	// Only need cells after 8 for evening row1 (Because break cell)
 			if (!morning && i < 7) return null;	// Only need cells after 7 for evening row2
-		} else if (i === 7 && row1) return <TimetableCell break>{cellVal}</TimetableCell>;
+		} else if (i === 7 && row1) return <TimetableCell isBreak>{cellVal}</TimetableCell>;
 
-		return <TimetableCell time>{cellVal}</TimetableCell>;
+		return <TimetableCell timeHeader>{cellVal}</TimetableCell>;
 	})
 
 	findReqdCourse = (slots, lab = false) => this.props.timetable.find((e) => (
@@ -93,27 +93,28 @@ class Timetable extends Component {
 
 	renderRow = (row, mobile = false, morning = false) => {
 		const elems = row.map((r, i) => {
-			if (i === 0) return <TimetableCell day>{r}</TimetableCell>;
+			let slotString = r;
+
+			if (i === 0) return <TimetableCell dayHeader>{slotString}</TimetableCell>;
 
 			if (mobile && morning && i > 6) return null;
 			if (mobile && !morning && i < 7) return null;
 
 			const slots = r.split('/');
-			const reqdLabSlot = this.findReqdCourse(slots, true);	// Checks if current lab slot is filled
-			const reqdTheorySlot = this.findReqdCourse(slots, false);	// Checks if current theory slot is filled
-			let slotString;
 			const [theorySlot, labSlot] = slots;
 
-			if (slots[0] === '') slotString = theorySlot;
-			else if (slots[1] === '') slotString = labSlot;
-			else slotString = r;
+			const reqdLabCourse = this.findReqdCourse(slots, true);	// Checks if current lab slot is filled
+			const reqdTheoryCourse = this.findReqdCourse(slots, false);	// Checks if current theory slot is filled
 
-			if (this.props.filledSlots.includes(slots[0]) && reqdTheorySlot) { // Is a theory slot
-				return <TimetableCell reqdCourse={reqdTheorySlot} filled>{slotString}</TimetableCell>;
+			if (!labSlot) slotString = theorySlot;
+			else if (!theorySlot) slotString = labSlot;
+
+			if (this.props.filledSlots.includes(theorySlot) && reqdTheoryCourse) { // Is a theory slot
+				return <TimetableCell reqdCourse={reqdTheoryCourse} isFilled>{slotString}</TimetableCell>;
 			}
 
-			if (this.props.filledSlots.includes(slots[1]) && reqdLabSlot) { // Is a lab slot
-				return <TimetableCell reqdCourse={reqdLabSlot} filled lab>{slotString}</TimetableCell>;
+			if (this.props.filledSlots.includes(labSlot) && reqdLabCourse) { // Is a lab slot
+				return <TimetableCell reqdCourse={reqdLabCourse} isFilled isLab>{slotString}</TimetableCell>;
 			}
 
 			return <TimetableCell>{slotString}</TimetableCell>;

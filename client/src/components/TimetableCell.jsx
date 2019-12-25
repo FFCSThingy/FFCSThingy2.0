@@ -1,7 +1,7 @@
 import React from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import styles from '../css/TimetableCell.module.css';
+import styles from '../css/TimetableCell.module.scss';
 
 const TimetableCell = ({
 	isFilled, isLab, dayHeader, timeHeader, isBreak, children, reqdCourse,
@@ -13,9 +13,9 @@ const TimetableCell = ({
 	}
 	if (timeHeader) {
 		return (
-			<th key={children} className={styles.timeHeader}>
+			<td key={children} className={styles.timeHeader}>
 				{children}
-			</th>
+			</td>
 		);
 	}
 	if (dayHeader) {

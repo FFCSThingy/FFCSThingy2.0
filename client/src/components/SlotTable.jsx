@@ -4,7 +4,7 @@ import {
 	Card, Col, CardColumns, Container, ToggleButtonGroup, ToggleButton, Row,
 } from 'react-bootstrap';
 
-import '../css/SlotTable.css';
+import '../css/SlotTable.scss';
 
 class SlotTable extends Component {
 	constructor(props) {

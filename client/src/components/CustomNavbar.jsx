@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 
 import '../App.css';
-import '../css/CustomNavbar.css';
+import '../css/CustomNavbar.scss';
 
 import navbarImage from '../images/logo.1.png';
 

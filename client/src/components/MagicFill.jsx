@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/MagicFill.css';
+import '../css/MagicFill.scss';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import {

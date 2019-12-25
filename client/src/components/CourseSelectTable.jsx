@@ -3,7 +3,7 @@ import {
 	Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup, OverlayTrigger, Tooltip,
 } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../css/CourseSelectTable.css';
+import '../css/CourseSelectTable.scss';
 import { FaSearch } from 'react-icons/fa';
 import API from '../API';
 

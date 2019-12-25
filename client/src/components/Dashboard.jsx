@@ -20,8 +20,8 @@ import THEMES from '../constants/Themes';
 import * as COURSE from '../constants/Courses';
 import CLASHMAP from '../constants/ClashMap';
 
-import '../css/Dashboard.css';
-import '../css/CustomNavbar.css';
+import '../css/Dashboard.scss';
+import '../css/CustomNavbar.scss';
 
 import API from '../API';
 // import MagicFill from './MagicFill';

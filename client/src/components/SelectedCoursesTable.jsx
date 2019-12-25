@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
-import '../css/SelectedCoursesTable.css';
+import '../css/SelectedCoursesTable.scss';
 
 class SelectedCoursesTable extends React.Component {
 	sortTimetable = ((a, b) => a.code.localeCompare(b.code));

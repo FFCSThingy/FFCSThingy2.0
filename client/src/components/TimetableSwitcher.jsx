@@ -3,8 +3,8 @@ import {
 	Dropdown, ButtonGroup, Button, Form, DropdownButton,
 } from 'react-bootstrap';
 import { FaTrashAlt, FaPlusSquare, FaPen } from 'react-icons/fa';
-import '../css/TimetableSwitcher.css';
-import '../css/TimeTable.css';
+import '../css/TimetableSwitcher.scss';
+import '../css/TimeTable.scss';
 // import { log } from 'util';
 class TimetableSwitcher extends React.Component {
 	constructor(props, context) {

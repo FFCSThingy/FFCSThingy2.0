@@ -6,7 +6,7 @@ import TimetableCell from './TimetableCell';
 
 import { SLOTS, HEADERS } from '../constants/Timetable';
 
-import '../css/TimeTable.css';
+import '../css/TimeTable.scss';
 
 class Timetable extends Component {
 	constructor(props) {
@@ -50,7 +50,7 @@ class Timetable extends Component {
 
 	renderTTDesktop = () => (
 		<Container className="timetableContainer" fluid="true">
-			<table className="timetableA">
+			<table className="timetable">
 				<tbody className="timetableBody">
 					<tr className="timetableHeader1">
 						{this.renderHeaderRow(HEADERS[0], false, false, true)}

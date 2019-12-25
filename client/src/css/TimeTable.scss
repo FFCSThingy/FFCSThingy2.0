@@ -38,21 +38,31 @@
 	border: none !important;
 }
 
+.timetable, .timetableA, .timetableB {
+	// Top Row
+	tr:first-child {
+		// Top-Left Cell (header)
+		th:first-child {
+			border-top-left-radius: 0.7rem;
+		}
 
-table tr:last-child th:first-child {
-	border-bottom-left-radius: 0.7rem;
-}
+		// Top-Right Cell (normal)
+		td:last-child {
+			border-top-right-radius: 0.7rem;
+		}
+	}
 
-table tr:last-child td:last-child {
-	border-bottom-right-radius: 0.7rem;
-}
+	tr:last-child {
+		// Bottom-Left Cell (header)
+		th:first-child {
+			border-bottom-left-radius: 0.7rem;
+		}
 
-table tr:first-child th:first-child {
-	border-top-left-radius: 0.7rem;
-}
-
-table tr:first-child td:last-child {
-	border-top-right-radius: 0.7rem;
+		// Bottom-Right Cell (normal)
+		td:last-child {
+			border-bottom-right-radius: 0.7rem;
+		}
+	}
 }
 
 @media only screen and (min-width: 768px) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../css/Login.css';
+import '../css/Login.scss';
 import { Container, Row, Card } from 'react-bootstrap';
 import ReactGA from 'react-ga';
 import featuresImage from '../images/ffcsfeatures.png';

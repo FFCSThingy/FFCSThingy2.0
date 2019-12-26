@@ -26,9 +26,7 @@ class MagicFill extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.inProcess !== this.props.inProcess) {
-			// TODO: Change this to getDerivedStateFromProps()
-			// eslint-disable-next-line react/no-did-update-set-state
-			this.setState({ generatingInProcess: this.props.inProcess });
+			this.toggleGeneratingFromProps();
 		}
 	}
 
@@ -193,6 +191,10 @@ class MagicFill extends Component {
 			}
 		}
 		this.props.genTT(prefs);
+	}
+
+	toggleGeneratingFromProps() {
+		this.setState({ generatingInProcess: this.props.inProcess });
 	}
 
 	renderPriorityPref() {

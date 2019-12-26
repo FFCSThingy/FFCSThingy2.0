@@ -15,13 +15,9 @@ class SlotTable extends Component {
 		};
 	}
 
-	// eslint-disable-next-line react/no-deprecated
-	componentWillReceiveProps(nextProps) {
+	componentDidUpdate(nextProps) {
 		if (nextProps.selectedCourse !== this.props.selectedCourse) {
-			this.setState({
-				typeFilters: [],
-				venueFilters: [],
-			});
+			this.doResetState();
 		}
 	}
 
@@ -40,6 +36,13 @@ class SlotTable extends Component {
 
 	handleVenueChange = (value) => {
 		this.setState({ venueFilters: value });
+	}
+
+	doResetState() {
+		this.setState({
+			typeFilters: [],
+			venueFilters: [],
+		});
 	}
 
 	renderNormalCard(value) {

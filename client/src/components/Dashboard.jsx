@@ -658,7 +658,7 @@ class Dashboard extends React.Component {
 						clashMap={this.state.clashMap}
 						filledSlots={this.getFilledSlots()}
 						timetable={this.state.timetable}
-						activeTimetable={this.state.activeTimetable}
+						activeTimetableName={this.state.activeTimetable}
 					/>
 				</Row>
 

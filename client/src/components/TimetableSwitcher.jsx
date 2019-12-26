@@ -4,8 +4,7 @@ import {
 } from 'react-bootstrap';
 import { FaTrashAlt, FaPlusSquare, FaPen } from 'react-icons/fa';
 import '../css/TimetableSwitcher.scss';
-import '../css/TimeTable.scss';
-// import { log } from 'util';
+
 class TimetableSwitcher extends React.Component {
 	constructor(props, context) {
 		super(props, context);

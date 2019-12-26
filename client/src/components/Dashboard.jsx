@@ -666,7 +666,7 @@ class Dashboard extends React.Component {
 					<SelectedCoursesTable
 						timetable={this.state.timetable}
 						unselectSlot={this.unselectSlots}
-						activeTimetable={this.state.activeTimetable}
+						activeTimetableName={this.state.activeTimetable}
 						creditCount={this.getCreditCount()}
 					/>
 				</Row>

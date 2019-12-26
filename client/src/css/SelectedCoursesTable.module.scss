@@ -1,0 +1,141 @@
+.selectedCourseContainer {
+	@media only screen and (max-width: 1080px) {
+		font-size: 0.9em;
+	}
+	
+	@media only screen and (max-width: 918px) {
+		font-size: 0.8em;
+	}
+
+	@media only screen and (max-width: 690px) {
+		font-size: 0.7em;
+	}
+
+	@media only screen and (max-width: 432px) {
+		font-size: 0.6em;
+	}
+}
+
+.selectedCourseTable {
+	font-family: 'Montserrat', sans-serif;
+	text-align: center;
+	
+	background-color: var(--select-table-background-color);
+	
+	border-radius: 0.7rem !important;
+	margin: 2vh 0 !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+	
+	width: 100%;
+	overflow-x: auto;
+
+	cursor: default;
+
+	tr, td, th{
+		border: none !important;
+		padding: 0.25rem 1rem;
+
+		@media only screen and (max-width: 918px) {
+			padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+		}
+
+		@media only screen and (max-width: 690px) {
+			padding: 2px 4px 2px 4px;
+		}
+	}
+}
+
+.selectedCourseHead {
+	font-size: 1.1em;
+	font-weight: bold;
+
+	border-radius: 0.7rem;
+	border: none !important;
+
+	th {
+		color: var(--text-color-default);
+		background-color: var(--brand-color);
+		padding-top: 1rem;
+		padding-bottom: 0.5rem;
+
+		&:last-child {
+			border-top-right-radius: 0.7rem;
+		}
+
+		&:first-child {
+			border-top-left-radius: 0.7rem;
+		}
+	}
+
+	tr {
+		padding: 1rem;
+	}
+}
+
+.selectedCourseBody {
+	border: none !important;
+
+	tr {
+		background-color: var(--select-table-background-color);
+		color: var(--text-color-inverted);
+
+		&:nth-child(even) td {
+			background-color: var(--alternate-table-item-color);
+		}
+
+		td:first-child {
+			@media only screen and (max-width: 690px) {
+				max-width: 10vw;
+				overflow-wrap: break-word;
+			}
+		}
+
+		td:nth-child(3) {
+			@media only screen and (max-width: 1080px) {
+				max-width: 25.8vw;
+			}
+		}
+
+		td:nth-child(4) {
+			@media only screen and (max-width: 690px) {
+				max-width: 15vw;
+				overflow-wrap: break-word;
+			}
+		}
+	}
+}
+
+.creditsRow {
+	font-size: 1.3em;
+	color: var(--text-color-inverted);
+	border-radius: 0.7rem;
+
+	th {
+		border-bottom-left-radius: 0.7rem;
+		border-bottom-right-radius: 0.7rem;
+	}
+}
+
+.trashButton {
+	width: 27px;
+	height: 27px;
+	margin: 3px 3px 6px 3px;
+	padding: 7px;
+	color: white;
+	background-color: hsl(3, 100%, 65%);
+	border-radius: 0.25rem;
+	box-shadow: 0 4px hsl(3, 100%, 55%);
+	cursor: pointer;
+
+	&:active {
+		transform: translateY(1px);
+	}
+
+	@media only screen and (max-width: 432px) {
+		width: 5vw;
+		height: 5vw;
+		margin: 0.25rem 0.25rem 0.5rem 0.25rem;
+		padding: 1vw;
+	}
+}

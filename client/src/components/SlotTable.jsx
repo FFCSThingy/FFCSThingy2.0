@@ -12,12 +12,14 @@ class SlotTable extends Component {
 		this.state = {
 			typeFilters: [],
 			venueFilters: [],
+			courseTypes: [],
 		};
 	}
 
 	componentDidUpdate(nextProps) {
 		if (nextProps.selectedCourse !== this.props.selectedCourse) {
 			this.doResetState();
+			this.findAvailableCourseTypes();
 		}
 	}
 
@@ -28,7 +30,15 @@ class SlotTable extends Component {
 		if (this.state.venueFilters.length === 0) return true;
 		if (this.state.typeFilters.includes('Project') && course.simpleCourseType === 'Project') return true;
 		return this.state.venueFilters.reduce((a, v) => (a || (course.venue.startsWith(v))), false);
-	})
+	});
+
+	findAvailableCourseTypes = () => {
+		const courseTypes = Array.from(
+			new Set(this.props.slots.map((course) => course.simpleCourseType)),
+		).sort();
+
+		this.setState({ courseTypes });
+	}
 
 	handleTypeChange = (value) => {
 		this.setState({ typeFilters: value });
@@ -127,8 +137,9 @@ class SlotTable extends Component {
 	)
 
 	render() {
-		const normalCourses = []; const selectedCourses = []; const
-			clashingCourses = [];
+		const normalCourses = [];
+		const selectedCourses = [];
+		const clashingCourses = [];
 
 		this.doFilter().map((value) => {
 			const clashingSlots = this.props.checkClash(value.slot);
@@ -155,7 +166,7 @@ class SlotTable extends Component {
 			return <ToggleButton value={v} className="toggleCustom">{v}</ToggleButton>;
 		});
 
-		const typeButtons = this.props.types.map((v) => <ToggleButton value={v} className="toggleCustom">{v}</ToggleButton>);
+		const typeButtons = this.state.courseTypes.map((v) => <ToggleButton value={v} className="toggleCustom">{v}</ToggleButton>);
 
 		return (
 			<Container className="slotTableContainer">

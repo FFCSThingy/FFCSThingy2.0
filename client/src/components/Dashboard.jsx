@@ -240,10 +240,6 @@ class Dashboard extends React.Component {
 		return count;
 	}
 
-	findAvailableCourseTypes = () => Array.from(
-		new Set(this.state.currentlySelectedCourseSlots.map((course) => course.simpleCourseType)),
-	).sort();
-
 	findAvailableVenues = (type = null) => {
 		const venueRegex = /^[A-Z]+/;
 		return Array.from(
@@ -613,7 +609,6 @@ class Dashboard extends React.Component {
 							checkSelected={this.checkSelected}
 							slots={this.state.currentlySelectedCourseSlots}
 							selectedCourse={this.state.selectedCourse}
-							types={this.findAvailableCourseTypes()}
 							venues={this.findAvailableVenues()}
 							theoryVenues={this.findAvailableVenues('Theory')}
 							labVenues={this.findAvailableVenues('Lab')}

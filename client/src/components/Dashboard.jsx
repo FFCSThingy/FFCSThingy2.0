@@ -274,7 +274,9 @@ class Dashboard extends React.Component {
 		if (slot === 'NIL') return false;
 		if (filledSlots.length === 0) return false;
 
-		const clashingSlots = slot.replace(' ', '').split('+').reduce((a, v) => Array.from(new Set([...a, this.state.clashMap[v].currentlyClashesWith])), []).filter((v) => v && v.length > 0);
+		const clashingSlots = slot.replace(' ', '').split('+')
+			.reduce((a, v) => Array.from(new Set([...a, ...this.state.clashMap[v].currentlyClashesWith])), [])
+			.filter((v) => v && v.length > 0);
 
 		return clashingSlots;
 	};

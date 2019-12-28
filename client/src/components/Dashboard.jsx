@@ -45,6 +45,7 @@ class Dashboard extends React.Component {
 			timetableNames: ['Default'],
 
 			selectedCourse: '',
+			currentlySelectedCourseSlots: [],
 			completedCourses: {},
 
 			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
@@ -239,18 +240,15 @@ class Dashboard extends React.Component {
 		return count;
 	}
 
-	filterCourse = () => this.state.heatmap
-		.filter((course) => course.code === this.state.selectedCourse)
-
 	findAvailableCourseTypes = () => Array.from(
-		new Set(this.filterCourse().map((course) => course.simpleCourseType)),
+		new Set(this.state.currentlySelectedCourseSlots.map((course) => course.simpleCourseType)),
 	).sort();
 
 	findAvailableVenues = (type = null) => {
 		const venueRegex = /^[A-Z]+/;
 		return Array.from(
 			new Set(
-				this.filterCourse()
+				this.state.currentlySelectedCourseSlots
 					.filter((c) => !(c.venue === 'NIL'))
 					.filter((c) => {
 						if (type) return c.simpleCourseType === type;
@@ -394,9 +392,10 @@ class Dashboard extends React.Component {
 	};
 
 	selectCourse = (code) => {
-		this.setState({
+		this.setState((prevState) => ({
 			selectedCourse: code,
-		});
+			currentlySelectedCourseSlots: prevState.heatmap.filter((course) => course.code === code),
+		}));
 	};
 
 	changeActiveTimetable = (timetableName = 'Default') => {
@@ -612,7 +611,7 @@ class Dashboard extends React.Component {
 							selectSlots={this.selectSlots}
 							checkClash={this.checkClash}
 							checkSelected={this.checkSelected}
-							slots={this.filterCourse()}
+							slots={this.state.currentlySelectedCourseSlots}
 							selectedCourse={this.state.selectedCourse}
 							types={this.findAvailableCourseTypes()}
 							venues={this.findAvailableVenues()}

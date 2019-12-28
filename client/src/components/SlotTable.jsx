@@ -23,10 +23,10 @@ class SlotTable extends Component {
 
 	doFilter = () => this.props.slots.filter((course) => {	// Filter on course_type
 		if (this.state.typeFilters.length === 0) return true;
-		return this.state.typeFilters.reduce((a, v) => (a || (course.simple_type === v)), false);
+		return this.state.typeFilters.reduce((a, v) => (a || (course.simpleCourseType === v)), false);
 	}).filter((course) => {	// Filter on Venue
 		if (this.state.venueFilters.length === 0) return true;
-		if (this.state.typeFilters.includes('Project') && course.simple_type === 'Project') return true;
+		if (this.state.typeFilters.includes('Project') && course.simpleCourseType === 'Project') return true;
 		return this.state.venueFilters.reduce((a, v) => (a || (course.venue.startsWith(v))), false);
 	})
 

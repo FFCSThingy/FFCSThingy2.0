@@ -1,5 +1,6 @@
 const express = require('express');
 const { logger } = require('../utility/loggers.js');
+const cliProgress = require('cli-progress');
 
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
@@ -102,18 +103,38 @@ router.get('/courseListFromCurriculum', async (req, res) => {
 	});
 });
 
+// Calls Callback function with updated count on every resolve
+function doBarUpdate(promises, progress_cb) {
+	let d = 0;
+	progress_cb(0);
+	for (const p of promises) 
+		p.then(() => progress_cb(++d));
+	
+	return Promise.all(promises);
+}
+
 router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res) => {
 	try {
 		const courses = await course.parseXLSX();
 
 		const repopTime = await system.updateRepopulateTime();
 
-		// TODO: Replace this with the user timetable scrolling, verifying thing and update heatmap
 		system.updateHeatmapUpdateTime();
 
 		const actions = courses.map(course.addCourseToDB);
-		// var actions = courseReportJSON.map(course.addCourseToDB);
-		const results = await Promise.all(actions);
+
+		logger.warn("Starting Courses Add/Update");
+		// Makes a progress Bar, 0 to actions.length
+		const addCoursesBar = new cliProgress.SingleBar({
+			format: 'Adding Courses: |{bar}| {percentage}% | {value}/{total} | {duration}s'
+		}, cliProgress.Presets.shades_classic);
+		addCoursesBar.start(actions.length, 0);
+		// Pass a callback function.
+		const results = await doBarUpdate(actions, (p) => {
+			addCoursesBar.update(p);
+		});
+		addCoursesBar.stop();
+		logger.warn("Finished Courses Add/Update");
 
 		const deletes = await course.cleanCoursesAfterRepopulate(repopTime);
 		const cleanDetails = await course.doCleanRemovedCourses();

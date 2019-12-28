@@ -17,7 +17,6 @@ import CustomNavbar from './CustomNavbar';
 
 // Constants
 import THEMES from '../constants/Themes';
-import * as COURSE from '../constants/Courses';
 import CLASHMAP from '../constants/ClashMap';
 
 import '../css/Dashboard.scss';
@@ -242,16 +241,9 @@ class Dashboard extends React.Component {
 
 	filterCourse = () => this.state.heatmap
 		.filter((course) => course.code === this.state.selectedCourse)
-		.map((course) => {
-			if (COURSE.isLabType(course.course_type)) { course.simple_type = 'Lab'; }
-			if (COURSE.isProjectType(course.course_type)) { course.simple_type = 'Project'; }
-			if (COURSE.isTheoryType(course.course_type)) { course.simple_type = 'Theory'; }
-
-			return course;
-		});
 
 	findAvailableCourseTypes = () => Array.from(
-		new Set(this.filterCourse().map((course) => course.simple_type)),
+		new Set(this.filterCourse().map((course) => course.simpleCourseType)),
 	).sort();
 
 	findAvailableVenues = (type = null) => {
@@ -261,7 +253,7 @@ class Dashboard extends React.Component {
 				this.filterCourse()
 					.filter((c) => !(c.venue === 'NIL'))
 					.filter((c) => {
-						if (type) return c.simple_type === type;
+						if (type) return c.simpleCourseType === type;
 						return true;
 					})
 					.map((course) => {
@@ -317,7 +309,7 @@ class Dashboard extends React.Component {
 		if (reqdCourse.length === 0) return;
 		if (!this.checkSelected(reqdCourse[0])) {
 			const [req] = reqdCourse[0];
-			req.simple_type = 'Project';
+			req.simpleCourseType = 'Project';
 			this.selectSlots(req);
 		}
 	};
@@ -352,7 +344,7 @@ class Dashboard extends React.Component {
 					return { clashMap };
 				}));
 
-			if (course.simple_type !== 'Project') { this.checkAndSelectProject(course); }
+			if (course.simpleCourseType !== 'Project') { this.checkAndSelectProject(course); }
 		}
 
 		this.setState(

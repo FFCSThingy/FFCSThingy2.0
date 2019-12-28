@@ -124,16 +124,21 @@ class CourseSelectTable extends React.Component {
 		return <></>;
 	}
 
-	checkTheory = (course) => course.types.filter((type) => COURSE.isTheoryType(type)).length > 0;
+	checkTheory = (course) => course.simpleCourseTypes.filter((type) => type === 'Theory').length > 0;
 
-	checkLab = (course) => course.types.filter((type) => COURSE.isLabType(type)).length > 0;
+	checkLab = (course) => course.simpleCourseTypes.filter((type) => type === 'Lab').length > 0;
 
-	checkProject = (course) => course.types.filter((type) => COURSE.isProjectType(type)).length > 0;
+	checkProject = (course) => course.simpleCourseTypes.filter((type) => type === 'Project').length > 0;
 
 	doTypeFilter = (courses) => courses.filter((course) => {	// Filter on course_type
 		if (this.state.typeFilters.length === 0) return true;
 
-		if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Lab') && this.state.typeFilters.includes('Project')) { return this.checkTheory(course) && this.checkLab(course) && this.checkProject(course); }
+		if (this.state.typeFilters.includes('Theory')
+			&& this.state.typeFilters.includes('Lab')
+			&& this.state.typeFilters.includes('Project')
+		) {
+			return this.checkTheory(course) && this.checkLab(course) && this.checkProject(course);
+		}
 
 
 		if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Lab')) { return this.checkTheory(course) && this.checkLab(course) && !this.checkProject(course); }
@@ -387,11 +392,6 @@ class CourseSelectTable extends React.Component {
 		let className = 'courseCard';
 		if (value.code === this.props.selectedCourse) className = 'courseCard active';
 
-		const typeString = new Set();
-		if (value.types.filter((type) => COURSE.isLabType(type)).length > 0) typeString.add('L');
-		if (value.types.filter((type) => COURSE.isProjectType(type)).length > 0) typeString.add('P');
-		if (value.types.filter((type) => COURSE.isTheoryType(type)).length > 0) typeString.add('T');
-
 		return (
 			<div
 				className="courses"
@@ -421,7 +421,7 @@ class CourseSelectTable extends React.Component {
 								}
 								<div className="courseTypes">
 									<b> Course Type: </b>
-									{Array.from(typeString).join(' | ')}
+									{value.shortCourseTypes.join(' | ')}
 								</div>
 							</Tooltip>
 						)}

@@ -269,10 +269,10 @@ class Dashboard extends React.Component {
 			});
 	};
 
-	checkClash = (slot) => {
+	slotClashesWith = (slot) => {
 		const filledSlots = this.getFilledSlots();
-		if (slot === 'NIL') return false;
-		if (filledSlots.length === 0) return false;
+		if (slot === 'NIL') return [];
+		if (filledSlots.length === 0) return [];
 
 		const clashingSlots = slot.replace(' ', '').split('+')
 			.reduce((a, v) => Array.from(new Set([...a, ...this.state.clashMap[v].currentlyClashesWith])), [])
@@ -281,7 +281,7 @@ class Dashboard extends React.Component {
 		return clashingSlots;
 	};
 
-	checkSelected = (course) => this.state.timetable.find(
+	isSelected = (course) => this.state.timetable.find(
 		(e) => e.code === course.code
 			&& e.faculty === course.faculty
 			&& e.slot === course.slot
@@ -606,15 +606,12 @@ class Dashboard extends React.Component {
 
 					<Col xs={12} md={8}>
 						<SlotTable
-							selectSlots={this.selectSlots}
-							checkClash={this.checkClash}
-							checkSelected={this.checkSelected}
-							slots={this.state.currentlySelectedCourseSlots}
-							selectedCourse={this.state.selectedCourse}
-							venues={this.findAvailableVenues()}
-							theoryVenues={this.findAvailableVenues('Theory')}
-							labVenues={this.findAvailableVenues('Lab')}
-							projectVenues={this.findAvailableVenues('Project')}
+							selectedCourseCode={this.state.selectedCourse}
+							selectedCourseSlots={this.state.currentlySelectedCourseSlots}
+
+							addSlotToTimetable={this.selectSlots}
+							slotClashesWith={this.slotClashesWith}
+							isSelected={this.isSelected}
 						/>
 					</Col>
 				</Row>

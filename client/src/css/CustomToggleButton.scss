@@ -1,0 +1,30 @@
+.toggleCustom {
+	background: var(--select-table-background-color) !important;
+	border: none !important;
+	color: var(--text-color-inverted) !important;
+	transition: margin 0.17s ease-in-out;
+	transition: padding 0.17s ease-in-out;
+	transition: background-color 0.17s ease-in;
+	cursor: pointer;
+
+	&.focus {
+		box-shadow: none !important;
+	}
+
+	&.active.btn {
+		border: none !important;
+		background-color: var(--button-highlight-color) !important;
+		color: var(--text-color-default) !important;
+		transition: background-color 0.17s ease-in;
+	}
+
+	&.hover {
+		border: none !important;
+		background-color: var(--select-table-background-color) !important;
+		transition: background-color 0.17s ease-in;
+	}
+
+	@media only screen and (min-width: 768px) and (max-width: 978px) {
+		font-size: 0.8em;
+	}
+}

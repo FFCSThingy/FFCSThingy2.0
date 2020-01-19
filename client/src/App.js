@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-	Redirect, Route, BrowserRouter as Router, Switch,
+	Route, BrowserRouter as Router, Switch,
 } from 'react-router-dom';
 
 import API from './API';
@@ -9,51 +9,31 @@ import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 
-class App extends React.Component {
-	unauthRedirect = (<Redirect to="/" />);
+const App = () => {
+	const [authenticated, setAuthenticated] = useState(true);
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			authenticated: true,
-		};
-	}
+	const isAuthenticated = () => API.get('/account')
+		.then((res) => setAuthenticated(!!res.data))
+		.catch((err) => setAuthenticated(!err));
 
-	componentDidMount() {
-		this.isAuthenticated();
-	}
+	useEffect(() => {
+		isAuthenticated();
+	}, []);
 
-	handleUnauth = () => this.setState({
-		authenticated: false,
-	});
+	return (
+		<Router>
+			<Switch>
+				<Route exact path="/" component={Login} />
+				<PrivateRoute
+					path="/dashboard"
+					redirect="/"
+					component={Dashboard}
+					isAuthenticated={authenticated}
+					handleUnauth={() => setAuthenticated(false)}
+				/>
+			</Switch>
+		</Router>
+	);
+};
 
-	isAuthenticated = () => API.get('/account')
-		.then((res) => {
-			this.setState({
-				authenticated: !!res.data,
-			});
-		})
-		.catch((err) => {
-			this.setState({
-				authenticated: !err,
-			});
-		})
-
-	render() {
-		return (
-			<Router>
-				<Switch>
-					<Route exact path="/" component={Login} />
-					<PrivateRoute
-						path="/dashboard"
-						redirect="/"
-						component={Dashboard}
-						isAuthenticated={this.state.authenticated}
-						handleUnauth={this.handleUnauth}
-					/>
-				</Switch>
-			</Router>
-		);
-	}
-}
 export default App;

@@ -1,6 +1,11 @@
+@import '_mixins.scss';
+
 td, th {
-	color: var(--text-color-inverted);
-	background-color: var(--select-table-background-color);
+	// color: var(--text-color-inverted);
+	// background-color: var(--select-table-background-color);
+
+	@include theme-aware('color', 'color-text-inverted');
+	@include theme-aware('background-color', 'color-background-table');
 
 	text-align: center;
 	
@@ -10,8 +15,12 @@ td, th {
 }
 
 .timeHeader {
-	background-color: var(--brand-color);
-	color: var(--text-color-default);
+	// background-color: var(--brand-color);
+	// color: var(--text-color-default);
+
+	@include theme-aware('color', 'color-text');
+	@include theme-aware('background-color', 'color-brand');
+
 	font-weight: normal;
 
 	height: 4vh;

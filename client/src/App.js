@@ -23,10 +23,10 @@ const App = () => {
 	return (
 		<Router>
 			<Switch>
-				<Route exact path="/" component={Login} />
+				<Route exact path="/login" component={Login} />
 				<PrivateRoute
-					path="/dashboard"
-					redirect="/"
+					path="/"
+					redirect="/login"
 					component={Dashboard}
 					isAuthenticated={authenticated}
 					handleUnauth={() => setAuthenticated(false)}

@@ -103,6 +103,64 @@ router.get('/courseSlotList/:timestamp?', async (req, res) => {
 	}
 });
 
+router.get('/courseTypeList/:timestamp?', async (req, res) => {
+	try {
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
+		let courseTypeList;
+
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
+			courseTypeList = await course.getCourseTypeList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseTypeList: courseTypeList[0].courseTypeList,
+					timestamp: systemTimestamp,
+				},
+			});
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
+	} catch (err) {
+		logger.error(err);
+		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+	}
+});
+
+router.get('/allCourseLists/:timestamp?', async (req, res) => {
+	try {
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
+		let courseList;
+		let courseFacultyList;
+		let courseSlotList;
+		let courseTypeList;
+
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
+			courseList = await course.getNewCourseList();
+			courseFacultyList = await course.getCourseFacultyList();
+			courseSlotList = await course.getCourseSlotList();
+			courseTypeList = await course.getCourseTypeList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseList: courseList[0].courseList,
+					courseSlotList: courseSlotList[0].courseSlotList,
+					courseFacultyList: courseFacultyList[0].list,
+					courseTypeList: courseTypeList[0].courseTypeList,
+					prerequisites: prereqJSON,
+					timestamp: systemTimestamp,
+				},
+			});
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
+	} catch (err) {
+		logger.error(err);
+		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+	}
+});
+
 // Gets credits from curriculuma dn populates the list
 router.get('/courseListFromCurriculum', async (req, res) => {
 	let creditList;

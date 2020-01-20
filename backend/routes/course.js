@@ -1,6 +1,6 @@
 const express = require('express');
-const { logger } = require('../utility/loggers.js');
 const cliProgress = require('cli-progress');
+const { logger } = require('../utility/loggers.js');
 
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
@@ -104,12 +104,18 @@ router.get('/courseListFromCurriculum', async (req, res) => {
 });
 
 // Calls Callback function with updated count on every resolve
-function doBarUpdate(promises, progress_cb) {
+function doBarUpdate(promises, progressCallback) {
 	let d = 0;
-	progress_cb(0);
-	for (const p of promises) 
-		p.then(() => progress_cb(++d));
-	
+	progressCallback(0);
+	// eslint-disable-next-line no-restricted-syntax
+	for (const p of promises) {
+		// eslint-disable-next-line no-loop-func
+		p.then(() => progressCallback(
+			// eslint-disable-next-line no-plusplus
+			++d,
+		));
+	}
+
 	return Promise.all(promises);
 }
 
@@ -123,10 +129,10 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res) => {
 
 		const actions = courses.map(course.addCourseToDB);
 
-		logger.warn("Starting Courses Add/Update");
+		logger.warn('Starting Courses Add/Update');
 		// Makes a progress Bar, 0 to actions.length
 		const addCoursesBar = new cliProgress.SingleBar({
-			format: 'Adding Courses: |{bar}| {percentage}% | {value}/{total} | {duration}s'
+			format: 'Adding Courses: |{bar}| {percentage}% | {value}/{total} | {duration}s',
 		}, cliProgress.Presets.shades_classic);
 		addCoursesBar.start(actions.length, 0);
 		// Pass a callback function.
@@ -134,7 +140,7 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res) => {
 			addCoursesBar.update(p);
 		});
 		addCoursesBar.stop();
-		logger.warn("Finished Courses Add/Update");
+		logger.warn('Finished Courses Add/Update');
 
 		const deletes = await course.cleanCoursesAfterRepopulate(repopTime);
 		const cleanDetails = await course.doCleanRemovedCourses();

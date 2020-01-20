@@ -23,6 +23,7 @@ const theoryTypes = ['TH', 'ETH', 'SS'];
 let heatmap;
 let courseList;
 let courseFacultyList;
+let courseSlotList;
 
 this.removeOldCoursesBulk = (deletes) => User.updateMany(
 	{
@@ -85,7 +86,7 @@ this.courseListQuery = () => Course.aggregate([
 				credits: '$credits',
 				course_type: '$course_type',
 				simpleCourseType: '$simpleCourseType',
-				shortCourseType: '$shortCourseType'
+				shortCourseType: '$shortCourseType',
 			},
 			title: { $addToSet: '$title' },
 			lengths: { $addToSet: { $strLenCP: '$title' } },
@@ -100,7 +101,7 @@ this.courseListQuery = () => Course.aggregate([
 			credits: { $sum: '$_id.credits' },
 			types: { $addToSet: '$_id.course_type' },
 			simpleCourseTypes: { $addToSet: '$_id.simpleCourseType' },
-			shortCourseTypes: { $addToSet: '$_id.shortCourseType' }
+			shortCourseTypes: { $addToSet: '$_id.shortCourseType' },
 		},
 	}, {
 		$project: {
@@ -123,7 +124,7 @@ this.courseListQuery = () => Course.aggregate([
 			credits: { $sum: '$credits' },
 			types: { $addToSet: '$types' },
 			simpleCourseTypes: { $addToSet: '$simpleCourseTypes' },
-			shortCourseTypes: { $addToSet: '$shortCourseTypes' }
+			shortCourseTypes: { $addToSet: '$shortCourseTypes' },
 		},
 	}, {
 		$project: {
@@ -172,6 +173,36 @@ this.courseFacultyListQuery = () => Course.aggregate([
 	},
 ]).exec();
 
+this.courseSlotListQuery = () => Course.aggregate([
+	{
+		$group: {
+			_id: {
+				slot: '$slot',
+			},
+			courseList: { $addToSet: '$code' },
+		},
+	}, {
+		$sort: {
+			'_id.slot': 1,
+		},
+	}, {
+		$group: {
+			_id: null,
+			array: {
+				$push: {
+					k: '$_id.slot',
+					v: '$courseList',
+				},
+			},
+		},
+	}, {
+		$project: {
+			_id: 0,
+			courseSlotList: { $arrayToObject: '$array' },
+		},
+	},
+]).exec();
+
 this.updateCourse = (query, update) => Course.findOneAndUpdate(query, update, { new: true }).exec();
 
 this.doHeatmapUpdate = async (counts, specificSlot) => {
@@ -215,6 +246,11 @@ module.exports.getCourseList = (regardless = false) => {
 module.exports.getCourseFacultyList = (regardless = false) => {
 	if (courseFacultyList && !regardless) return courseFacultyList;
 	return this.courseFacultyListQuery();
+};
+
+module.exports.getCourseSlotList = (regardless = false) => {
+	if (courseSlotList && !regardless) return courseSlotList;
+	return this.courseSlotListQuery();
 };
 
 module.exports.getCourseDetails = (query) => Course.findOne(query).exec();
@@ -272,7 +308,8 @@ module.exports.addCourseToDB = (course) => {
 	// 	course.CREDITS = 1;
 	// }
 
-	let simpleCourseType, shortCourseType;
+	let simpleCourseType; let
+		shortCourseType;
 
 	if (labTypes.includes(course.course_type)) {
 		simpleCourseType = 'Lab';
@@ -300,8 +337,8 @@ module.exports.addCourseToDB = (course) => {
 		code: course.code,
 		venue: course.venue,
 		course_type: course.course_type,
-		simpleCourseType: simpleCourseType,
-		shortCourseType: shortCourseType,
+		simpleCourseType,
+		shortCourseType,
 		slot: course.slot.replace(' ', ''),
 		faculty: course.faculty,
 		credits: course.credits || 0,

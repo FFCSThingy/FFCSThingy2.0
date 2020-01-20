@@ -79,6 +79,30 @@ router.get('/courseFacultyList/:timestamp?', async (req, res) => {
 	}
 });
 
+router.get('/courseSlotList/:timestamp?', async (req, res) => {
+	try {
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
+		let courseSlotList;
+
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
+			courseSlotList = await course.getCourseSlotList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseSlotList: courseSlotList[0].courseSlotList,
+					timestamp: systemTimestamp,
+				},
+			});
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
+	} catch (err) {
+		logger.error(err);
+		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+	}
+});
+
 // Gets credits from curriculuma dn populates the list
 router.get('/courseListFromCurriculum', async (req, res) => {
 	let creditList;

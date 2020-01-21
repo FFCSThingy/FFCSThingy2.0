@@ -7,18 +7,19 @@
 	transition: background-color 0.17s ease-in;
 	cursor: pointer;
 
-	&.focus {
+	&:global(.focus) {
 		box-shadow: none !important;
+		border: none !important;
 	}
 
-	&.active.btn {
+	&:global(.active.btn) {
 		border: none !important;
 		background-color: var(--button-highlight-color) !important;
 		color: var(--text-color-default) !important;
 		transition: background-color 0.17s ease-in;
 	}
 
-	&.hover {
+	&:global(.hover) {
 		border: none !important;
 		background-color: var(--select-table-background-color) !important;
 		transition: background-color 0.17s ease-in;

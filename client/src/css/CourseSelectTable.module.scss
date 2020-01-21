@@ -207,7 +207,7 @@
 }
 
 .courseSelectTypeFilter {
-	composes: toggleCustom from './CustomToggleButton.module.scss';
+	composes: toggleCustom from './baseStyles/CustomToggleButton.module.scss';
 }
 
 .creditFormGroup {

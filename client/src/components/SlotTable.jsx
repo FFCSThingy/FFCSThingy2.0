@@ -5,7 +5,6 @@ import {
 } from 'react-bootstrap';
 
 import styles from '../css/SlotTable.module.scss';
-import '../css/CustomToggleButton.scss';
 
 const SlotCard = ({
 	slotDetails, onClick, type, clashingSlots,
@@ -37,8 +36,8 @@ const SlotCard = ({
 		>
 
 			<Card.Body className={cardBodyClass}>
-				<Card.Text>{slotDetails.slot}</Card.Text>
-				<Card.Title>{slotDetails.faculty}</Card.Title>
+				<Card.Text className={styles.slotText}>{slotDetails.slot}</Card.Text>
+				<Card.Title className={styles.cardTitle}>{slotDetails.faculty}</Card.Title>
 				<Card.Subtitle className={styles.cardSubtitle}>
 					{`${slotDetails.venue} - ${slotDetails.course_type}`}
 				</Card.Subtitle>
@@ -186,12 +185,12 @@ const SlotTable = ({
 
 	const venueButtons = applicableVenues.map((v) => {
 		if (applicableVenues.length > 4) {
-			return <ToggleButton value={v} className="toggleCustom" size="sm">{v}</ToggleButton>;
+			return <ToggleButton value={v} className={styles.venueFilterButton} size="sm">{v}</ToggleButton>;
 		}
-		return <ToggleButton className="toggleCustom" value={v}>{v}</ToggleButton>;
+		return <ToggleButton className={styles.venueFilterButton} value={v}>{v}</ToggleButton>;
 	});
 
-	const typeButtons = selectedCourseTypes.map((v) => <ToggleButton value={v} className="toggleCustom">{v}</ToggleButton>);
+	const typeButtons = selectedCourseTypes.map((v) => <ToggleButton value={v} className={styles.typeFilterButton}>{v}</ToggleButton>);
 
 	return (
 		<Card className={styles.slotTableContainer}>

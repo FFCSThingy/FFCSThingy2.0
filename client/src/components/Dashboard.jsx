@@ -102,7 +102,7 @@ class Dashboard extends React.Component {
 				if (res.data.vtopSignedIn) this.getCompletedCourses();
 			})
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 
@@ -135,7 +135,7 @@ class Dashboard extends React.Component {
 				} else this.setState({ error: res.data.message });
 			})
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 
@@ -152,7 +152,7 @@ class Dashboard extends React.Component {
 				} else this.setState({ error: res.data.message });
 			})
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 
@@ -181,7 +181,7 @@ class Dashboard extends React.Component {
 				} else this.setState({ error: res.data.message });
 			})
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 
@@ -196,7 +196,7 @@ class Dashboard extends React.Component {
 				} else this.setState({ error: res.data.message });
 			})
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 
@@ -219,14 +219,14 @@ class Dashboard extends React.Component {
 				} else this.setState({ error: res.data.message });
 			})
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 
 	setSelectedCourses = (timetable) => {
 		API.post('/user/selectedCoursesBulk', { selected_courses: timetable })
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 
@@ -265,7 +265,7 @@ class Dashboard extends React.Component {
 				this.props.handleUnauth();
 			})
 			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
+				this.setState({ error: err });
 			});
 	};
 

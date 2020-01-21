@@ -594,13 +594,12 @@ class Dashboard extends React.Component {
 				<Row className="slotSelectionRow">
 					<Col xs={12} md={4}>
 						<CourseSelectTable
-							selectCourse={this.selectCourse}
-							handleUnauth={this.props.handleUnauth}
+							doSelectCourse={this.selectCourse}
+
 							completedCourses={this.state.completedCourses}
-							heatmap={this.state.heatmap}
 							selectedCourse={this.state.selectedCourse}
-							curriculum={this.state.curriculum}
-							selectedCurriculum={this.state.selectedCurriculum}
+							selectedCurriculum={this.state.curriculum}
+							selectedCurriculumPrefix={this.state.selectedCurriculum}
 						/>
 					</Col>
 

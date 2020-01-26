@@ -1,6 +1,13 @@
+@import './color-palette';
+@import './mixins';
+
 .loginContainer {
 	font-family: 'Montserrat', sans-serif;
-	background-image: linear-gradient(to right, rgba(125, 136, 232, 1), rgba(76, 86, 178, 1));
+	background-image: linear-gradient(
+		to right, 
+		rgba(125, 136, 232, 1), 
+		rgba(76, 86, 178, 1)
+	);
 
 	max-width: 100vw;
 	height: 100vh;
@@ -66,7 +73,7 @@
 }
 
 .featuresCard_Desktop {
-	background-color: var(--select-table-background-color);
+	background-color: map-get(map-get($themes, 'default'), 'color-background-table');
 	display: block;
 	width: 40vw;
 	border-radius: 1rem;
@@ -98,7 +105,7 @@
 	height: 35vh;
 
 	background-color: transparent;
-	color: var(--select-table-background-color);
+	color: map-get(map-get($themes, 'default'), 'color-text');
 
 	.featuresCardBody {
 		justify-content: space-evenly;
@@ -119,12 +126,13 @@
 	text-align: center;
 
 	background-color: transparent;
-	color: var(--select-table-background-color);
+	color: map-get(map-get($themes, 'default'), 'color-text');
 
 	width: 80vw;
 	height: 30vh;
 
 	margin: 2rem auto 0 auto;
+	border: none;
 
 	.loginCardBody {
 		display: flex;
@@ -142,7 +150,7 @@
 			font-weight: bold;
 
 			text-align: center;
-			color: var(--select-table-background-color);
+			color: map-get(map-get($themes, 'default'), 'color-text');
 			
 			padding-bottom: 3rem;
 		}
@@ -169,22 +177,18 @@
 .googleButton {
 	height: auto;
 	width: 100%;
-	background: var(--select-table-background-color);
+	background: map-get(map-get($themes, 'default'), 'color-background-table');
 	color: #737373;
 	border-radius: 5px;
 
-	-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-	-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-	box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
 
 	transition-property: background-color, box-shadow;
 	transition-duration: 150ms;
 	transition-timing-function: ease-in-out;
 
 	&:focus, &:hover {
-		-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
 
 		outline: none;
 	}

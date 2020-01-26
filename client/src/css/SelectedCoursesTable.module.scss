@@ -1,3 +1,5 @@
+@import '_mixins.scss';
+
 .selectedCourseContainer {
 	@media only screen and (max-width: 1080px) {
 		font-size: 0.9em;
@@ -20,7 +22,7 @@
 	font-family: 'Montserrat', sans-serif;
 	text-align: center;
 	
-	background-color: var(--select-table-background-color);
+	@include theme-aware('background-color', 'color-background-table');
 	
 	border-radius: 0.7rem !important;
 	margin: 2vh 0 !important;
@@ -54,8 +56,8 @@
 	border: none !important;
 
 	th {
-		color: var(--text-color-default);
-		background-color: var(--brand-color);
+		@include theme-aware('color', 'color-text');
+		@include theme-aware('background-color', 'color-brand');
 		padding-top: 1rem;
 		padding-bottom: 0.5rem;
 
@@ -77,11 +79,11 @@
 	border: none !important;
 
 	tr {
-		background-color: var(--select-table-background-color);
-		color: var(--text-color-inverted);
+		@include theme-aware('background-color', 'color-background-table');
+		@include theme-aware('color', 'color-text-inverted');
 
 		&:nth-child(even) td {
-			background-color: var(--alternate-table-item-color);
+			@include theme-aware('background-color', 'color-background-table-alternate');
 		}
 
 		td:first-child {
@@ -107,8 +109,9 @@
 }
 
 .creditsRow {
+	@include theme-aware('color', 'color-text-inverted');
+	
 	font-size: 1.3em;
-	color: var(--text-color-inverted);
 	border-radius: 0.7rem;
 
 	th {

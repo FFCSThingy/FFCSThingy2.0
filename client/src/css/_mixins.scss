@@ -11,7 +11,7 @@
  */
 @mixin theme-aware($key, $color) {
     @each $theme-name, $theme-color in $themes {
-        @at-root .theme-#{$theme-name} & {
+        @at-root :global(.theme-#{$theme-name}) & {
             #{$key}: map-get(map-get($themes, $theme-name), $color)
         }
     }

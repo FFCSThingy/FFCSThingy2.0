@@ -1,0 +1,18 @@
+@import "_color-palette.scss";
+
+/**
+ * theme-aware - Change color of a css property based on the currently active theme
+ *
+ * @param  {key}     CSS property
+ * @param  {color}   Color name defined in the themes under _color-palette.scss
+ *
+ * @example - @include theme-aware('background', 'color-background');
+ * @returns - background: #FFF;
+ */
+@mixin theme-aware($key, $color) {
+    @each $theme-name, $theme-color in $themes {
+        @at-root :global(.theme-#{$theme-name}) & {
+            #{$key}: map-get(map-get($themes, $theme-name), $color)
+        }
+    }
+}

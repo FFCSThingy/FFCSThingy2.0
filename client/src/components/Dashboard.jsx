@@ -497,12 +497,25 @@ class Dashboard extends React.Component {
 	};
 
 	updateTheme = () => {
-		const theme = THEMES[this.state.activeTheme];
-		localStorage.setItem('theme', this.state.activeTheme);
-		Object.keys(theme.properties).map((v) => document.documentElement.style.setProperty(
-			`--${v}`,
-			theme.properties[v],
-		));
+		const newThemeList = {
+			default: 'default',
+			dark: 'eerie-black',
+			yellowish: 'mellow-yellow',
+			coral: 'light-coral',
+			green: 'pretty-green',
+			blue: 'arctic-blue',
+			pink: 'persian-pink',
+		};
+		const newTheme = newThemeList[this.state.activeTheme];
+		document.documentElement.className = '';
+		document.documentElement.classList.add(`theme-${newTheme}`);
+
+		// const theme = THEMES[this.state.activeTheme];
+		// localStorage.setItem('theme', this.state.activeTheme);
+		// Object.keys(theme.properties).map((v) => document.documentElement.style.setProperty(
+		// 	`--${v}`,
+		// 	theme.properties[v],
+		// ));
 	};
 
 	changeActiveTheme = (newTheme) => {

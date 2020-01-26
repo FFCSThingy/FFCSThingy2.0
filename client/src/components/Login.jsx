@@ -5,16 +5,12 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
 	Container, Row, Card,
 } from 'react-bootstrap';
-import ReactGA from 'react-ga';
 import MediaQuery from 'react-responsive';
 
 import styles from '../css/Login.module.scss';
 
 import featuresImage from '../images/ffcsfeatures.png';
 import logo from '../images/logo.1.png';
-
-ReactGA.initialize('UA-121295619-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
 
 const googleIcon = (
 	<svg viewBox="0 0 366 372" xmlns="http://www.w3.org/2000/svg">

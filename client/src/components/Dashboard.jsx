@@ -7,7 +7,6 @@ import {
 } from 'react-bootstrap';
 
 // Components
-import ReactGA from 'react-ga';
 import CourseSelectTable from './CourseSelectTable';
 import SlotTable from './SlotTable';
 import Timetable from './Timetable';
@@ -24,9 +23,6 @@ import '../css/CustomNavbar.scss';
 
 import API from '../API';
 // import MagicFill from './MagicFill';
-
-ReactGA.initialize('UA-121295619-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
 
 class Dashboard extends React.Component {
 	unauthRedirect = (<Redirect to="/" />);

@@ -292,17 +292,14 @@ class Dashboard extends React.Component {
 	}, []);
 
 	checkAndSelectProject = (course) => {
-		const reqdCourse = this.state.heatmap.filter(
+		const reqdCourse = this.state.heatmap.find(
 			(v) => course.code === v.code
 				&& course.faculty === v.faculty
-				&& ['PJT', 'EPJ'].includes(v.course_type),
+				&& v.simpleCourseType === 'Project',
 		);
 
-		if (reqdCourse.length === 0) return;
-		if (!this.checkSelected(reqdCourse[0])) {
-			const [req] = reqdCourse[0];
-			req.simpleCourseType = 'Project';
-			this.selectSlots(req);
+		if (reqdCourse && !this.isSelected(reqdCourse)) {
+			this.selectSlots(reqdCourse);
 		}
 	};
 

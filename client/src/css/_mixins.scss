@@ -11,8 +11,18 @@
  */
 @mixin theme-aware($key, $color) {
     @each $theme-name, $theme-color in $themes {
-        @at-root :global(.theme-#{$theme-name}) & {
-            #{$key}: map-get(map-get($themes, $theme-name), $color)
+        :global(.theme-#{$theme-name}) & {
+            #{$key}: map-get(map-get($themes, $theme-name), $color);
         }
     }
+}
+
+@mixin theme-aware-shadow($values, $color) {
+	@each $theme-name, $theme-color in $themes {
+		:global(.theme-#{$theme-name}) & {
+			-webkit-box-shadow: $values map-get(map-get($themes, $theme-name), $color);
+			-moz-box-shadow: $values map-get(map-get($themes, $theme-name), $color);
+			box-shadow: $values map-get(map-get($themes, $theme-name), $color);
+        }
+	}
 }

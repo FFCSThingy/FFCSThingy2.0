@@ -1,3 +1,5 @@
+@import './mixins';
+
 .slotTableContainer {
 	border-radius: 0.7rem;
 	font-family: 'Montserrat', sans-serif;
@@ -18,7 +20,7 @@
 }
 
 .slotTableHeader {
-	background-color: var(--brand-color);
+	@include theme-aware('background-color', 'color-brand');
 	padding: 1.25rem 1rem 0 1rem;
 
 	border-radius: 0.7rem 0.7rem 0 0 !important;
@@ -65,7 +67,7 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 	border-radius: 0 0 0.7rem 0.7rem;
-	background-color: var(--select-table-background-color);
+	@include theme-aware('background-color', 'color-background-table');
 	font-family: 'Montserrat', sans-serif;
 	cursor: default;
 	scrollbar-width: none;
@@ -81,15 +83,13 @@
 }
 
 .slotCard {
-	background-color: var(--card-background-color);
-	color: var(--text-color-inverted);
+	@include theme-aware('background-color', 'color-background-card');
+	@include theme-aware('color', 'color-text-inverted');
 
 	border-radius: 0.7rem;
 	cursor: pointer;
 
-	-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-	-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-	box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
 
 	margin: 1rem 0;
 
@@ -97,10 +97,8 @@
 	transition: background-color 0.1s ease-in-out;
 
 	&:hover {
-		-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		background-color: var(--card-highlight-color);
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+		@include theme-aware('background-color', 'color-background-card-highlight');
 		transition: box-shadow 0.17s ease-in-out;
 		transition: background-color 0.1s ease-in-out;
 	}
@@ -129,27 +127,29 @@
 	}
 
 	.cardBodyClash {
+		@include theme-aware('background-color', 'color-background-card-highlight');
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
 		cursor: not-allowed;
 		border-radius: 0.7rem;
 
 		.cardClashSubtitle {
 			margin-top: 0 !important;
-			color: var(--card-clash-text-color);
+			@include theme-aware('color', 'color-text-clash');
 		}
 	}
 
 	.cardBodySelected {
 		border-radius: 0.7rem;
 
-		background-color: var(--card-highlight-color);
+		@include theme-aware('background-color', 'color-background-card-highlight');
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
 		transition: box-shadow 0.17s ease-in-out;
-		color: var(--text-color-inverted);
 
 		cursor: not-allowed;
 
 		.cardSelectedSubtitle {
 			margin-top: 0 !important;
-			color: var(--card-selected-text-color);
+			@include theme-aware('color', 'color-text-selected');
 		}
 	}
 }

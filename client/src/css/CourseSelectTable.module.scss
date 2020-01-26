@@ -1,3 +1,5 @@
+@import './mixins';
+
 .courseSelectContainer {
 	margin-top: 4rem;
 	margin-bottom: 2rem;
@@ -6,20 +8,20 @@
 
 	max-height: 80vh !important;
 
-	background-color: var(--brand-color);
+	@include theme-aware('background-color', 'color-brand');
 }
 
 .courseSelectTableHeader {
 	border-radius: 0.7rem 0.7rem 0 0 !important;
-	background-color: var(--brand-color);
-	color: var(--text-color-default);
+	@include theme-aware('background-color', 'color-brand');
+	@include theme-aware('-color', 'color-text');
 	padding: 1.25rem 1rem 0 1rem;
 	border: none;
 }
 
 .courseSelectTableBody {
 	font-family: 'Montserrat', sans-serif;
-	background-color: var(--select-table-background-color);
+	@include theme-aware('background-color', 'color-background-table');
 
 	border-radius: 0 0 0.7rem 0.7rem;
 	cursor: default;
@@ -39,30 +41,24 @@
 
 .courseCard {
 	border-radius: 0.7rem;
-	-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-	-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
-	box-shadow: 1px 1px 9px -1px var(--dropshadow-default);
+	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
 	transition: box-shadow 0.17s ease-in-out;
 	transition: background-color 0.1s ease-in-out;
 	cursor: pointer;
-	color: var(--text-color-inverted);
-	background-color: var(--card-background-color);
+	@include theme-aware('color', 'color-text-inverted');
+	@include theme-aware('background-color', 'color-background-card');
 
 	&.active {
-		-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-		background-color: var(--card-highlight-color);
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+		@include theme-aware('background-color', 'color-background-card-highlight');
 
 		cursor: not-allowed;
 	}
 
 	&:hover {
 		@media only screen and (min-width: 768px) {
-			-webkit-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-			-moz-box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-			box-shadow: 1px 1px 9px -1px var(--dropshadow-highlight);
-			background-color: var(--card-highlight-color);
+			@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+			@include theme-aware('background-color', 'color-background-card-highlight');
 			transition: box-shadow 0.17s ease-in-out;
 			transition: background-color 0.1s ease-in-out;
 		}
@@ -94,12 +90,12 @@
 
 	.cardCompletedSubtitle {
 		margin-top: 0;
-		color: var(--card-selected-text-color);
+		@include theme-aware('color', 'color-text-selected');
 	}
 
 	.cardCompletionFailedSubtitle {
 		margin-top: 0;
-		color: var(--card-clash-text-color);
+		@include theme-aware('color', 'color-text-clash');
 	}
 }
 
@@ -107,7 +103,7 @@
 	padding: 0;
 
 	::placeholder {
-		color: var(--text-color-default);
+		@include theme-aware('color', 'color-text');
 		opacity: 1;
 		transition: opacity 0.17s ease;
 		text-transform: capitalize;
@@ -137,18 +133,19 @@
 			margin-top: 0.2rem;
 			margin-right: 0.5rem;
 			flex-shrink: 0;
+			@include theme-aware('color', 'color-text');
 		}
 
 		.searchTooltip td,
 		.searchTooltip th {
 			padding: 0 5px;
 			background-color: transparent;
-			color: var(--text-color-default);
+			@include theme-aware('color', 'color-text');
 		}
 
 		.searchBar {
-			background-color: var(--brand-color) !important;
-			color: var(--text-color-default) !important ;
+			@include theme-aware('background-color', 'color-brand');
+			@include theme-aware('color', 'color-text');
 			font-family: 'Montserrat', sans-serif;
 			border: none;
 			box-shadow: none !important;
@@ -180,6 +177,8 @@
 			position: absolute;
 			left: 9.5rem;
 			z-index: 1;
+
+			@include theme-aware('color', 'color-text');
 
 			&:after {
 				animation: changeWord 6s linear infinite alternate;
@@ -217,7 +216,7 @@
 	align-items: center;
 
 	.creditLabel {
-		color: var(--text-color-default) !important;
+		@include theme-aware('color', 'color-text');
 		font-family: 'Montserrat', sans-serif;
 		font-weight: bold;
 		font-size: 1rem;
@@ -233,11 +232,12 @@
 		text-align: center;
 		text-transform: uppercase;
 
-		background-color: var(--brand-color) !important;
-		color: var(--text-color-default) !important;
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware('color', 'color-text');
 
 		border: none;
-		border-bottom: 2px solid var(--text-color-default);
+		border-bottom: 2px solid;
+		@include theme-aware('border-bottom-color', 'color-text');
 		border-radius: 0;
 		box-shadow: none !important;
 
@@ -250,7 +250,8 @@
 
 		&:focus {
 			border: none;
-			border-bottom: 2px solid var(--text-color-default);
+			border-bottom: 2px solid;
+			@include theme-aware('border-bottom-color', 'color-text');
 		}
 
 		&::-webkit-outer-spin-button,
@@ -272,28 +273,27 @@
 
 	.categoryFilterButton {
 		font-family: 'Montserrat', sans-serif;
-		background-color: var(--brand-color) !important;
 		margin-right: 0.5rem !important;
 		border: none !important;
-		background-color: var(--select-table-background-color);
-		color: var(--text-color-default);
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware('color', 'color-text');
 		transition: color 0.17s ease-in;
 		outline: 0;
 
 		&:hover {
-			color: var(--button-highlight-color);
+			@include theme-aware('color', 'color-background-button-selected');
 			transition: color 0.17s ease-in;
 		}
 
 		&:global(.active) {
-			background-color: var(--select-table-background-color) !important;
-			color: var(--text-color-inverted) !important;
+			@include theme-aware('background-color', 'color-background-table');
+			@include theme-aware('color', 'color-text-inverted');
 			transition: background-color 0.17s ease-in;
 		}
 
 		&:global(.focus) {
-			background-color: var(--select-table-background-color) !important;
-			color: var(--text-color-inverted) !important;
+			@include theme-aware('background-color', 'color-background-table');
+			@include theme-aware('color', 'color-text-inverted');
 			transition: background-color 0.17s ease-in;
 			border: none;
 		}
@@ -307,34 +307,34 @@
 @keyframes changeWord {
 	0% {
 		content: 'Slot';
-		color: var(--text-color-default);
+		opacity: 100;
 	}
 	12.5% {
-		color: var(--brand-color);
+		opacity: 0;
 	}
 	25% {
 		content: 'Title';
-		color: var(--text-color-default);
+		opacity: 100;
 	}
 	37.5% {
-		color: var(--brand-color);
+		opacity: 0;
 	}
 	50% {
 		content: 'Code';
-		color: var(--text-color-default);
+		opacity: 100;
 	}
 	62.5% {
-		color: var(--brand-color);
+		opacity: 0;
 	}
 	75% {
 		content: 'Title';
-		color: var(--text-color-default);
+		opacity: 100;
 	}
 	87.5% {
-		color: var(--brand-color);
+		opacity: 0;
 	}
 	100% {
 		content: 'Slot';
-		color: var(--text-color-default);
+		opacity: 100;
 	}
 }

@@ -1,5 +1,5 @@
-@import './color-palette';
-@import './mixins';
+@import './constants/colorPalette';
+@import './utilities/mixins';
 
 .loginContainer {
 	font-family: 'Montserrat', sans-serif;

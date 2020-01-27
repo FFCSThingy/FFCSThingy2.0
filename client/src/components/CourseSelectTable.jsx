@@ -290,7 +290,7 @@ const CourseSelectTable = ({
 
 	useEffect(() => {
 		executeGetAllCourseLists();
-	}, []);
+	}, [executeGetAllCourseLists]);
 
 	const [filteredCourseList, setFilteredCourseList] = useState([]);
 
@@ -300,7 +300,7 @@ const CourseSelectTable = ({
 	const [courseTypeList, setCourseTypeList] = useState({});
 	const [prereqList, setPrereqList] = useState({});
 
-	const updateLists = () => {
+	useEffect(() => {
 		if (allCourseLists) {
 			setCourseList(allCourseLists.data.courseList);
 			setFilteredCourseList(allCourseLists.data.courseList);
@@ -309,10 +309,6 @@ const CourseSelectTable = ({
 			setCourseTypeList(allCourseLists.data.courseTypeList);
 			setPrereqList(allCourseLists.data.prerequisites);
 		}
-	};
-
-	useEffect(() => {
-		updateLists();
 	}, [allCourseLists]);
 
 	const [searchString, setSearchString] = useState('');

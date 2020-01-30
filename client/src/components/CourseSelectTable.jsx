@@ -414,14 +414,13 @@ const CourseSelectTable = ({
 			.reduce((acc, code) => ({ ...acc, [code]: courseList[code] }), {});
 
 		setFilteredCourseList(filteredCourses);
-	}, [courseList, courseTypeList, courseSlotList, courseFacultyList, searchString, creditFilter, typeFilters, selectedCategory, selectedCurriculum]);
+	}, [courseList, courseTypeList, courseSlotList, courseFacultyList, searchString, creditFilter, typeFilters, selectedCategory, selectedCurriculum, selectedCurriculumPrefix]);
 
 	useEffect(() => {
 		if (!selectedCurriculum || Object.keys(selectedCurriculum).length === 0 || selectedCurriculumPrefix === 'Curriculum') {
 			setTabsDisabled(true);
 		} else {
 			setTabsDisabled(false);
-			setSelectedCategory('ALL');
 		}
 	}, [selectedCurriculumPrefix, selectedCurriculum]);
 

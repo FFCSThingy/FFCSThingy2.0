@@ -1,152 +1,179 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
-	Navbar, Nav, NavDropdown, NavbarBrand, Modal, Button,
+	Navbar, Nav, NavDropdown, NavbarBrand, Modal, Button, Dropdown,
 } from 'react-bootstrap';
+import { FaBars } from 'react-icons/fa';
 
-import '../App.css';
-import '../css/CustomNavbar.scss';
+import styles from '../css/CustomNavbar.module.scss';
 
-import navbarImage from '../images/logo.1.png';
+import brandImage from '../images/logo.1.png';
 
+const CustomNavbar = ({
+	curriculumList, themeList, selectedCurriculum, handleCurriculumChange,
+	changeActiveTheme, creditCount, doLogout, userDetails,
+}) => {
+	const [showModal, setShowModal] = useState(false);
 
-class CustomNavbar extends React.Component {
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			show: false,
-		};
-	}
-
-	handleClose = () => {
-		this.setState({
-			show: false,
-		});
-	}
-
-	handleShow = () => {
-		if (this.state.show === false) { this.setState({ show: true }); } else { this.setState({ show: false }); }
-	}
-
-	renderThemeChoices = () => Object.keys(this.props.themes).map((v) => (
-		<NavDropdown.Item eventKey={v} key={v}>
-			{this.props.themes[v].name}
-			<NavDropdown.Divider />
-		</NavDropdown.Item>
-	))
-
-	renderCurriculumChoices = () => this.props.curriculumList.map((v) => (
-		<NavDropdown.Item eventKey={v}>
-			{v}
-			<NavDropdown.Divider />
-		</NavDropdown.Item>
-	))
-
-	renderModal = () => (
-		<Modal
-			// {...this.props}
-			size="lg"
-			aria-labelledby="contained-modal-title-vcenter"
-			centered
-			show={this.state.show}
-			onHide={this.handleClose}
+	const CurriculumChoices = () => curriculumList.map((v) => (
+		<NavDropdown.Item
+			eventKey={v}
+			className={styles.dropdownItem}
 		>
-			<Modal.Header closeButton className="popup">
-				<Modal.Title id="contained-modal-title-vcenter">
-						Sync with VTOP
+			{v}
+			<NavDropdown.Divider className={styles.dropdownDivider} />
+		</NavDropdown.Item>
+	));
+
+	const ThemeChoices = () => Object.keys(themeList).map((v) => (
+		<NavDropdown.Item
+			eventKey={v}
+			key={v}
+			className={styles.dropdownItem}
+		>
+			{themeList[v]}
+			<NavDropdown.Divider className={styles.dropdownDivider} />
+		</NavDropdown.Item>
+	));
+
+	const SyncModal = () => (
+		<Modal
+			size="lg"
+			centered
+			show={showModal}
+			onHide={() => setShowModal(false)}
+		>
+			<Modal.Header closeButton className={styles.popup}>
+				<Modal.Title>
+					Sync with VTOP
 				</Modal.Title>
 			</Modal.Header>
-			<Modal.Body className="popup">
+
+			<Modal.Body className={styles.popup}>
 				<p>
-						Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
+					Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
 				</p>
 				<a href="https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh" target="_blank" rel="noopener noreferrer">Chrome Extension</a>
 				<br />
 				<a href="https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi" rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
 			</Modal.Body>
-			<Modal.Footer className="popup">
-				<Button onClick={this.handleClose} className="closeButton">Close</Button>
+
+			<Modal.Footer className={styles.popup}>
+				<Button
+					onClick={() => setShowModal(false)}
+					className={styles.closeButton}
+				>
+					Close
+				</Button>
 			</Modal.Footer>
+
 		</Modal>
-	)
+	);
 
-	render() {
-		return (
-			<Navbar className="navBar" bg="light" fixed="top" expand="md">
+	return (
+		<Navbar className={styles.navbar} fixed="top" expand="md">
 
-				<NavbarBrand className="navbar-left">
-					<img className="logo" alt="" src={navbarImage} />
-					<span className="branding">FFCSThingy</span>
+			<div className={styles.leftContainer}>
+				<NavbarBrand
+					className={styles.navbarBrand}
+				>
+					<img className={styles.logo} alt="" src={brandImage} />
+					<span className={styles.branding}>FFCSThingy</span>
 				</NavbarBrand>
 
 
 				<NavDropdown
-					title={this.props.selectedCurriculum}
-					className="navDropContainerCurriculum blink"
-					onSelect={this.props.handleCurriculumChange}
+					title={selectedCurriculum}
+					className={styles.navbarDropdown}
+					onSelect={handleCurriculumChange}
 				>
-					{this.renderCurriculumChoices()}
+					<Dropdown.Menu className={styles.dropdownMenu}>
+						<CurriculumChoices />
+					</Dropdown.Menu>
 				</NavDropdown>
 
 
-				<Navbar.Toggle className="fa fa-bars icon sync" aria-controls="responsive-navbar-nav" />
+				<Navbar.Toggle
+					className={styles.mobileMenuToggle}
+				>
+					<FaBars />
+				</Navbar.Toggle>
+			</div>
 
-				<Navbar.Collapse className="linksContainer" id="basic-navbar-nav">
+			<Navbar.Collapse className={styles.collapseContainer}>
 
-					<Nav className="mr-auto">
-						<Nav.Link
-							href={`${process.env.REACT_APP_BASE_URL || 'http://localhost:3001'}/about`}
-							className="navLink"
-						>
-							About
-						</Nav.Link>
-						<Nav.Link href="https://discord.gg/Un4UanH" className="navLink" target="_blank">Join our Discord</Nav.Link>
-						{/* <Nav.Link onClick={this.handleShow} className="navLink sync">Sync VTOP</Nav.Link> */}
-					</Nav>
-					{this.renderModal()}
-					<Nav className="navLeft">
-						<Nav.Link className="navLink" disabled>
-							Credits:
-							{' '}
-							{this.props.creditCount}
-						</Nav.Link>
+				<div className={styles.middleContainer}>
+					<Nav.Link
+						href={`${process.env.REACT_APP_BASE_URL || 'http://localhost:3001'}/about`}
+						className={styles.navLink}
+					>
+						About
+					</Nav.Link>
+					<Nav.Link
+						href="https://discord.gg/Un4UanH"
+						className={styles.navLink}
+						target="_blank"
+					>
+						Join our Discord
+					</Nav.Link>
+					<Nav.Link
+						onClick={() => setShowModal(true)}
+						className={`${styles.navLink} ${styles.sync}`}
+					>
+						Sync VTOP
+					</Nav.Link>
+				</div>
 
-						<NavDropdown
-							title="Theme"
-							className="navDropContainerTheme"
-							onSelect={this.props.changeActiveTheme}
-						>
-							{this.renderThemeChoices()}
+				<SyncModal />
 
-						</NavDropdown>
+				<div className={styles.rightContainer}>
+					<Nav.Link className={styles.navLink} disabled>
+						{`Credits: ${creditCount}`}
+					</Nav.Link>
 
-						<NavDropdown
-							alignRight
-							title={(
-								<img
-									className="userProfileImage"
-									alt=""
-									src={this.props.user.picture}
-								/>
-)}
-							className="navDropContainerUser"
-						>
-							<NavDropdown.Item disabled>
-								{this.props.user.display_name}
+					<NavDropdown
+						title="Theme"
+						className={styles.navbarDropdown}
+						onSelect={changeActiveTheme}
+					>
+						<Dropdown.Menu className={styles.dropdownMenu}>
+							<ThemeChoices />
+						</Dropdown.Menu>
+					</NavDropdown>
+
+					<NavDropdown
+						alignRight
+						title={(
+							<img
+								className={styles.userProfileImage}
+								alt=""
+								src={userDetails.picture}
+							/>
+						)}
+						className={styles.navbarDropdown}
+					>
+						<Dropdown.Menu className={styles.dropdownMenu}>
+							<NavDropdown.Item disabled className={styles.dropdownItem}>
+								{userDetails.display_name}
+								<NavDropdown.Divider className={styles.dropdownDivider} />
 							</NavDropdown.Item>
 
-							<NavDropdown.Divider />
+							<NavDropdown.Item
+								onClick={doLogout}
+								className={styles.dropdownItem}
+							>
+								Logout
+								<NavDropdown.Divider className={styles.dropdownDivider} />
+							</NavDropdown.Item>
+						</Dropdown.Menu>
+					</NavDropdown>
+				</div>
 
-							<NavDropdown.Item onClick={this.props.doLogout}>Logout</NavDropdown.Item>
-						</NavDropdown>
-					</Nav>
+			</Navbar.Collapse>
 
-				</Navbar.Collapse>
-
-			</Navbar>
-		);
-	}
-}
+		</Navbar>
+	);
+};
 
 export default CustomNavbar;

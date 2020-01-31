@@ -15,11 +15,10 @@ import TimetableSwitcher from './TimetableSwitcher';
 import CustomNavbar from './CustomNavbar';
 
 // Constants
-import THEMES from '../constants/Themes';
+import themeList from '../constants/Themes';
 import CLASHMAP from '../constants/ClashMap';
 
 import '../css/Dashboard.scss';
-import '../css/CustomNavbar.scss';
 
 import API from '../API';
 // import MagicFill from './MagicFill';
@@ -494,25 +493,9 @@ class Dashboard extends React.Component {
 	};
 
 	updateTheme = () => {
-		const newThemeList = {
-			default: 'default',
-			dark: 'eerie-black',
-			yellowish: 'mellow-yellow',
-			coral: 'light-coral',
-			green: 'pretty-green',
-			blue: 'arctic-blue',
-			pink: 'persian-pink',
-		};
-		const newTheme = newThemeList[this.state.activeTheme];
 		document.documentElement.className = '';
-		document.documentElement.classList.add(`theme-${newTheme}`);
-
-		// const theme = THEMES[this.state.activeTheme];
-		// localStorage.setItem('theme', this.state.activeTheme);
-		// Object.keys(theme.properties).map((v) => document.documentElement.style.setProperty(
-		// 	`--${v}`,
-		// 	theme.properties[v],
-		// ));
+		localStorage.setItem('theme', this.state.activeTheme);
+		document.documentElement.classList.add(`theme-${this.state.activeTheme}`);
 	};
 
 	changeActiveTheme = (newTheme) => {
@@ -574,9 +557,9 @@ class Dashboard extends React.Component {
 			<Container fluid>
 				<Row className="navBarRow">
 					<CustomNavbar
-						user={this.state.user}
+						userDetails={this.state.user}
 						creditCount={this.getCreditCount()}
-						themes={THEMES}
+						themeList={themeList}
 						curriculumList={this.state.curriculumList}
 						selectedCurriculum={this.state.selectedCurriculum}
 						handleCurriculumChange={this.handleCurriculumChange}

@@ -5,7 +5,7 @@
 	width: 100%;
 	font-family: 'Montserrat', sans-serif;
 	font-weight: bold;
-	padding: .5rem;
+	padding: 0.5rem;
 	align-items: baseline;
 	justify-content: space-between;
 	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
@@ -168,17 +168,23 @@
 		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
 		border-radius: 0.5rem !important;
 		border: none;
-	}
 
-	&:active {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-		transform: translateY(2px);
-		border: none;
-	}
+		&:global(.active), &:active {
+			@include theme-aware('background-color', 'color-brand');
+			@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+			transform: translateY(2px);
+			border: none;
+			outline: 0;
+		}
 
-	&:focus {
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		&:global(.focus), &:focus {
+			@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		}
+
+		&:active:focus {
+			@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+			border: none;
+		}
 	}
 }
 

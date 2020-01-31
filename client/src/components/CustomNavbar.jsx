@@ -117,12 +117,12 @@ const CustomNavbar = ({
 					>
 						Join our Discord
 					</Nav.Link>
-					<Nav.Link
+					{/* <Nav.Link
 						onClick={() => setShowModal(true)}
 						className={`${styles.navLink} ${styles.sync}`}
 					>
 						Sync VTOP
-					</Nav.Link>
+					</Nav.Link> */}
 				</div>
 
 				<SyncModal />

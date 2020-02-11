@@ -1,27 +1,27 @@
+@import '../utilities/mixins';
+
 .toggleCustom {
-	background: var(--select-table-background-color) !important;
-	border: none !important;
-	color: var(--text-color-inverted) !important;
-	transition: margin 0.17s ease-in-out;
-	transition: padding 0.17s ease-in-out;
+	@include theme-aware('background-color', 'color-background-table');
+	@include theme-aware('color', 'color-text-inverted');
+	border: none;
 	transition: background-color 0.17s ease-in;
 	cursor: pointer;
 
 	&:global(.focus) {
-		box-shadow: none !important;
-		border: none !important;
+		box-shadow: none;
+		border: none;
 	}
 
 	&:global(.active.btn) {
-		border: none !important;
-		background-color: var(--button-highlight-color) !important;
-		color: var(--text-color-default) !important;
+		@include theme-aware('background-color', 'color-background-button-selected');
+		@include theme-aware('color', 'color-text');
+		border: none;
 		transition: background-color 0.17s ease-in;
 	}
 
 	&:global(.hover) {
-		border: none !important;
-		background-color: var(--select-table-background-color) !important;
+		@include theme-aware('background-color', 'color-background-table');
+		border: none;
 		transition: background-color 0.17s ease-in;
 	}
 

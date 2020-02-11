@@ -1,0 +1,9 @@
+@import './utilities/mixins';
+
+.mainContainer {
+	@include theme-aware('background-color', 'color-background');
+}
+
+.navBarRow {
+    margin-bottom: 2rem;
+}

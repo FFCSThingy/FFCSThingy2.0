@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -18,18 +17,15 @@ import CustomNavbar from './CustomNavbar';
 import themeList from '../constants/Themes';
 import CLASHMAP from '../constants/ClashMap';
 
-import '../css/Dashboard.scss';
+import styles from '../css/Dashboard.module.scss';
 
 import API from '../API';
 // import MagicFill from './MagicFill';
 
 class Dashboard extends React.Component {
-	unauthRedirect = (<Redirect to="/" />);
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			authenticated: true,
 			activeTimetable: 'Default',
 			user: {},
 			generatingInProcess: false,
@@ -554,8 +550,8 @@ class Dashboard extends React.Component {
 
 	render() {
 		return (
-			<Container fluid>
-				<Row className="navBarRow">
+			<Container fluid className={styles.mainContainer}>
+				<Row className={styles.navBarRow}>
 					<CustomNavbar
 						userDetails={this.state.user}
 						creditCount={this.getCreditCount()}
@@ -580,7 +576,7 @@ class Dashboard extends React.Component {
 						</Row> : <></>
 				*/}
 
-				<Row className="slotSelectionRow">
+				<Row className={styles.slotSelectionRow}>
 					<Col xs={12} md={4}>
 						<CourseSelectTable
 							doSelectCourse={this.selectCourse}

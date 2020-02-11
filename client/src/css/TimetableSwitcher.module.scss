@@ -1,0 +1,152 @@
+@import './utilities/mixins';
+
+.dropdownButtonGroupContainer {
+	font-family: 'Montserrat', sans-serif;
+
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+	align-items: center;
+}
+
+.customButton {
+	@include theme-aware('background-color', 'color-brand');
+	@include theme-aware('color', 'color-text');
+	@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+	border-radius: 0.5rem !important;
+	border: none;
+	margin: 0 1rem;
+	padding: 0.375rem 0.75rem;
+
+	&:global(.active),
+	&:active {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		transform: translateY(2px);
+		border: none;
+	}
+
+	&:global(.focus),
+	&:focus {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		border: none;
+	}
+
+	&:not(:disabled):active:focus {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		transform: translateY(2px);
+		border: none;
+	}
+}
+
+.customDropdownButton {
+	padding: 0.375rem 0.75rem;
+	margin: 0 1rem;
+	@include theme-aware('background-color', 'color-brand');
+	@include theme-aware('color', 'color-text');
+	@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+	border-radius: 0.5rem;
+	border: none;
+
+	:global(.show) > & {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+	}
+
+	&:global(.active),
+	&:not(:disabled):active,
+	:global(.show) > &:active {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		transform: translateY(2px);
+		border: none;
+	}
+
+	&:global(.focus),
+	&:not(:disabled):focus,
+	:global(.show) > &:focus {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		border: none;
+	}
+
+	&:not(:disabled):active:focus,
+	:global(.show) > &:not(:disabled):active:focus {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		transform: translateY(2px);
+		border: none;
+	}
+}
+
+// The Dropdown.Menu item inside NavDropdown
+.dropdownMenu {
+	@include theme-aware('background-color', 'color-background-table');
+	padding: 0;
+	margin-top: 1rem;
+	border: none;
+	border-radius: 0.5rem;
+	overflow-y: auto;
+	max-height: 60vh;
+	width: auto;
+
+	.dropdownItem {
+		@include theme-aware('color', 'color-text-other');
+		padding: 0.5rem 1rem;
+		outline: 0;
+		font-weight: bold;
+
+		.dropdownDivider {
+			margin: 0;
+			width: 100%;
+		}
+
+		&:hover {
+			@include theme-aware('background-color', 'color-background-table-alternate');
+		}
+	}
+}
+
+.form {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	margin-top: 1rem;
+	width: 15rem;
+
+	.inputField {
+		width: 11rem;
+
+		border-radius: 0.5rem;
+		border: none !important;
+		margin-top: 0.3rem;
+		display: initial;
+
+		&::selection {
+			@include theme-aware('background-color', 'color-background-card-highlight');
+		}
+
+		&:focus {
+			@include theme-aware-shadow(0 0 0 0.1rem, 'color-background-card-highlight');
+		}
+
+		&::placeholder {
+			@include theme-aware('color', 'color-text-other');
+			opacity: 1;
+			transition: opacity 0.17s ease;
+		}
+
+		&[placeholder]:focus::-webkit-input-placeholder,
+		&[placeholder]:focus::-moz-placeholder {
+			transition: opacity 0.17s ease;
+			opacity: 0;
+		}
+	}
+
+	.customButton {
+		font-size: 0.9rem;
+	}
+}

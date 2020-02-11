@@ -617,7 +617,6 @@ class Dashboard extends React.Component {
 							activeTimetable={this.state.activeTimetable}
 							timetableNames={this.state.timetableNames}
 							changeActiveTimetable={this.changeActiveTimetable}
-							modifyTimetableNames={this.modifyTimetableNames}
 							doEdit={this.doTimetableEdit}
 							doDelete={this.doTimetableDelete}
 							doNew={this.doTimetableAdd}

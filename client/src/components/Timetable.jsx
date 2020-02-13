@@ -21,15 +21,15 @@ const TimetableHeaderRow = ({ isMobile, isAfternoon, rowNumber }) => {
 				</>
 			)), null);
 
-		if (i === 0) return <TimetableCell dayHeader>{cellVal}</TimetableCell>;
+		if (i === 0) return <TimetableCell key={`TimetableHeaderCell-${val}`} dayHeader>{cellVal}</TimetableCell>;
 
 		if (isMobile) {
 			if (!isAfternoon && i > 6) return null;	// Only need first 7 cells for morning
 			if (isAfternoon && rowNumber === 0 && i < 8) return null;	// Only need cells after 8 for evening row1 (Because break cell)
 			if (isAfternoon && i < 7) return null;	// Only need cells after 7 for evening row2
-		} else if (rowNumber === 0 && i === 7) return <TimetableCell isBreak>{cellVal}</TimetableCell>;
+		} else if (rowNumber === 0 && i === 7) return <TimetableCell key={`TimetableBreakCell-${val}`} isBreak>{cellVal}</TimetableCell>;
 
-		return <TimetableCell timeHeader>{cellVal}</TimetableCell>;
+		return <TimetableCell key={`TimetableHeaderCell-${val}`} timeHeader>{cellVal}</TimetableCell>;
 	});
 
 	let rowClassName = (rowNumber === 0) ? 'timetableHeader1' : 'timetableHeader2';
@@ -49,11 +49,13 @@ const TimetableHeader = ({ isMobile, isAfternoon }) => (
 			isMobile={!!isMobile}
 			isAfternoon={!!isAfternoon}
 			rowNumber={0}
+			key="TimetableHeaderRow-0"
 		/>
 		<TimetableHeaderRow
 			isMobile={!!isMobile}
 			isAfternoon={!!isAfternoon}
 			rowNumber={1}
+			key="TimetableHeaderRow-1"
 		/>
 	</thead>
 );
@@ -69,10 +71,10 @@ const TimetableBodyRow = ({
 	const rowCells = SLOTS[rowNumber].map((slotVal, i) => {
 		let slotString = slotVal;
 
-		if (i === 0) return <TimetableCell dayHeader>{slotString}</TimetableCell>;
+		if (i === 0) return <TimetableCell key={`TimetableHeaderCell-${slotString}`} dayHeader>{slotString}</TimetableCell>;
 
 		if (!isMobile && rowNumber === 0 && i === 7) {
-			return <TimetableCell isBreak>{slotString}</TimetableCell>;
+			return <TimetableCell key={`TimetableBreakCell-${slotString}`} isBreak>{slotString}</TimetableCell>;
 		}
 		if (isMobile && rowNumber === 0 && i === 7) return null;
 
@@ -98,14 +100,31 @@ const TimetableBodyRow = ({
 		else if (!theorySlot) slotString = labSlot;
 
 		if (reqdTheoryCourse) { // Is a theory slot
-			return <TimetableCell reqdCourse={reqdTheoryCourse} isFilled>{slotString}</TimetableCell>;
+			return (
+				<TimetableCell
+					reqdCourse={reqdTheoryCourse}
+					key={`TimetableBodyCell-${slotString}`}
+					isFilled
+				>
+					{slotString}
+				</TimetableCell>
+			);
 		}
 
 		if (reqdLabCourse) { // Is a lab slot
-			return <TimetableCell reqdCourse={reqdLabCourse} isFilled isLab>{slotString}</TimetableCell>;
+			return (
+				<TimetableCell
+					reqdCourse={reqdLabCourse}
+					key={`TimetableBodyCell-${slotString}`}
+					isFilled
+					isLab
+				>
+					{slotString}
+				</TimetableCell>
+			);
 		}
 
-		return <TimetableCell>{slotString}</TimetableCell>;
+		return <TimetableCell key={`TimetableBodyCell-${slotString}`}>{slotString}</TimetableCell>;
 	});
 
 	return (
@@ -127,6 +146,7 @@ const TimetableBody = ({
 			isMobile={isMobile}
 			isAfternoon={isAfternoon}
 			rowNumber={i}
+			key={`TimetableBodyRow-${v[0]}`}
 
 			filledSlots={filledSlots}
 			timetable={timetable}

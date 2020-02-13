@@ -19,6 +19,7 @@ const FilterControls = ({
 			value={v}
 			className={styles.courseSelectTypeFilter}
 			size="sm"
+			key={`CourseSelect-CourseFilterToggleButton-${v}`}
 		>
 			{v}
 		</ToggleButton>
@@ -258,6 +259,7 @@ const CourseCardList = ({
 				completed={completedCourses[code]}
 				prereqs={prereqList[code]}
 				doSelectCourse={() => doSelectCourse(code)}
+				key={`${code}-Card`}
 			/>
 		));
 
@@ -270,6 +272,7 @@ const CourseCardList = ({
 				selected={(selectedCourse === code)}
 				prereqs={prereqList[code]}
 				doSelectCourse={() => doSelectCourse(code)}
+				key={`${code}-Card`}
 			/>
 		));
 

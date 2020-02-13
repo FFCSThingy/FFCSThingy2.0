@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDebugValue } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -24,7 +24,12 @@ import useAxiosFFCS from '../hooks/useAxiosFFCS';
 import useInterval from '../hooks/useInterval';
 
 // TODO: Make Add Slots to Timetable work for auto-add project
-// TODO: Make select courses POST work on add and delete
+
+// const useStateWithLabel = (initialValue, name) => {
+// 	const [value, setValue] = useState(initialValue);
+// 	useDebugValue(`${name}: ${value}`);
+// 	return [value, setValue];
+// };
 
 const AlertRow = ({ show = false, setShowAlert }) => (show ? (
 	<Row>
@@ -294,6 +299,14 @@ const Dashboard = ({ handleUnauth }) => {
 					new Set([...prevTimetable, ...newTimetable]),
 				);
 			}
+
+			const reqdProperties = ['_id', 'code', 'course_type', 'credits', 'faculty', 'slot', 'venue', 'title', 'timetableName'];
+			newTimetable = newTimetable.map((crs) => Object.keys(crs)
+				.filter((key) => reqdProperties.includes(key))
+				.reduce((acc, val) => ({
+					...acc,
+					[val]: crs[val],
+				}), {}));
 
 			executePostSelectedCourses({
 				data: { selected_courses: newTimetable },

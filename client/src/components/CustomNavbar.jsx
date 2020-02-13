@@ -18,6 +18,7 @@ const CustomNavbar = ({
 
 	const CurriculumChoices = () => curriculumList.map((v) => (
 		<NavDropdown.Item
+			key={v}
 			eventKey={v}
 			className={styles.dropdownItem}
 		>
@@ -154,7 +155,7 @@ const CustomNavbar = ({
 						className={styles.navbarDropdown}
 					>
 						<Dropdown.Menu className={styles.dropdownMenu}>
-							<NavDropdown.Item disabled className={styles.dropdownItem}>
+							<NavDropdown.Item disabled key="DisplayNameDropdownItem" className={styles.dropdownItem}>
 								{userDetails.display_name}
 								<NavDropdown.Divider className={styles.dropdownDivider} />
 							</NavDropdown.Item>
@@ -162,6 +163,7 @@ const CustomNavbar = ({
 							<NavDropdown.Item
 								onClick={doLogout}
 								className={styles.dropdownItem}
+								key="LogoutDropdownItem"
 							>
 								Logout
 								<NavDropdown.Divider className={styles.dropdownDivider} />

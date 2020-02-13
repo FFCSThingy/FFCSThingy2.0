@@ -149,6 +149,7 @@ const SlotTable = ({
 				<SlotCard
 					slotDetails={slot}
 					type="selected"
+					key={`SlotCard-${slot._id}`}
 				/>,
 			);
 		}
@@ -160,6 +161,7 @@ const SlotTable = ({
 					slotDetails={slot}
 					type="clashing"
 					clashingSlots={clashingSlots}
+					key={`SlotCard-${slot._id}`}
 				/>,
 			);
 		}
@@ -169,6 +171,7 @@ const SlotTable = ({
 				slotDetails={slot}
 				type="normal"
 				onClick={addSlotToTimetable}
+				key={`SlotCard-${slot._id}`}
 			/>,
 		);
 	});
@@ -185,12 +188,12 @@ const SlotTable = ({
 
 	const venueButtons = applicableVenues.map((v) => {
 		if (applicableVenues.length > 4) {
-			return <ToggleButton value={v} className={styles.venueFilterButton} size="sm">{v}</ToggleButton>;
+			return <ToggleButton value={v} key={`SlotTable-VenueFilterToggleButton-${v}`} className={styles.venueFilterButton} size="sm">{v}</ToggleButton>;
 		}
-		return <ToggleButton className={styles.venueFilterButton} value={v}>{v}</ToggleButton>;
+		return <ToggleButton key={`SlotTable-VenueFilterToggleButton-${v}`} className={styles.venueFilterButton} value={v}>{v}</ToggleButton>;
 	});
 
-	const typeButtons = selectedCourseTypes.map((v) => <ToggleButton value={v} className={styles.typeFilterButton}>{v}</ToggleButton>);
+	const typeButtons = selectedCourseTypes.map((v) => <ToggleButton value={v} key={`SlotTable-CourseFilterToggleButton-${v}`} className={styles.typeFilterButton}>{v}</ToggleButton>);
 
 	return (
 		<Card className={styles.slotTableContainer}>

@@ -98,7 +98,7 @@ const TimetableSwitcher = ({
 	};
 
 	const dropdownItems = timetableNames.map((v) => (
-		<DropdownItem value={v} />
+		<DropdownItem key={`TimetableSwitcherDropdownItem-${v}`} value={v} />
 	));
 
 

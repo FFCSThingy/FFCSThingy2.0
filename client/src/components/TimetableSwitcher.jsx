@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {
 	Dropdown, ButtonGroup, Button, Form,
 } from 'react-bootstrap';
-import { FaTrashAlt, FaPlusSquare, FaPen } from 'react-icons/fa';
+import {
+	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
+} from 'react-icons/fa';
 import styles from '../css/TimetableSwitcher.module.scss';
 
 
@@ -122,15 +124,16 @@ const TimetableSwitcher = ({
 				</Button>
 
 				{/* <Button
-						className={styles.customButton}
-						onClick={() => handleAction('Copy')}
-					>
-						<FaCopy />
-					</Button> */}
+					className={styles.customButton}
+					onClick={() => handleAction('Copy')}
+				>
+					<FaCopy />
+				</Button> */}
 
 				<Button
 					className={styles.customButton}
 					onClick={() => handleAction('Edit')}
+					disabled={activeTimetable === 'Default'}
 				>
 					<FaPen />
 				</Button>
@@ -138,6 +141,7 @@ const TimetableSwitcher = ({
 				<Button
 					className={styles.customButton}
 					onClick={() => handleAction('Delete')}
+					disabled={activeTimetable === 'Default'}
 				>
 					<FaTrashAlt />
 				</Button>

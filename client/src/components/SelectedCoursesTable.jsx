@@ -6,7 +6,8 @@ import styles from '../css/SelectedCoursesTable.module.scss';
 
 const sortTimetable = ((a, b) => a.code.localeCompare(b.code));
 
-const SelectedCoursesTableBody = ({ timetable, activeTimetableName, unselectSlot }) => timetable.filter((v) => v.timetableName === activeTimetableName)
+const SelectedCoursesTableBody = ({ timetable, activeTimetableName, unselectSlot }) => timetable
+	.filter((v) => v.timetableName === activeTimetableName)
 	.sort(sortTimetable)
 	.map((value) => (
 		<tr key={value._id}>

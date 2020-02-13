@@ -205,31 +205,31 @@ class MagicFill extends Component {
 			const event = { target: { name: value, value: this.state[value] } };
 			const onClickHandler = () => { this.handleChanges(value, event); };
 			switch (this.state[value]) {
-			case 'ELA':
-				toPush = 'Less Labs ';
-				break;
-			case 'EPJ':
-				toPush = 'Less Projects';
-				break;
-			case 'gaps':
-				toPush = 'Gaps';
-				break;
-			case 'nogaps':
-				toPush = 'No Gaps';
-				break;
-			case 'Monday':
-				toPush = 'Less Classes on Monday';
-				break;
-			case 'Friday':
-				toPush = 'Less Classes on Friday';
-				break;
-			case 'morning':
-				toPush = 'Morning';
-				break;
-			case 'evening':
-				toPush = 'Evening';
-				break;
-			default:
+				case 'ELA':
+					toPush = 'Less Labs ';
+					break;
+				case 'EPJ':
+					toPush = 'Less Projects';
+					break;
+				case 'gaps':
+					toPush = 'Gaps';
+					break;
+				case 'nogaps':
+					toPush = 'No Gaps';
+					break;
+				case 'Monday':
+					toPush = 'Less Classes on Monday';
+					break;
+				case 'Friday':
+					toPush = 'Less Classes on Friday';
+					break;
+				case 'morning':
+					toPush = 'Morning';
+					break;
+				case 'evening':
+					toPush = 'Evening';
+					break;
+				default:
 			}
 			const btn = (
 				<Button onClick={onClickHandler} className="dropdownButton">
@@ -278,7 +278,7 @@ class MagicFill extends Component {
 
 
 	render() {
-		return (
+		return this.props.show ? (
 			<Container id="magicContainer">
 
 
@@ -295,7 +295,7 @@ class MagicFill extends Component {
 
 
 			</Container>
-		);
+		) : (<></>);
 	}
 }
 

@@ -12,7 +12,7 @@ import brandImage from '../images/logo.1.png';
 
 const CustomNavbar = ({
 	curriculumList, themeList, selectedCurriculum, handleCurriculumChange,
-	changeActiveTheme, creditCount, doLogout, userDetails,
+	changeActiveTheme, creditCount, doLogout, userDetails = { display_name: '', picture: '' },
 }) => {
 	const [showModal, setShowModal] = useState(false);
 

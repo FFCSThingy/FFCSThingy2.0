@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import {
 	Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup, OverlayTrigger, Tooltip,
 } from 'react-bootstrap';
@@ -134,13 +134,13 @@ const FilterControls = ({
 	);
 };
 
-const CourseCard = ({
-	code, details, completed = false, selected = false, prereqs = null, doSelectCourse,
+const CourseCard = memo(({
+	code, title, credits, shortCourseTypes, completed = false, selected = false, prereqs = null, doSelectCourse,
 }) => {
 	const cardClass = selected ? `${styles.courseCard} ${styles.active}` : styles.courseCard;
 	const completionClass = ['N', 'F'].includes(completed) ? styles.cardCompletionFailedSubtitle : styles.cardCompletedSubtitle;
 
-	const creditText = (details.credits === 1) ? 'Credit' : 'Credits';
+	const creditText = (credits === 1) ? 'Credit' : 'Credits';
 
 	const valueMap = (value) => value.split(',').map((v) => (
 		<>
@@ -200,6 +200,10 @@ const CourseCard = ({
 		return <></>;
 	};
 
+	const handleClick = (e) => {
+		doSelectCourse(e.currentTarget.title);
+	};
+
 	return (
 		<OverlayTrigger
 			key={`${code}-Prereq-Overlay`}
@@ -210,18 +214,19 @@ const CourseCard = ({
 					<PrereqsTooltip />
 					<div className={styles.courseTypes}>
 						<b> Course Type: </b>
-						{details.shortCourseTypes.join(' | ')}
+						{shortCourseTypes.join(' | ')}
 					</div>
 				</Tooltip>
 			)}
 		>
 			<Card
 				className={cardClass}
-				onClick={doSelectCourse}
+				onClick={handleClick}
+				title={code}	// For using with handleClick
 			>
 				<Card.Body>
 					<Card.Title className={styles.cardTitle}>
-						{details.title}
+						{title}
 					</Card.Title>
 
 					<Card.Text className={styles.courseSelectDetails}>
@@ -230,7 +235,7 @@ const CourseCard = ({
 						</span>
 
 						<span className={styles.courseCredits}>
-							{`${details.credits} ${creditText}`}
+							{`${credits} ${creditText}`}
 						</span>
 					</Card.Text>
 
@@ -244,37 +249,49 @@ const CourseCard = ({
 			</Card>
 		</OverlayTrigger>
 	);
-};
+});
 
 const CourseCardList = ({
 	filteredCourseList = {}, selectedCourse, doSelectCourse, prereqList, completedCourses,
 }) => {
 	const completedCourseCards = Object.keys(filteredCourseList)
 		.filter((code) => completedCourses[code])
-		.map((code) => (
-			<CourseCard
-				code={code}
-				details={filteredCourseList[code]}
-				selected={(selectedCourse === code)}
-				completed={completedCourses[code]}
-				prereqs={prereqList[code]}
-				doSelectCourse={() => doSelectCourse(code)}
-				key={`${code}-Card`}
-			/>
-		));
+		.map((code) => {
+			const { title, credits, shortCourseTypes } = filteredCourseList[code];
+
+			return (
+				<CourseCard
+					code={code}
+					title={title}
+					credits={credits}
+					shortCourseTypes={shortCourseTypes}
+					selected={(selectedCourse === code)}
+					completed={completedCourses[code]}
+					prereqs={prereqList[code]}
+					doSelectCourse={doSelectCourse}
+					key={`${code}-CourseCard`}
+				/>
+			);
+		});
 
 	const normalCards = Object.keys(filteredCourseList)
 		.filter((code) => !completedCourses[code])
-		.map((code) => (
-			<CourseCard
-				code={code}
-				details={filteredCourseList[code]}
-				selected={(selectedCourse === code)}
-				prereqs={prereqList[code]}
-				doSelectCourse={() => doSelectCourse(code)}
-				key={`${code}-Card`}
-			/>
-		));
+		.map((code) => {
+			const { title, credits, shortCourseTypes } = filteredCourseList[code];
+
+			return (
+				<CourseCard
+					code={code}
+					title={title}
+					credits={credits}
+					shortCourseTypes={shortCourseTypes}
+					selected={(selectedCourse === code)}
+					prereqs={prereqList[code]}
+					doSelectCourse={doSelectCourse}
+					key={`${code}-CourseCard`}
+				/>
+			);
+		});
 
 	return (
 		<CardColumns className={styles.courseList}>

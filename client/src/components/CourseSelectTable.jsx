@@ -11,7 +11,7 @@ import useAxiosFFCS from '../hooks/useAxiosFFCS';
 
 import * as COURSE from '../constants/Courses';
 
-const FilterControls = ({
+const FilterControls = memo(({
 	setSelectedCategory, setSearchString, typeFilters, setTypeFilters, setCreditFilter, tabsDisabled, showPlaceholder,
 }) => {
 	const typeButtons = COURSE.simpleTypes.map((v) => (
@@ -132,7 +132,7 @@ const FilterControls = ({
 			</Row>
 		</Container>
 	);
-};
+});
 
 const CourseCard = memo(({
 	code, title, credits, shortCourseTypes, completed = false, selected = false, prereqs = null, doSelectCourse,

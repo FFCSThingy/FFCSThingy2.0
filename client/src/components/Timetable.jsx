@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import MediaQuery from 'react-responsive';
 import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
@@ -9,7 +9,7 @@ import { SLOTS, HEADERS } from '../constants/Timetable';
 
 import styles from '../css/Timetable.module.scss';
 
-const TimetableHeaderRow = ({ isMobile, isAfternoon, rowNumber }) => {
+const TimetableHeaderRow = memo(({ isMobile, isAfternoon, rowNumber }) => {
 	const rowCells = HEADERS[rowNumber].map((val, i) => {
 		const cellVal = val.split(' ').reduce((acc, v) => (acc === null
 			? <>{v}</>
@@ -41,9 +41,9 @@ const TimetableHeaderRow = ({ isMobile, isAfternoon, rowNumber }) => {
 			{rowCells}
 		</tr>
 	);
-};
+});
 
-const TimetableHeader = ({ isMobile, isAfternoon }) => (
+const TimetableHeader = memo(({ isMobile, isAfternoon }) => (
 	<thead>
 		<TimetableHeaderRow
 			isMobile={!!isMobile}
@@ -58,9 +58,9 @@ const TimetableHeader = ({ isMobile, isAfternoon }) => (
 			key="TimetableHeaderRow-1"
 		/>
 	</thead>
-);
+));
 
-const TimetableBodyRow = ({
+const TimetableBodyRow = memo(({
 	isMobile,
 	isAfternoon,
 	rowNumber,
@@ -132,9 +132,9 @@ const TimetableBodyRow = ({
 			{rowCells}
 		</tr>
 	);
-};
+});
 
-const TimetableBody = ({
+const TimetableBody = memo(({
 	isMobile,
 	isAfternoon,
 	filledSlots,
@@ -158,9 +158,9 @@ const TimetableBody = ({
 			{bodyRows}
 		</tbody>
 	);
-};
+});
 
-const MobileTimetable = ({ timetable, activeTimetableName, filledSlots }) => (
+const MobileTimetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
 	<Container className={styles.timetableContainer}>
 		<FaSun className={styles.morningIcon} size="2x" color="yellow" />
 		<table className={styles.timetableA}>
@@ -187,9 +187,9 @@ const MobileTimetable = ({ timetable, activeTimetableName, filledSlots }) => (
 			/>
 		</table>
 	</Container>
-);
+));
 
-const DesktopTimetable = ({ timetable, activeTimetableName, filledSlots }) => (
+const DesktopTimetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
 	<Container className={styles.timetableContainer} fluid="true">
 		<table className={styles.timetable}>
 			<TimetableHeader />
@@ -200,9 +200,9 @@ const DesktopTimetable = ({ timetable, activeTimetableName, filledSlots }) => (
 			/>
 		</table>
 	</Container>
-);
+));
 
-const Timetable = ({ timetable, activeTimetableName, filledSlots }) => (
+const Timetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
 	<MediaQuery minDeviceWidth={768}>
 		{(matches) => {
 			if (matches) {
@@ -223,6 +223,6 @@ const Timetable = ({ timetable, activeTimetableName, filledSlots }) => (
 			);
 		}}
 	</MediaQuery>
-);
+));
 
 export default Timetable;

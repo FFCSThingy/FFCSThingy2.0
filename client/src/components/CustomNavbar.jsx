@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -10,7 +10,7 @@ import styles from '../css/CustomNavbar.module.scss';
 
 import brandImage from '../images/logo.1.png';
 
-const CustomNavbar = ({
+const CustomNavbar = memo(({
 	curriculumList, themeList, selectedCurriculum, handleCurriculumChange,
 	changeActiveTheme, creditCount, doLogout, userDetails = { display_name: '', picture: '' },
 }) => {
@@ -176,6 +176,6 @@ const CustomNavbar = ({
 
 		</Navbar>
 	);
-};
+});
 
 export default CustomNavbar;

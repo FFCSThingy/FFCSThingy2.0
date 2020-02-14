@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import {
 	Dropdown, ButtonGroup, Button, Form,
 } from 'react-bootstrap';
@@ -58,8 +58,8 @@ const DropdownItem = ({ value }) => (
 	</Dropdown.Item>
 );
 
-const TimetableSwitcher = ({
-	timetableNames, activeTimetable, changeActiveTimetable, doNew, doEdit, doDelete, doCopy,
+const TimetableSwitcher = memo(({
+	timetableNames, activeTimetableName, setActiveTimetableName, doNew, doEdit, doDelete, doCopy,
 }) => {
 	const [action, setAction] = useState(null);
 
@@ -94,7 +94,7 @@ const TimetableSwitcher = ({
 
 	const defaultValue = () => {
 		if (action === 'New') return '';
-		return activeTimetable;
+		return activeTimetableName;
 	};
 
 	const dropdownItems = timetableNames.map((v) => (
@@ -106,9 +106,9 @@ const TimetableSwitcher = ({
 		<div className={styles.dropdownButtonGroupContainer}>
 			<ButtonGroup className={styles.dropdownButtonGroup}>
 
-				<Dropdown onSelect={changeActiveTimetable}>
+				<Dropdown onSelect={setActiveTimetableName}>
 					<Dropdown.Toggle className={styles.customDropdownButton}>
-						{activeTimetable}
+						{activeTimetableName}
 					</Dropdown.Toggle>
 
 					<Dropdown.Menu className={styles.dropdownMenu}>
@@ -133,7 +133,7 @@ const TimetableSwitcher = ({
 				<Button
 					className={styles.customButton}
 					onClick={() => handleAction('Edit')}
-					disabled={activeTimetable === 'Default'}
+					disabled={activeTimetableName === 'Default'}
 				>
 					<FaPen />
 				</Button>
@@ -141,7 +141,7 @@ const TimetableSwitcher = ({
 				<Button
 					className={styles.customButton}
 					onClick={() => handleAction('Delete')}
-					disabled={activeTimetable === 'Default'}
+					disabled={activeTimetableName === 'Default'}
 				>
 					<FaTrashAlt />
 				</Button>
@@ -152,6 +152,6 @@ const TimetableSwitcher = ({
 
 		</div>
 	);
-};
+});
 
 export default TimetableSwitcher;

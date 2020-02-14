@@ -476,9 +476,9 @@ const Dashboard = ({ handleUnauth }) => {
 			<Row>
 				<Col>
 					<TimetableSwitcher
-						activeTimetable={activeTimetableName}
+						activeTimetableName={activeTimetableName}
 						timetableNames={timetableNames}
-						changeActiveTimetable={setActiveTimetableName}
+						setActiveTimetableName={setActiveTimetableName}
 						doEdit={editTimetableName}
 						doDelete={deleteTimetable}
 						doNew={createTimetable}

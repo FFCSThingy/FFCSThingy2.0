@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import styles from '../css/TimetableCell.module.scss';
 
-const TimetableCell = ({
+const TimetableCell = memo(({
 	isFilled, isLab, dayHeader, timeHeader, isBreak, children, reqdCourse,
 }) => {
 	if (isBreak) {
@@ -60,7 +60,7 @@ const TimetableCell = ({
 	return (
 		<td key={children} className={styles.empty}>{children}</td>
 	);
-};
+});
 
 
 TimetableCell.defaultProps = {

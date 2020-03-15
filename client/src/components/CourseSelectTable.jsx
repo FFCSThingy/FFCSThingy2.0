@@ -1,491 +1,476 @@
-import React from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import {
 	Card, CardColumns, Col, Container, Form, Row, Nav, ToggleButton, ToggleButtonGroup, OverlayTrigger, Tooltip,
 } from 'react-bootstrap';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../css/CourseSelectTable.css';
 import { FaSearch } from 'react-icons/fa';
-import API from '../API';
+
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import styles from '../css/CourseSelectTable.module.scss';
+
+import useAxiosFFCS from '../hooks/useAxiosFFCS';
 
 import * as COURSE from '../constants/Courses';
 
-class CourseSelectTable extends React.Component {
-	noPreReq = (
-		<>
-			<b>Pre-Requisites:</b>
-			{' None '}
-			<br />
-		</>
-	)
+const FilterControls = memo(({
+	setSelectedCategory, setSearchString, typeFilters, setTypeFilters, setCreditFilter, tabsDisabled, showPlaceholder,
+}) => {
+	const typeButtons = COURSE.simpleTypes.map((v) => (
+		<ToggleButton
+			value={v}
+			className={styles.courseSelectTypeFilter}
+			size="sm"
+			key={`CourseSelect-CourseFilterToggleButton-${v}`}
+		>
+			{v}
+		</ToggleButton>
+	));
 
-	noAntiReq = (
-		<>
-			<b>Anti-Requisites:</b>
-			{' None '}
-			<br />
-		</>
-	)
-
-	noCoReq = (
-		<>
-			<b>Co-Requisites:</b>
-			{' None '}
-			<br />
-		</>
-	)
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			courseList: [],
-			courseFacultyList: [],
-			prereqs: {},
-
-			selectedCategory: 'ALL',
-			searchString: '',
-			typeFilters: [],
-			creditFilter: '',
-		};
-	}
-
-	componentDidMount() {
-		this.doGetCourseList();
-		this.doGetCourseFacultyList();
-		this.doGetPrereqs();
-	}
-
-	doGetCourseList = () => {
-		API.get('/course/courseList')
-			.then((res) => {
-				if (res.data.success) {
-					if (res.status === 304) {
-						const courses = JSON.parse(localStorage.getItem('courseList'));
-						this.setState({ courseList: courses });
-					} else {
-						this.setState({ courseList: res.data.data.courseList });
-						localStorage.setItem('courseList', JSON.stringify(res.data.data.courseList));
-					}
-				} else { this.setState({ error: res.data.message }); }
-			}).catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	}
-
-	doGetCourseFacultyList = () => {
-		API.get('/course/courseFacultyList')
-			.then((res) => {
-				if (res.data.success) {
-					if (res.status === 304) {
-						const courses = JSON.parse(localStorage.getItem('courseFacultyList'));
-						this.setState({ courseFacultyList: courses });
-					} else {
-						this.setState({ courseFacultyList: res.data.data.courseFacultyList });
-						localStorage.setItem('courseFacultyList', JSON.stringify(res.data.data.courseFacultyList));
-					}
-				} else { this.setState({ error: res.data.message }); }
-			}).catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	}
-
-	doGetPrereqs = () => {
-		API.get('/course/prereqs')
-			.then((res) => {
-				if (res.data.success) {
-					if (res.status === 304) {
-						const prereqs = JSON.parse(localStorage.getItem('prereqs'));
-						this.setState({ prereqs });
-					} else {
-						this.setState({ prereqs: res.data.data });
-						localStorage.setItem('prereqs', JSON.stringify(res.data.data));
-					}
-				} else { this.setState({ error: res.data.message }); }
-			}).catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	}
-
-	handleChange = (event) => {
-		const fieldName = event.target.name;
-		const fleldVal = event.target.value;
-		this.setState({ [fieldName]: fleldVal });
-
-		if (event.target.name === 'searchString') this.doSearch();
-	}
-
-	handleTypeChange = (value) => {
-		this.setState({ typeFilters: value });
-	}
-
-	escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-
-	renderText = () => {
-		if (!this.state.searchString) { return <div className="codeText" />; }
+	const renderText = () => {
+		if (showPlaceholder) { return <div className={styles.codeText} />; }
 		return <></>;
-	}
+	};
 
-	checkTheory = (course) => course.types.filter((type) => COURSE.isTheoryType(type)).length > 0;
-
-	checkLab = (course) => course.types.filter((type) => COURSE.isLabType(type)).length > 0;
-
-	checkProject = (course) => course.types.filter((type) => COURSE.isProjectType(type)).length > 0;
-
-	doTypeFilter = (courses) => courses.filter((course) => {	// Filter on course_type
-		if (this.state.typeFilters.length === 0) return true;
-
-		if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Lab') && this.state.typeFilters.includes('Project')) { return this.checkTheory(course) && this.checkLab(course) && this.checkProject(course); }
-
-
-		if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Lab')) { return this.checkTheory(course) && this.checkLab(course) && !this.checkProject(course); }
-
-		if (this.state.typeFilters.includes('Theory') && this.state.typeFilters.includes('Project')) { return this.checkTheory(course) && !this.checkLab(course) && this.checkProject(course); }
-
-		if (this.state.typeFilters.includes('Project') && this.state.typeFilters.includes('Lab')) { return !this.checkTheory(course) && this.checkLab(course) && this.checkProject(course); }
-
-
-		if (this.state.typeFilters.includes('Theory')) { return this.checkTheory(course) && !this.checkLab(course) && !this.checkProject(course); }
-		if (this.state.typeFilters.includes('Lab')) { return !this.checkTheory(course) && this.checkLab(course) && !this.checkProject(course); }
-		if (this.state.typeFilters.includes('Project')) { return !this.checkTheory(course) && !this.checkLab(course) && this.checkProject(course); }
-		return true;
-	})
-
-	doCreditFilter = (courses) => courses.filter((course) => {
-		if (this.state.creditFilter <= 0 || this.state.creditFilter === '') return true;
-		if (course.credits === Number(this.state.creditFilter)) return true;
-		return false;
-	});
-
-	doSearch() {
-		const slotsTitle = new Set(['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2', 'E1', 'E2', 'F1', 'F2', 'G1', 'G2', 'L1', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15', 'L16', 'L19', 'L2', 'L20', 'L21', 'L22', 'L23', 'L24', 'L25', 'L26', 'L27', 'L28', 'L29', 'L3', 'L30', 'L31', 'L32', 'L33', 'L34', 'L35', 'L36', 'L37', 'L38', 'L39', 'L4', 'L40', 'L41', 'L42', 'L43', 'L44', 'L45', 'L46', 'L47', 'L48', 'L49', 'L5', 'L50', 'L51', 'L52', 'L53', 'L54', 'L55', 'L56', 'L57', 'L58', 'L59', 'L6', 'L60', 'L7', 'L71', 'L72', 'L73', 'L74', 'L75', 'L76', 'L77', 'L78', 'L79', 'L8', 'L80', 'L81', 'L82', 'L83', 'L84', 'L85', 'L86', 'L87', 'L88', 'L89', 'L9', 'L90', 'L91', 'L92', 'L93', 'L94', 'TA1', 'TA2', 'TAA1', 'TAA2', 'TB1', 'TB2', 'TBB2', 'TC1', 'TC2', 'TCC1', 'TCC2', 'TD1', 'TD2', 'TDD2', 'TE1', 'TE2', 'TF1', 'TF2', 'TG1', 'TG2', 'V1', 'V10', 'V11', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'W2', 'X1', 'X2', 'Y1', 'Y2', 'Z', '']);
-
-		let searchBySlots = false;
-		let searchByFaculty = false;
-		let filteredCourses = this.state.courseList;
-		let filteredCodes = [];
-
-		// Clean the input
-		let searchString = this.state.searchString.toUpperCase().trim();
-		searchString = this.escapeRegExp(searchString);
-
-		// This check made sense. UNTIL entering just + in search fucks the website.
-		// if (searchString.endsWith('+')) searchString = searchString.substring(0, searchString.length - 1);
-
-		// Alternative: (But entering just + renders it as empty string.)
-		// if (searchString.endsWith('\\+')) searchString = searchString.substring(0, searchString.length - 2);
-
-		const searchStringSlots = searchString.split('\\+');
-
-		// Default search
-		if (['', '*'].includes(searchString) && this.state.typeFilters.length === 0 && [0, ''].includes(this.state.creditFilter)) { return filteredCourses; }
-
-		// Set value of searchBySlots
-		// searchBySlots will default to true in case of empty strings
-		searchBySlots = searchStringSlots.reduce((a, v) => (a && slotsTitle.has(v)), true) && searchString.length > 0;
-
-		// Set value of searchByFaculty
-		searchByFaculty = searchString.startsWith('\\*');
-
-
-		if (searchBySlots) {
-			filteredCodes = this.props.heatmap.filter((v) => searchStringSlots.every((c) => v.slot.replace(' ', '').split('+').includes(c))).map((v) => v.code);
-		} else if (searchByFaculty) {
-			// Remove all instances of *
-
-			// eslint-disable-next-line no-useless-escape
-			const tempSearchString = searchString.replace('\\\*', '');
-
-			// Filter faculty list
-			const faculties = Object.keys(this.state.courseFacultyList)
-				.filter((v) => v.includes(tempSearchString));
-
-			// Map courses from courseFacultyList and flatten it
-			filteredCodes = Array.from(new Set(faculties.flatMap((v) => this.state.courseFacultyList[v])));
-		} else {
-			filteredCodes = this.state.courseList.filter((v) => (v.title.toUpperCase().search(searchString) !== -1 || v.code.toUpperCase().search(searchString) !== -1)).map((v) => v.code);
-		}
-
-		// Filter based on course code
-		filteredCourses = this.state.courseList.filter((v) => filteredCodes.includes(v.code));
-
-		filteredCourses = this.doTypeFilter(filteredCourses);
-		filteredCourses = this.doCreditFilter(filteredCourses);
-
-		filteredCourses.sort();
-
-		if (!searchByFaculty) {
-			filteredCourses.sort((a, b) => b.title.indexOf(searchString) - a.title.indexOf(searchString) + b.code.indexOf(searchString) - a.code.indexOf(searchString));
-		}
-
-		return filteredCourses;
-	}
-
-	renderPreReq = (value) => (
-		this.state.prereqs[value.code] && this.state.prereqs[value.code].prereq
-			? (
-				<>
-					<b>Pre-Requisites:</b>
-					<br />
-					{this.state.prereqs[value.code].prereq.split(',').map((v) => (
-						<>
-							{v}
-							<br />
-						</>
-					))}
-				</>
-			)
-			: this.noPreReq)
-
-	renderAntiReq = (value) => (
-		this.state.prereqs[value.code] && this.state.prereqs[value.code].antireq
-			? (
-				<>
-					<b>Anti-Requisites:</b>
-					<br />
-					{this.state.prereqs[value.code].antireq.split(',').map((v) => (
-						<>
-							{v}
-							<br />
-						</>
-					))}
-				</>
-			)
-			: this.noAntiReq)
-
-	renderCoReq = (value) => (
-		this.state.prereqs[value.code] && this.state.prereqs[value.code].coreq
-			? (
-				<>
-					<b>Co-Requisites:</b>
-					<br />
-					{this.state.prereqs[value.code].coreq.split(',').map((v) => (
-						<>
-							{v}
-							<br />
-						</>
-					))}
-				</>
-			)
-			: this.noCoReq)
-
-	renderSearchBar() {
-		let tabsDisabled = true;
-
-		if (!this.props.curriculum || this.props.selectedCurriculum === 'Curriculum'
-			|| Object.keys(this.props.curriculum).length === 0) {
-			tabsDisabled = true;
-		} else tabsDisabled = false;
-
-		const typeButtons = COURSE.simpleTypes.map((v) => <ToggleButton value={v} className="toggleCustom filterToggles" size="sm">{v}</ToggleButton>);
-
-		return (
-			<Container className="searchBarContainer" fluid>
-				<Row>
-					<Col className="searchColumn" xs={12} md={12}>
-						<FaSearch className="searchIcon" />
-						<OverlayTrigger
-							key="SearchBar-Overlay"
-							placement="top"
-							trigger={['hover', 'focus']}
-							overlay={(
-								<Tooltip>
-									<table className="searchTooltip">
-										<thead>
-											<tr>
-												<th>Prefix</th>
-												<th>Search By</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>*</td>
-												<td>Faculty</td>
-											</tr>
-										</tbody>
-									</table>
-								</Tooltip>
-								)}
-						>
-							<Form.Control
-								className="searchBar"
-								name="searchString"
-								type="text"
-								placeholder="Search by"
-								spellCheck="false"
-								autoComplete="off"
-								defaultValue={this.state.searchString}
-								onChange={this.handleChange}
-							/>
-						</OverlayTrigger>
-						{this.renderText()}
-					</Col>
-				</Row>
-
-				<Row>
-					<Col xs={7} md={5} lg={6} className="typeFilterCol">
-						<ToggleButtonGroup
-							className="typeFilter"
-							type="checkbox"
-							value={this.state.typeFilters}
-							onChange={this.handleTypeChange}
-						>
-							{typeButtons}
-						</ToggleButtonGroup>
-					</Col>
-
-					<Col xs={5} md={7} lg={6} className="creditFilterCol">
-						<Form.Group as={Row} className="creditFormGroup">
-							<Col xs={7} sm={5} md={7} lg={5}>
-								<Form.Label className="creditLabel">Credits:</Form.Label>
-							</Col>
-
-							<Col xs={5} sm={7} md={5} lg={7}>
-								<Form.Control
-									className="creditField"
-									name="creditFilter"
-									type="number"
-									min="0"
-									max="30"
-									spellCheck="false"
-									autoComplete="off"
-									defaultValue={this.state.creditFilter}
-									onChange={this.handleChange}
-								/>
-							</Col>
-						</Form.Group>
-					</Col>
-				</Row>
-
-				<Row style={{ padding: '2vh 2vh 0.95px 2vh' }}>
-					<Nav
-						className="courseTypeFilter"
-						variant="tabs"
-						defaultActiveKey="ALL"
-						onSelect={(selected) => this.setState({ selectedCategory: selected })}
-					>
-						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey="ALL">ALL</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey="PC" disabled={tabsDisabled}>PC</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey="UC" disabled={tabsDisabled}>UC</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey="PE" disabled={tabsDisabled}>PE</Nav.Link>
-						</Nav.Item>
-						<Nav.Item>
-							<Nav.Link className="filterButton" eventKey="UE" disabled={tabsDisabled}>UE</Nav.Link>
-						</Nav.Item>
-					</Nav>
-				</Row>
-			</Container>
-		);
-	}
-
-	renderNormalCard(value) {
-		let className = 'courseCard';
-		if (value.code === this.props.selectedCourse) className = 'courseCard active';
-
-		const typeString = new Set();
-		if (value.types.filter((type) => COURSE.isLabType(type)).length > 0) typeString.add('L');
-		if (value.types.filter((type) => COURSE.isProjectType(type)).length > 0) typeString.add('P');
-		if (value.types.filter((type) => COURSE.isTheoryType(type)).length > 0) typeString.add('T');
-
-		return (
-			<div
-				className="courses"
-				key={value.code}
-				onClick={() => this.props.selectCourse(value.code)}
-				role="button"
-				tabIndex="0"
-			>
-				<CardColumns className="courseList">
+	return (
+		<Container className={`${styles.searchBarContainer} fluid`}>
+			<Row>
+				<Col className={styles.searchColumn} xs={12} md={12}>
+					<FaSearch className={styles.searchIcon} />
 					<OverlayTrigger
-						key={`${value.code}-Prereq-Overlay`}
-						placement="top-start"
+						key="SearchBar-Overlay"
+						placement="top"
 						trigger={['hover', 'focus']}
 						overlay={(
 							<Tooltip>
-								{
-									this.state.prereqs
-										? (
-											<div className="coursePrereq">
-												{this.renderPreReq(value)}
-												{this.renderAntiReq(value)}
-												{this.renderCoReq(value)}
-												<br />
-											</div>
-										)
-										: <></>
-								}
-								<div className="courseTypes">
-									<b> Course Type: </b>
-									{Array.from(typeString).join(' | ')}
-								</div>
+								<table className={styles.searchTooltip}>
+									<thead>
+										<tr>
+											<th>Prefix</th>
+											<th>Search By</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>*</td>
+											<td>Faculty</td>
+										</tr>
+									</tbody>
+								</table>
 							</Tooltip>
 						)}
 					>
-						<Card className={className}>
-							<Card.Body>
-								<Card.Title>{value.title}</Card.Title>
-								<Card.Text className="courseSelectDetails">
-									<div className="courseCodeText">{value.code}</div>
-									<div className="courseCredits">
-										{value.credits}
-										{` Credit${(value.credits === 1) ? '' : 's'}`}
-									</div>
-								</Card.Text>
-								<Card.Subtitle className={['N', 'F'].includes(this.props.completedCourses[value.code]) ? 'cardCompletionFailedSubtitle' : 'cardCompletedSubtitle'}>
-									{
-										(this.props.completedCourses[value.code])
-											? (`Completed: ${this.props.completedCourses[value.code]}`) : ''
-									}
-								</Card.Subtitle>
-							</Card.Body>
-						</Card>
+						<Form.Control
+							className={styles.searchBar}
+							name="searchString"
+							type="text"
+							placeholder="Search by"
+							spellCheck="false"
+							autoComplete="off"
+							onChange={(e) => setSearchString(e.target.value)}
+						/>
 					</OverlayTrigger>
-				</CardColumns>
-			</div>
-		);
-	}
+					{renderText()}
+				</Col>
+			</Row>
 
-	renderCourses() {
-		let list = this.doSearch();
+			<Row>
+				<Col xs={7} md={5} lg={6} className={styles.typeFilterCol}>
+					<ToggleButtonGroup
+						className={styles.typeFilter}
+						type="checkbox"
+						value={typeFilters}
+						onChange={(v) => setTypeFilters(v)}
+					>
+						{typeButtons}
+					</ToggleButtonGroup>
+				</Col>
 
-		let completed = []; let
-			normal = [];
+				<Col xs={5} md={7} lg={6} className={styles.creditFilterCol}>
+					<Form.Group as={Row} className={styles.creditFormGroup}>
+						<Col xs={7} sm={5} md={7} lg={5}>
+							<Form.Label className={styles.creditLabel}>Credits:</Form.Label>
+						</Col>
 
-		if (this.state.selectedCategory !== 'ALL' && Object.keys(this.props.curriculum).length) {
-			const cat = this.state.selectedCategory.toLowerCase();
-			const currCourses = this.props.curriculum[cat].map((c) => c.code);
+						<Col xs={5} sm={7} md={5} lg={7}>
+							<Form.Control
+								className={styles.creditField}
+								name="creditFilter"
+								type="number"
+								min="0"
+								max="30"
+								spellCheck="false"
+								autoComplete="off"
+								onChange={(e) => setCreditFilter(e.target.value)}
+							/>
+						</Col>
+					</Form.Group>
+				</Col>
+			</Row>
 
-			list = list.filter((v) => currCourses.includes(v.code));
+			<Row style={{ padding: '2vh 2vh 0.95px 2vh' }}>
+				<Nav
+					className={styles.categoryFilterGroup}
+					variant="tabs"
+					defaultActiveKey="ALL"
+					onSelect={(selected) => setSelectedCategory(selected)}
+				>
+					<Nav.Item>
+						<Nav.Link className={styles.categoryFilterButton} eventKey="ALL">ALL</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link className={styles.categoryFilterButton} eventKey="PC" disabled={tabsDisabled}>PC</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link className={styles.categoryFilterButton} eventKey="UC" disabled={tabsDisabled}>UC</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link className={styles.categoryFilterButton} eventKey="PE" disabled={tabsDisabled}>PE</Nav.Link>
+					</Nav.Item>
+					<Nav.Item>
+						<Nav.Link className={styles.categoryFilterButton} eventKey="UE" disabled={tabsDisabled}>UE</Nav.Link>
+					</Nav.Item>
+				</Nav>
+			</Row>
+		</Container>
+	);
+});
+
+const CourseCard = memo(({
+	code, title, credits, shortCourseTypes, completed = false, selected = false, prereqs = null, doSelectCourse,
+}) => {
+	const cardClass = selected ? `${styles.courseCard} ${styles.active}` : styles.courseCard;
+	const completionClass = ['N', 'F'].includes(completed) ? styles.cardCompletionFailedSubtitle : styles.cardCompletedSubtitle;
+
+	const creditText = (credits === 1) ? 'Credit' : 'Credits';
+
+	const valueMap = (value) => value.split(',').map((v) => (
+		<>
+			{v}
+			<br />
+		</>
+	));
+
+	const CoreqText = ({ value }) => {
+		if (value) {
+			return (
+				<>
+					<b>Co-Requisites: </b>
+					{valueMap(value)}
+					<br />
+				</>
+			);
+		}
+		return <></>;
+	};
+
+	const PrereqText = ({ value }) => {
+		if (value) {
+			return (
+				<>
+					<b>Pre-Requisites: </b>
+					{valueMap(value)}
+					<br />
+				</>
+			);
+		}
+		return <></>;
+	};
+	const AntireqText = ({ value }) => {
+		if (value) {
+			return (
+				<>
+					<b>Anti-Requisites: </b>
+					{valueMap(value)}
+					<br />
+				</>
+			);
+		}
+		return <></>;
+	};
+
+	const PrereqsTooltip = () => {
+		if (prereqs) {
+			return (
+				<div className={styles.coursePrereq}>
+					<PrereqText value={prereqs.prereq} />
+					<CoreqText value={prereqs.coreq} />
+					<AntireqText value={prereqs.antireq} />
+				</div>
+			);
+		}
+		return <></>;
+	};
+
+	const handleClick = (e) => {
+		doSelectCourse(e.currentTarget.title);
+	};
+
+	return (
+		<OverlayTrigger
+			key={`${code}-Prereq-Overlay`}
+			placement="top-start"
+			trigger={['hover', 'focus']}
+			overlay={(
+				<Tooltip>
+					<PrereqsTooltip />
+					<div className={styles.courseTypes}>
+						<b> Course Type: </b>
+						{shortCourseTypes.join(' | ')}
+					</div>
+				</Tooltip>
+			)}
+		>
+			<Card
+				className={cardClass}
+				onClick={handleClick}
+				title={code}	// For using with handleClick
+			>
+				<Card.Body>
+					<Card.Title className={styles.cardTitle}>
+						{title}
+					</Card.Title>
+
+					<Card.Text className={styles.courseSelectDetails}>
+						<span className={styles.courseCodeText}>
+							{code}
+						</span>
+
+						<span className={styles.courseCredits}>
+							{`${credits} ${creditText}`}
+						</span>
+					</Card.Text>
+
+					<Card.Subtitle className={completionClass}>
+						{
+							(completed)
+								? (`Completed: ${completed}`) : ''
+						}
+					</Card.Subtitle>
+				</Card.Body>
+			</Card>
+		</OverlayTrigger>
+	);
+});
+
+const CourseCardList = ({
+	filteredCourseList = {}, selectedCourse, doSelectCourse, prereqList, completedCourses,
+}) => {
+	const completedCourseCards = Object.keys(filteredCourseList)
+		.filter((code) => completedCourses[code])
+		.map((code) => {
+			const { title, credits, shortCourseTypes } = filteredCourseList[code];
+
+			return (
+				<CourseCard
+					code={code}
+					title={title}
+					credits={credits}
+					shortCourseTypes={shortCourseTypes}
+					selected={(selectedCourse === code)}
+					completed={completedCourses[code]}
+					prereqs={prereqList[code]}
+					doSelectCourse={doSelectCourse}
+					key={`${code}-CourseCard`}
+				/>
+			);
+		});
+
+	const normalCards = Object.keys(filteredCourseList)
+		.filter((code) => !completedCourses[code])
+		.map((code) => {
+			const { title, credits, shortCourseTypes } = filteredCourseList[code];
+
+			return (
+				<CourseCard
+					code={code}
+					title={title}
+					credits={credits}
+					shortCourseTypes={shortCourseTypes}
+					selected={(selectedCourse === code)}
+					prereqs={prereqList[code]}
+					doSelectCourse={doSelectCourse}
+					key={`${code}-CourseCard`}
+				/>
+			);
+		});
+
+	return (
+		<CardColumns className={styles.courseList}>
+			{normalCards}
+			{completedCourseCards}
+		</CardColumns>
+	);
+};
+
+const CourseSelectTable = ({
+	selectedCurriculum, selectedCurriculumPrefix, selectedCourse, completedCourses, doSelectCourse,
+}) => {
+	const [{ data: allCourseLists }, executeGetAllCourseLists] = useAxiosFFCS({
+		url: '/course/allCourseLists',
+	}, { manual: true });
+
+	useEffect(() => {
+		executeGetAllCourseLists();
+	}, [executeGetAllCourseLists]);
+
+	const [filteredCourseList, setFilteredCourseList] = useState([]);
+
+	const [courseList, setCourseList] = useState({});
+	const [courseFacultyList, setCourseFacultyList] = useState({});
+	const [courseSlotList, setCourseSlotList] = useState({});
+	const [courseTypeList, setCourseTypeList] = useState({});
+	const [prereqList, setPrereqList] = useState({});
+
+	useEffect(() => {
+		if (allCourseLists) {
+			setCourseList(allCourseLists.data.courseList);
+			setFilteredCourseList(allCourseLists.data.courseList);
+			setCourseFacultyList(allCourseLists.data.courseFacultyList);
+			setCourseSlotList(allCourseLists.data.courseSlotList);
+			setCourseTypeList(allCourseLists.data.courseTypeList);
+			setPrereqList(allCourseLists.data.prerequisites);
+		}
+	}, [allCourseLists]);
+
+	const [searchString, setSearchString] = useState('');
+	const [typeFilters, setTypeFilters] = useState([]);
+	const [creditFilter, setCreditFilter] = useState('');
+
+	const [selectedCategory, setSelectedCategory] = useState('ALL');
+	const [tabsDisabled, setTabsDisabled] = useState(true);
+
+	useEffect(() => {
+		// $& means the whole matched string
+		const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+		let searchBySlots = false;
+		let searchByFaculty = false;
+		let filteredCourses = courseList;
+		let filteredCodes = Object.keys(courseList);
+
+		if (selectedCategory !== 'ALL' && Object.keys(selectedCurriculum).length) {
+			const category = selectedCategory.toLowerCase();
+			const curriculumCodes = selectedCurriculum[category]
+				.map((c) => c.code);
+
+			filteredCodes = filteredCodes
+				.filter((code) => curriculumCodes.includes(code));
 		}
 
-		completed = list.filter((v) => this.props.completedCourses[v.code]);
-		normal = list.filter((v) => !this.props.completedCourses[v.code]);
+		const search = escapeRegExp(searchString.toUpperCase().trim());
+		const searchStringSlots = search.split('\\+');
 
-		list = [...normal, ...completed];
+		// Default, no filtering
+		if (['', '*'].includes(search)
+			&& typeFilters.length === 0
+			&& [0, ''].includes(creditFilter)
+			&& selectedCategory === 'ALL') {
+			setFilteredCourseList(filteredCourses);
+			return;
+		}
 
-		return list.map((value) => this.renderNormalCard(value));
-	}
+		searchBySlots = searchStringSlots
+			.reduce((a, v) => (a && COURSE.validSlots.includes(v)), true)
+			&& search.length > 0;
 
-	render() {
-		return (
-			<Container className="courseSelectContainer">
-				<Card className="cardOne">
-					<Card.Header className="cardOneHeader">
-						{this.renderSearchBar()}
-					</Card.Header>
-				</Card>
-				<div className="courseTable">
-					{this.renderCourses()}
-				</div>
-			</Container>
-		);
-	}
-}
+		searchByFaculty = search.startsWith('\\*');
 
+		if (searchBySlots) {
+			const reqdSlotCodes = Array.from(new Set(
+				Object.keys(courseSlotList)
+					.filter((slot) => searchStringSlots
+						.every((s) => slot.replace(' ', '').split('+').includes(s)))
+					.flatMap((s) => courseSlotList[s]),
+			));
+
+			filteredCodes = filteredCodes
+				.filter((code) => reqdSlotCodes.includes(code));
+		} else if (searchByFaculty) {
+			// Remove all instances of *. Removes the "\*" string
+
+			// eslint-disable-next-line no-useless-escape
+			const tempSearchString = search.replace('\\\*', '');
+
+			const reqdFacultyCodes = Array.from(new Set(
+				Object.keys(courseFacultyList)
+					.filter((f) => f.includes(tempSearchString))
+					.flatMap((f) => courseFacultyList[f]),
+			));
+
+			filteredCodes = filteredCodes
+				.filter((code) => reqdFacultyCodes.includes(code));
+		} else {
+			filteredCodes = Array.from(new Set(
+				filteredCodes
+					.filter((code) => (
+						courseList[code].title.toUpperCase().search(search) !== -1
+						|| code.toUpperCase().search(search) !== -1
+					)),
+			));
+		}
+
+		if (creditFilter > 0 && creditFilter !== '') {
+			filteredCodes = Array.from(new Set(
+				filteredCodes
+					.filter((code) => {
+						if (courseList[code].credits === Number(creditFilter)) return true;
+						return false;
+					}),
+			));
+		}
+
+		if (typeFilters.length > 0) {
+			const reqdTypeCodes = Array.from(new Set(
+				Object.keys(courseTypeList)
+					.filter((f) => typeFilters.includes(f))
+					.flatMap((f) => courseTypeList[f]),
+			));
+
+			filteredCodes = filteredCodes
+				.filter((code) => reqdTypeCodes.includes(code));
+		}
+
+		filteredCourses = Object.keys(courseList).sort()
+			.filter((code) => filteredCodes.includes(code))
+			.reduce((acc, code) => ({ ...acc, [code]: courseList[code] }), {});
+
+		setFilteredCourseList(filteredCourses);
+	}, [courseList, courseTypeList, courseSlotList, courseFacultyList, searchString, creditFilter, typeFilters, selectedCategory, selectedCurriculum, selectedCurriculumPrefix]);
+
+	useEffect(() => {
+		if (!selectedCurriculum || Object.keys(selectedCurriculum).length === 0 || selectedCurriculumPrefix === 'Curriculum') {
+			setTabsDisabled(true);
+		} else {
+			setTabsDisabled(false);
+		}
+	}, [selectedCurriculumPrefix, selectedCurriculum]);
+
+	return (
+		<Card className={styles.courseSelectContainer}>
+			<Card.Header className={styles.courseSelectTableHeader}>
+				<FilterControls
+					tabsDisabled={tabsDisabled}
+					showPlaceholder={!searchString}
+					typeFilters={typeFilters}
+					creditFilter={creditFilter}
+
+					setSelectedCategory={setSelectedCategory}
+					setSearchString={setSearchString}
+					setTypeFilters={setTypeFilters}
+					setCreditFilter={setCreditFilter}
+				/>
+			</Card.Header>
+			<Card.Body className={styles.courseSelectTableBody}>
+				<CourseCardList
+					filteredCourseList={filteredCourseList}
+					selectedCourse={selectedCourse}
+					prereqList={prereqList}
+					completedCourses={completedCourses}
+
+					doSelectCourse={doSelectCourse}
+				/>
+			</Card.Body>
+		</Card>
+	);
+};
 
 export default CourseSelectTable;

@@ -4,6 +4,8 @@ const courseSchema = mongoose.Schema({
 	code: String,
 	title: String,
 	course_type: String,
+	simpleCourseType: String,
+	shortCourseType: String,
 	credits: Number,
 	slot: String,
 	faculty: String,

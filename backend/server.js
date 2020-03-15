@@ -138,8 +138,8 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'prof
 
 app.get('/auth/google/callback',
 	passport.authenticate('google', {
-		successRedirect: '/dashboard',
-		failureRedirect: '/',
+		successRedirect: '/',
+		failureRedirect: '/login',
 	}));
 
 app.get('/logout', (req, res) => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../css/MagicFill.css';
+import '../css/MagicFill.scss';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import {
@@ -26,9 +26,7 @@ class MagicFill extends Component {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.inProcess !== this.props.inProcess) {
-			// TODO: Change this to getDerivedStateFromProps()
-			// eslint-disable-next-line react/no-did-update-set-state
-			this.setState({ generatingInProcess: this.props.inProcess });
+			this.toggleGeneratingFromProps();
 		}
 	}
 
@@ -195,6 +193,10 @@ class MagicFill extends Component {
 		this.props.genTT(prefs);
 	}
 
+	toggleGeneratingFromProps() {
+		this.setState({ generatingInProcess: this.props.inProcess });
+	}
+
 	renderPriorityPref() {
 		const selectedElements = [];
 		for (let elem = 0; elem < this.state.priorityList.length; elem += 1) {
@@ -203,31 +205,31 @@ class MagicFill extends Component {
 			const event = { target: { name: value, value: this.state[value] } };
 			const onClickHandler = () => { this.handleChanges(value, event); };
 			switch (this.state[value]) {
-			case 'ELA':
-				toPush = 'Less Labs ';
-				break;
-			case 'EPJ':
-				toPush = 'Less Projects';
-				break;
-			case 'gaps':
-				toPush = 'Gaps';
-				break;
-			case 'nogaps':
-				toPush = 'No Gaps';
-				break;
-			case 'Monday':
-				toPush = 'Less Classes on Monday';
-				break;
-			case 'Friday':
-				toPush = 'Less Classes on Friday';
-				break;
-			case 'morning':
-				toPush = 'Morning';
-				break;
-			case 'evening':
-				toPush = 'Evening';
-				break;
-			default:
+				case 'ELA':
+					toPush = 'Less Labs ';
+					break;
+				case 'EPJ':
+					toPush = 'Less Projects';
+					break;
+				case 'gaps':
+					toPush = 'Gaps';
+					break;
+				case 'nogaps':
+					toPush = 'No Gaps';
+					break;
+				case 'Monday':
+					toPush = 'Less Classes on Monday';
+					break;
+				case 'Friday':
+					toPush = 'Less Classes on Friday';
+					break;
+				case 'morning':
+					toPush = 'Morning';
+					break;
+				case 'evening':
+					toPush = 'Evening';
+					break;
+				default:
 			}
 			const btn = (
 				<Button onClick={onClickHandler} className="dropdownButton">
@@ -276,7 +278,7 @@ class MagicFill extends Component {
 
 
 	render() {
-		return (
+		return this.props.show ? (
 			<Container id="magicContainer">
 
 
@@ -293,7 +295,7 @@ class MagicFill extends Component {
 
 
 			</Container>
-		);
+		) : (<></>);
 	}
 }
 

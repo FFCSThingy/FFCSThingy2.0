@@ -1,4 +1,5 @@
 const express = require('express');
+const cliProgress = require('cli-progress');
 const { logger } = require('../utility/loggers.js');
 
 // Utilities
@@ -78,6 +79,88 @@ router.get('/courseFacultyList/:timestamp?', async (req, res) => {
 	}
 });
 
+router.get('/courseSlotList/:timestamp?', async (req, res) => {
+	try {
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
+		let courseSlotList;
+
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
+			courseSlotList = await course.getCourseSlotList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseSlotList: courseSlotList[0].courseSlotList,
+					timestamp: systemTimestamp,
+				},
+			});
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
+	} catch (err) {
+		logger.error(err);
+		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+	}
+});
+
+router.get('/courseTypeList/:timestamp?', async (req, res) => {
+	try {
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
+		let courseTypeList;
+
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
+			courseTypeList = await course.getCourseTypeList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseTypeList: courseTypeList[0].courseTypeList,
+					timestamp: systemTimestamp,
+				},
+			});
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
+	} catch (err) {
+		logger.error(err);
+		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+	}
+});
+
+router.get('/allCourseLists/:timestamp?', async (req, res) => {
+	try {
+		const systemTimestamp = await system.getRepopulateTime();
+		const reqTimestamp = req.params.timestamp;
+		let courseList;
+		let courseFacultyList;
+		let courseSlotList;
+		let courseTypeList;
+
+		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
+			courseList = await course.getNewCourseList();
+			courseFacultyList = await course.getCourseFacultyList();
+			courseSlotList = await course.getCourseSlotList();
+			courseTypeList = await course.getCourseTypeList();
+
+			return res.json({
+				success: true,
+				data: {
+					courseList: courseList[0].courseList,
+					courseSlotList: courseSlotList[0].courseSlotList,
+					courseFacultyList: courseFacultyList[0].list,
+					courseTypeList: courseTypeList[0].courseTypeList,
+					prerequisites: prereqJSON,
+					timestamp: systemTimestamp,
+				},
+			});
+		}
+		return res.status(304).json({ success: true, message: 'Up To Date' });
+	} catch (err) {
+		logger.error(err);
+		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+	}
+});
+
 // Gets credits from curriculuma dn populates the list
 router.get('/courseListFromCurriculum', async (req, res) => {
 	let creditList;
@@ -102,18 +185,44 @@ router.get('/courseListFromCurriculum', async (req, res) => {
 	});
 });
 
+// Calls Callback function with updated count on every resolve
+function doBarUpdate(promises, progressCallback) {
+	let d = 0;
+	progressCallback(0);
+	// eslint-disable-next-line no-restricted-syntax
+	for (const p of promises) {
+		// eslint-disable-next-line no-loop-func
+		p.then(() => progressCallback(
+			// eslint-disable-next-line no-plusplus
+			++d,
+		));
+	}
+
+	return Promise.all(promises);
+}
+
 router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res) => {
 	try {
 		const courses = await course.parseXLSX();
 
 		const repopTime = await system.updateRepopulateTime();
 
-		// TODO: Replace this with the user timetable scrolling, verifying thing and update heatmap
 		system.updateHeatmapUpdateTime();
 
 		const actions = courses.map(course.addCourseToDB);
-		// var actions = courseReportJSON.map(course.addCourseToDB);
-		const results = await Promise.all(actions);
+
+		logger.warn('Starting Courses Add/Update');
+		// Makes a progress Bar, 0 to actions.length
+		const addCoursesBar = new cliProgress.SingleBar({
+			format: 'Adding Courses: |{bar}| {percentage}% | {value}/{total} | {duration}s',
+		}, cliProgress.Presets.shades_classic);
+		addCoursesBar.start(actions.length, 0);
+		// Pass a callback function.
+		const results = await doBarUpdate(actions, (p) => {
+			addCoursesBar.update(p);
+		});
+		addCoursesBar.stop();
+		logger.warn('Finished Courses Add/Update');
 
 		const deletes = await course.cleanCoursesAfterRepopulate(repopTime);
 		const cleanDetails = await course.doCleanRemovedCourses();

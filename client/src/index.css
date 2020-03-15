@@ -7,3 +7,9 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+@font-face {
+	font-family: 'futura_md_btmedium_italic';
+	src: url('./fonts/futura_medium_italic_font-webfont.woff2') format('woff2'),
+		url('./fonts/futura_medium_italic_font-webfont.woff') format('woff');
+}

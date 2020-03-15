@@ -14,9 +14,18 @@ const userUtility = require('./userUtility');
 const xlsxInputFile = path.join(__dirname, '..', 'data', 'report.xlsx');
 const jsonOutputFile = path.join(__dirname, '..', 'data', 'report.json');
 
+// Constants
+const labTypes = ['LO', 'ELA'];
+const projectTypes = ['PJT', 'EPJ'];
+const theoryTypes = ['TH', 'ETH', 'SS'];
+
+// Cache Variables
 let heatmap;
 let courseList;
 let courseFacultyList;
+let courseSlotList;
+let courseTypeList;
+let newCourseList;
 
 this.removeOldCoursesBulk = (deletes) => User.updateMany(
 	{
@@ -66,6 +75,7 @@ this.fullHeatmapQuery = () => Course.aggregate([
 			faculty: 1,
 			venue: 1,
 			course_type: 1,
+			simpleCourseType: 1,
 		},
 	},
 ]).exec();
@@ -77,6 +87,8 @@ this.courseListQuery = () => Course.aggregate([
 				code: '$code',
 				credits: '$credits',
 				course_type: '$course_type',
+				simpleCourseType: '$simpleCourseType',
+				shortCourseType: '$shortCourseType',
 			},
 			title: { $addToSet: '$title' },
 			lengths: { $addToSet: { $strLenCP: '$title' } },
@@ -90,12 +102,16 @@ this.courseListQuery = () => Course.aggregate([
 			},
 			credits: { $sum: '$_id.credits' },
 			types: { $addToSet: '$_id.course_type' },
+			simpleCourseTypes: { $addToSet: '$_id.simpleCourseType' },
+			shortCourseTypes: { $addToSet: '$_id.shortCourseType' },
 		},
 	}, {
 		$project: {
 			code: '$_id.code',
 			credits: { $sum: '$credits' },
 			types: 1,
+			simpleCourseTypes: '$simpleCourseTypes',
+			shortCourseTypes: '$shortCourseTypes',
 			titles: '$_id.title',
 			title: { $arrayElemAt: ['$_id.title', { $indexOfArray: ['$_id.lengths', { $max: '$_id.lengths' }] }] },
 			_id: 0,
@@ -109,6 +125,8 @@ this.courseListQuery = () => Course.aggregate([
 			lengths: { $addToSet: { $strLenCP: '$title' } },
 			credits: { $sum: '$credits' },
 			types: { $addToSet: '$types' },
+			simpleCourseTypes: { $addToSet: '$simpleCourseTypes' },
+			shortCourseTypes: { $addToSet: '$shortCourseTypes' },
 		},
 	}, {
 		$project: {
@@ -116,11 +134,99 @@ this.courseListQuery = () => Course.aggregate([
 			credits: { $sum: '$credits' },
 			title: { $arrayElemAt: ['$titles', { $indexOfArray: ['$lengths', { $max: '$lengths' }] }] },
 			types: { $arrayElemAt: ['$types', 0] },
+			simpleCourseTypes: { $arrayElemAt: ['$simpleCourseTypes', 0] },
+			shortCourseTypes: { $arrayElemAt: ['$shortCourseTypes', 0] },
 			_id: 0,
 		},
 	}, {
 		$sort: {
 			code: 1,
+		},
+	},
+]).exec();
+
+this.newCourseListQuery = () => Course.aggregate([
+	{
+		$group: {
+			_id: {
+				code: '$code',
+				credits: '$credits',
+				course_type: '$course_type',
+				simpleCourseType: '$simpleCourseType',
+				shortCourseType: '$shortCourseType',
+			},
+			title: { $addToSet: '$title' },
+			lengths: { $addToSet: { $strLenCP: '$title' } },
+		},
+	}, {
+		$group: {
+			_id: {
+				code: '$_id.code',
+				title: '$title',
+				lengths: '$lengths',
+			},
+			credits: { $sum: '$_id.credits' },
+			types: { $addToSet: '$_id.course_type' },
+			simpleCourseTypes: { $addToSet: '$_id.simpleCourseType' },
+			shortCourseTypes: { $addToSet: '$_id.shortCourseType' },
+		},
+	}, {
+		$project: {
+			code: '$_id.code',
+			credits: { $sum: '$credits' },
+			types: 1,
+			simpleCourseTypes: '$simpleCourseTypes',
+			shortCourseTypes: '$shortCourseTypes',
+			titles: '$_id.title',
+			title: { $arrayElemAt: ['$_id.title', { $indexOfArray: ['$_id.lengths', { $max: '$_id.lengths' }] }] },
+			_id: 0,
+		},
+	}, {
+		$group: {
+			_id: {
+				code: '$code',
+			},
+			titles: { $addToSet: '$title' },
+			lengths: { $addToSet: { $strLenCP: '$title' } },
+			credits: { $sum: '$credits' },
+			types: { $addToSet: '$types' },
+			simpleCourseTypes: { $addToSet: '$simpleCourseTypes' },
+			shortCourseTypes: { $addToSet: '$shortCourseTypes' },
+		},
+	}, {
+		$project: {
+			code: '$_id.code',
+			credits: { $sum: '$credits' },
+			title: { $arrayElemAt: ['$titles', { $indexOfArray: ['$lengths', { $max: '$lengths' }] }] },
+			types: { $arrayElemAt: ['$types', 0] },
+			simpleCourseTypes: { $arrayElemAt: ['$simpleCourseTypes', 0] },
+			shortCourseTypes: { $arrayElemAt: ['$shortCourseTypes', 0] },
+			_id: 0,
+		},
+	}, {
+		$sort: {
+			code: 1,
+		},
+	}, {
+		$group: {
+			_id: null,
+			array: {
+				$push: {
+					k: '$code',
+					v: {
+						credits: '$credits',
+						title: '$title',
+						types: '$types',
+						simpleCourseTypes: '$simpleCourseTypes',
+						shortCourseTypes: '$shortCourseTypes',
+					},
+				},
+			},
+		},
+	}, {
+		$project: {
+			_id: 0,
+			courseList: { $arrayToObject: '$array' },
 		},
 	},
 ]).exec();
@@ -151,6 +257,66 @@ this.courseFacultyListQuery = () => Course.aggregate([
 		$project: {
 			_id: 0,
 			list: { $arrayToObject: '$array' },
+		},
+	},
+]).exec();
+
+this.courseSlotListQuery = () => Course.aggregate([
+	{
+		$group: {
+			_id: {
+				slot: '$slot',
+			},
+			courseList: { $addToSet: '$code' },
+		},
+	}, {
+		$sort: {
+			'_id.slot': 1,
+		},
+	}, {
+		$group: {
+			_id: null,
+			array: {
+				$push: {
+					k: '$_id.slot',
+					v: '$courseList',
+				},
+			},
+		},
+	}, {
+		$project: {
+			_id: 0,
+			courseSlotList: { $arrayToObject: '$array' },
+		},
+	},
+]).exec();
+
+this.courseTypeListQuery = () => Course.aggregate([
+	{
+		$group: {
+			_id: {
+				simpleCourseType: '$simpleCourseType',
+			},
+			courseList: { $addToSet: '$code' },
+		},
+	}, {
+		$sort: {
+			'_id.simpleCourseType': 1,
+		},
+	}, {
+		$group: {
+			_id: null,
+			array: {
+				$push: {
+					k: '$_id.simpleCourseType',
+					v: '$courseList',
+				},
+			},
+		},
+	}, {
+		$project: {
+			_id: 0,
+			courseTypeList: { $arrayToObject: '$array' },
 		},
 	},
 ]).exec();
@@ -198,6 +364,21 @@ module.exports.getCourseList = (regardless = false) => {
 module.exports.getCourseFacultyList = (regardless = false) => {
 	if (courseFacultyList && !regardless) return courseFacultyList;
 	return this.courseFacultyListQuery();
+};
+
+module.exports.getCourseSlotList = (regardless = false) => {
+	if (courseSlotList && !regardless) return courseSlotList;
+	return this.courseSlotListQuery();
+};
+
+module.exports.getCourseTypeList = (regardless = false) => {
+	if (courseTypeList && !regardless) return courseTypeList;
+	return this.courseTypeListQuery();
+};
+
+module.exports.getNewCourseList = (regardless = false) => {
+	if (newCourseList && !regardless) return newCourseList;
+	return this.newCourseListQuery();
 };
 
 module.exports.getCourseDetails = (query) => Course.findOne(query).exec();
@@ -255,6 +436,21 @@ module.exports.addCourseToDB = (course) => {
 	// 	course.CREDITS = 1;
 	// }
 
+	let simpleCourseType; let
+		shortCourseType;
+
+	if (labTypes.includes(course.course_type)) {
+		simpleCourseType = 'Lab';
+		shortCourseType = 'L';
+	}
+	if (theoryTypes.includes(course.course_type)) {
+		simpleCourseType = 'Theory';
+		shortCourseType = 'T';
+	}
+	if (projectTypes.includes(course.course_type)) {
+		simpleCourseType = 'Project';
+		shortCourseType = 'P';
+	}
 
 	const queryData = {
 		code: course.code,
@@ -269,6 +465,8 @@ module.exports.addCourseToDB = (course) => {
 		code: course.code,
 		venue: course.venue,
 		course_type: course.course_type,
+		simpleCourseType,
+		shortCourseType,
 		slot: course.slot.replace(' ', ''),
 		faculty: course.faculty,
 		credits: course.credits || 0,

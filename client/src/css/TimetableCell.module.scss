@@ -1,0 +1,94 @@
+@import './utilities/mixins';
+
+.timetableCell {
+	text-align: center;
+	
+	border: none !important;
+	padding: 0.25rem;
+	height: 5.5vh;
+
+	@media only screen and (min-width: 768px) {
+		height: auto;
+	}
+}
+
+.timeHeader {
+	composes: timetableCell;
+
+	@include theme-aware('color', 'color-text');
+	@include theme-aware('background-color', 'color-brand');
+
+	font-weight: normal;
+
+	height: 4vh;
+}
+
+.dayHeader {
+	composes: timetableCell;
+
+	@include theme-aware('color', 'color-text-inverted');
+	@include theme-aware('background-color', 'color-background-timetable-secondary-header');
+
+	font-size: 0.8em;
+
+	width: 5vw;
+}
+
+.break {
+	composes: timetableCell;
+
+	@include theme-aware('color', 'color-text-inverted');
+	@include theme-aware('background-color', 'color-background-timetable-secondary-header');
+
+	width: 8px;
+}
+
+.empty {
+	composes: timetableCell;
+
+	@include theme-aware('color', 'color-text-inverted');
+	@include theme-aware('background-color', 'color-background-table');
+
+	font-weight: bold;
+}
+
+.filledTheory {
+	composes: timetableCell;
+
+	@include theme-aware('background-color', 'color-background-timetable-theory');
+
+	font-size: 0.9em;
+
+	@media only screen and (min-width: 768px) {
+		font-size: 1em;
+	}
+}
+
+.filledLab {
+	composes: timetableCell;
+
+	@include theme-aware('background-color', 'color-background-timetable-lab');
+
+	font-size: 0.9em;
+
+	@media only screen and (min-width: 768px) {
+		font-size: 1em;
+	}
+}
+
+.courseDetails {
+	font-size: 0.8em;
+	margin-bottom: 0;
+	line-height: 1.5;
+}
+
+.courseCode {
+	font-weight: 600;
+	font-size: 0.96em;
+	margin-bottom: 0;
+	line-height: 1.5;
+
+	@media only screen and (min-width: 768px) {
+		font-size: 1em;
+	}
+}

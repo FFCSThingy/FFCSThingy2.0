@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-	Redirect, Route, BrowserRouter as Router, Switch,
+	Route, BrowserRouter as Router, Switch,
 } from 'react-router-dom';
+
+import ReactGA from 'react-ga';
 
 import API from './API';
 
@@ -9,51 +11,34 @@ import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 
-class App extends React.Component {
-	unauthRedirect = (<Redirect to="/" />);
+ReactGA.initialize('UA-156974674-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			authenticated: true,
-		};
-	}
+const App = () => {
+	const [authenticated, setAuthenticated] = useState(true);
 
-	componentDidMount() {
-		this.isAuthenticated();
-	}
+	const isAuthenticated = () => API.get('/account')
+		.then((res) => setAuthenticated(!!res.data))
+		.catch((err) => setAuthenticated(!err));
 
-	handleUnauth = () => this.setState({
-		authenticated: false,
-	});
+	useEffect(() => {
+		isAuthenticated();
+	}, []);
 
-	isAuthenticated = () => API.get('/account')
-		.then((res) => {
-			this.setState({
-				authenticated: !!res.data,
-			});
-		})
-		.catch((err) => {
-			this.setState({
-				authenticated: !err,
-			});
-		})
+	return (
+		<Router>
+			<Switch>
+				<Route exact path="/login" component={Login} />
+				<PrivateRoute
+					path="/"
+					redirect="/login"
+					component={Dashboard}
+					isAuthenticated={authenticated}
+					handleUnauth={() => setAuthenticated(false)}
+				/>
+			</Switch>
+		</Router>
+	);
+};
 
-	render() {
-		return (
-			<Router>
-				<Switch>
-					<Route exact path="/" component={Login} />
-					<PrivateRoute
-						path="/dashboard"
-						redirect="/"
-						component={Dashboard}
-						isAuthenticated={this.state.authenticated}
-						handleUnauth={this.handleUnauth}
-					/>
-				</Switch>
-			</Router>
-		);
-	}
-}
 export default App;

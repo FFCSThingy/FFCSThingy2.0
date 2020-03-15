@@ -1,5 +1,4 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -7,671 +6,551 @@ import {
 } from 'react-bootstrap';
 
 // Components
-import ReactGA from 'react-ga';
 import CourseSelectTable from './CourseSelectTable';
 import SlotTable from './SlotTable';
 import Timetable from './Timetable';
 import SelectedCoursesTable from './SelectedCoursesTable';
 import TimetableSwitcher from './TimetableSwitcher';
 import CustomNavbar from './CustomNavbar';
+import MagicFill from './MagicFill';
 
 // Constants
-import THEMES from '../constants/Themes';
-import * as COURSE from '../constants/Courses';
+import themeList from '../constants/Themes';
 import CLASHMAP from '../constants/ClashMap';
 
-import '../css/Dashboard.css';
-import '../css/CustomNavbar.css';
+import styles from '../css/Dashboard.module.scss';
 
-import API from '../API';
-// import MagicFill from './MagicFill';
+import useAxiosFFCS from '../hooks/useAxiosFFCS';
+import useInterval from '../hooks/useInterval';
 
-ReactGA.initialize('UA-121295619-1');
-ReactGA.pageview(window.location.pathname + window.location.search);
+// TODO: Make Add Slots to Timetable work for auto-add project
 
-class Dashboard extends React.Component {
-	unauthRedirect = (<Redirect to="/" />);
+// const useStateWithLabel = (initialValue, name) => {
+// 	const [value, setValue] = useState(initialValue);
+// 	useDebugValue(`${name}: ${value}`);
+// 	return [value, setValue];
+// };
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			authenticated: true,
-			activeTimetable: 'Default',
-			user: {},
-			generatingInProcess: false,
-			submitted_regno: '',
+const AlertRow = ({ show = false, setShowAlert }) => (show ? (
+	<Row>
+		<Alert className={styles.alert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
+			<Alert.Heading>Courses Updated</Alert.Heading>
+			<p>
+				If you notice courses missing from your timetable, it might be due to them being removed to keep it in sync with the available courses from the Course Allocation Report.
+			</p>
+		</Alert>
+	</Row>
+) : (<></>));
 
-			timetable: [],
-			timetableTimestamp: localStorage.getItem('timetableTimestamp') || null,
-			timetableNames: ['Default'],
+const TTError = ({ error = '', setTimetableGenerationError }) => (error ? (
+	<Row>
+		<Alert
+			variant="danger"
+			onClose={() => setTimetableGenerationError('')}
+			dismissible
+		>
+			<p>{error}</p>
+		</Alert>
+	</Row>
+) : (<></>));
 
-			selectedCourse: '',
-			completedCourses: {},
+const Dashboard = ({ handleUnauth }) => {
+	const [{ data: userData }] = useAxiosFFCS({
+		url: '/account',
+	});
 
-			heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
-			heatmapTimestamp: localStorage.getItem('heatmapTimestamp') || null,
+	const [{ data: completedCoursesResponse }] = useAxiosFFCS({
+		url: '/user/completedCourses',
+	});
 
-			curriculumList: ['Curriculum'],
-			curriculum: localStorage.getItem(localStorage.getItem('selectedCurriculum')) || {},
-			selectedCurriculum: localStorage.getItem('selectedCurriculum') || 'Curriculum',
+	const [{ data: curriculumListResponse }] = useAxiosFFCS({
+		url: '/curriculum/prefixes',
+	});
 
-			activeTheme: localStorage.getItem('theme') || 'default',
+	const [{ data: heatmapResponse }, executeGetHeatmapResponse] = useAxiosFFCS({
+		url: '/course/fullHeatmap',
+	}, { manual: true });
 
-			alertShow: true,
-			clashMap: CLASHMAP,
-		};
-	}
+	const [{ data: timetableResponse }, executeGetTimetableResponse] = useAxiosFFCS({
+		url: '/user/selectedCourses',
+	}, { manual: true });
 
-	componentDidMount() {
-		this.getAccount();
-		this.updateTheme();
-		this.getSelectedCourses();
-		this.getFullHeatmap();
-		this.getPrefixes();
-		this.getCurriculum(this.state.selectedCurriculum);
-		this.changeActiveTimetable();
-		this.getTimetableNames();
+	const [{ data: postSelectedCoursesResponse }, executePostSelectedCourses] = useAxiosFFCS({
+		url: '/user/selectedCoursesBulk',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}, { manual: true });
 
-		this.heatmapInterval = setInterval(
-			() => this.getFullHeatmap(),
-			1000 * 2 * 60,
-		);
-		this.courseSyncInterval = setInterval(
-			() => this.getSelectedCourses(),
-			1000 * 60,
-		);
-	}
+	const [{ data: postGenerateTTResponse, loading: postGenerateTTLoading }, executePostGenerateTT] = useAxiosFFCS({
+		url: '/ttgen/generateTimetable',
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	}, { manual: true });
 
-	componentDidUpdate(prevProps, prevState) {
-		if (this.state.activeTheme !== prevState.activeTheme) { this.updateTheme(); }
-	}
 
-	componentWillUnmount() {
-		clearInterval(this.heatmapInterval);
-		clearInterval(this.courseSyncInterval);
-	}
+	// Curriculum Prefix and Fetch
+	const [selectedCurriculumPrefix, setSelectedCurriculumPrefix] = useState(localStorage.getItem('selectedCurriculum') || '19BCE');
 
-	getAccount = () => {
-		API.get('/account')
-			.then((res) => {
-				if (res.status === 304);
-				else {
-					this.setState({ user: res.data });
-				}
+	const [{ data: currentCurriculumResponse }, executeGetCurrentCurriculumResponse] = useAxiosFFCS({
+		url: `curriculum/curriculumFromPrefix/${selectedCurriculumPrefix || '19BCE'}`,
+	}, { manual: true });
 
-				if (res.data.vtopSignedIn) this.getCompletedCourses();
-			})
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
 
-	getCompletedCourses = () => {
-		API.get('/user/completedCourses').then((res) => {
-			if (res.status === 304);
-			this.setState({ completedCourses: res.data.data });
-		});
-	};
+	// Defaults
+	const [activeTheme, setActiveTheme] = useState(localStorage.getItem('theme') || 'default');
 
-	getSelectedCourses = () => {
-		API.get('/user/selectedCourses')
-			.then((res) => {
-				if (res.data.success) {
-					if (res.status === 304) {
-						this.setState({
-							timetable: JSON.parse(
-								localStorage.getItem('timetable'),
-							),
-						});
-					} else {
-						this.setState({ timetable: res.data.data });
-						localStorage.setItem(
-							'timetable',
-							JSON.stringify(res.data.data),
-						);
-						// localStorage.setItem('heatmapTimestamp', res.data.data.timestamp);
-					}
-					this.changeActiveTimetable(this.state.activeTimetable);
-				} else this.setState({ error: res.data.message });
-			})
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
+	const [currentCurriculum, setCurrentCurriculum] = useState({});
 
-	getTimetableNames = () => {
-		API.get('/user/selectedCourses')
-			.then((res) => {
-				if (res.data.success) {
-					let names = Array.from(
-						new Set(res.data.data.map((v) => v.timetableName)),
-					);
-					if (names.length === 0) names = ['Default'];
-					this.setState({ timetableNames: names });
-					this.changeActiveTimetable();
-				} else this.setState({ error: res.data.message });
-			})
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
+	const [heatmap, setHeatmap] = useState(JSON.parse(localStorage.getItem('heatmap')) || []);
+	const [heatmapTimestamp, setHeatmapTimestamp] = useState(localStorage.getItem('heatmapTimestamp') || null);
 
-	getFullHeatmap = () => {
-		API.get('/course/fullHeatmap')
-			.then((res) => {
-				if (res.data.success) {
-					if (res.status === 304) {
-						this.setState({
-							heatmap: JSON.parse(localStorage.getItem('heatmap')),
-						});
-					} else {
-						this.setState({
-							heatmap: res.data.data.heatmap,
-							heatmapTimestamp: res.data.data.timestamp,
-						});
-						localStorage.setItem(
-							'heatmap',
-							JSON.stringify(res.data.data.heatmap),
-						);
-						localStorage.setItem(
-							'heatmapTimestamp',
-							res.data.data.timestamp,
-						);
-					}
-				} else this.setState({ error: res.data.message });
-			})
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
+	const [clashmap, setClashmap] = useState(CLASHMAP);
+	const [userTimetable, setUserTimetable] = useState([]);
+	const [timetableNames, setTimetableNames] = useState(['Default']);
+	const [activeTimetableName, setActiveTimetableName] = useState('Default');
+	const [filledSlots, setFilledSlots] = useState([]);
+	const [creditCount, setCreditCount] = useState(0);
 
-	getPrefixes = () => {
-		API.get('/curriculum/prefixes')
-			.then((res) => {
-				if (res.data.success) {
-					this.setState({
-						curriculumList: ['Curriculum', ...res.data.data],
-						selectedCurriculum: 'Curriculum',
-					});
-				} else this.setState({ error: res.data.message });
-			})
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
+	const [selectedCourseCode, setSelectedCourseCode] = useState('');
+	const [currentlySelectedCourseSlots, setCurrentlySelectedCourseSlots] = useState([]);
 
-	getCurriculum = (prefix) => {
-		if (prefix === 'Curriculum') {
-			this.setState({ curriculum: {}, selectedCurriculum: 'Curriculum' });
-			localStorage.setItem('selectedCurriculum', 'Curriculum');
-			return;
+	const [showMagicFill, setShowMagicFill] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
+	const [timetableGenerationError, setTimetableGenerationError] = useState('');
+
+
+	// Sets theme for the app
+	useEffect(() => {
+		document.documentElement.className = '';
+		localStorage.setItem('theme', activeTheme);
+		document.documentElement.classList.add(`theme-${activeTheme}`);
+	}, [activeTheme]);
+
+
+	// Gets heatmap response from server
+	useEffect(() => {
+		executeGetHeatmapResponse();
+	}, [executeGetHeatmapResponse]);
+
+	// Sets up 2 minute interval for heatmap sync
+	useInterval(executeGetHeatmapResponse, 1000 * 60 * 2);
+
+	// Sets heatmap in state
+	useEffect(() => {
+		if (heatmapResponse) {
+			setHeatmap(heatmapResponse.data.heatmap);
+			setHeatmapTimestamp(heatmapResponse.data.timestamp);
 		}
+	}, [heatmapResponse]);
 
-		API.get(`/curriculum/curriculumFromPrefix/${prefix}`)
-			.then((res) => {
-				if (res.data.success) {
-					this.setState({
-						curriculum: res.data.data,
-						selectedCurriculum: prefix,
-					});
-					localStorage.setItem(prefix, JSON.stringify(res.data.data));
-					localStorage.setItem('selectedCurriculum', prefix);
-				} else this.setState({ error: res.data.message });
-			})
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
+	// Sets currently selected course slots for SlotTable from heatmap
+	useEffect(() => {
+		if (heatmap) {
+			const slots = heatmap.filter((course) => course.code === selectedCourseCode);
+			setCurrentlySelectedCourseSlots(slots);
+		}
+	}, [selectedCourseCode, heatmap]);
 
-	setSelectedCourses = (timetable) => {
-		API.post('/user/selectedCoursesBulk', { selected_courses: timetable })
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
 
-	getCreditCount() {
-		const count = this.state.timetable.reduce((a, v) => {
-			if (v.timetableName === this.state.activeTimetable) { return a + Number(v.credits); }
-			return a;
-		}, 0);
+	// Gets currently selected curriculum data from server
+	useEffect(() => {
+		executeGetCurrentCurriculumResponse();
+	}, [executeGetCurrentCurriculumResponse, selectedCurriculumPrefix]);
 
-		if (!count) return 0;
-		return count;
-	}
+	// Updates selected curriculum prefix in localStorage
+	useEffect(() => {
+		localStorage.setItem('selectedCurriculum', selectedCurriculumPrefix);
+	}, [selectedCurriculumPrefix]);
 
-	filterCourse = () => this.state.heatmap
-		.filter((course) => course.code === this.state.selectedCourse)
-		.map((course) => {
-			if (COURSE.isLabType(course.course_type)) { course.simple_type = 'Lab'; }
-			if (COURSE.isProjectType(course.course_type)) { course.simple_type = 'Project'; }
-			if (COURSE.isTheoryType(course.course_type)) { course.simple_type = 'Theory'; }
+	// Sets Curriculum in LocalStorage corresponding to prefix
+	// Ex - 19BCE: {Data...}
+	useEffect(() => {
+		if (currentCurriculumResponse) {
+			setCurrentCurriculum(currentCurriculumResponse.data);
+			localStorage.setItem(selectedCurriculumPrefix, currentCurriculumResponse.data);
+		}
+	}, [currentCurriculumResponse, selectedCurriculumPrefix]);
 
-			return course;
+
+	// Gets user timetable from the server
+	useEffect(() => {
+		executeGetTimetableResponse();
+	}, [executeGetTimetableResponse]);
+
+	// Sets up 3 minute interval for timetable sync
+	useInterval(executeGetTimetableResponse, 1000 * 60);
+
+	// Sets timetable in state
+	useEffect(() => {
+		if (timetableResponse) {
+			setUserTimetable(timetableResponse.data);
+		}
+	}, [timetableResponse]);
+
+	// Updates credit count, timetable names, filled slots when timetable/timetableName changes
+	useEffect(() => {
+		if (userTimetable) {
+			const count = userTimetable.reduce((a, v) => a + Number(v.credits), 0);
+			const ttNames = Array.from(
+				new Set(
+					userTimetable
+						.reduce((a, v) => [...a, v.timetableName], [])
+						.filter((v) => !!v),
+				),
+			);
+			const slotsFilled = Array.from(
+				new Set(
+					userTimetable
+						.filter((v) => v.timetableName === activeTimetableName)
+						.reduce((a, v) => [...a, ...v.slot.replace(' ', '').split('+')], [])
+						.filter((v) => v !== 'NIL'),
+				),
+			);
+
+			setCreditCount(count);
+			setTimetableNames(ttNames);
+			setFilledSlots(slotsFilled);
+		}
+	}, [userTimetable, activeTimetableName]);
+
+	// Updates clashmap when filled slots list changes
+	useEffect(() => {
+		setClashmap((prevClashmap) => {
+			Object.keys(prevClashmap)
+				.map((slot) => {
+					if (filledSlots.includes(prevClashmap[slot])) {
+						prevClashmap[slot].isFilled = true;
+					}
+
+					const currentClashes = prevClashmap[slot].clashesWith
+						.reduce((acc, clashesWithSlot) => {
+							if (filledSlots.includes(clashesWithSlot)) {
+								acc.push(clashesWithSlot);
+							}
+							return acc;
+						}, []);
+
+					prevClashmap[slot].currentlyClashesWith = currentClashes;
+					return slot;
+				});
+			return prevClashmap;
 		});
+	}, [filledSlots]);
 
-	findAvailableCourseTypes = () => Array.from(
-		new Set(this.filterCourse().map((course) => course.simple_type)),
-	).sort();
+	// TTGen
+	useEffect(() => {
+		if (postGenerateTTResponse) {
+			const { success } = postGenerateTTResponse;
+			if (success) {
+				const { data } = postGenerateTTResponse;
+				setUserTimetable((prevTimetable) => {
+					let newTimetable = [...data];
 
-	findAvailableVenues = (type = null) => {
-		const venueRegex = /^[A-Z]+/;
-		return Array.from(
-			new Set(
-				this.filterCourse()
-					.filter((c) => !(c.venue === 'NIL'))
-					.filter((c) => {
-						if (type) return c.simple_type === type;
-						return true;
-					})
-					.map((course) => {
-						const s = course.venue.match(venueRegex)[0];
-						if (s.endsWith('G')) return s.slice(0, -1);
-						return s;
-					}),
-			),
-		).sort();
+					if (prevTimetable) {
+						newTimetable = Array.from(
+							new Set([...prevTimetable, ...newTimetable]),
+						);
+					}
+
+					executePostSelectedCourses({
+						data: { selected_courses: newTimetable },
+					});
+
+					return newTimetable;
+				});
+			} else {
+				const { message } = postGenerateTTResponse;
+				setTimetableGenerationError(message);
+			}
+		}
+	}, [postGenerateTTResponse]);
+
+	const isSelected = (course) => {
+		if (userTimetable) {
+			return userTimetable.find(
+				(e) => e.code === course.code
+					&& e.faculty === course.faculty
+					&& e.slot === course.slot
+					&& e.venue === course.venue
+					&& e.course_type === course.course_type
+					&& activeTimetableName === e.timetableName,
+			);
+		}
+		return false;
 	};
 
-	doLogout = () => {
-		API.get('/logout')
-			.then(() => {
-				this.props.handleUnauth();
-			})
-			.catch((err) => {
-				if (err.response.status === 401) this.props.handleUnauth();
-			});
-	};
+	const slotClashesWith = (slot) => {
+		if (slot === 'NIL') return [];
+		if (filledSlots.length === 0) return [];
 
-	checkClash = (slot) => {
-		const filledSlots = this.getFilledSlots();
-		if (slot === 'NIL') return false;
-		if (filledSlots.length === 0) return false;
-
-		const clashingSlots = slot.replace(' ', '').split('+').reduce((a, v) => Array.from(new Set([...a, this.state.clashMap[v].currentlyClashesWith])), []).filter((v) => v && v.length > 0);
+		const clashingSlots = slot.replace(' ', '').split('+')
+			.reduce((a, v) => Array.from(new Set([...a, ...clashmap[v].currentlyClashesWith])), [])
+			.filter((v) => v && v.length > 0);
 
 		return clashingSlots;
 	};
 
-	checkSelected = (course) => this.state.timetable.find(
-		(e) => e.code === course.code
-			&& e.faculty === course.faculty
-			&& e.slot === course.slot
-			&& e.venue === course.venue
-			&& e.course_type === course.course_type
-			&& this.state.activeTimetable === e.timetableName,
-	);
+	const addSlotToTimetable = (course) => {
+		course.timetableName = activeTimetableName;
+		const coursesToAdd = [course];
+		let reqdProjectComponent;
 
-	getFilledSlots = () => Object.keys(this.state.clashMap).reduce((a, v) => {
-		if (this.state.clashMap[v].isFilled) a.push(v);
-		return a;
-	}, []);
-
-	checkAndSelectProject = (course) => {
-		const reqdCourse = this.state.heatmap.filter(
-			(v) => course.code === v.code
-				&& course.faculty === v.faculty
-				&& ['PJT', 'EPJ'].includes(v.course_type),
-		);
-
-		if (reqdCourse.length === 0) return;
-		if (!this.checkSelected(reqdCourse[0])) {
-			const [req] = reqdCourse[0];
-			req.simple_type = 'Project';
-			this.selectSlots(req);
-		}
-	};
-
-	updateCurrentlyClashesWith = () => this.setState((prevState) => {
-		const { clashMap } = prevState;
-		const filledSlots = this.getFilledSlots();
-
-		Object.keys(clashMap).map((slot) => {
-			const currentClashes = clashMap[slot].clashesWith.reduce((acc, clashesWithSlot) => {
-				if (filledSlots.includes(clashesWithSlot)) { acc.push(clashesWithSlot); }
-				return acc;
-			}, []);
-
-			clashMap[slot].currentlyClashesWith = currentClashes;
-			return slot;
-		});
-
-		return { clashMap };
-	});
-
-	selectSlots = (course) => {
-		course.timetableName = this.state.activeTimetable;
-
-		if (course.slot !== 'NIL') {
-			course.slot
-				.replace(' ', '')
-				.split('+')
-				.map((v) => this.setState((prevState) => {
-					const clashMap = { ...prevState.clashMap };
-					clashMap[v].isFilled = true;
-					return { clashMap };
-				}));
-
-			if (course.simple_type !== 'Project') { this.checkAndSelectProject(course); }
-		}
-
-		this.setState(
-			(prevState) => {
-				const timetable = Array.from(
-					new Set([...prevState.timetable, course]),
-				);
-				return { timetable };
-			},
-			() => {
-				this.setSelectedCourses(this.state.timetable);
-				this.updateCurrentlyClashesWith();
-			},
-		);
-	};
-
-	unselectSlots = (course) => {
-		if (course.slot !== 'NIL') {
-			course.slot
-				.replace(' ', '')
-				.split('+')
-				.map((v) => this.setState((prevState) => {
-					const clashMap = { ...prevState.clashMap };
-					clashMap[v].isFilled = false;
-					return { clashMap };
-				}));
-		}
-
-		this.setState(
-			(prevState) => {
-				const timetable = prevState.timetable.filter(
-					(v) => !(
-						course.code === v.code
-						&& course.faculty === v.faculty
-						&& course.slot === v.slot
-						&& course.venue === v.venue
-						&& v.timetableName === prevState.activeTimetable
-					),
-				);
-				return { timetable };
-			},
-			() => {
-				this.setSelectedCourses(this.state.timetable);
-				this.updateCurrentlyClashesWith();
-			},
-		);
-	};
-
-	selectCourse = (code) => {
-		this.setState({
-			selectedCourse: code,
-		});
-	};
-
-	changeActiveTimetable = (timetableName = 'Default') => {
-		// if(timetableName === this.state.activeTimetable)
-		// return;
-
-		const slots = this.state.timetable.reduce((a, v) => {
-			if (v.timetableName === timetableName && v.slot !== 'NIL') { return [...a, ...v.slot.replace(' ', '').split('+')]; }
-			return a;
-		}, []);
-
-		this.setState((prevState) => {
-			const clashMap = { ...prevState.clashMap };
-			Object.keys(clashMap).map((v) => {
-				if (slots.includes(v)) clashMap[v].isFilled = true;
-				else clashMap[v].isFilled = false;
-				return v;
-			});
-			return { clashMap, activeTimetable: timetableName };
-		}, () => this.updateCurrentlyClashesWith());
-	};
-
-	modifyTimetableNames = (newList) => {
-		this.setState({
-			timetableNames: newList,
-		});
-	};
-
-	doTimetableDelete = () => {
-		if (this.state.activeTimetable === 'Default') return;
-		this.setState(
-			(prevState) => ({
-				timetable: prevState.timetable.filter(
-					(v) => v.timetableName !== prevState.activeTimetable,
-				),
-				timetableNames: prevState.timetableNames.filter(
-					(v) => v !== prevState.activeTimetable,
-				),
-			}),
-			() => {
-				this.setSelectedCourses(this.state.timetable);
-				this.changeActiveTimetable();
-			},
-		);
-	};
-
-	doTimetableAdd = (newName) => {
-		if (this.state.timetableNames.includes(newName)) return;
-
-		this.setState(
-			(prevState) => ({
-				timetableNames: [...prevState.timetableNames, newName],
-			}),
-			() => {
-				this.changeActiveTimetable(newName);
-			},
-		);
-	};
-
-	doTimetableEdit = (newName) => {
-		if (this.state.timetableNames.includes(newName)) return;
-		if (this.state.activeTimetable === 'Default') return;
-
-		this.setState(
-			(prevState) => ({
-				timetableNames: prevState.timetableNames.map((v) => {
-					if (v === prevState.activeTimetable) return newName;
-					return v;
-				}),
-
-				timetable: prevState.timetable.map((v) => {
-					if (v.timetableName === prevState.activeTimetable) {
-						v.timetableName = newName;
-						return v;
-					}
-					return v;
-				}),
-			}),
-			() => {
-				this.setSelectedCourses(this.state.timetable);
-				this.changeActiveTimetable(newName);
-			},
-		);
-	};
-
-	doTimetableCopy = (newName) => {
-		if (this.state.timetableNames.includes(newName)) return;
-
-		this.setState(
-			(prevState) => ({
-				timetableNames: [...prevState.timetableNames, newName],
-				timetable: [
-					...prevState.timetable,
-					...prevState.timetable.map((v) => {
-						if (v.timetableName === prevState.activeTimetable) { v.timetableName = newName; }
-						return v;
-					}),
-				],
-			}),
-			() => {
-				this.setSelectedCourses(this.state.timetable);
-				this.changeActiveTimetable(newName);
-			},
-		);
-	};
-
-	updateTheme = () => {
-		const theme = THEMES[this.state.activeTheme];
-		localStorage.setItem('theme', this.state.activeTheme);
-		Object.keys(theme.properties).map((v) => document.documentElement.style.setProperty(
-			`--${v}`,
-			theme.properties[v],
-		));
-	};
-
-	changeActiveTheme = (newTheme) => {
-		this.setState({ activeTheme: newTheme });
-	};
-
-	handleCurriculumChange = (val) => {
-		this.getCurriculum(val);
-		this.setState({ selectedCurriculum: val });
-	};
-
-	genTT = (prefs) => {
-		this.setState({ generatingInProcess: true });
-		API.post('/ttgen/generateTimetable', { pref: prefs })
-			.then((res) => {
-				if (res.data.success) {
-					const tt = res.data.data;
-					this.setState({ ttError: undefined });
-					const newName = tt[0].timetableName;
-					this.setState(
-						(prevState) => ({
-							timetableNames: [
-								...prevState.timetableNames,
-								newName,
-							],
-							timetable: [...prevState.timetable, ...tt],
-						}),
-						() => {
-							this.changeActiveTimetable(newName);
-							this.setSelectedCourses(this.state.timetable);
-						},
-					);
-				} else this.setState({ ttError: res.data.message });
-				this.setState({ generatingInProcess: false });
-			})
-			.catch(() => {
-				this.setState({ generatingInProcess: false });
-			});
-	};
-
-	renderTTErrors = () => {
-		if (this.state.ttError) {
-			return (
-				<Row>
-					<Alert
-						variant="danger"
-						onClose={() => this.setState({ ttError: undefined })}
-						dismissible
-					>
-						<p>{this.state.ttError}</p>
-					</Alert>
-				</Row>
+		if (course.simpleCourseType !== 'Project') {
+			reqdProjectComponent = heatmap.find(
+				(v) => course.code === v.code
+					&& course.faculty === v.faculty
+					&& v.simpleCourseType === 'Project',
 			);
-		} return (<></>);
+
+			if (reqdProjectComponent && !isSelected(reqdProjectComponent)) {
+				reqdProjectComponent = {
+					...reqdProjectComponent,
+					timetableName: activeTimetableName,
+				};
+
+				coursesToAdd.push(reqdProjectComponent);
+			}
+		}
+
+		setUserTimetable((prevTimetable) => {
+			let newTimetable = [...coursesToAdd];
+
+			if (prevTimetable) {
+				newTimetable = Array.from(
+					new Set(prevTimetable.concat(newTimetable)),
+				);
+			}
+
+			const reqdProperties = ['_id', 'code', 'course_type', 'credits', 'faculty', 'slot', 'venue', 'title', 'timetableName'];
+			newTimetable = newTimetable.map((crs) => Object.keys(crs)
+				.filter((key) => reqdProperties.includes(key))
+				.reduce((acc, val) => ({
+					...acc,
+					[val]: crs[val],
+				}), {}));
+
+			executePostSelectedCourses({
+				data: { selected_courses: newTimetable },
+			});
+
+			return newTimetable;
+		});
 	};
 
-	render() {
-		return (
-			<Container fluid>
-				<Row className="navBarRow">
-					<CustomNavbar
-						user={this.state.user}
-						creditCount={this.getCreditCount()}
-						themes={THEMES}
-						curriculumList={this.state.curriculumList}
-						selectedCurriculum={this.state.selectedCurriculum}
-						handleCurriculumChange={this.handleCurriculumChange}
-						changeActiveTheme={this.changeActiveTheme}
-						doLogout={this.doLogout}
+	const removeSlotFromTimetable = (course) => {
+		course.timetableName = activeTimetableName;
+
+		setUserTimetable((prevTimetable) => {
+			const newTimetable = prevTimetable.filter(
+				(v) => !(
+					course.code === v.code
+					&& course.faculty === v.faculty
+					&& course.slot === v.slot
+					&& course.venue === v.venue
+					&& v.timetableName === activeTimetableName
+				),
+			);
+
+			executePostSelectedCourses({
+				data: { selected_courses: newTimetable },
+			});
+
+			return newTimetable;
+		});
+	};
+
+	const createTimetable = (newName) => {
+		if (timetableNames.includes(newName)) return;
+		if (!newName) return;
+
+		setTimetableNames((prevNames) => [...prevNames, newName]);
+		setActiveTimetableName(newName);
+	};
+
+	const editTimetableName = (newName) => {
+		const initialName = activeTimetableName;
+
+		if (timetableNames.includes(newName)) return;
+		if (!newName) return;
+		if (initialName === 'Default') return;
+
+		setUserTimetable((prevTimetable) => {
+			const newTimetable = Array.from(
+				new Set(
+					prevTimetable
+						.map((v) => {
+							if (v.timetableName === initialName) {
+								v.timetableName = newName;
+							}
+							return v;
+						}),
+				),
+			);
+
+			executePostSelectedCourses({
+				data: { selected_courses: newTimetable },
+			});
+
+			return newTimetable;
+		});
+
+		setTimetableNames((prevNames) => prevNames.map((v) => (v === initialName ? newName : v)));
+		setActiveTimetableName(newName);
+	};
+
+	const deleteTimetable = () => {
+		const initialName = activeTimetableName;
+
+		if (initialName === 'Default') return;
+
+		setUserTimetable((prevTimetable) => {
+			const newTimetable = prevTimetable
+				.filter((v) => v.timetableName !== initialName);
+
+			executePostSelectedCourses({
+				data: { selected_courses: newTimetable },
+			});
+
+			return newTimetable;
+		});
+
+		setTimetableNames((prevNames) => prevNames.filter((v) => v !== initialName));
+		setActiveTimetableName('Default');
+	};
+
+	const createTimetableCopy = (newName) => {
+		const initialName = activeTimetableName;
+
+		if (timetableNames.includes(newName)) return;
+		if (!newName) return;
+
+		setUserTimetable((prevTimetable) => {
+			const oldTimetable = [...prevTimetable];
+
+			const copiedCourses = prevTimetable
+				.filter((v) => v.timetableName === initialName)
+				.map((v) => {
+					v.timetableName = newName;
+					return v;
+				});
+
+			const newTimetable = [];
+			newTimetable.push(...oldTimetable);
+			newTimetable.push(...copiedCourses);
+
+			executePostSelectedCourses({
+				data: { selected_courses: newTimetable },
+			});
+
+			return newTimetable;
+		});
+
+		setTimetableNames((prevNames) => [...prevNames, newName]);
+		setActiveTimetableName(newName);
+	};
+
+	const generateTimetable = (prefs) => {
+		executePostGenerateTT({
+			data: { pref: prefs },
+		});
+	};
+
+	return (
+		<Container fluid className={styles.mainContainer}>
+			<Row className={styles.navBarRow}>
+				<CustomNavbar
+					userDetails={userData}
+					creditCount={creditCount}
+					themeList={themeList}
+					curriculumList={curriculumListResponse ? curriculumListResponse.data : []}
+					selectedCurriculum={selectedCurriculumPrefix}
+					handleCurriculumChange={setSelectedCurriculumPrefix}
+					changeActiveTheme={setActiveTheme}
+					doLogout={handleUnauth}
+				/>
+			</Row>
+
+			<Row className={styles.slotSelectionRow}>
+				<Col xs={12} md={4}>
+					<CourseSelectTable
+						doSelectCourse={setSelectedCourseCode}
+
+						completedCourses={completedCoursesResponse ? completedCoursesResponse.data : []}
+						selectedCourse={selectedCourseCode}
+						selectedCurriculum={currentCurriculum}
+						selectedCurriculumPrefix={selectedCurriculumPrefix}
 					/>
-				</Row>
+				</Col>
 
-				{/*
-					this.state.alertShow ?
-						<Row>
-							<Alert variant="danger" onClose={() => this.setState({ alertShow: false })} dismissible>
-								<Alert.Heading>Courses Updated</Alert.Heading>
-								<p>
-									If you notice courses missing from your timetable, it might be due to them being removed to keep it in sync with the available courses from the Course Allocation Report.
-								</p>
-							</Alert>
-						</Row> : <></>
-				*/}
+				<Col xs={12} md={8}>
+					<SlotTable
+						selectedCourseCode={selectedCourseCode}
+						selectedCourseSlots={currentlySelectedCourseSlots}
 
-				<Row className="slotSelectionRow">
-					<Col xs={12} md={4}>
-						<CourseSelectTable
-							selectCourse={this.selectCourse}
-							handleUnauth={this.props.handleUnauth}
-							completedCourses={this.state.completedCourses}
-							heatmap={this.state.heatmap}
-							selectedCourse={this.state.selectedCourse}
-							curriculum={this.state.curriculum}
-							selectedCurriculum={this.state.selectedCurriculum}
-						/>
-					</Col>
-
-					<Col xs={12} md={8}>
-						<SlotTable
-							selectSlots={this.selectSlots}
-							checkClash={this.checkClash}
-							checkSelected={this.checkSelected}
-							slots={this.filterCourse()}
-							selectedCourse={this.state.selectedCourse}
-							types={this.findAvailableCourseTypes()}
-							venues={this.findAvailableVenues()}
-							theoryVenues={this.findAvailableVenues('Theory')}
-							labVenues={this.findAvailableVenues('Lab')}
-							projectVenues={this.findAvailableVenues('Project')}
-						/>
-					</Col>
-				</Row>
-				{/* <Row>
-						<MagicFill
-							user={this.state.user}
-							inProcess={this.state.generatingInProcess}
-							genTT={(prefs) => {this.genTT(prefs)}}
-						/>
-					</Row>
-					{this.renderTTErrors()} */}
-				<Row>
-					<Col>
-						<TimetableSwitcher
-							activeTimetable={this.state.activeTimetable}
-							timetableNames={this.state.timetableNames}
-							changeActiveTimetable={this.changeActiveTimetable}
-							modifyTimetableNames={this.modifyTimetableNames}
-							doEdit={this.doTimetableEdit}
-							doDelete={this.doTimetableDelete}
-							doNew={this.doTimetableAdd}
-							doCopy={this.doTimetableCopy}
-						/>
-					</Col>
-				</Row>
-
-				<Row>
-					<Timetable
-						clashMap={this.state.clashMap}
-						filledSlots={this.getFilledSlots()}
-						timetable={this.state.timetable}
-						activeTimetable={this.state.activeTimetable}
+						addSlotToTimetable={addSlotToTimetable}
+						slotClashesWith={slotClashesWith}
+						isSelected={isSelected}
 					/>
-				</Row>
+				</Col>
+			</Row>
 
-				<Row>
-					<SelectedCoursesTable
-						timetable={this.state.timetable}
-						unselectSlot={this.unselectSlots}
-						activeTimetable={this.state.activeTimetable}
-						creditCount={this.getCreditCount()}
+			<Row>
+				<Col>
+					<TimetableSwitcher
+						activeTimetableName={activeTimetableName}
+						timetableNames={timetableNames}
+						setActiveTimetableName={setActiveTimetableName}
+						doEdit={editTimetableName}
+						doDelete={deleteTimetable}
+						doNew={createTimetable}
+						doCopy={createTimetableCopy}
 					/>
-				</Row>
-			</Container>
-		);
-	}
-}
+				</Col>
+			</Row>
+
+			<Row>
+				<MagicFill
+					show={showMagicFill}
+					user={userData}
+					inProcess={postGenerateTTLoading}
+					genTT={(prefs) => { generateTimetable(prefs); }}
+				/>
+			</Row>
+
+			<TTError
+				error={timetableGenerationError}
+				setTimetableGenerationError={setTimetableGenerationError}
+			/>
+
+			<AlertRow
+				show={showAlert}
+				setShowAlert={setShowAlert}
+			/>
+
+			<Row>
+				<Timetable
+					clashMap={clashmap}
+					filledSlots={filledSlots}
+					timetable={userTimetable || []}
+					activeTimetableName={activeTimetableName}
+				/>
+			</Row>
+
+			<Row>
+				<SelectedCoursesTable
+					timetable={userTimetable || []}
+					unselectSlot={removeSlotFromTimetable}
+					activeTimetableName={activeTimetableName}
+					creditCount={creditCount}
+				/>
+			</Row>
+
+		</Container>
+	);
+};
+
 export default Dashboard;

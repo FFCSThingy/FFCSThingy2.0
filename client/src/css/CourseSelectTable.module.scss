@@ -1,0 +1,340 @@
+@import './utilities/mixins';
+
+.courseSelectContainer {
+	margin-top: 4rem;
+	margin-bottom: 2rem;
+	border-radius: 0.7rem;
+	border: none;
+
+	max-height: 80vh !important;
+
+	@include theme-aware('background-color', 'color-brand');
+}
+
+.courseSelectTableHeader {
+	border-radius: 0.7rem 0.7rem 0 0 !important;
+	@include theme-aware('background-color', 'color-brand');
+	@include theme-aware('-color', 'color-text');
+	padding: 1.25rem 1rem 0 1rem;
+	border: none;
+}
+
+.courseSelectTableBody {
+	font-family: 'Montserrat', sans-serif;
+	@include theme-aware('background-color', 'color-background-table');
+
+	border-radius: 0 0 0.7rem 0.7rem;
+	cursor: default;
+
+	min-height: 20vh;
+	overflow: auto;
+
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		width: 0 !important;
+	}
+
+	.courseList {
+		column-count: 1;
+	}
+}
+
+.courseCard {
+	border-radius: 0.7rem;
+	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
+	cursor: pointer;
+	@include theme-aware('color', 'color-text-inverted');
+	@include theme-aware('background-color', 'color-background-card');
+
+	&.active {
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+		@include theme-aware('background-color', 'color-background-card-highlight');
+
+		cursor: not-allowed;
+	}
+
+	&:hover {
+		@media only screen and (min-width: 768px) {
+			@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+			@include theme-aware('background-color', 'color-background-card-highlight');
+			transition: box-shadow 0.17s ease-in-out;
+			transition: background-color 0.1s ease-in-out;
+		}
+	}
+
+	.cardTitle {
+		font-size: 1.05em;
+		font-weight: bold;
+		margin: 0;
+	}
+
+	.courseSelectDetails {
+		margin: 0;
+
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		font-size: 0.9rem;
+
+		.courseCredits,
+		.courseCodeText {
+			flex-grow: 1;
+		}
+
+		.courseCredits {
+			text-align: right;
+		}
+	}
+
+	.cardCompletedSubtitle {
+		margin-top: 0;
+		@include theme-aware('color', 'color-text-selected');
+	}
+
+	.cardCompletionFailedSubtitle {
+		margin-top: 0;
+		@include theme-aware('color', 'color-text-clash');
+	}
+}
+
+.searchBarContainer {
+	padding: 0;
+
+	::placeholder {
+		@include theme-aware('color', 'color-text');
+		opacity: 1;
+		transition: opacity 0.17s ease;
+		text-transform: capitalize;
+	}
+
+	[placeholder] {
+		&:focus::-webkit-input-placeholder {
+			transition: opacity 0.17s ease;
+			opacity: 0;
+		}
+
+		&:focus::-moz-placeholder {
+			transition: opacity 0.17s ease;
+			opacity: 0;
+		}
+	}
+
+	.searchColumn {
+		display: flex;
+		min-height: 1.75rem;
+
+		&:focus-within .codeText {
+			display: none;
+		}
+
+		.searchIcon {
+			margin-top: 0.2rem;
+			margin-right: 0.5rem;
+			flex-shrink: 0;
+			@include theme-aware('color', 'color-text');
+		}
+
+		.searchTooltip td,
+		.searchTooltip th {
+			padding: 0 5px;
+			background-color: transparent;
+			@include theme-aware('color', 'color-text');
+		}
+
+		.searchBar {
+			@include theme-aware('background-color', 'color-brand');
+			@include theme-aware('color', 'color-text');
+			font-family: 'Montserrat', sans-serif;
+			border: none;
+			box-shadow: none !important;
+			padding: 0;
+			font-weight: bold;
+			font-size: 1.3em;
+			text-align: left;
+			text-transform: uppercase;
+
+			width: 92%;
+			height: 1.1em;
+
+			@media only screen and (min-width: 768px) and (max-width: 860px) {
+				width: 90%;
+
+				&:focus {
+					width: 90%;
+				}
+			}
+		}
+
+		.codeText {
+			font-family: 'Montserrat', sans-serif;
+			font-weight: bold;
+			font-size: 1.3em;
+			margin-top: -0.22rem;
+
+			pointer-events: none;
+			position: absolute;
+			left: 9.5rem;
+			z-index: 1;
+
+			@include theme-aware('color', 'color-text');
+
+			&:after {
+				animation: changeWord 6s linear infinite alternate;
+				content: 'Slot';
+			}
+
+			@media only screen and (min-width: 768px) {
+				left: 9.5rem;
+			}
+
+			@media only screen and (min-width: 1070px) {
+				left: 9.5rem;
+			}
+
+			@media only screen and (min-width: 768px) and (max-width: 860px) {
+				left: 9.5rem;
+			}
+		}
+	}
+}
+
+.typeFilterCol {
+	display: flex;
+	align-items: center;
+}
+
+.courseSelectTypeFilter {
+	composes: toggleCustom from './baseStyles/CustomToggleButton.module.scss';
+}
+
+.creditFormGroup {
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.creditLabel {
+		@include theme-aware('color', 'color-text');
+		font-family: 'Montserrat', sans-serif;
+		font-weight: bold;
+		font-size: 1rem;
+		text-align: right;
+
+		margin: 0;
+	}
+
+	.creditField {
+		font-family: 'Montserrat', sans-serif;
+		font-weight: bold;
+		font-size: 1rem;
+		text-align: center;
+		text-transform: uppercase;
+
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware('color', 'color-text');
+
+		border: none;
+		border-bottom: 2px solid;
+		@include theme-aware('border-bottom-color', 'color-text');
+		border-radius: 0;
+		box-shadow: none !important;
+
+		padding: 0;
+
+		height: 1.3em !important;
+		width: 100%;
+
+		-moz-appearance: textfield;
+
+		&:focus {
+			border: none;
+			border-bottom: 2px solid;
+			@include theme-aware('border-bottom-color', 'color-text');
+		}
+
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		@media only screen and (min-width: 768px) and (max-width: 860px) {
+			margin-left: 4px;
+		}
+	}
+}
+
+.categoryFilterGroup {
+	margin: 0;
+	margin-right: auto;
+	text-align: center;
+
+	.categoryFilterButton {
+		font-family: 'Montserrat', sans-serif;
+		margin-right: 0.5rem !important;
+		border: none !important;
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware('color', 'color-text');
+		transition: color 0.17s ease-in;
+		outline: 0;
+
+		&:hover {
+			@include theme-aware('color', 'color-background-button-selected');
+			transition: color 0.17s ease-in;
+		}
+
+		&:global(.active) {
+			@include theme-aware('background-color', 'color-background-table');
+			@include theme-aware('color', 'color-text-inverted');
+			transition: background-color 0.17s ease-in;
+		}
+
+		&:global(.focus) {
+			@include theme-aware('background-color', 'color-background-table');
+			@include theme-aware('color', 'color-text-inverted');
+			transition: background-color 0.17s ease-in;
+			border: none;
+		}
+
+		@media only screen and (max-width: 1250px) {
+			padding: 0.5rem 0.5rem;
+		}
+	}
+}
+
+@keyframes changeWord {
+	0% {
+		content: 'Slot';
+		opacity: 100;
+	}
+	12.5% {
+		opacity: 0;
+	}
+	25% {
+		content: 'Title';
+		opacity: 100;
+	}
+	37.5% {
+		opacity: 0;
+	}
+	50% {
+		content: 'Code';
+		opacity: 100;
+	}
+	62.5% {
+		opacity: 0;
+	}
+	75% {
+		content: 'Title';
+		opacity: 100;
+	}
+	87.5% {
+		opacity: 0;
+	}
+	100% {
+		content: 'Slot';
+		opacity: 100;
+	}
+}

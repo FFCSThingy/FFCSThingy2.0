@@ -122,22 +122,24 @@ const Dashboard = ({ handleUnauth }) => {
 	const [showAlert, setShowAlert] = useState(false);
 	const [timetableGenerationError, setTimetableGenerationError] = useState('');
 
-	useEffect(() => {
-		executeGetHeatmapResponse();
-	}, [executeGetHeatmapResponse]);
 
-	useInterval(executeGetHeatmapResponse, 1000 * 60 * 2);
-
-	useEffect(() => {
-		executeGetCurrentCurriculumResponse();
-	}, [executeGetCurrentCurriculumResponse, selectedCurriculumPrefix]);
-
+	// Sets theme for the app
 	useEffect(() => {
 		document.documentElement.className = '';
 		localStorage.setItem('theme', activeTheme);
 		document.documentElement.classList.add(`theme-${activeTheme}`);
 	}, [activeTheme]);
 
+
+	// Gets heatmap response from server
+	useEffect(() => {
+		executeGetHeatmapResponse();
+	}, [executeGetHeatmapResponse]);
+
+	// Sets up 2 minute interval for heatmap sync
+	useInterval(executeGetHeatmapResponse, 1000 * 60 * 2);
+
+	// Sets heatmap in state
 	useEffect(() => {
 		if (heatmapResponse) {
 			setHeatmap(heatmapResponse.data.heatmap);
@@ -145,22 +147,27 @@ const Dashboard = ({ handleUnauth }) => {
 		}
 	}, [heatmapResponse]);
 
+	// Sets currently selected course slots for SlotTable from heatmap
 	useEffect(() => {
-		executeGetTimetableResponse();
-	}, [executeGetTimetableResponse]);
-
-	useInterval(executeGetTimetableResponse, 1000 * 60);
-
-	useEffect(() => {
-		if (timetableResponse) {
-			setUserTimetable(timetableResponse.data);
+		if (heatmap) {
+			const slots = heatmap.filter((course) => course.code === selectedCourseCode);
+			setCurrentlySelectedCourseSlots(slots);
 		}
-	}, [timetableResponse]);
+	}, [selectedCourseCode, heatmap]);
 
+
+	// Gets currently selected curriculum data from server
+	useEffect(() => {
+		executeGetCurrentCurriculumResponse();
+	}, [executeGetCurrentCurriculumResponse, selectedCurriculumPrefix]);
+
+	// Updates selected curriculum prefix in localStorage
 	useEffect(() => {
 		localStorage.setItem('selectedCurriculum', selectedCurriculumPrefix);
 	}, [selectedCurriculumPrefix]);
 
+	// Sets Curriculum in LocalStorage corresponding to prefix
+	// Ex - 19BCE: {Data...}
 	useEffect(() => {
 		if (currentCurriculumResponse) {
 			setCurrentCurriculum(currentCurriculumResponse.data);
@@ -168,6 +175,23 @@ const Dashboard = ({ handleUnauth }) => {
 		}
 	}, [currentCurriculumResponse, selectedCurriculumPrefix]);
 
+
+	// Gets user timetable from the server
+	useEffect(() => {
+		executeGetTimetableResponse();
+	}, [executeGetTimetableResponse]);
+
+	// Sets up 3 minute interval for timetable sync
+	useInterval(executeGetTimetableResponse, 1000 * 60);
+
+	// Sets timetable in state
+	useEffect(() => {
+		if (timetableResponse) {
+			setUserTimetable(timetableResponse.data);
+		}
+	}, [timetableResponse]);
+
+	// Updates credit count, timetable names, filled slots when timetable/timetableName changes
 	useEffect(() => {
 		if (userTimetable) {
 			const count = userTimetable.reduce((a, v) => a + Number(v.credits), 0);
@@ -193,6 +217,7 @@ const Dashboard = ({ handleUnauth }) => {
 		}
 	}, [userTimetable, activeTimetableName]);
 
+	// Updates clashmap when filled slots list changes
 	useEffect(() => {
 		setClashmap((prevClashmap) => {
 			Object.keys(prevClashmap)
@@ -216,13 +241,7 @@ const Dashboard = ({ handleUnauth }) => {
 		});
 	}, [filledSlots]);
 
-	useEffect(() => {
-		if (heatmap) {
-			const slots = heatmap.filter((course) => course.code === selectedCourseCode);
-			setCurrentlySelectedCourseSlots(slots);
-		}
-	}, [selectedCourseCode, heatmap]);
-
+	// TTGen
 	useEffect(() => {
 		if (postGenerateTTResponse) {
 			const { success } = postGenerateTTResponse;

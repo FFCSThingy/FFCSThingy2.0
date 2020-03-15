@@ -297,15 +297,21 @@ const Dashboard = ({ handleUnauth }) => {
 	const addSlotToTimetable = (course) => {
 		course.timetableName = activeTimetableName;
 		const coursesToAdd = [course];
+		let reqdProjectComponent;
 
 		if (course.simpleCourseType !== 'Project') {
-			const reqdProjectComponent = heatmap.find(
+			reqdProjectComponent = heatmap.find(
 				(v) => course.code === v.code
 					&& course.faculty === v.faculty
 					&& v.simpleCourseType === 'Project',
 			);
 
 			if (reqdProjectComponent && !isSelected(reqdProjectComponent)) {
+				reqdProjectComponent = {
+					...reqdProjectComponent,
+					timetableName: activeTimetableName,
+				};
+
 				coursesToAdd.push(reqdProjectComponent);
 			}
 		}
@@ -315,7 +321,7 @@ const Dashboard = ({ handleUnauth }) => {
 
 			if (prevTimetable) {
 				newTimetable = Array.from(
-					new Set([...prevTimetable, ...newTimetable]),
+					new Set(prevTimetable.concat(newTimetable)),
 				);
 			}
 

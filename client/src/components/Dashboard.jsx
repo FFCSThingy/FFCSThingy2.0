@@ -123,6 +123,10 @@ const Dashboard = ({ handleUnauth }) => {
 	const [timetableGenerationError, setTimetableGenerationError] = useState('');
 
 
+	useEffect(() => {
+		setActiveTheme('default');
+	});
+
 	// Sets theme for the app
 	useEffect(() => {
 		document.documentElement.className = '';

@@ -198,7 +198,10 @@ const Dashboard = ({ handleUnauth }) => {
 	// Updates credit count, timetable names, filled slots when timetable/timetableName changes
 	useEffect(() => {
 		if (userTimetable) {
-			const count = userTimetable.reduce((a, v) => a + Number(v.credits), 0);
+			const count = userTimetable
+				.filter((v) => v.timetableName === activeTimetableName)
+				.reduce((a, v) => a + Number(v.credits), 0);
+
 			const ttNames = Array.from(
 				new Set(
 					userTimetable

@@ -15,10 +15,16 @@ ReactGA.initialize('UA-156974674-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
-	const [authenticated, setAuthenticated] = useState(true);
+	const [authenticated, setAuthenticated] = useState(false);
 
 	const isAuthenticated = () => API.get('/account')
-		.then((res) => setAuthenticated(!!res.data))
+		.then((res) => {
+			if (res.data.google_id) {
+				setAuthenticated(true);
+			} else {
+				setAuthenticated(false);
+			}
+		})
 		.catch((err) => setAuthenticated(!err));
 
 	useEffect(() => {
@@ -28,13 +34,23 @@ const App = () => {
 	return (
 		<Router>
 			<Switch>
-				<Route exact path="/login" component={Login} />
+				{/* <Route exact path="/login" component={Login} /> */}
+				<PrivateRoute
+					path="/login"
+					redirect="/"
+					component={Login}
+					isAuthenticated={!authenticated}
+				/>
+
 				<PrivateRoute
 					path="/"
 					redirect="/login"
 					component={Dashboard}
 					isAuthenticated={authenticated}
-					handleUnauth={() => setAuthenticated(false)}
+					handleUnauth={() => {
+						API.get('/logout');
+						setAuthenticated(false);
+					}}
 				/>
 			</Switch>
 		</Router>

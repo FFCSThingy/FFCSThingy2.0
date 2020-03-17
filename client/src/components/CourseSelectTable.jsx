@@ -73,7 +73,7 @@ const FilterControls = memo(({
 			</Row>
 
 			<Row>
-				<Col xs={7} md={5} lg={6} className={styles.typeFilterCol}>
+				<Col xs={6} md={5} lg={6} className={styles.typeFilterCol}>
 					<ToggleButtonGroup
 						className={styles.typeFilter}
 						type="checkbox"
@@ -84,13 +84,13 @@ const FilterControls = memo(({
 					</ToggleButtonGroup>
 				</Col>
 
-				<Col xs={5} md={7} lg={6} className={styles.creditFilterCol}>
+				<Col xs={6} md={7} lg={6} className={styles.creditFilterCol}>
 					<Form.Group as={Row} className={styles.creditFormGroup}>
-						<Col xs={7} sm={5} md={7} lg={5}>
+						<Col xs={6} sm={5} md={7} lg={5}>
 							<Form.Label className={styles.creditLabel}>Credits:</Form.Label>
 						</Col>
 
-						<Col xs={5} sm={7} md={5} lg={7}>
+						<Col xs={6} sm={7} md={5} lg={7}>
 							<Form.Control
 								className={styles.creditField}
 								name="creditFilter"

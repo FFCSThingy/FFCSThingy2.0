@@ -1,136 +1,157 @@
-import React from 'react';
-import { Dropdown, ButtonGroup, Button, Form, DropdownButton } from 'react-bootstrap';
-import { FaTrashAlt, FaPlusSquare, FaPen } from 'react-icons/fa';
-import '../css/TimetableSwitcher.css';
-import "../css/TimeTable.css";
-// import { log } from 'util';
-class TimetableSwitcher extends React.Component {
+import React, { useState, useEffect, memo } from 'react';
+import {
+	Dropdown, ButtonGroup, Button, Form,
+} from 'react-bootstrap';
+import {
+	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
+} from 'react-icons/fa';
+import styles from '../css/TimetableSwitcher.module.scss';
 
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			showEdit: false,
-			showNew: false,
-			showCopy: false,
-			newName: '',
 
-			show: false,
-			value: ""
-		};
-	}
+const TimetableInput = ({ value = '', okHandler, showInput }) => {
+	const [newTimetableName, setNewTimetableName] = useState(value);
+	useEffect(() => {	// update default value on show and value change
+		setNewTimetableName(value);
+	}, [value, showInput]);
 
-	handleChange = (event) => {
-		let fieldName = event.target.name;
-		let fleldVal = event.target.value;
-		this.setState({ [fieldName]: fleldVal })
-	}
+	const handleSubmit = () => okHandler(newTimetableName);
 
-	handleCopy = () => {
-		this.setState(prevState => ({
-			showCopy: !prevState.showCopy,
-			showEdit: false,
-			showNew: false
-		}));
-	}
+	const handleKeyPress = (target) => {
+		if (target.charCode === 13) {
+			handleSubmit();
+		}
+	};
 
-	handleEdit = () => {
-		this.setState(prevState => ({
-			showCopy: false,
-			showEdit: !prevState.showEdit,
-			showNew: false
-		}));
-	}
+	if (!showInput) return <></>;
+	return (
+		<Form
+			className={styles.form}
+			onKeyPress={handleKeyPress}
+		>
+			<Form.Control
+				type="text"
+				value={newTimetableName}
+				placeholder="Timetable Name"
+				name="newName"
+				onChange={(e) => setNewTimetableName(e.target.value)}
+				spellCheck="false"
+				autoComplete="off"
+				className={styles.inputField}
+			/>
 
-	handleNew = () => {
-		this.setState(prevState => ({
-			showCopy: false,
-			showEdit: false,
-			showNew: !prevState.showNew
-		}));
-	}
+			<Button
+				className={styles.customButton}
+				onClick={handleSubmit}
+			>
+				Ok
+			</Button>
+		</Form>
+	);
+};
 
-	renderInput = () => {
-		if (this.state.showEdit || this.state.showCopy || this.state.showNew)
-			return (
-				<Form>
-					<Form.Control
-						type='text'
-						value={this.state.newName}
-						placeholder='Timetable Name'
-						name='newName'
-						onChange={this.handleChange.bind(this)}
-						spellCheck="false"
-						autoComplete="off"
-					/>
+const DropdownItem = ({ value }) => (
+	<Dropdown.Item
+		eventKey={value}
+		className={styles.dropdownItem}
+	>
+		{value}
+	</Dropdown.Item>
+);
 
-					<Button className="okButton"
-						onClick={() => {
-							(this.state.showEdit) ? this.props.doEdit(this.state.newName)
-								: (this.state.showNew) ? this.props.doNew(this.state.newName)
-									: this.props.doCopy(this.state.newName);
+const TimetableSwitcher = memo(({
+	timetableNames, activeTimetableName, setActiveTimetableName, doNew, doEdit, doDelete, doCopy,
+}) => {
+	const [action, setAction] = useState(null);
 
-							(this.state.showEdit) ? this.handleEdit()
-								: (this.state.showNew) ? this.handleNew()
-									: this.handleCopy();
-						}
-						}
-					>
-						Ok
-						</Button>
-				</Form>
-			)
-		else return;
-	}
+	const okHandler = (value) => {
+		switch (action) {
+			case 'New':
+				doNew(value);
+				setAction(null);
+				break;
 
-	renderDropdownItems = () => {
-		return this.props.timetableNames.map(v => <Dropdown.Item eventKey={v} className="timetableSwitcherDropdownItem">{v}</Dropdown.Item>);
-	}
+			case 'Edit':
+				doEdit(value);
+				setAction(null);
+				break;
 
-	render() {
-		return (
-			<div className="dropdownButtonGroupContainer">
-				<ButtonGroup className="dropdownButtonGroup">
-					<DropdownButton
-						title={this.props.activeTimetable}
-						onSelect={this.props.changeActiveTimetable}
-					>
-						{this.renderDropdownItems()}
-					</DropdownButton>
+			case 'Copy':
+				doCopy(value);
+				setAction(null);
+				break;
 
-					<Button
-						className="dropdownButton selectTimeTable"
-						onClick={this.handleNew}
-					>
-						<FaPlusSquare />
-					</Button>
+			default: break;
+		}
+	};
 
-					{/* <Button
-						className="dropdownButton selectTimeTable"
-						onClick={this.handleCopy}
-					>
-						<FaCopy />
-					</Button> */}
+	const handleAction = (inputAction) => {
+		if (inputAction === 'Delete') doDelete();
+		else if (inputAction === action) setAction(null);
+		else setAction(inputAction);
+	};
 
-					<Button
-						className="dropdownButton selectTimeTable"
-						onClick={this.handleEdit}
-					>
-						<FaPen />
-					</Button>
+	const showInput = () => ['New', 'Edit', 'Copy'].includes(action);
 
-					<Button
-						className="dropdownButton selectTimeTable"
-						onClick={this.props.doDelete}
-					>
-						<FaTrashAlt />
-					</Button>
+	const defaultValue = () => {
+		if (action === 'New') return '';
+		return activeTimetableName;
+	};
 
-				</ButtonGroup>
+	const dropdownItems = timetableNames.map((v) => (
+		<DropdownItem key={`TimetableSwitcherDropdownItem-${v}`} value={v} />
+	));
 
-				{this.renderInput()}
-			</div>
-		);
-	}
-}
+
+	return (
+		<div className={styles.dropdownButtonGroupContainer}>
+			<ButtonGroup className={styles.dropdownButtonGroup}>
+
+				<Dropdown onSelect={setActiveTimetableName}>
+					<Dropdown.Toggle className={styles.customDropdownButton}>
+						{activeTimetableName}
+					</Dropdown.Toggle>
+
+					<Dropdown.Menu className={styles.dropdownMenu}>
+						{dropdownItems}
+					</Dropdown.Menu>
+				</Dropdown>
+
+				<Button
+					className={styles.customButton}
+					onClick={() => handleAction('New')}
+				>
+					<FaPlusSquare />
+				</Button>
+
+				{/* <Button
+					className={styles.customButton}
+					onClick={() => handleAction('Copy')}
+				>
+					<FaCopy />
+				</Button> */}
+
+				<Button
+					className={styles.customButton}
+					onClick={() => handleAction('Edit')}
+					disabled={activeTimetableName === 'Default'}
+				>
+					<FaPen />
+				</Button>
+
+				<Button
+					className={styles.customButton}
+					onClick={() => handleAction('Delete')}
+					disabled={activeTimetableName === 'Default'}
+				>
+					<FaTrashAlt />
+				</Button>
+
+			</ButtonGroup>
+
+			<TimetableInput value={defaultValue()} okHandler={okHandler} showInput={showInput()} />
+
+		</div>
+	);
+});
 
 export default TimetableSwitcher;

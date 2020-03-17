@@ -1,9 +1,15 @@
 /* Add style properties to separate 
 css files for each component */
 
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600");
 
 body {
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+	font-family: 'futura_md_btmedium_italic';
+	src: url('./fonts/futura_medium_italic_font-webfont.woff2') format('woff2'),
+		url('./fonts/futura_medium_italic_font-webfont.woff') format('woff');
 }

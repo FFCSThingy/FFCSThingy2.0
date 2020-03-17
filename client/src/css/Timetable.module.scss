@@ -1,0 +1,79 @@
+.timetableContainer {
+	font-family: 'Montserrat', sans-serif;
+	font-size: 0.6em;
+
+	margin-top: 1rem;
+	padding-right: 1rem;
+	padding-left: 1rem !important;
+	
+	cursor: default;
+
+	@media only screen and (min-width: 768px) {
+		font-size: 1em;
+		
+		margin-top: 2rem;
+		overflow-x: auto;
+	}
+}
+
+.morningIcon {
+	height: 35px;
+	width: 35px;
+	
+	margin-left: -0.5rem;
+}
+
+.eveningIcon {
+	height: 35px;
+	width: 35px;
+
+	margin-top: 1rem;
+	margin-bottom: -0.9rem;
+	margin-left: -0.5rem;
+	
+	color: hsl(39, 70%, 60%);
+}
+
+.timetableB {
+	position: relative;
+	z-index: 1;
+}	
+
+.timetable, .timetableA, .timetableB {
+	width: 100%;
+
+	tr {
+		border: none !important;
+	}
+}
+
+// Top Row
+.timetableHeader1, .timetableHeader1A, .timetableHeader1B {
+	th {
+		// Top-Left Cell (th)
+		&:first-child {
+			border-top-left-radius: 0.7rem;
+		}
+	}
+
+	td {
+		// Top-Right Cell (td)
+		&:last-child {
+			border-top-right-radius: 0.7rem;
+		}
+	}
+}
+
+.timetableBody {
+	tr:last-child {
+		// Bottom-Left Cell (th)
+		th:first-child {
+			border-bottom-left-radius: 0.7rem;
+		}
+
+		// Bottom-Right Cell (td)
+		td:last-child {
+			border-bottom-right-radius: 0.7rem;
+		}
+	}	
+}

@@ -1,0 +1,220 @@
+@import './utilities/mixins';
+
+.navbar {
+	@include theme-aware('background-color', 'color-brand');
+	width: 100%;
+	font-family: 'Montserrat', sans-serif;
+	font-weight: bold;
+	padding: 0.5rem;
+	align-items: baseline;
+	justify-content: space-between;
+	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
+
+	@media only screen and (min-width: 768px) {
+		padding: inherit 2rem;
+	}
+
+	.leftContainer {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-evenly;
+		flex-grow: 1;
+
+		@media only screen and (min-width: 768px) {
+			justify-content: normal;
+		}
+	}
+
+	.mobileMenuToggle {
+		border: none;
+		outline: 0;
+		@include theme-aware('color', 'color-text');
+	}
+
+	.collapseContainer {
+		justify-content: space-between;
+		align-items: baseline;
+	}
+
+	.middleContainer {
+		display: flex;
+		align-items: baseline;
+	}
+
+	.rightContainer {
+		display: flex;
+		align-items: baseline;
+
+		.userProfileImage {
+			border-radius: 50%;
+			width: 35px;
+			height: 35px;
+			border: 1px solid;
+			@include theme-aware('border-color', 'color-text');
+		}
+	}
+
+	.linksContainer {
+		padding-left: 2rem;
+		justify-content: space-between;
+
+		@media only screen and (max-width: 768px) {
+			padding-left: 0;
+		}
+	}
+
+	.navLink {
+		@include theme-aware('color', 'color-text');
+		padding-top: 0.8rem;
+		outline: 0;
+
+		&:hover {
+			@include theme-aware('color', 'color-text-other');
+			transition: all 0.17s ease-in-out;
+		}
+	}
+}
+
+.navbarBrand {
+	@include theme-aware('color', 'color-text');
+	padding: 0;
+	margin-right: 0;
+	display: flex;
+	align-items: baseline;
+
+	@media only screen and (min-width: 768px) {
+		margin-right: 1rem;
+	}
+
+	.logo {
+		height: 25px;
+		width: auto;
+		margin: auto;
+
+		@media only screen and (min-width: 768px) {
+			height: 35px;
+		}
+	}
+
+	.branding {
+		margin-left: 7px;
+		font-family: 'futura_md_btmedium_italic';
+		font-size: 1.4rem;
+		@include theme-aware('color', 'color-text');
+
+		@media only screen and (min-width: 768px) {
+			font-size: 1.6rem;
+		}
+	}
+}
+
+.navbarDropdown {
+	@include theme-aware('color', 'color-text');
+	@include theme-aware('background-color', 'color-brand');
+	border: none;
+	box-shadow: none;
+	font-weight: bold;
+	font-family: 'Montserrat', sans-serif;
+
+	a {
+		outline: 0;
+	}
+
+	// To hide the small default dropdown menu that is rendered
+	& > :global(.dropdown-menu):global(.show) {
+		background: transparent;
+		padding: 0;
+		border: none;
+	}
+
+	// For navbar toggle text
+	& > :global(.dropdown-toggle) {
+		@include theme-aware('color', 'color-text');
+	}
+
+	// The Dropdown.Menu item inside NavDropdown
+	.dropdownMenu {
+		@include theme-aware('background-color', 'color-background-table');
+		padding: 0;
+		overflow-y: auto;
+		max-height: 60vh;
+		width: auto;
+
+		.dropdownItem {
+			@include theme-aware('color', 'color-text-inverted');
+			padding: 0.5rem 1rem;
+			outline: 0;
+
+			.dropdownDivider {
+				margin: 0;
+				width: 100%;
+			}
+
+			&:hover {
+				@include theme-aware('background-color', 'color-background-table-alternate');
+			}
+		}
+	}
+}
+
+.popup {
+	font-family: 'Montserrat', sans-serif;
+	a {
+		@include theme-aware('color', 'color-brand');
+	}
+
+	.closeButton {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		border-radius: 0.5rem !important;
+		border: none;
+
+		&:global(.active), &:active {
+			@include theme-aware('background-color', 'color-brand');
+			@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+			transform: translateY(2px);
+			border: none;
+			outline: 0;
+		}
+
+		&:global(.focus), &:focus {
+			@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		}
+
+		&:active:focus {
+			@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+			border: none;
+		}
+	}
+}
+
+.sync {
+	animation: blinkingText 5s forwards;
+	animation-delay: 2s;
+}
+
+.blink {
+	animation: blinkingText;
+	animation-direction: forwards;
+	animation-duration: 1s;
+	animation-iteration-count: 5;
+	animation-delay: 2s;
+}
+
+@media only screen and (max-width: 768px) {
+	.sync {
+		animation: none;
+	}
+}
+
+@keyframes blinkingText {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.2;
+	}
+	100% {
+		opacity: 1;
+	}
+}

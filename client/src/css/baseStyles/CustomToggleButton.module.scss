@@ -1,0 +1,31 @@
+@import '../utilities/mixins';
+
+.toggleCustom {
+	@include theme-aware('background-color', 'color-background-table');
+	@include theme-aware('color', 'color-text-inverted');
+	border: none;
+	transition: background-color 0.17s ease-in;
+	cursor: pointer;
+
+	&:global(.focus) {
+		box-shadow: none;
+		border: none;
+	}
+
+	&:global(.active.btn) {
+		@include theme-aware('background-color', 'color-background-button-selected');
+		@include theme-aware('color', 'color-text');
+		border: none;
+		transition: background-color 0.17s ease-in;
+	}
+
+	&:global(.hover) {
+		@include theme-aware('background-color', 'color-background-table');
+		border: none;
+		transition: background-color 0.17s ease-in;
+	}
+
+	@media only screen and (min-width: 768px) and (max-width: 978px) {
+		font-size: 0.8em;
+	}
+}

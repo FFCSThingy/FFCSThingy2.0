@@ -1,68 +1,74 @@
-import React, { Component } from "react";
+import React, { memo } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import "../css/TimeTable.css";
-class TimetableCell extends Component {
-	static defaultProps = {
-		filled: false,
-		lab: false,
-		day: false,
-		time: false,
-		slotString: '',
-	}
+import styles from '../css/TimetableCell.module.scss';
 
-	renderBreak = () => {
-		return <td width="8px" rowSpan={9} className="timetableBreak"><strong>{this.props.children}</strong></td>
-	}
-
-	renderTime = () => {
-		var cellClass = (this.props.lab) ? 'timetableLabHours' : 'timetableTheoryHours';
-		return <td key={this.props.children} className={cellClass}>{this.props.children}</td>
-	}
-
-	renderDay = () => {
-		return <td key={this.props.children} className="timetableDay">{this.props.children}</td>
-	}
-
-	renderEmpty = () => {
-		return <td key={this.props.children} className="timetableEmpty"><b>{this.props.children}</b></td>
-	}
-
-	renderFilled = () => {
-		var cellClass = (this.props.lab) ? 'timetableFilledLab' : 'timetableFilledTheory';
+const TimetableCell = memo(({
+	isFilled, isLab, dayHeader, timeHeader, isBreak, children, reqdCourse,
+}) => {
+	if (isBreak) {
 		return (
-			<td key={this.props.children} className={cellClass}>
+			<th key={children} rowSpan={9} className={styles.break}>{children}</th>
+		);
+	}
+	if (timeHeader) {
+		return (
+			<td key={children} className={styles.timeHeader}>
+				{children}
+			</td>
+		);
+	}
+	if (dayHeader) {
+		return (
+			<th key={children} className={styles.dayHeader}>{children}</th>
+		);
+	}
+	if (isFilled) {
+		const cellClass = (isLab) ? styles.filledLab : styles.filledTheory;
+		const tooltip = (
+			<Tooltip>
+				<h6 className={styles.courseDetails}>
+					<b>{reqdCourse.title}</b>
+					<br />
+					{reqdCourse.faculty}
+					<br />
+					{reqdCourse.slot}
+				</h6>
+			</Tooltip>
+		);
+
+		return (
+			<td key={children} className={cellClass}>
 				<OverlayTrigger
-					key={`${this.props.children}-Overlay`}
+					key={`${children}-Overlay`}
 					placement="top"
 					trigger={['hover', 'click']}
-					overlay={
-						<Tooltip>
-							<h6 className="courseDetails">
-								<b>{this.props.reqdCourse.title}</b> <br />
-								{this.props.reqdCourse.faculty} <br />
-								{this.props.reqdCourse.slot}
-							</h6>
-						</Tooltip>
-					}
+					overlay={tooltip}
 				>
 					<div>
-						<b className="slotDetails">{this.props.children}</b>
-						<h6 className="courseCode">{this.props.reqdCourse.code}</h6>
-						<h6 className="courseDetails">{this.props.reqdCourse.venue} - {this.props.reqdCourse.course_type}</h6>
+						<b className={styles.slotDetails}>{children}</b>
+						<h6 className={styles.courseCode}>{reqdCourse.code}</h6>
+						<h6 className={styles.courseDetails}>
+							{`${reqdCourse.venue} - ${reqdCourse.course_type}`}
+						</h6>
 					</div>
 				</OverlayTrigger>
 			</td>
-		)
+		);
 	}
 
-	render() {
-		if (this.props.break) return this.renderBreak();
-		if (this.props.day) return this.renderDay();
-		if (this.props.time) return this.renderTime();
+	return (
+		<td key={children} className={styles.empty}>{children}</td>
+	);
+});
 
-		return (this.props.filled) ? this.renderFilled() : this.renderEmpty();
-	}
-}
+
+TimetableCell.defaultProps = {
+	filled: false,
+	lab: false,
+	day: false,
+	time: false,
+	slotString: '',
+};
 
 export default TimetableCell;

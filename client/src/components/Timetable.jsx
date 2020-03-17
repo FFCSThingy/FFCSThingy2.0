@@ -1,150 +1,228 @@
-import React, { Component } from "react";
+import React, { memo } from 'react';
 import MediaQuery from 'react-responsive';
 import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
+
 import TimetableCell from './TimetableCell';
 
 import { SLOTS, HEADERS } from '../constants/Timetable';
 
-import "../css/TimeTable.css";
-class Timetable extends Component {
+import styles from '../css/Timetable.module.scss';
 
-	state = {
-		skip: []
-	}
+const TimetableHeaderRow = memo(({ isMobile, isAfternoon, rowNumber }) => {
+	const rowCells = HEADERS[rowNumber].map((val, i) => {
+		const cellVal = val.split(' ').reduce((acc, v) => (acc === null
+			? <>{v}</>
+			: (
+				<>
+					{acc}
+					<br />
+					{v}
+				</>
+			)), null);
 
-	renderTTMobile = () => {
-		return (
-			<Container className="timetableContainer">
-				<FaSun className="morningIcon" size="2x" color="yellow"></FaSun>
-				<table className="timetableA">
-					<tbody className="timetableBody">
-						<tr className="timetableHeader1A">
-							{this.renderHeaderRow(HEADERS[0], true, true, true)}
-						</tr>
+		if (i === 0) return <TimetableCell key={`TimetableHeaderCell-${val}`} dayHeader>{cellVal}</TimetableCell>;
 
-						<tr className="timetableHeader2A">
-							{this.renderHeaderRow(HEADERS[1], true, true, false)}
-						</tr>
-						{this.renderMobileMorningBody()}
-					</tbody>
-				</table>
+		if (isMobile) {
+			if (!isAfternoon && i > 6) return null;	// Only need first 7 cells for morning
+			if (isAfternoon && rowNumber === 0 && i < 8) return null;	// Only need cells after 8 for evening row1 (Because break cell)
+			if (isAfternoon && i < 7) return null;	// Only need cells after 7 for evening row2
+		} else if (rowNumber === 0 && i === 7) return <TimetableCell key={`TimetableBreakCell-${val}`} isBreak>{cellVal}</TimetableCell>;
 
-				<FaSun className="eveningIcon" size="2x"></FaSun>
-				<table className="timetableB">
-					<tbody className="timetableBody">
-						<tr className="timetableHeader1B">
-							{this.renderHeaderRow(HEADERS[0], true, false, true)}
-						</tr>
+		return <TimetableCell key={`TimetableHeaderCell-${val}`} timeHeader>{cellVal}</TimetableCell>;
+	});
 
-						<tr className="timetableHeader2B">
-							{this.renderHeaderRow(HEADERS[1], true, false, false)}
-						</tr>
-						{this.renderMobileAfternoonBody()}
-					</tbody>
-				</table>
-			</Container>
-		)
-	}
+	let rowClassName = (rowNumber === 0) ? 'timetableHeader1' : 'timetableHeader2';
+	if (isMobile && !isAfternoon) rowClassName = `${rowClassName}A`;
+	if (isMobile && isAfternoon) rowClassName = `${rowClassName}B`;
 
-	renderTTDesktop = () => {
-		return (
-			<Container className="timetableContainer" fluid='true'>
-				<table className="timetableA">
-					<tbody className="timetableBody">
-						<tr className="timetableHeader1">
-							{this.renderHeaderRow(HEADERS[0], false, false, true)}
-						</tr>
+	return (
+		<tr className={styles[rowClassName]}>
+			{rowCells}
+		</tr>
+	);
+});
 
-						<tr className="timetableHeader2">
-							{this.renderHeaderRow(HEADERS[1], false, false, false)}
-						</tr>
-						{this.renderDesktopBody()}
-					</tbody>
-				</table>
-			</Container>
-		)
-	}
+const TimetableHeader = memo(({ isMobile, isAfternoon }) => (
+	<thead>
+		<TimetableHeaderRow
+			isMobile={!!isMobile}
+			isAfternoon={!!isAfternoon}
+			rowNumber={0}
+			key="TimetableHeaderRow-0"
+		/>
+		<TimetableHeaderRow
+			isMobile={!!isMobile}
+			isAfternoon={!!isAfternoon}
+			rowNumber={1}
+			key="TimetableHeaderRow-1"
+		/>
+	</thead>
+));
 
-	renderHeaderRow = (row, mobile = false, morning = false, row1 = true) => {
-		return row.map((val, i) => {
+const TimetableBodyRow = memo(({
+	isMobile,
+	isAfternoon,
+	rowNumber,
+	filledSlots,
+	timetable,
+	activeTimetableName,
+}) => {
+	const rowCells = SLOTS[rowNumber].map((slotVal, i) => {
+		let slotString = slotVal;
 
-			// Split at spaces, join with <br>
-			var cellVal = val.split(' ').reduce((acc, v) => acc === null ? <>{v}</> : <> {acc} <br /> {v} </>, null);
+		if (i === 0) return <TimetableCell key={`TimetableHeaderCell-${slotString}`} dayHeader>{slotString}</TimetableCell>;
 
-			if (i === 0) return <TimetableCell day>{cellVal}</TimetableCell>;
+		if (!isMobile && rowNumber === 0 && i === 7) {
+			return <TimetableCell key={`TimetableBreakCell-${slotString}`} isBreak>{slotString}</TimetableCell>;
+		}
+		if (isMobile && rowNumber === 0 && i === 7) return null;
 
-			if (mobile) {
-				if (morning && i > 6) return null;	// Only need first 7 cells for morning
-				if (!morning && row1 && i < 8) return null;	// Only need cells after 8 for evening row1 (Because break cell)
-				if (!morning && i < 7) return null;	// Only need cells after 7 for evening row2
-			} else {
-				if (i === 7 && row1) return <TimetableCell break>{cellVal}</TimetableCell>;
+		if (isMobile && !isAfternoon && i > 6) return null;
+		if (isMobile && isAfternoon && i < 7) return null;
+
+		const currentCellSlots = slotVal.split('/');
+		const [theorySlot, labSlot] = currentCellSlots;
+
+		const reqdLabCourse = filledSlots.includes(labSlot)
+			&& timetable.find((course) => (
+				course.slot.replace(' ', '').split('+').includes(labSlot)
+				&& course.timetableName === activeTimetableName
+			));
+
+		const reqdTheoryCourse = filledSlots.includes(theorySlot)
+			&& timetable.find((course) => (
+				course.slot.replace(' ', '').split('+').includes(theorySlot)
+				&& course.timetableName === activeTimetableName
+			));
+
+		if (!labSlot) slotString = theorySlot;
+		else if (!theorySlot) slotString = labSlot;
+
+		if (reqdTheoryCourse) { // Is a theory slot
+			return (
+				<TimetableCell
+					reqdCourse={reqdTheoryCourse}
+					key={`TimetableBodyCell-${slotString}`}
+					isFilled
+				>
+					{slotString}
+				</TimetableCell>
+			);
+		}
+
+		if (reqdLabCourse) { // Is a lab slot
+			return (
+				<TimetableCell
+					reqdCourse={reqdLabCourse}
+					key={`TimetableBodyCell-${slotString}`}
+					isFilled
+					isLab
+				>
+					{slotString}
+				</TimetableCell>
+			);
+		}
+
+		return <TimetableCell key={`TimetableBodyCell-${slotString}`}>{slotString}</TimetableCell>;
+	});
+
+	return (
+		<tr className={styles.timetableBodyRow}>
+			{rowCells}
+		</tr>
+	);
+});
+
+const TimetableBody = memo(({
+	isMobile,
+	isAfternoon,
+	filledSlots,
+	timetable,
+	activeTimetableName,
+}) => {
+	const bodyRows = SLOTS.map((v, i) => (
+		<TimetableBodyRow
+			isMobile={isMobile}
+			isAfternoon={isAfternoon}
+			rowNumber={i}
+			key={`TimetableBodyRow-${v[0]}`}
+
+			filledSlots={filledSlots}
+			timetable={timetable}
+			activeTimetableName={activeTimetableName}
+		/>
+	));
+	return (
+		<tbody className={styles.timetableBody}>
+			{bodyRows}
+		</tbody>
+	);
+});
+
+const MobileTimetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
+	<Container className={styles.timetableContainer}>
+		<FaSun className={styles.morningIcon} size="2x" color="yellow" />
+		<table className={styles.timetableA}>
+			<TimetableHeader isMobile />
+			<TimetableBody
+				isMobile
+
+				timetable={timetable}
+				activeTimetableName={activeTimetableName}
+				filledSlots={filledSlots}
+			/>
+		</table>
+
+		<FaSun className={styles.eveningIcon} size="2x" />
+		<table className={styles.timetableB}>
+			<TimetableHeader isMobile isAfternoon />
+			<TimetableBody
+				isMobile
+				isAfternoon
+
+				timetable={timetable}
+				activeTimetableName={activeTimetableName}
+				filledSlots={filledSlots}
+			/>
+		</table>
+	</Container>
+));
+
+const DesktopTimetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
+	<Container className={styles.timetableContainer} fluid="true">
+		<table className={styles.timetable}>
+			<TimetableHeader />
+			<TimetableBody
+				timetable={timetable}
+				activeTimetableName={activeTimetableName}
+				filledSlots={filledSlots}
+			/>
+		</table>
+	</Container>
+));
+
+const Timetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
+	<MediaQuery minDeviceWidth={768}>
+		{(matches) => {
+			if (matches) {
+				return (
+					<DesktopTimetable
+						timetable={timetable}
+						activeTimetableName={activeTimetableName}
+						filledSlots={filledSlots}
+					/>
+				);
 			}
-
-			return <TimetableCell time>{cellVal}</TimetableCell>;
-		});
-	}
-
-	findReqdCourse = (slots, lab = false) => {
-		return this.props.timetable.find(e => (
-			e.slot.replace(' ', '').split('+').includes((lab) ? slots[1] : slots[0]) &&
-			e.timetableName === this.props.activeTimetable
-		));
-	}
-
-	renderRow = (row, mobile = false, morning = false) => {
-		var elems = row.map((c, i) => {
-			if (i === 0) return <TimetableCell day>{c}</TimetableCell>;
-
-			if (mobile && morning && i > 6) return null;
-			if (mobile && !morning && i < 7) return null;
-
-			var slots = c.split('/');
-			var reqdLabSlot = this.findReqdCourse(slots, true);	// Checks if current lab slot is filled
-			var reqdTheorySlot = this.findReqdCourse(slots, false);	// Checks if current theory slot is filled
-			var slotString;
-
-			if (slots[0] === '') slotString = slots[1];
-			else if (slots[1] === '') slotString = slots[0];
-			else slotString = c;
-
-			if (this.props.filledSlots.includes(slots[0]) && reqdTheorySlot) // Is a theory slot
-				return <TimetableCell reqdCourse={reqdTheorySlot} filled>{slotString}</TimetableCell>
-
-			else if (this.props.filledSlots.includes(slots[1]) && reqdLabSlot)	// Is a lab slot
-				return <TimetableCell reqdCourse={reqdLabSlot} filled lab>{slotString}</TimetableCell>
-
-			else
-				return <TimetableCell>{slotString}</TimetableCell>
-		});
-
-		return (
-			<tr>
-				{elems}
-			</tr>
-		)
-	}
-
-	renderDesktopBody = () => SLOTS.map(row => this.renderRow(row));
-
-	renderMobileMorningBody = () => SLOTS.map(row => this.renderRow(row, true, true));
-
-	renderMobileAfternoonBody = () => SLOTS.map(row => this.renderRow(row, true, false));
-
-	render() {
-		return (
-			<MediaQuery minDeviceWidth={768}>
-				{(matches) => {
-					if (matches) {
-						return this.renderTTDesktop()
-					} else {
-						return this.renderTTMobile()
-					}
-				}}
-			</MediaQuery>
-		);
-	}
-}
+			return (
+				<MobileTimetable
+					timetable={timetable}
+					activeTimetableName={activeTimetableName}
+					filledSlots={filledSlots}
+				/>
+			);
+		}}
+	</MediaQuery>
+));
 
 export default Timetable;

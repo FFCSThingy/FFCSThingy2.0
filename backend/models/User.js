@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-var userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
 	// Google
 	google_id: String,
 	display_name: String,
@@ -73,7 +73,7 @@ var userSchema = new mongoose.Schema({
 		slot: String,
 		faculty: String,
 		venue: String,
-		timetableName: String
+		timetableName: String,
 	}],
 
 	previous_timetables: [{
@@ -84,7 +84,7 @@ var userSchema = new mongoose.Schema({
 		slot: String,
 		faculty: String,
 		venue: String,
-		semester: String
+		semester: String,
 	}],
 
 	completed_courses: [{
@@ -92,9 +92,9 @@ var userSchema = new mongoose.Schema({
 		title: String,
 		course_type: String,
 		credits: String,
-		grade: String
-	}]
+		grade: String,
+	}],
 
 });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

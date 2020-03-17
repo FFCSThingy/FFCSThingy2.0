@@ -2,63 +2,65 @@ import React from 'react';
 
 import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
-import '../css/SelectedCoursesTable.css';
+import styles from '../css/SelectedCoursesTable.module.scss';
 
-class SelectedCoursesTable extends React.Component {
+const sortTimetable = ((a, b) => a.code.localeCompare(b.code));
 
-	sortTimetable = ((a, b) => {
-		return a.code.localeCompare(b.code)
-	});
+const SelectedCoursesTableBody = ({ timetable, activeTimetableName, unselectSlot }) => timetable
+	.filter((v) => v.timetableName === activeTimetableName)
+	.sort(sortTimetable)
+	.map((value) => (
+		<tr key={value._id}>
+			<td>{value.slot}</td>
+			<td>{value.code}</td>
+			<td>{value.title}</td>
+			<td>{value.faculty}</td>
+			<td>{value.venue}</td>
+			<td>{value.credits}</td>
+			<td>
+				<FaTrashAlt
+					className={styles.trashButton}
+					onClick={() => unselectSlot(value)}
+				/>
+			</td>
+		</tr>
+	));
 
-	render() {
-		var timetable = this.props.timetable.filter(v => v.timetableName === this.props.activeTimetable)
-		var appendList = timetable.sort(this.sortTimetable).map(value => {
-			return (
-				<tr key={value._id}>
-					<td>{value.slot}</td>
-					<td>{value.code}</td>
-					<td>{value.title}</td>
-					<td>{value.faculty}</td>
-					<td>{value.venue}</td>
-					<td>{value.credits}</td>
-					<td>
-						<FaTrashAlt className="trashButton" onClick={() => this.props.unselectSlot(value)}>
-						</FaTrashAlt>
-
-					</td>
+const SelectedCoursesTable = ({
+	timetable,
+	activeTimetableName,
+	creditCount,
+	unselectSlot,
+}) => (
+	<Container className={styles.selectedCourseContainer}>
+		<table className={styles.selectedCourseTable}>
+			<thead className={styles.selectedCourseHead}>
+				<tr>
+					<th>Slot</th>
+					<th>Code</th>
+					<th>Title</th>
+					<th>Faculty</th>
+					<th>Venue</th>
+					<th>Credits</th>
+					<th> </th>
 				</tr>
-			)
-		});
-
-		return (
-			<Container className="selectedCourseContainer">
-				<table className="selectedCourseTable">
-					<thead className="selectedCourseHead">
-						<tr>
-							<th>Slot</th>
-							<th>Code</th>
-							<th>Title</th>
-							<th>Faculty</th>
-							<th>Venue</th>
-							<th>Credits</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody className="selectedCourseBody">
-						{appendList}
-					</tbody>
-					<tfoot className="creditsRow">
-						<tr>
-							<td colSpan="7">
-								<strong>Total Credits: {this.props.creditCount}</strong>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</Container>
-
-		)
-	}
-}
+			</thead>
+			<tbody className={styles.selectedCourseBody}>
+				<SelectedCoursesTableBody
+					timetable={timetable}
+					activeTimetableName={activeTimetableName}
+					unselectSlot={unselectSlot}
+				/>
+			</tbody>
+			<tfoot className={styles.creditsRow}>
+				<tr>
+					<th colSpan="7">
+						{`Total Credits: ${creditCount}`}
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+	</Container>
+);
 
 export default SelectedCoursesTable;

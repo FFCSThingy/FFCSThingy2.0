@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const mongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
@@ -13,79 +13,89 @@ const curriculumRoute = require('./routes/curriculum');
 const courseRoute = require('./routes/course');
 const ttgenRoute = require('./routes/ttgen');
 
-const User = require('./models/User');
-
-const user = require('./utility/userUtility');
+const userUtility = require('./utility/userUtility');
 const { logger, expressWinstonLogger } = require('./utility/loggers.js');
-
-const GOOGLE_CLIENT_ID = "524977778563-rqfsuge27b7se639i2n4ellt82uhtosv.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "UUNrcLqOXmnP_HweyJirA9VA";
 
 // set our port to either a predetermined port number if you have set it up, or 3001
 const API_PORT = process.env.API_PORT || 3001;
 
-if (!process.env.NODE_UN)
-	mongoose.connect("mongodb://localhost:27017/FFCS", { useFindAndModify: false });
-else
-	mongoose.connect(`mongodb://${process.env.NODE_UN}:${process.env.NODE_PW}@localhost:27017/FFCS`, { useFindAndModify: false });
+if (process.env.NODE_MONGO_URL) {
+	mongoose.connect(`${process.env.NODE_MONGO_URL}/${process.env.NODE_MONGO_DB}?retryWrites=true&w=majority`, {
+		useFindAndModify: false,
+		useUnifiedTopology: true,
+		useNewUrlParser: true,
+	});
+} else if (process.env.NODE_MONGO_UN) {
+	mongoose.connect(
+		`mongodb://${process.env.NODE_MONGO_UN}:${process.env.NODE_MONGO_PW}@localhost:27017/FFCS`,
+		{ useFindAndModify: false },
+	);
+} else {
+	mongoose.connect('mongodb://localhost:27017/FFCS', { useFindAndModify: false });
+}
 
 const db = mongoose.connection;
 
 db.on('error', logger.error.bind(logger, 'connection error:'));
-db.once('open', function () {
-	logger.info("Connected to MongoDB Instance");
+db.once('open', () => {
+	logger.info('Connected to MongoDB Instance');
 });
 
+function ensureAuthenticated(req, res, next) {
+	req.authenticated = req.isAuthenticated();
 
-passport.serializeUser(function (user, done) {
-	return done(null, user);
-});
+	if (req.isAuthenticated()) {
+		return next();
+	}
 
-passport.deserializeUser(async function (doc, done) {
+	return res.status(401).json({ success: false, authenticated: false });
+}
+
+passport.serializeUser((user, done) => done(null, user));
+
+passport.deserializeUser(async (doc, done) => {
 	try {
-		var userDoc = await user.findUserByID(doc._id);
+		const userDoc = await userUtility.findUserByID(doc._id);
 		return done(null, userDoc);
-	} catch(err) {
+	} catch (err) {
 		return done(err, false);
 	}
 });
 
 passport.use(new GoogleStrategy({
-	clientID: GOOGLE_CLIENT_ID,
-	clientSecret: GOOGLE_CLIENT_SECRET,
-	callbackURL: process.env.NODE_BASE_URL + "/auth/google/callback",
-	passReqToCallback: true
+	clientID: process.env.NODE_GOOGLE_CLIENT_ID,
+	clientSecret: process.env.NODE_GOOGLE_CLIENT_SECRET,
+	callbackURL: `${process.env.NODE_BASE_URL}/auth/google/callback`,
+	passReqToCallback: true,
 },
-	async function (request, accessToken, refreshToken, profile, done) {
-		var update_data = {
-			google_id: profile.id,
-			display_name: profile.displayName,
-			email: profile.email,
-			picture: profile.picture,
-			timestamp: Date.now()
-		};
+(async (request, accessToken, refreshToken, profile, done) => {
+	const updateData = {
+		google_id: profile.id,
+		display_name: profile.displayName,
+		email: profile.email,
+		picture: profile.picture,
+		timestamp: Date.now(),
+	};
 
-		var query_data = { google_id: profile.id }
-		
-		try {
-			var newDoc = await user.updateUser(query_data, update_data, true, true, true);
-			return done(null, newDoc);
-		} catch(err) {
-			if(err) return done(err, false);
-		}
+	const queryData = { google_id: profile.id };
+
+	try {
+		const newDoc = await userUtility.updateUser(queryData, updateData, true, true, true);
+		return done(null, newDoc);
+	} catch (err) {
+		return done(err, false);
 	}
-));
+})));
 
 
-// and create our instances
 const app = express();
 
 app.use(session({
 	secret: 'foo',
-	store: new mongoStore({ mongooseConnection: db }),
+	store: new MongoStore({ mongooseConnection: db }),
 	resave: true,
 	saveUninitialized: true,
-	cookie: { maxAge: 14 * 24 * 60 * 60 * 100 }
+	cookie: { maxAge: 14 * 24 * 60 * 60 * 100 },
 }));
 
 app.use(passport.initialize());
@@ -96,14 +106,14 @@ app.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 app.use(expressWinstonLogger);
 
-app.use(function (req, res, next) {
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 	res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-	
+
 	if (req.method === 'OPTIONS') { return res.status(200).end(); }
-	
-	next();
+
+	return next();
 });
 
 app.use('/ext', ensureAuthenticated, extRoute);
@@ -112,16 +122,15 @@ app.use('/course', ensureAuthenticated, courseRoute);
 app.use('/user', ensureAuthenticated, userRoute);
 app.use('/ttgen', ensureAuthenticated, ttgenRoute);
 
-app.get('/account', ensureAuthenticated, function (req, res) {
-	var data = {
+app.get('/account', ensureAuthenticated, (req, res) => {
+	const data = {
 		google_id: req.user.google_id,
 		display_name: req.user.display_name,
 		email: req.user.email,
 		picture: req.user.picture,
 
 		vtopSignedIn: req.user.vtopSignedIn,
-	}
-	// res.json({ success: true, data: data });
+	};
 	return res.json(data);
 });
 
@@ -129,34 +138,17 @@ app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'prof
 
 app.get('/auth/google/callback',
 	passport.authenticate('google', {
-		successRedirect: '/dashboard',
-		failureRedirect: '/'
+		successRedirect: '/',
+		failureRedirect: '/login',
 	}));
 
-app.get('/logout', function (req, res) {
+app.get('/logout', (req, res) => {
 	req.logout();
 	res.redirect('/');
 });
 
-app.get('/about', function(req, res) {
+app.get('/about', (req, res) => {
 	res.sendFile(path.join(__dirname, 'about.txt'));
-})
-
-function ensureAuthenticated(req, res, next) {
-	req.authenticated = req.isAuthenticated();
-
-	if (req.isAuthenticated()) { 
-		return next(); 
-	}
-	
-	res.status(401).json({ success: false, authenticated: false });
-}
-
-function redirectUnauthenticated(req, res, next) {
-	if (req.isAuthenticated()) {
-		return next();
-	}
-	return res.redirect('/');
-}
+});
 
 app.listen(API_PORT, () => logger.info(`Listening on port ${API_PORT}`));

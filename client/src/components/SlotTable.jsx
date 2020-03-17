@@ -1,179 +1,236 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { Card, Col, CardColumns, Container, ToggleButtonGroup, ToggleButton, Row } from 'react-bootstrap';
+import {
+	Card, Col, CardColumns, ToggleButtonGroup, ToggleButton, Row,
+} from 'react-bootstrap';
 
-import '../css/SlotTable.css';
+import styles from '../css/SlotTable.module.scss';
 
-class SlotTable extends Component {
-
-	state = {
-		error: null,
-		currentCourses: [],
-		typeFilters: [],
-		venueFilters: [],
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.selectedCourse !== this.props.selectedCourse)
-			this.setState({
-				typeFilters: [],
-				venueFilters: []
-			});
-	}
-
-	doFilter = () => {
-		return this.props.slots.filter(course => {	// Filter on course_type
-			if (this.state.typeFilters.length === 0) return true;
-			return this.state.typeFilters.reduce((a, v) => (a || (course.simple_type === v)), false);
-		}).filter(course => {	// Filter on Venue
-			if (this.state.venueFilters.length === 0) return true;
-			else if (this.state.typeFilters.includes('Project') && course.simple_type === 'Project') return true;
-			else return this.state.venueFilters.reduce((a, v) => (a || (course.venue.startsWith(v))), false);
-		});
-	}
-
-	handleTypeChange = (value, event) => {
-		this.setState({ typeFilters: value });
-	}
-
-	handleVenueChange = (value, event) => {
-		this.setState({ venueFilters: value });
-	}
-
-	renderNormalCard(value) {
-		return (
-			<Card
-				className="cardContainer"
-				key={value._id}
-				onClick={() => this.props.selectSlots(value)} >
-
-				<Card.Body className="cardBody">
-					<Card.Text>{value.slot}</Card.Text>
-					<Card.Title>{value.faculty}</Card.Title>
-					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
-					</Card.Subtitle>
-
-					<Card.Subtitle className="cardSubtitle">Popularity - <b>{Math.floor(value.percent)}%</b></Card.Subtitle>
-				</Card.Body>
-
-			</Card>
-		)
-	}
-
-	renderClashCard(value, clashingSlots) {
+const SlotCard = ({
+	slotDetails, onClick, type, clashingSlots,
+}) => {
+	let clashSubtitle; let selectedSubtitle; let
+		cardBodyClass = styles.cardBody;
+	if (type === 'clashing' && clashingSlots) {
 		const clashingString = clashingSlots.join(', ');
-		return (
-			<Card
-				className="cardContainer"
-				key={value._id}
-			>
-
-				<Card.Body className="cardBodyClash">
-					<Card.Text>{value.slot}</Card.Text>
-					<Card.Title>{value.faculty}</Card.Title>
-					<Card.Subtitle className="cardSubtitle">
-						{value.venue} - {value.course_type}
-					</Card.Subtitle>
-					<Card.Subtitle className="cardSubtitle">
-						Popularity - <b>{Math.floor(value.percent)}%</b>
-					</Card.Subtitle>
-					<Card.Subtitle className="cardClashSubtitle">
-						Clashes with <b>{clashingString}</b>
-					</Card.Subtitle>
-				</Card.Body>
-
-			</Card>
-		)
+		cardBodyClass = styles.cardBodyClash;
+		clashSubtitle = (
+			<Card.Subtitle className={styles.cardClashSubtitle}>
+				{'Clashes with '}
+				<b>{clashingString}</b>
+			</Card.Subtitle>
+		);
+	}
+	if (type === 'selected') {
+		cardBodyClass = styles.cardBodySelected;
+		selectedSubtitle = (
+			<Card.Subtitle className={styles.cardSelectedSubtitle}>Selected</Card.Subtitle>
+		);
 	}
 
-	renderSelectedCard(value) {
-		return (
-			<Card
-				className="cardContainer"
-				key={value._id}
-			>
+	return (
+		<Card
+			className={styles.slotCard}
+			key={slotDetails._id}
+			onClick={() => ((type === 'normal' && onClick) ? onClick(slotDetails) : null)}
+		>
 
-				<Card.Body className="cardBodySelected">
-					<Card.Text>{value.slot}</Card.Text>
-					<Card.Title>{value.faculty}</Card.Title>
-					<Card.Subtitle className="cardSubtitle">
-						Popularity - <b>{Math.floor(value.percent)}%</b>
-					</Card.Subtitle>
-					<Card.Subtitle className="cardSubtitle">{value.venue} - {value.course_type}
-						<Card.Subtitle className="cardSelectedSubtitle">Selected</Card.Subtitle>
-					</Card.Subtitle>
-				</Card.Body>
+			<Card.Body className={cardBodyClass}>
+				<Card.Text className={styles.slotText}>{slotDetails.slot}</Card.Text>
+				<Card.Title className={styles.cardTitle}>{slotDetails.faculty}</Card.Title>
+				<Card.Subtitle className={styles.cardSubtitle}>
+					{`${slotDetails.venue} - ${slotDetails.course_type}`}
+				</Card.Subtitle>
 
-			</Card>
-		)
-	}
+				<Card.Subtitle className={styles.cardSubtitle}>
+					{'Popularity - '}
+					<b>
+						{`${Math.floor(slotDetails.percent)}%`}
+					</b>
+				</Card.Subtitle>
 
-	render() {
-		var normalCourses = [], selectedCourses = [], clashingCourses = [];
+				{
+					(type === 'clashing' && clashingSlots)
+						? clashSubtitle
+						: null
+				}
 
-		this.doFilter().map(value => {
-			var clashingSlots = this.props.checkClash(value.slot);
-			const doesClash = clashingSlots && clashingSlots.length > 0;
-			var selected = this.props.checkSelected(value);
+				{
+					(type === 'selected' ? selectedSubtitle : null)
+				}
 
-			if (selected) return selectedCourses.push(this.renderSelectedCard(value));
-			else if (doesClash) return clashingCourses.push(this.renderClashCard(value, clashingSlots));
-			else return normalCourses.push(this.renderNormalCard(value));
-		});
+			</Card.Body>
 
-		var courses = normalCourses.concat(selectedCourses, clashingCourses)
+		</Card>
+	);
+};
 
-		var applicableVenues = [];
-		if (this.state.typeFilters.includes('Theory')) applicableVenues = [...applicableVenues, ...this.props.theoryVenues]
-		if (this.state.typeFilters.includes('Lab')) applicableVenues = [...applicableVenues, ...this.props.labVenues]
-		if (this.state.typeFilters.includes('Project')) applicableVenues = [...applicableVenues, ...this.props.projectVenues]
-		if (this.state.typeFilters.length === 0) applicableVenues = this.props.venues;
+const SlotTable = ({
+	selectedCourseCode, selectedCourseSlots, addSlotToTimetable, slotClashesWith, isSelected,
+}) => {
+	const [selectedCourseTypes, setSelectedCourseTypes] = useState([]);
+	const [typeFilters, setTypeFilters] = useState([]);
+	const [venueFilters, setVenueFilters] = useState([]);
+	const [allAvailableVenueList, setAllAvailableVenueList] = useState([]);
+	const [theoryAvailableVenueList, setTheoryAvailableVenueList] = useState([]);
+	const [labAvailableVenueList, setLabAvailableVenueList] = useState([]);
+	const [projectAvailableVenueList, setProjectAvailableVenueList] = useState([]);
+	const [filteredSlots, setFilteredSlots] = useState(selectedCourseSlots);
 
-		applicableVenues = Array.from(new Set(applicableVenues)).sort();
+	// Reset filters and update lists when selectedCourseCode changes.
+	useEffect(() => {
+		const types = Array.from(
+			new Set(selectedCourseSlots.map((course) => course.simpleCourseType)),
+		).sort();
 
-		var venueButtons = applicableVenues.map(v => {
-			if (applicableVenues.length > 4)
-				return <ToggleButton value={v} className='toggleCustom' size='sm'>{v}</ToggleButton>
-			return <ToggleButton value={v} className='toggleCustom'>{v}</ToggleButton>
-		});
+		const findAvailableVenues = (type = null) => {
+			const venueRegex = /^[A-Z]+/;
+			return Array.from(
+				new Set(
+					selectedCourseSlots
+						.filter((c) => !(c.venue === 'NIL'))
+						.filter((c) => {
+							if (type) return c.simpleCourseType === type;
+							return true;
+						})
+						.map((course) => {
+							const s = course.venue.match(venueRegex)[0];
+							if (s.endsWith('G')) return s.slice(0, -1);
+							return s;
+						}),
+				),
+			).sort();
+		};
 
-		var typeButtons = this.props.types.map(v => {
-			return <ToggleButton value={v} className='toggleCustom'>{v}</ToggleButton>
-		});
+		setSelectedCourseTypes(types);
 
-		return (
-			<Container className="slotTableContainer">
-				<Card className="slotTableHeader">
-					<Card.Header>
-						<Row>
-							<Col xs={12} sm={4}>
-								<ToggleButtonGroup className="slotFilter"
-									type='checkbox'
-									value={this.state.typeFilters}
-									onChange={this.handleTypeChange} >
-									{typeButtons}
-								</ToggleButtonGroup>
-							</Col>
+		setAllAvailableVenueList(findAvailableVenues());
+		setTheoryAvailableVenueList(findAvailableVenues('Theory'));
+		setLabAvailableVenueList(findAvailableVenues('Lab'));
+		setProjectAvailableVenueList(findAvailableVenues('Project'));
 
-							<Col xs={12} sm={8} className="slotFilterContainer">
-								<ToggleButtonGroup className="slotFilter"
-									type='checkbox'
-									value={this.state.venueFilters}
-									onChange={this.handleVenueChange} >
-									{venueButtons}
-								</ToggleButtonGroup>
-							</Col>
-						</Row>
-					</Card.Header>
-				</Card>
-				<Card className="slotTableBody">
-					<CardColumns>
-						{courses}
-					</CardColumns>
-				</Card>
+		setTypeFilters([]);
+		setVenueFilters([]);
 
-			</Container>
-		)
-	}
-}
+		// setFilteredSlots(selectedCourseSlots);
+	}, [selectedCourseCode, selectedCourseSlots]);
+
+	useEffect(() => {
+		const doCourseSlotsFilter = () => selectedCourseSlots
+			.filter((course) => {	// Filter on simpleCourseType
+				if (typeFilters.length === 0) { return true; }
+
+				return typeFilters.reduce((a, v) => (a || (course.simpleCourseType === v)), false);
+			}).filter((course) => {	// Filter on Venue
+				if (venueFilters.length === 0) { return true; }
+
+				if (
+					typeFilters.includes('Project')
+					&& course.simpleCourseType === 'Project'
+				) return true;
+
+				return venueFilters.reduce((a, v) => (a || (course.venue.startsWith(v))), false);
+			});
+
+		setFilteredSlots(doCourseSlotsFilter());
+	}, [typeFilters, venueFilters, selectedCourseSlots]);
+
+	const handleTypeChange = (val) => setTypeFilters(val);
+
+	const handleVenueChange = (val) => setVenueFilters(val);
+
+	const normalCourses = [];
+	const selectedCourses = [];
+	const clashingCourses = [];
+
+	filteredSlots.map((slot) => {
+		if (isSelected(slot)) {
+			return selectedCourses.push(
+				<SlotCard
+					slotDetails={slot}
+					type="selected"
+					key={`SlotCard-${slot._id}`}
+				/>,
+			);
+		}
+
+		const clashingSlots = slotClashesWith(slot.slot);
+		if (clashingSlots.length > 0) {
+			return clashingCourses.push(
+				<SlotCard
+					slotDetails={slot}
+					type="clashing"
+					clashingSlots={clashingSlots}
+					key={`SlotCard-${slot._id}`}
+				/>,
+			);
+		}
+
+		return normalCourses.push(
+			<SlotCard
+				slotDetails={slot}
+				type="normal"
+				onClick={addSlotToTimetable}
+				key={`SlotCard-${slot._id}`}
+			/>,
+		);
+	});
+
+	const courses = normalCourses.concat(selectedCourses, clashingCourses);
+
+	let applicableVenues = [];
+	if (typeFilters.includes('Theory')) applicableVenues = [...applicableVenues, ...theoryAvailableVenueList];
+	if (typeFilters.includes('Lab')) applicableVenues = [...applicableVenues, ...labAvailableVenueList];
+	if (typeFilters.includes('Project')) applicableVenues = [...applicableVenues, ...projectAvailableVenueList];
+	if (typeFilters.length === 0) applicableVenues = allAvailableVenueList;
+
+	applicableVenues = Array.from(new Set(applicableVenues)).sort();
+
+	const venueButtons = applicableVenues.map((v) => {
+		if (applicableVenues.length > 4) {
+			return <ToggleButton value={v} key={`SlotTable-VenueFilterToggleButton-${v}`} className={styles.venueFilterButton} size="sm">{v}</ToggleButton>;
+		}
+		return <ToggleButton key={`SlotTable-VenueFilterToggleButton-${v}`} className={styles.venueFilterButton} value={v}>{v}</ToggleButton>;
+	});
+
+	const typeButtons = selectedCourseTypes.map((v) => <ToggleButton value={v} key={`SlotTable-CourseFilterToggleButton-${v}`} className={styles.typeFilterButton}>{v}</ToggleButton>);
+
+	return (
+		<Card className={styles.slotTableContainer}>
+			<Card.Header className={styles.slotTableHeader}>
+				<Row>
+					<Col xs={12} sm={4}>
+						<ToggleButtonGroup
+							className={styles.slotFilter}
+							type="checkbox"
+							value={typeFilters}
+							onChange={handleTypeChange}
+						>
+							{typeButtons}
+						</ToggleButtonGroup>
+					</Col>
+
+					<Col xs={12} sm={8} className={styles.slotFilterContainer}>
+						<ToggleButtonGroup
+							className={styles.slotFilter}
+							type="checkbox"
+							value={venueFilters}
+							onChange={handleVenueChange}
+						>
+							{venueButtons}
+						</ToggleButtonGroup>
+					</Col>
+				</Row>
+			</Card.Header>
+
+			<Card.Body className={styles.slotTableBody}>
+				<CardColumns>
+					{courses}
+				</CardColumns>
+			</Card.Body>
+
+		</Card>
+	);
+};
+
 export default SlotTable;

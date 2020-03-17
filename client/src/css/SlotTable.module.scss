@@ -1,0 +1,155 @@
+@import './utilities/mixins';
+
+.slotTableContainer {
+	border-radius: 0.7rem;
+	font-family: 'Montserrat', sans-serif;
+	margin-bottom: 2rem;
+	margin-top: 4rem;
+	border-radius: 0.7rem;
+	border: none;
+
+	max-height: 80vh;
+
+	@media only screen and (min-width: 768px) and (max-width: 978px) {
+		padding-left: 0;
+	}
+
+	@media only screen and (max-width: 768px) {
+		padding-top: 0;
+	}
+}
+
+.slotTableHeader {
+	@include theme-aware('background-color', 'color-brand');
+	padding: 1.25rem 1rem 0 1rem;
+
+	border-radius: 0.7rem 0.7rem 0 0 !important;
+	border: none;
+
+	min-height: 7.5em;
+
+	@media only screen and (min-width: 576px) {
+		min-height: 4.95em;
+	}
+}
+
+.slotFilterContainer {
+	text-align: left;
+	padding-top: 0.9rem;
+
+	.slotFilter {
+		@media only screen and (max-width: 768px) {
+			padding-bottom: 0;
+		}
+	}
+
+	@media only screen and (min-width: 768px) and (max-width: 978px) {
+		padding-left: 0;
+	}
+
+	@media only screen and (min-width: 576px) {
+		text-align: right;
+		padding-top: 0;
+	}
+
+	@media (max-width: 576px) {
+		padding-left: 15px;
+	}
+}
+
+.venueFilterButton,
+.typeFilterButton {
+	composes: toggleCustom from './baseStyles/CustomToggleButton.module.scss';
+}
+
+.slotTableBody {
+	min-height: 18vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-radius: 0 0 0.7rem 0.7rem;
+	@include theme-aware('background-color', 'color-background-table');
+	font-family: 'Montserrat', sans-serif;
+	cursor: default;
+	scrollbar-width: none;
+	padding: 0.2rem 1rem;
+
+	&::-webkit-scrollbar {
+		width: 0 !important;
+	}
+
+	@media only screen and (min-width: 576px) {
+		height: 80vh;
+	}
+}
+
+.slotCard {
+	@include theme-aware('background-color', 'color-background-card');
+	@include theme-aware('color', 'color-text-inverted');
+
+	border-radius: 0.7rem;
+	cursor: pointer;
+
+	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
+
+	margin: 1rem 0;
+
+	transition: box-shadow 0.17s ease-in-out;
+	transition: background-color 0.1s ease-in-out;
+
+	&:hover {
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+		@include theme-aware('background-color', 'color-background-card-highlight');
+		transition: box-shadow 0.17s ease-in-out;
+		transition: background-color 0.1s ease-in-out;
+	}
+
+	&:active {
+		// background-color: var(--button-highlight-color);
+		border-radius: 0.7rem;
+	}
+
+	.slotText {
+		margin: 0;
+	}
+
+	.cardTitle {
+		font-size: 1.05em;
+		font-weight: bold;
+		margin: 0;
+	}
+
+	.cardSubtitle {
+		margin-top: 0 !important;
+
+		@media only screen and (min-width: 768px) and (max-width: 978px) {
+			font-size: 0.9em;
+		}
+	}
+
+	.cardBodyClash {
+		@include theme-aware('background-color', 'color-background-card-highlight');
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+		cursor: not-allowed;
+		border-radius: 0.7rem;
+
+		.cardClashSubtitle {
+			margin-top: 0 !important;
+			@include theme-aware('color', 'color-text-clash');
+		}
+	}
+
+	.cardBodySelected {
+		border-radius: 0.7rem;
+
+		@include theme-aware('background-color', 'color-background-card-highlight');
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+		transition: box-shadow 0.17s ease-in-out;
+
+		cursor: not-allowed;
+
+		.cardSelectedSubtitle {
+			margin-top: 0 !important;
+			@include theme-aware('color', 'color-text-selected');
+		}
+	}
+}

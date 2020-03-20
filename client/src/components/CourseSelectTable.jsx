@@ -255,7 +255,7 @@ const CourseCardList = ({
 	filteredCourseList = {}, selectedCourse, doSelectCourse, prereqList, completedCourses,
 }) => {
 	const completedCourseCards = Object.keys(filteredCourseList)
-		.filter((code) => completedCourses[code])
+		.filter((code) => completedCourses && completedCourses[code])
 		.map((code) => {
 			const { title, credits, shortCourseTypes } = filteredCourseList[code];
 
@@ -275,7 +275,7 @@ const CourseCardList = ({
 		});
 
 	const normalCards = Object.keys(filteredCourseList)
-		.filter((code) => !completedCourses[code])
+		.filter((code) => !completedCourses || (completedCourses && !completedCourses[code]))
 		.map((code) => {
 			const { title, credits, shortCourseTypes } = filteredCourseList[code];
 

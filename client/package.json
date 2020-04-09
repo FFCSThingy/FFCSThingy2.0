@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/jest": "^25.2.1",
+    "@types/node": "^13.11.1",
+    "@types/react": "^16.9.33",
+    "@types/react-dom": "^16.9.6",
     "axios": "^0.19.0",
     "axios-hooks": "^1.9.0",
     "bootstrap": "^4.3.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
@@ -14,7 +18,8 @@
     "react-icons": "^3.7.0",
     "react-responsive": "^7.0.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1"
+    "react-scripts": "^3.4.1",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "react-scripts start",

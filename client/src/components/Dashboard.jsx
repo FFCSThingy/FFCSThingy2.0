@@ -11,11 +11,10 @@ import SlotTable from './SlotTable';
 import Timetable from './Timetable.tsx';
 import SelectedCoursesTable from './SelectedCoursesTable.tsx';
 import TimetableSwitcher from './TimetableSwitcher.tsx';
-import CustomNavbar from './CustomNavbar';
+import CustomNavbar from './CustomNavbar.tsx';
 import MagicFill from './MagicFill';
 
 // Constants
-import themeList from '../constants/Themes';
 import CLASHMAP from '../constants/ClashMap';
 
 import styles from '../css/Dashboard.module.scss';
@@ -472,7 +471,6 @@ const Dashboard = ({ handleUnauth }) => {
 				<CustomNavbar
 					userDetails={userData}
 					creditCount={creditCount}
-					themeList={themeList}
 					curriculumList={curriculumListResponse ? curriculumListResponse.data : []}
 					selectedCurriculum={selectedCurriculumPrefix}
 					handleCurriculumChange={setSelectedCurriculumPrefix}

@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import styles from '../css/SelectedCoursesTable.module.scss';
 
-const sortTimetable = ((a, b) => a.code.localeCompare(b.code));
+import TimetableData from '../models/TimetableData';
 
-const SelectedCoursesTableBody = ({ timetable, activeTimetableName, unselectSlot }) => timetable
-	.filter((v) => v.timetableName === activeTimetableName)
+const sortTimetable = ((a: TimetableData, b: TimetableData) => a.code.localeCompare(b.code));
+
+interface SelectedCoursesTableBody {
+	timetable: TimetableData[];
+	activeTimetableName: string;
+	unselectSlot: Function;
+}
+
+const SelectedCoursesTableBody: FC<SelectedCoursesTableBody> = (
+	{ timetable, activeTimetableName, unselectSlot }
+): any => timetable
+	.filter((v: TimetableData) => v.timetableName === activeTimetableName)
 	.sort(sortTimetable)
-	.map((value) => (
+	.map((value: TimetableData) => (
 		<tr key={value._id}>
 			<td>{value.slot}</td>
 			<td>{value.code}</td>
@@ -26,7 +36,15 @@ const SelectedCoursesTableBody = ({ timetable, activeTimetableName, unselectSlot
 		</tr>
 	));
 
-const SelectedCoursesTable = ({
+interface SelectedCoursesTable {
+	timetable: TimetableData[];
+	activeTimetableName: string;
+	creditCount: number;
+	unselectSlot: Function;
+}
+
+const SelectedCoursesTable: FC<SelectedCoursesTable> = (
+{
 	timetable,
 	activeTimetableName,
 	creditCount,
@@ -54,7 +72,7 @@ const SelectedCoursesTable = ({
 			</tbody>
 			<tfoot className={styles.creditsRow}>
 				<tr>
-					<th colSpan="7">
+					<th colSpan={7}>
 						{`Total Credits: ${creditCount}`}
 					</th>
 				</tr>

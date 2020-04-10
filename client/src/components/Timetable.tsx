@@ -7,19 +7,9 @@ import TimetableCell from './TimetableCell';
 
 import { SLOTS, HEADERS } from '../constants/Timetable';
 
-import styles from '../css/Timetable.module.scss';
+import TimetableData from '../models/TimetableData';
 
-interface TimetableData {
-	_id: string;
-	code: string;
-	course_type: string;
-	credits: number;
-	faculty: string;
-	slot: string;
-	venue: string;
-	title: string;
-	timetableName: string;
-}
+import styles from '../css/Timetable.module.scss';
 
 interface TimetableHeaderRow {
 	isMobile?: boolean;

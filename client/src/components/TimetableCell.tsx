@@ -4,12 +4,12 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import styles from '../css/TimetableCell.module.scss';
 
 interface TimetableCellProps {
-	isFilled: boolean;
-	isLab: boolean;
-	dayHeader: boolean;
-	timeHeader: boolean;
-	isBreak: boolean;
-	reqdCourse: {
+	isFilled?: boolean;
+	isLab?: boolean;
+	dayHeader?: boolean;
+	timeHeader?: boolean;
+	isBreak?: boolean;
+	reqdCourse?: {
 		title: string;
 		faculty: string;
 		slot: string;
@@ -17,12 +17,13 @@ interface TimetableCellProps {
 		venue: string;
 		course_type: string;
 	};
-	children: string;
+	defaultValue: string;
+	children: React.ReactNode;
 }
 
 const TimetableCell: FC<TimetableCellProps> = memo(
 	({
-		isFilled, isLab, dayHeader, timeHeader, isBreak, reqdCourse, children,
+		isFilled=false, isLab=false, dayHeader=false, timeHeader=false, isBreak=false, reqdCourse={}, children=<></>, defaultValue=''
 	}
 ) => {
 	if (isBreak) {
@@ -37,20 +38,20 @@ const TimetableCell: FC<TimetableCellProps> = memo(
 	}
 	if (timeHeader) {
 		return (
-			<td key={children} className={styles.timeHeader}>
+			<td className={styles.timeHeader}>
 				{children}
 			</td>
 		);
 	}
 	if (dayHeader) {
 		return (
-			<th key={children} className={styles.dayHeader}>{children}</th>
+			<th className={styles.dayHeader}>{children}</th>
 		);
 	}
 	if (isFilled) {
 		const cellClass = (isLab) ? styles.filledLab : styles.filledTheory;
 		const tooltip = (
-			<Tooltip id={children}>
+			<Tooltip id={defaultValue}>
 				<h6 className={styles.courseDetails}>
 					<b>{reqdCourse.title}</b>
 					<br />
@@ -82,7 +83,7 @@ const TimetableCell: FC<TimetableCellProps> = memo(
 	}
 
 	return (
-		<td key={children} className={styles.empty}>{children}</td>
+		<td className={styles.empty}>{children}</td>
 	);
 });
 

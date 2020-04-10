@@ -3,7 +3,7 @@ import MediaQuery from 'react-responsive';
 import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
 
-import TimetableCell from './TimetableCell';
+import TimetableCell from './TimetableCell.tsx';
 
 import { SLOTS, HEADERS } from '../constants/Timetable';
 

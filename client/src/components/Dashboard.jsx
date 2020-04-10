@@ -10,7 +10,7 @@ import CourseSelectTable from './CourseSelectTable';
 import SlotTable from './SlotTable';
 import Timetable from './Timetable.tsx';
 import SelectedCoursesTable from './SelectedCoursesTable.tsx';
-import TimetableSwitcher from './TimetableSwitcher';
+import TimetableSwitcher from './TimetableSwitcher.tsx';
 import CustomNavbar from './CustomNavbar';
 import MagicFill from './MagicFill';
 

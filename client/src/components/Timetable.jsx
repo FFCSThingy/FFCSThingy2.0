@@ -11,25 +11,58 @@ import styles from '../css/Timetable.module.scss';
 
 const TimetableHeaderRow = memo(({ isMobile, isAfternoon, rowNumber }) => {
 	const rowCells = HEADERS[rowNumber].map((val, i) => {
-		const cellVal = val.split(' ').reduce((acc, v) => (acc === null
-			? <>{v}</>
-			: (
-				<>
-					{acc}
-					<br />
-					{v}
-				</>
-			)), null);
+		// To split with a <br> between words
+		// Adds <br> only if acc exists
+		const cellVal = val.split(' ').reduce((acc, v) => (
+			<>
+				{acc}
+				{acc ? (<br />) : ''}
+				{v}
+			</>
+		), '');
 
-		if (i === 0) return <TimetableCell key={`TimetableHeaderCell-${val}`} dayHeader>{cellVal}</TimetableCell>;
+		// First cells ("Theory Hours", "Lab Hours")
+		if (i === 0) {
+			return (
+				<TimetableCell
+					key={`TimetableHeaderCell-${val}`}
+					cellValue={val}
+					dayHeader
+				>
+					{cellVal}
+				</TimetableCell>
+			);
+		}
 
 		if (isMobile) {
-			if (!isAfternoon && i > 6) return null;	// Only need first 7 cells for morning
-			if (isAfternoon && rowNumber === 0 && i < 8) return null;	// Only need cells after 8 for evening row1 (Because break cell)
-			if (isAfternoon && i < 7) return null;	// Only need cells after 7 for evening row2
-		} else if (rowNumber === 0 && i === 7) return <TimetableCell key={`TimetableBreakCell-${val}`} isBreak>{cellVal}</TimetableCell>;
+			// Only need first 7 cells for morning
+			if (!isAfternoon && i > 6) return null;
 
-		return <TimetableCell key={`TimetableHeaderCell-${val}`} timeHeader>{cellVal}</TimetableCell>;
+			// Only need cells after 8 for evening row1 (Because break cell)
+			if (isAfternoon && rowNumber === 0 && i < 8) return null;
+
+			// Only need cells after 7 for evening row2
+			if (isAfternoon && i < 7) return null;
+		} else if (rowNumber === 0 && i === 7) { // Break Cell
+			return (
+				<TimetableCell
+					key={`TimetableBreakCell-${val}`}
+					isBreak
+				>
+					{cellVal}
+				</TimetableCell>
+			);
+		}
+
+		// Default Header Cell
+		return (
+			<TimetableCell
+				key={`TimetableHeaderCell-${val}`}
+				timeHeader
+			>
+				{cellVal}
+			</TimetableCell>
+		);
 	});
 
 	let rowClassName = (rowNumber === 0) ? 'timetableHeader1' : 'timetableHeader2';
@@ -71,35 +104,63 @@ const TimetableBodyRow = memo(({
 	const rowCells = SLOTS[rowNumber].map((slotVal, i) => {
 		let slotString = slotVal;
 
-		if (i === 0) return <TimetableCell key={`TimetableHeaderCell-${slotString}`} dayHeader>{slotString}</TimetableCell>;
-
-		if (!isMobile && rowNumber === 0 && i === 7) {
-			return <TimetableCell key={`TimetableBreakCell-${slotString}`} isBreak>{slotString}</TimetableCell>;
+		// Day Header Cells
+		if (i === 0) {
+			return (
+				<TimetableCell
+					key={`TimetableHeaderCell-${slotString}`}
+					dayHeader
+				>
+					{slotString}
+				</TimetableCell>
+			);
 		}
+
+		// Break Cell for desktop
+		if (!isMobile && rowNumber === 0 && i === 7) {
+			return (
+				<TimetableCell
+					key={`TimetableBreakCell-${slotString}`}
+					isBreak
+				>
+					{slotString}
+				</TimetableCell>
+			);
+		}
+
+		// Break not needed
 		if (isMobile && rowNumber === 0 && i === 7) return null;
 
+		// Dont need cols after 5 for morning
 		if (isMobile && !isAfternoon && i > 6) return null;
+
+		// Dont need cols before 7 (6 is break) for afternoon
 		if (isMobile && isAfternoon && i < 7) return null;
 
+		// Splits slot string to find lab and theory slot of the given cell
 		const currentCellSlots = slotVal.split('/');
 		const [theorySlot, labSlot] = currentCellSlots;
 
+		// Checks timetable to find the selected lab course for this cell
 		const reqdLabCourse = filledSlots.includes(labSlot)
 			&& timetable.find((course) => (
 				course.slot.replace(' ', '').split('+').includes(labSlot)
 				&& course.timetableName === activeTimetableName
 			));
 
+		// Checks timetable to find the selected theory course for this cell
 		const reqdTheoryCourse = filledSlots.includes(theorySlot)
 			&& timetable.find((course) => (
 				course.slot.replace(' ', '').split('+').includes(theorySlot)
 				&& course.timetableName === activeTimetableName
 			));
 
+		// For Slots with only one component (L6, L12, EXTM, L24, L30)
 		if (!labSlot) slotString = theorySlot;
 		else if (!theorySlot) slotString = labSlot;
 
-		if (reqdTheoryCourse) { // Is a theory slot
+		// Is a theory slot
+		if (reqdTheoryCourse) {
 			return (
 				<TimetableCell
 					reqdCourse={reqdTheoryCourse}
@@ -111,7 +172,8 @@ const TimetableBodyRow = memo(({
 			);
 		}
 
-		if (reqdLabCourse) { // Is a lab slot
+		// Is a lab slot
+		if (reqdLabCourse) {
 			return (
 				<TimetableCell
 					reqdCourse={reqdLabCourse}
@@ -124,7 +186,14 @@ const TimetableBodyRow = memo(({
 			);
 		}
 
-		return <TimetableCell key={`TimetableBodyCell-${slotString}`}>{slotString}</TimetableCell>;
+		// Default cell
+		return (
+			<TimetableCell
+				key={`TimetableBodyCell-${slotString}`}
+			>
+				{slotString}
+			</TimetableCell>
+		);
 	});
 
 	return (
@@ -190,7 +259,7 @@ const MobileTimetable = memo(({ timetable, activeTimetableName, filledSlots }) =
 ));
 
 const DesktopTimetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
-	<Container className={styles.timetableContainer} fluid="true">
+	<Container className={styles.timetableContainer} fluid>
 		<table className={styles.timetable}>
 			<TimetableHeader />
 			<TimetableBody
@@ -203,6 +272,7 @@ const DesktopTimetable = memo(({ timetable, activeTimetableName, filledSlots }) 
 ));
 
 const Timetable = memo(({ timetable, activeTimetableName, filledSlots }) => (
+	// Media Query for phones
 	<MediaQuery minDeviceWidth={768}>
 		{(matches) => {
 			if (matches) {

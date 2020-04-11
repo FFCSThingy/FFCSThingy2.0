@@ -331,7 +331,7 @@ const Dashboard = ({ handleUnauth }) => {
 				);
 			}
 
-			const reqdProperties = ['_id', 'code', 'course_type', 'credits', 'faculty', 'slot', 'venue', 'title', 'timetableName'];
+			const reqdProperties = ['_id', 'code', 'course_type', 'credits', 'faculty', 'slot', 'venue', 'title', 'timetableName', 'simpleCourseType'];
 			newTimetable = newTimetable.map((crs) => Object.keys(crs)
 				.filter((key) => reqdProperties.includes(key))
 				.reduce((acc, val) => ({

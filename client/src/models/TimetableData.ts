@@ -8,6 +8,6 @@ export default interface TimetableData {
 	venue: string;
 	title: string;
 	timetableName: string;
-	simpleCourseType?: string;
+	simpleCourseType: string;
 	percent?: number;
 }

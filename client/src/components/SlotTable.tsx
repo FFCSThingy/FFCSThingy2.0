@@ -85,14 +85,14 @@ interface SlotTable {
 const SlotTable: FC<SlotTable> = ({
 	selectedCourseCode, selectedCourseSlots, addSlotToTimetable, slotClashesWith, isSelected,
 }) => {
-	const [selectedCourseTypes, setSelectedCourseTypes] = useState([]);
-	const [typeFilters, setTypeFilters] = useState([]);
-	const [venueFilters, setVenueFilters] = useState([]);
-	const [allAvailableVenueList, setAllAvailableVenueList] = useState([]);
-	const [theoryAvailableVenueList, setTheoryAvailableVenueList] = useState([]);
-	const [labAvailableVenueList, setLabAvailableVenueList] = useState([]);
-	const [projectAvailableVenueList, setProjectAvailableVenueList] = useState([]);
-	const [filteredSlots, setFilteredSlots] = useState(selectedCourseSlots);
+	const [selectedCourseTypes, setSelectedCourseTypes] = useState<string[]>([]);
+	const [typeFilters, setTypeFilters] = useState<string[]>([]);
+	const [venueFilters, setVenueFilters] = useState<string[]>([]);
+	const [allAvailableVenueList, setAllAvailableVenueList] = useState<string[]>([]);
+	const [theoryAvailableVenueList, setTheoryAvailableVenueList] = useState<string[]>([]);
+	const [labAvailableVenueList, setLabAvailableVenueList] = useState<string[]>([]);
+	const [projectAvailableVenueList, setProjectAvailableVenueList] = useState<string[]>([]);
+	const [filteredSlots, setFilteredSlots] = useState<TimetableData[]>(selectedCourseSlots);
 
 	// Reset filters and update lists when selectedCourseCode changes.
 	useEffect(() => {
@@ -100,7 +100,7 @@ const SlotTable: FC<SlotTable> = ({
 			new Set(selectedCourseSlots.map((course) => course.simpleCourseType)),
 		).sort();
 
-		const findAvailableVenues = (type = null) => {
+		const findAvailableVenues = (type = '') => {
 			const venueRegex = /^[A-Z]+/;
 			return Array.from(
 				new Set(
@@ -111,11 +111,13 @@ const SlotTable: FC<SlotTable> = ({
 							return true;
 						})
 						.map((course) => {
-							const buildingString = course.venue.match(venueRegex)[0];
+							// const matches = course.venue.match(venueRegex);
+							// const buildingString = matches? matches[0] : '';
+							const buildingString = (course.venue.match(venueRegex) as RegExpMatchArray)[0];
 							if (buildingString.endsWith('G')) return buildingString.slice(0, -1);
 							return buildingString;
 						}),
-				) || new Set(),
+				),
 			).sort();
 		};
 
@@ -134,30 +136,38 @@ const SlotTable: FC<SlotTable> = ({
 	useEffect(() => {
 		const doCourseSlotsFilter = () => selectedCourseSlots
 			.filter((course) => {	// Filter on simpleCourseType
-				if (typeFilters.length === 0) { return true; }
+				let returnValue = false;
+				if (typeFilters.length === 0) { returnValue = true; }
 
-				return typeFilters.reduce((a, v) => (a || (course.simpleCourseType === v)), false);
+				returnValue = typeFilters
+					.reduce((a, v) => (a || (course.simpleCourseType === v)), returnValue);
+
+				return returnValue;
 			}).filter((course) => {	// Filter on Venue
-				if (venueFilters.length === 0) { return true; }
+				let returnValue = false;
+				if (venueFilters.length === 0) { returnValue = true; }
 
 				if (
 					typeFilters.includes('Project')
 					&& course.simpleCourseType === 'Project'
-				) return true;
+				) { returnValue = true; }
 
-				return venueFilters.reduce((a, v) => (a || (course.venue.startsWith(v))), false);
+				returnValue = venueFilters
+					.reduce((a, v) => (a || (course.venue.startsWith(v))), returnValue);
+
+				return returnValue;
 			});
 
 		setFilteredSlots(doCourseSlotsFilter());
 	}, [typeFilters, venueFilters, selectedCourseSlots]);
 
-	const handleTypeChange = (val) => setTypeFilters(val);
+	const handleTypeChange = (val: string[]) => setTypeFilters(val);
 
-	const handleVenueChange = (val) => setVenueFilters(val);
+	const handleVenueChange = (val: string[]) => setVenueFilters(val);
 
-	const normalCourses = [];
-	const selectedCourses = [];
-	const clashingCourses = [];
+	const normalCourses: JSX.Element[] = [];
+	const selectedCourses: JSX.Element[] = [];
+	const clashingCourses: JSX.Element[] = [];
 
 	filteredSlots.map((slot) => {
 		if (isSelected(slot)) {
@@ -194,7 +204,7 @@ const SlotTable: FC<SlotTable> = ({
 
 	const courses = normalCourses.concat(selectedCourses, clashingCourses);
 
-	let applicableVenues = [];
+	let applicableVenues: string[] = [];
 	if (typeFilters.includes('Theory')) applicableVenues = [...applicableVenues, ...theoryAvailableVenueList];
 	if (typeFilters.includes('Lab')) applicableVenues = [...applicableVenues, ...labAvailableVenueList];
 	if (typeFilters.includes('Project')) applicableVenues = [...applicableVenues, ...projectAvailableVenueList];

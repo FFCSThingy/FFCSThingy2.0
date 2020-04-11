@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-	Route, BrowserRouter as Router, Switch,
+	BrowserRouter as Router, Switch,
 } from 'react-router-dom';
 
 import ReactGA from 'react-ga';
@@ -8,7 +8,7 @@ import ReactGA from 'react-ga';
 import API from './API';
 
 import PrivateRoute from './components/PrivateRoute';
-import Login from './components/Login';
+import Login from './components/Login.tsx';
 import Dashboard from './components/Dashboard';
 
 ReactGA.initialize('UA-156974674-1');

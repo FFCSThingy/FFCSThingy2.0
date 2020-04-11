@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 
 // Components
-import CourseSelectTable from './CourseSelectTable';
+import CourseSelectTable from './CourseSelectTable.tsx';
 import SlotTable from './SlotTable.tsx';
 import Timetable from './Timetable.tsx';
 import SelectedCoursesTable from './SelectedCoursesTable.tsx';

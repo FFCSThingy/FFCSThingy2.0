@@ -2,6 +2,7 @@ import React, { useState, useEffect, memo, FC } from 'react';
 import {
 	Dropdown, ButtonGroup, Button, Form,
 } from 'react-bootstrap';
+import { SelectCallback } from 'react-bootstrap/helpers';
 import {
 	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
 } from 'react-icons/fa';
@@ -24,7 +25,7 @@ const TimetableInput: FC<TimetableInput> = (
 
 	const handleSubmit = () => okHandler(newTimetableName);
 
-	const handleKeyPress = (target: any) => {
+	const handleKeyPress = (target: React.KeyboardEvent<HTMLFormElement>) => {
 		if (target.charCode === 13) {
 			handleSubmit();
 		}
@@ -41,7 +42,9 @@ const TimetableInput: FC<TimetableInput> = (
 				value={newTimetableName}
 				placeholder="Timetable Name"
 				name="newName"
-				onChange={(e: any) => setNewTimetableName(e.target.value)}
+				onChange={
+					(e: React.ChangeEvent<HTMLInputElement>) => setNewTimetableName(e.currentTarget.value)
+				}
 				spellCheck="false"
 				autoComplete="off"
 				className={styles.inputField}
@@ -73,7 +76,7 @@ const DropdownItem: FC<DropdownItem> = ({ value }) => (
 interface TimetableSwitcher {
 	timetableNames: string[];
 	activeTimetableName: string;
-	setActiveTimetableName: Function;
+	setActiveTimetableName: SelectCallback;
 	doNew: Function;
 	doEdit: Function;
 	doDelete: Function;
@@ -129,7 +132,7 @@ const TimetableSwitcher: FC<TimetableSwitcher> = memo(
 			<div className={styles.dropdownButtonGroupContainer}>
 				<ButtonGroup className={styles.dropdownButtonGroup}>
 
-					<Dropdown onSelect={setActiveTimetableName as any}>
+					<Dropdown onSelect={setActiveTimetableName}>
 						<Dropdown.Toggle id="DropdownToggle" className={styles.customDropdownButton}>
 							{activeTimetableName}
 						</Dropdown.Toggle>

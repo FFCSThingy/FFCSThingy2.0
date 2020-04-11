@@ -7,7 +7,7 @@ import {
 
 // Components
 import CourseSelectTable from './CourseSelectTable';
-import SlotTable from './SlotTable';
+import SlotTable from './SlotTable.tsx';
 import Timetable from './Timetable.tsx';
 import SelectedCoursesTable from './SelectedCoursesTable.tsx';
 import TimetableSwitcher from './TimetableSwitcher.tsx';

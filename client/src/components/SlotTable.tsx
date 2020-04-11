@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 
 import {
 	Card, Col, CardColumns, ToggleButtonGroup, ToggleButton, Row,
@@ -6,7 +6,16 @@ import {
 
 import styles from '../css/SlotTable.module.scss';
 
-const SlotCard = ({
+import TimetableData from '../models/TimetableData';
+
+interface SlotCard {
+	slotDetails: TimetableData;
+	type: string;
+	clashingSlots?: string[];
+	onClick?: Function;
+}
+
+const SlotCard: FC<SlotCard> = ({
 	slotDetails, onClick, type, clashingSlots,
 }) => {
 	let clashSubtitle; let selectedSubtitle; let
@@ -45,7 +54,7 @@ const SlotCard = ({
 				<Card.Subtitle className={styles.cardSubtitle}>
 					{'Popularity - '}
 					<b>
-						{`${Math.floor(slotDetails.percent)}%`}
+						{`${Math.floor(slotDetails.percent || 0)}%`}
 					</b>
 				</Card.Subtitle>
 
@@ -65,7 +74,15 @@ const SlotCard = ({
 	);
 };
 
-const SlotTable = ({
+interface SlotTable {
+	selectedCourseCode: string;
+	selectedCourseSlots: TimetableData[];
+	slotClashesWith: Function;
+	isSelected: Function;
+	addSlotToTimetable: Function;
+}
+
+const SlotTable: FC<SlotTable> = ({
 	selectedCourseCode, selectedCourseSlots, addSlotToTimetable, slotClashesWith, isSelected,
 }) => {
 	const [selectedCourseTypes, setSelectedCourseTypes] = useState([]);
@@ -94,11 +111,11 @@ const SlotTable = ({
 							return true;
 						})
 						.map((course) => {
-							const s = course.venue.match(venueRegex)[0];
-							if (s.endsWith('G')) return s.slice(0, -1);
-							return s;
+							const buildingString = course.venue.match(venueRegex)[0];
+							if (buildingString.endsWith('G')) return buildingString.slice(0, -1);
+							return buildingString;
 						}),
-				),
+				) || new Set(),
 			).sort();
 		};
 
@@ -112,7 +129,6 @@ const SlotTable = ({
 		setTypeFilters([]);
 		setVenueFilters([]);
 
-		// setFilteredSlots(selectedCourseSlots);
 	}, [selectedCourseCode, selectedCourseSlots]);
 
 	useEffect(() => {

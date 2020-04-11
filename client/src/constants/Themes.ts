@@ -2,8 +2,8 @@ interface ThemeList {
 	[key: string]: string;
 }
 
-const themeList: FC<ThemeList> = {
-	default: 'Default',
+const themeList: ThemeList = {
+	'default': 'Default',
 	'eerie-black': 'Eerie Black',
 	'mellow-yellow': 'Mellow Yellow',
 	'light-coral': 'Light Coral',

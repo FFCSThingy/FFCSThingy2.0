@@ -12,35 +12,116 @@ import themeList from '../constants/Themes';
 
 import brandImage from '../images/logo.1.png';
 
-
-interface CurriculumChoices {
+interface UserDetails {
+	display_name: string;
+	picture: string;
+}
+interface CurriculumDropdown {
 	curriculumList: string[];
+	selectedCurriculum: string;
+	handleCurriculumChange: Function;
 }
 
-const CurriculumChoices = (curriculumList: string[]) => curriculumList
-	.map((v) => (
-		<NavDropdown.Item
-			key={v}
-			eventKey={v}
-			className={styles.dropdownItem}
+const CurriculumDropdown: FC<CurriculumDropdown> = (
+	{ curriculumList, selectedCurriculum, handleCurriculumChange }
+) => (
+		<NavDropdown
+			id="CurriculumDropdown"
+			title={selectedCurriculum}
+			className={styles.navbarDropdown}
+			onSelect={handleCurriculumChange}
 		>
-			{v}
-			<NavDropdown.Divider className={styles.dropdownDivider} />
-		</NavDropdown.Item>
-	));
+			<Dropdown.Menu className={styles.dropdownMenu}>
+				{
+					curriculumList
+						.map((v) => (
+							<NavDropdown.Item
+								key={v}
+								eventKey={v}
+								className={styles.dropdownItem}
+							>
+								{v}
+								<NavDropdown.Divider className={styles.dropdownDivider} />
+							</NavDropdown.Item>
+						))
+				}
+			</Dropdown.Menu>
+		</NavDropdown>
+	);
 
+interface ThemeDropdownModel {
+	changeActiveTheme: Function;
+}
+
+const ThemeDropdown: FC<ThemeDropdownModel> = ({ changeActiveTheme }) => (
+	<NavDropdown
+		id="ThemeDropdown"
+		title="Theme"
+		className={styles.navbarDropdown}
+		onSelect={changeActiveTheme}
+	>
+		<Dropdown.Menu className={styles.dropdownMenu}>
+			{
+				Object.keys(themeList)
+					.map((v: string) => (
+						<NavDropdown.Item
+							eventKey={v}
+							key={v}
+							className={styles.dropdownItem}
+						>
+							{themeList[v]}
+							<NavDropdown.Divider className={styles.dropdownDivider} />
+						</NavDropdown.Item>
+					))
+			}
+		</Dropdown.Menu>
+	</NavDropdown>
+);
+
+interface UserDropdown {
+	userDetails: UserDetails;
+	doLogout: React.MouseEventHandler<this>;
+}
+
+const UserDropdown: FC<UserDropdown> = ({ userDetails, doLogout }) => (
+	<NavDropdown
+		id="UserDropdown"
+		alignRight
+		title={(
+			<img
+				className={styles.userProfileImage}
+				alt=""
+				src={userDetails.picture}
+			/>
+		)}
+		className={styles.navbarDropdown}
+	>
+		<Dropdown.Menu className={styles.dropdownMenu}>
+			<NavDropdown.Item disabled key="DisplayNameDropdownItem" className={styles.dropdownItem}>
+				{userDetails.display_name}
+				<NavDropdown.Divider className={styles.dropdownDivider} />
+			</NavDropdown.Item>
+
+			<NavDropdown.Item
+				onClick={doLogout}
+				className={styles.dropdownItem}
+				key="LogoutDropdownItem"
+			>
+				Logout
+				<NavDropdown.Divider className={styles.dropdownDivider} />
+			</NavDropdown.Item>
+		</Dropdown.Menu>
+	</NavDropdown>
+);
 
 interface CustomNavbar {
 	curriculumList: string[];
 	selectedCurriculum: string;
 	creditCount: number;
-	userDetails: {
-		display_name: string;
-		picture: string;
-	};
+	userDetails: UserDetails;
 	handleCurriculumChange: Function;
 	changeActiveTheme: Function;
-	doLogout: Function;
+	doLogout: React.MouseEventHandler<this>;
 }
 
 const CustomNavbar: FC<CustomNavbar> = memo(
@@ -50,17 +131,7 @@ const CustomNavbar: FC<CustomNavbar> = memo(
 	}) => {
 		const [showModal, setShowModal] = useState(false);
 
-		const ThemeChoices = () => Object.keys(themeList)
-			.map((v) => (
-				<NavDropdown.Item
-					eventKey={v}
-					key={v}
-					className={styles.dropdownItem}
-				>
-					{themeList[v]}
-					<NavDropdown.Divider className={styles.dropdownDivider} />
-				</NavDropdown.Item>
-			));
+
 
 		const SyncModal = () => (
 			<Modal
@@ -108,18 +179,11 @@ const CustomNavbar: FC<CustomNavbar> = memo(
 					</NavbarBrand>
 
 
-					<NavDropdown
-						id="CurriculumDropdown"
-						title={selectedCurriculum}
-						className={styles.navbarDropdown}
-						onSelect={handleCurriculumChange}
-					>
-						<Dropdown.Menu className={styles.dropdownMenu}>
-							<CurriculumChoices
-								curriculumList={curriculumList}
-							/>
-						</Dropdown.Menu>
-					</NavDropdown>
+					<CurriculumDropdown
+						curriculumList={curriculumList}
+						selectedCurriculum={selectedCurriculum}
+						handleCurriculumChange={handleCurriculumChange}
+					/>
 
 
 					<Navbar.Toggle
@@ -160,43 +224,14 @@ const CustomNavbar: FC<CustomNavbar> = memo(
 							{`Credits: ${creditCount}`}
 						</Nav.Link>
 
-						<NavDropdown
-							title="Theme"
-							className={styles.navbarDropdown}
-							onSelect={changeActiveTheme}
-						>
-							<Dropdown.Menu className={styles.dropdownMenu}>
-								<ThemeChoices />
-							</Dropdown.Menu>
-						</NavDropdown>
+						<ThemeDropdown
+							changeActiveTheme={changeActiveTheme}
+						/>
 
-						<NavDropdown
-							alignRight
-							title={(
-								<img
-									className={styles.userProfileImage}
-									alt=""
-									src={userDetails.picture}
-								/>
-							)}
-							className={styles.navbarDropdown}
-						>
-							<Dropdown.Menu className={styles.dropdownMenu}>
-								<NavDropdown.Item disabled key="DisplayNameDropdownItem" className={styles.dropdownItem}>
-									{userDetails.display_name}
-									<NavDropdown.Divider className={styles.dropdownDivider} />
-								</NavDropdown.Item>
-
-								<NavDropdown.Item
-									onClick={doLogout}
-									className={styles.dropdownItem}
-									key="LogoutDropdownItem"
-								>
-									Logout
-								<NavDropdown.Divider className={styles.dropdownDivider} />
-								</NavDropdown.Item>
-							</Dropdown.Menu>
-						</NavDropdown>
+						<UserDropdown
+							userDetails={userDetails}
+							doLogout={doLogout}
+						/>
 					</div>
 
 				</Navbar.Collapse>

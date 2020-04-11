@@ -136,26 +136,20 @@ const SlotTable: FC<SlotTable> = ({
 	useEffect(() => {
 		const doCourseSlotsFilter = () => selectedCourseSlots
 			.filter((course) => {	// Filter on simpleCourseType
-				let returnValue = false;
-				if (typeFilters.length === 0) { returnValue = true; }
+				if (typeFilters.length === 0) { return true; }
 
-				returnValue = typeFilters
-					.reduce((a, v) => (a || (course.simpleCourseType === v)), returnValue);
-
-				return returnValue;
+				return typeFilters
+					.reduce<boolean>((a, v) => (a || (course.simpleCourseType === v)), false);
 			}).filter((course) => {	// Filter on Venue
-				let returnValue = false;
-				if (venueFilters.length === 0) { returnValue = true; }
+				if (venueFilters.length === 0) { return true; }
 
 				if (
 					typeFilters.includes('Project')
 					&& course.simpleCourseType === 'Project'
-				) { returnValue = true; }
+				) { return true; }
 
-				returnValue = venueFilters
-					.reduce((a, v) => (a || (course.venue.startsWith(v))), returnValue);
-
-				return returnValue;
+				return venueFilters
+					.reduce<boolean>((a, v) => (a || (course.venue.startsWith(v))), false);
 			});
 
 		setFilteredSlots(doCourseSlotsFilter());

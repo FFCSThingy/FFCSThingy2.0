@@ -194,9 +194,14 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 	// Sets Curriculum in LocalStorage corresponding to prefix
 	// Ex - 19BCE: {Data...}
 	useEffect(() => {
-		if (currentCurriculumResponse) {
+		const selectedCurriculumData = localStorage.getItem(selectedCurriculumPrefix);
+		
+		if(selectedCurriculumData !== null)
+			setCurrentCurriculum(JSON.parse(selectedCurriculumData));
+			
+		else if (selectedCurriculumData === null && currentCurriculumResponse) {
 			setCurrentCurriculum(currentCurriculumResponse.data);
-			localStorage.setItem(selectedCurriculumPrefix, currentCurriculumResponse.data);
+			localStorage.setItem(selectedCurriculumPrefix, JSON.stringify(currentCurriculumResponse.data));
 		}
 	}, [currentCurriculumResponse, selectedCurriculumPrefix]);
 

@@ -1,25 +1,9 @@
 import React, { memo, FC } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import styles from '../css/TimetableCell.module.scss';
+import styles from '../../css/TimetableCell.module.scss';
 
-interface TimetableCellProps {
-	isFilled?: boolean;
-	isLab?: boolean;
-	dayHeader?: boolean;
-	timeHeader?: boolean;
-	isBreak?: boolean;
-	reqdCourse?: {
-		title: string;
-		faculty: string;
-		slot: string;
-		code: string;
-		venue: string;
-		course_type: string;
-	};
-	defaultValue: string;
-	children: React.ReactNode;
-}
+import TimetableCellProps from '../../models/components/Timetable/TimetableCell';
 
 const TimetableCell: FC<TimetableCellProps> = memo(
 	({

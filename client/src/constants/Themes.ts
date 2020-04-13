@@ -1,6 +1,4 @@
-interface ThemeList {
-	[key: string]: string;
-}
+import ThemeList from '../models/constants/ThemeList';
 
 const themeList: ThemeList = {
 	'default': 'Default',

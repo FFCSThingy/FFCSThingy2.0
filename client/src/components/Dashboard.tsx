@@ -6,29 +6,33 @@ import {
 } from 'react-bootstrap';
 
 // Components
-import CourseSelectTable from './CourseSelectTable';
-import SlotTable from './SlotTable';
-import Timetable from './Timetable';
-import SelectedCoursesTable from './SelectedCoursesTable';
-import TimetableSwitcher from './TimetableSwitcher';
-import CustomNavbar from './CustomNavbar';
+import CustomNavbar from './CustomNavbar/CustomNavbar';
+
+import CourseSelection from './CourseSelection/CourseSelection';
+import SlotTable from './SlotTable/SlotTable';
+
 import MagicFill from './MagicFill';
+import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
+import Timetable from './Timetable/Timetable';
+
+import SelectedCoursesTable from './SelectedCoursesTable';
 
 // Constants
 import CLASHMAP from '../constants/ClashMap';
 
 import styles from '../css/Dashboard.module.scss';
 
+// Custom Hooks
 import useAxiosFFCS from '../hooks/useAxiosFFCS';
 import useInterval from '../hooks/useInterval';
 
-import TimetableCourse from '../models/TimetableCourse';
-import TTGenPreferences from '../models/TTGenPreferences';
-import { Curriculum } from '../models/Curriculum';
-import Clashmap from '../models/Clashmap';
-import HeatmapCourse from '../models/HeatmapCourse';
-
-// TODO: Make Add Slots to Timetable work for auto-add project
+// Models/Interfaces
+import DashboardProps, { AlertRowProps, TTErrorProps } from '../models/components/Dashboard';
+import TimetableCourse from '../models/data/TimetableCourse';
+import TTGenPreferences from '../models/data/TTGenPreferences';
+import { Curriculum } from '../models/data/Curriculum';
+import Clashmap from '../models/constants/Clashmap';
+import HeatmapCourse from '../models/data/HeatmapCourse';
 
 // const useStateWithLabel = (initialValue, name) => {
 // 	const [value, setValue] = useState(initialValue);
@@ -36,12 +40,7 @@ import HeatmapCourse from '../models/HeatmapCourse';
 // 	return [value, setValue];
 // };
 
-interface AlertRow {
-	show: boolean;
-	setShowAlert: Function;
-}
-
-const AlertRow: FC<AlertRow> = ({ show = false, setShowAlert }) => (show ? (
+const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? (
 	<Row>
 		<Alert className={styles.alert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
 			<Alert.Heading>Courses Updated</Alert.Heading>
@@ -52,12 +51,8 @@ const AlertRow: FC<AlertRow> = ({ show = false, setShowAlert }) => (show ? (
 	</Row>
 ) : (<></>));
 
-interface TTError {
-	error: string;
-	setTimetableGenerationError: Function;
-}
 
-const TTError: FC<TTError> = ({ error = '', setTimetableGenerationError }) => (error ? (
+const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) => (error ? (
 	<Row>
 		<Alert
 			variant="danger"
@@ -69,12 +64,8 @@ const TTError: FC<TTError> = ({ error = '', setTimetableGenerationError }) => (e
 	</Row>
 ) : (<></>));
 
-interface Dashboard {
-	handleUnauth: Function;
-}
 
-
-const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
+const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	const [{ data: userData }] = useAxiosFFCS({
 		url: '/account',
 	});
@@ -509,7 +500,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 
 			<Row className={styles.slotSelectionRow}>
 				<Col xs={12} md={4}>
-					<CourseSelectTable
+					<CourseSelection
 						doSelectCourse={setSelectedCourseCode}
 
 						completedCourses={completedCoursesResponse ? completedCoursesResponse.data : []}

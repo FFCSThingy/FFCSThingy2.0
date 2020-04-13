@@ -4,18 +4,12 @@ import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import styles from '../css/SelectedCoursesTable.module.scss';
 
-import TimetableCourse from '../models/TimetableCourse';
+import TimetableCourse from '../models/data/TimetableCourse';
+import SelectedCoursesTableProps from '../models/components/SelectedCoursesTable';
 
 const sortTimetable = ((a: TimetableCourse, b: TimetableCourse) => a.code.localeCompare(b.code));
 
-interface SelectedCoursesTable {
-	timetable: TimetableCourse[];
-	activeTimetableName: string;
-	creditCount: number;
-	unselectSlot: Function;
-}
-
-const SelectedCoursesTable: FC<SelectedCoursesTable> = (
+const SelectedCoursesTable: FC<SelectedCoursesTableProps> = (
 	{
 		timetable,
 		activeTimetableName,

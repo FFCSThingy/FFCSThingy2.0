@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import '../css/MagicFill.scss';
-import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
 import {
 	Container, Form, Button, Row, Col, ToggleButton, ToggleButtonGroup, Alert,
 } from 'react-bootstrap';

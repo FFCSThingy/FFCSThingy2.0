@@ -1,89 +1,16 @@
-import React, { useState, useEffect, memo, FC } from 'react';
-import {
-	Dropdown, ButtonGroup, Button, Form,
-} from 'react-bootstrap';
-import { SelectCallback } from 'react-bootstrap/helpers';
+import React, { useState, memo, FC } from 'react';
+import { Dropdown, ButtonGroup, Button, } from 'react-bootstrap';
 import {
 	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
 } from 'react-icons/fa';
-import styles from '../css/TimetableSwitcher.module.scss';
 
+import TimetableSwitcherInput from './TimetableSwitcherInput';
 
-interface TimetableInput {
-	value: string;
-	okHandler: Function;
-	showInput: boolean;
-}
+import TimetableSwitcherProps from '../../models/components/TimetableSwitcher/TimetableSwitcher';
 
-const TimetableInput: FC<TimetableInput> = (
-	{ value = '', okHandler, showInput }
-) => {
-	const [newTimetableName, setNewTimetableName] = useState(value);
-	useEffect(() => {	// update default value on show and value change
-		setNewTimetableName(value);
-	}, [value, showInput]);
+import styles from '../../css/TimetableSwitcher.module.scss';
 
-	const handleSubmit = () => okHandler(newTimetableName);
-
-	const handleKeyPress = (target: React.KeyboardEvent<HTMLFormElement>) => {
-		if (target.charCode === 13) {
-			handleSubmit();
-		}
-	};
-
-	if (!showInput) return <></>;
-	return (
-		<Form
-			className={styles.form}
-			onKeyPress={handleKeyPress}
-		>
-			<Form.Control
-				type="text"
-				value={newTimetableName}
-				placeholder="Timetable Name"
-				name="newName"
-				onChange={
-					(e: React.ChangeEvent<HTMLInputElement>) => setNewTimetableName(e.currentTarget.value)
-				}
-				spellCheck="false"
-				autoComplete="off"
-				className={styles.inputField}
-			/>
-
-			<Button
-				className={styles.customButton}
-				onClick={handleSubmit}
-			>
-				Ok
-			</Button>
-		</Form>
-	);
-};
-
-interface DropdownItem {
-	value: string;
-}
-
-const DropdownItem: FC<DropdownItem> = ({ value }) => (
-	<Dropdown.Item
-		eventKey={value}
-		className={styles.dropdownItem}
-	>
-		{value}
-	</Dropdown.Item>
-);
-
-interface TimetableSwitcher {
-	timetableNames: string[];
-	activeTimetableName: string;
-	setActiveTimetableName: SelectCallback;
-	doNew: Function;
-	doEdit: Function;
-	doDelete: Function;
-	doCopy: Function;
-}
-
-const TimetableSwitcher: FC<TimetableSwitcher> = memo(
+const TimetableSwitcher: FC<TimetableSwitcherProps> = memo(
 	({
 		timetableNames, activeTimetableName, setActiveTimetableName, doNew, doEdit, doDelete, doCopy,
 	}) => {
@@ -123,8 +50,14 @@ const TimetableSwitcher: FC<TimetableSwitcher> = memo(
 			return activeTimetableName;
 		};
 
-		const dropdownItems = timetableNames.map((v) => (
-			<DropdownItem key={`TimetableSwitcherDropdownItem-${v}`} value={v} />
+		const dropdownItems = timetableNames.map((value) => (
+			<Dropdown.Item
+				key={`TimetableSwitcherDropdownItem-${value}`}
+				eventKey={value}
+				className={styles.dropdownItem}
+			>
+				{value}
+			</Dropdown.Item>
 		));
 
 
@@ -174,7 +107,7 @@ const TimetableSwitcher: FC<TimetableSwitcher> = memo(
 
 				</ButtonGroup>
 
-				<TimetableInput value={defaultValue()} okHandler={okHandler} showInput={showInput()} />
+				<TimetableSwitcherInput value={defaultValue()} okHandler={okHandler} showInput={showInput()} />
 
 			</div>
 		);

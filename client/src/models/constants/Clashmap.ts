@@ -3,5 +3,5 @@ export default interface Clashmap {
 		clashesWith: string[];
 		isFilled: boolean;
 		currentlyClashesWith: string[];
-	}
+	};
 };

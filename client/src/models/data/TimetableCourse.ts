@@ -10,4 +10,4 @@ export default interface TimetableCourse {
 	timetableName: string;
 	simpleCourseType: string;
 	percent?: number;
-}
+};

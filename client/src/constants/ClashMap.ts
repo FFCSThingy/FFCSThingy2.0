@@ -1,4 +1,4 @@
-import Clashmap from '../models/Clashmap';
+import Clashmap from '../models/constants/Clashmap';
 
 const CLASHMAP: Clashmap = {
 	A1: {

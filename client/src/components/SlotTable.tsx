@@ -6,7 +6,6 @@ import {
 
 import styles from '../css/SlotTable.module.scss';
 
-import TimetableCourse from '../models/TimetableCourse';
 import HeatmapCourse from '../models/HeatmapCourse';
 
 interface SlotCard {

@@ -95,7 +95,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 		url: '/user/selectedCourses',
 	}, { manual: true });
 
-	const [{ data: postSelectedCoursesResponse }, executePostSelectedCourses] = useAxiosFFCS({
+	const [{  }, executePostSelectedCourses] = useAxiosFFCS({
 		url: '/user/selectedCoursesBulk',
 		method: 'POST',
 		headers: {
@@ -295,7 +295,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 				setTimetableGenerationError(message);
 			}
 		}
-	}, [postGenerateTTResponse]);
+	}, [postGenerateTTResponse, executePostSelectedCourses]);
 
 	const isSelected = (course: HeatmapCourse) => {
 		if (userTimetable) {

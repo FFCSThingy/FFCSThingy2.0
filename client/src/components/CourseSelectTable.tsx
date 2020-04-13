@@ -11,6 +11,8 @@ import useAxiosFFCS from '../hooks/useAxiosFFCS';
 
 import * as COURSE from '../constants/Courses';
 
+import { Curriculum, CurriculumCourse } from '../models/Curriculum';
+
 interface FilterControls {
 	typeFilters: string[];
 	tabsDisabled: boolean;
@@ -360,17 +362,6 @@ const CourseCardList: FC<CourseCardList> = ({
 	);
 };
 
-interface CurriculumCourse {
-	_id: string;
-	code: string;
-	title: string;
-	course_type: string;
-	l: number;
-	t: number;
-	p: number;
-	j: number;
-	c: number;
-}
 
 interface CourseSlotList {
 	[key: string]: string[];
@@ -385,23 +376,7 @@ interface CourseTypeList {
 }
 
 interface CourseSelectTable {
-	selectedCurriculum: {
-		[key: string]: any;
-		_id: string;
-		reg_prefix: string;
-		__v?: number;
-		todo_creds: {
-			pc: number;
-			uc: number;
-			pe: number;
-			ue: number;
-		}
-		bridge: CurriculumCourse[];
-		pc: CurriculumCourse[];
-		uc: CurriculumCourse[];
-		pe: CurriculumCourse[];
-		ue: CurriculumCourse[];
-	};
+	selectedCurriculum: Curriculum;
 	selectedCurriculumPrefix: string;
 	selectedCourse: string;
 	completedCourses: {

@@ -9,7 +9,7 @@ import API from './API';
 
 import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login.tsx';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard.tsx';
 
 ReactGA.initialize('UA-156974674-1');
 ReactGA.pageview(window.location.pathname + window.location.search);

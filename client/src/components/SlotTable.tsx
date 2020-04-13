@@ -7,9 +7,10 @@ import {
 import styles from '../css/SlotTable.module.scss';
 
 import TimetableData from '../models/TimetableData';
+import HeatmapCourse from '../models/HeatmapCourse';
 
 interface SlotCard {
-	slotDetails: TimetableData;
+	slotDetails: HeatmapCourse;
 	type: string;
 	clashingSlots?: string[];
 	onClick?: Function;
@@ -76,7 +77,7 @@ const SlotCard: FC<SlotCard> = ({
 
 interface SlotTable {
 	selectedCourseCode: string;
-	selectedCourseSlots: TimetableData[];
+	selectedCourseSlots: HeatmapCourse[];
 	slotClashesWith: Function;
 	isSelected: Function;
 	addSlotToTimetable: Function;
@@ -92,7 +93,7 @@ const SlotTable: FC<SlotTable> = ({
 	const [theoryAvailableVenueList, setTheoryAvailableVenueList] = useState<string[]>([]);
 	const [labAvailableVenueList, setLabAvailableVenueList] = useState<string[]>([]);
 	const [projectAvailableVenueList, setProjectAvailableVenueList] = useState<string[]>([]);
-	const [filteredSlots, setFilteredSlots] = useState<TimetableData[]>(selectedCourseSlots);
+	const [filteredSlots, setFilteredSlots] = useState<HeatmapCourse[]>(selectedCourseSlots);
 
 	// Reset filters and update lists when selectedCourseCode changes.
 	useEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -6,12 +6,12 @@ import {
 } from 'react-bootstrap';
 
 // Components
-import CourseSelectTable from './CourseSelectTable.tsx';
-import SlotTable from './SlotTable.tsx';
-import Timetable from './Timetable.tsx';
-import SelectedCoursesTable from './SelectedCoursesTable.tsx';
-import TimetableSwitcher from './TimetableSwitcher.tsx';
-import CustomNavbar from './CustomNavbar.tsx';
+import CourseSelectTable from './CourseSelectTable';
+import SlotTable from './SlotTable';
+import Timetable from './Timetable';
+import SelectedCoursesTable from './SelectedCoursesTable';
+import TimetableSwitcher from './TimetableSwitcher';
+import CustomNavbar from './CustomNavbar';
 import MagicFill from './MagicFill';
 
 // Constants
@@ -22,6 +22,12 @@ import styles from '../css/Dashboard.module.scss';
 import useAxiosFFCS from '../hooks/useAxiosFFCS';
 import useInterval from '../hooks/useInterval';
 
+import TimetableData from '../models/TimetableData';
+import TTGenPreferences from '../models/TTGenPreferences';
+import { Curriculum } from '../models/Curriculum';
+import Clashmap from '../models/Clashmap';
+import HeatmapCourse from '../models/HeatmapCourse';
+
 // TODO: Make Add Slots to Timetable work for auto-add project
 
 // const useStateWithLabel = (initialValue, name) => {
@@ -30,7 +36,12 @@ import useInterval from '../hooks/useInterval';
 // 	return [value, setValue];
 // };
 
-const AlertRow = ({ show = false, setShowAlert }) => (show ? (
+interface AlertRow {
+	show: boolean;
+	setShowAlert: Function;
+}
+
+const AlertRow: FC<AlertRow> = ({ show = false, setShowAlert }) => (show ? (
 	<Row>
 		<Alert className={styles.alert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
 			<Alert.Heading>Courses Updated</Alert.Heading>
@@ -41,7 +52,12 @@ const AlertRow = ({ show = false, setShowAlert }) => (show ? (
 	</Row>
 ) : (<></>));
 
-const TTError = ({ error = '', setTimetableGenerationError }) => (error ? (
+interface TTError {
+	error: string;
+	setTimetableGenerationError: Function;
+}
+
+const TTError: FC<TTError> = ({ error = '', setTimetableGenerationError }) => (error ? (
 	<Row>
 		<Alert
 			variant="danger"
@@ -53,7 +69,12 @@ const TTError = ({ error = '', setTimetableGenerationError }) => (error ? (
 	</Row>
 ) : (<></>));
 
-const Dashboard = ({ handleUnauth }) => {
+interface Dashboard {
+	handleUnauth: Function;
+}
+
+
+const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 	const [{ data: userData }] = useAxiosFFCS({
 		url: '/account',
 	});
@@ -102,20 +123,21 @@ const Dashboard = ({ handleUnauth }) => {
 	// Defaults
 	const [activeTheme, setActiveTheme] = useState(localStorage.getItem('theme') || 'default');
 
-	const [currentCurriculum, setCurrentCurriculum] = useState({});
+	// Oh Lord, Forgive me for the sins I am about to commit with this typecast, but there was no better way to keep my sanity intact and this code working strictly
+	const [currentCurriculum, setCurrentCurriculum] = useState<Curriculum>({} as Curriculum);
 
-	const [heatmap, setHeatmap] = useState(JSON.parse(localStorage.getItem('heatmap')) || []);
+	const [heatmap, setHeatmap] = useState<HeatmapCourse[]>(JSON.parse(localStorage.getItem('heatmap') || '[]'));
 	const [heatmapTimestamp, setHeatmapTimestamp] = useState(localStorage.getItem('heatmapTimestamp') || null);
 
-	const [clashmap, setClashmap] = useState(CLASHMAP);
-	const [userTimetable, setUserTimetable] = useState([]);
+	const [clashmap, setClashmap] = useState<Clashmap>(CLASHMAP);
+	const [userTimetable, setUserTimetable] = useState<TimetableData[]>([]);
 	const [timetableNames, setTimetableNames] = useState(['Default']);
 	const [activeTimetableName, setActiveTimetableName] = useState('Default');
-	const [filledSlots, setFilledSlots] = useState([]);
+	const [filledSlots, setFilledSlots] = useState<string[]>([]);
 	const [creditCount, setCreditCount] = useState(0);
 
 	const [selectedCourseCode, setSelectedCourseCode] = useState('');
-	const [currentlySelectedCourseSlots, setCurrentlySelectedCourseSlots] = useState([]);
+	const [currentlySelectedCourseSlots, setCurrentlySelectedCourseSlots] = useState<HeatmapCourse[]>([]);
 
 	const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
@@ -204,7 +226,7 @@ const Dashboard = ({ handleUnauth }) => {
 			const ttNames = Array.from(
 				new Set(
 					userTimetable
-						.reduce((a, v) => [...a, v.timetableName], [])
+						.reduce<string[]>((a, v) => [...a, v.timetableName], [])
 						.filter((v) => !!v),
 				),
 			);
@@ -212,7 +234,7 @@ const Dashboard = ({ handleUnauth }) => {
 				new Set(
 					userTimetable
 						.filter((v) => v.timetableName === activeTimetableName)
-						.reduce((a, v) => [...a, ...v.slot.replace(' ', '').split('+')], [])
+						.reduce<string[]>((a, v) => [...a, ...v.slot.replace(' ', '').split('+')], [])
 						.filter((v) => v !== 'NIL'),
 				),
 			);
@@ -228,12 +250,12 @@ const Dashboard = ({ handleUnauth }) => {
 		setClashmap((prevClashmap) => {
 			Object.keys(prevClashmap)
 				.map((slot) => {
-					if (filledSlots.includes(prevClashmap[slot])) {
+					if (filledSlots.includes(slot)) {
 						prevClashmap[slot].isFilled = true;
 					}
 
 					const currentClashes = prevClashmap[slot].clashesWith
-						.reduce((acc, clashesWithSlot) => {
+						.reduce((acc: string[], clashesWithSlot: string) => {
 							if (filledSlots.includes(clashesWithSlot)) {
 								acc.push(clashesWithSlot);
 							}
@@ -275,7 +297,7 @@ const Dashboard = ({ handleUnauth }) => {
 		}
 	}, [postGenerateTTResponse]);
 
-	const isSelected = (course) => {
+	const isSelected = (course: HeatmapCourse) => {
 		if (userTimetable) {
 			return userTimetable.find(
 				(e) => e.code === course.code
@@ -289,18 +311,18 @@ const Dashboard = ({ handleUnauth }) => {
 		return false;
 	};
 
-	const slotClashesWith = (slot) => {
+	const slotClashesWith = (slot: string) => {
 		if (slot === 'NIL') return [];
 		if (filledSlots.length === 0) return [];
 
 		const clashingSlots = slot.replace(' ', '').split('+')
-			.reduce((a, v) => Array.from(new Set([...a, ...clashmap[v].currentlyClashesWith])), [])
+			.reduce<string[]>((a, v) => Array.from(new Set([...a, ...clashmap[v].currentlyClashesWith])), [])
 			.filter((v) => v && v.length > 0);
 
 		return clashingSlots;
 	};
 
-	const addSlotToTimetable = (course) => {
+	const addSlotToTimetable = (course: TimetableData) => {
 		course.timetableName = activeTimetableName;
 		const coursesToAdd = [course];
 		let reqdProjectComponent;
@@ -323,7 +345,7 @@ const Dashboard = ({ handleUnauth }) => {
 		}
 
 		setUserTimetable((prevTimetable) => {
-			let newTimetable = [...coursesToAdd];
+			let newTimetable: TimetableData[] = [...coursesToAdd];
 
 			if (prevTimetable) {
 				newTimetable = Array.from(
@@ -331,13 +353,18 @@ const Dashboard = ({ handleUnauth }) => {
 				);
 			}
 
+			// Properties to keep in user timetables
 			const reqdProperties = ['_id', 'code', 'course_type', 'credits', 'faculty', 'slot', 'venue', 'title', 'timetableName', 'simpleCourseType'];
-			newTimetable = newTimetable.map((crs) => Object.keys(crs)
-				.filter((key) => reqdProperties.includes(key))
-				.reduce((acc, val) => ({
+
+			newTimetable = newTimetable.map((crs: TimetableData) => Object.keys(crs)
+				.filter((key) => reqdProperties.includes(key)) // Filter out required properties from each course
+				.reduce((acc, reqdKey) => ({ // Assign appropriate values to properties
 					...acc,
-					[val]: crs[val],
-				}), {}));
+					[reqdKey]: crs[reqdKey as keyof TimetableData],
+					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
+				}), {})
+			) as TimetableData[];
+			// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 
 			executePostSelectedCourses({
 				data: { selected_courses: newTimetable },
@@ -347,7 +374,7 @@ const Dashboard = ({ handleUnauth }) => {
 		});
 	};
 
-	const removeSlotFromTimetable = (course) => {
+	const removeSlotFromTimetable = (course: TimetableData) => {
 		course.timetableName = activeTimetableName;
 
 		setUserTimetable((prevTimetable) => {
@@ -369,7 +396,7 @@ const Dashboard = ({ handleUnauth }) => {
 		});
 	};
 
-	const createTimetable = (newName) => {
+	const createTimetable = (newName: string) => {
 		if (timetableNames.includes(newName)) return;
 		if (!newName) return;
 
@@ -377,7 +404,7 @@ const Dashboard = ({ handleUnauth }) => {
 		setActiveTimetableName(newName);
 	};
 
-	const editTimetableName = (newName) => {
+	const editTimetableName = (newName: string) => {
 		const initialName = activeTimetableName;
 
 		if (timetableNames.includes(newName)) return;
@@ -428,7 +455,7 @@ const Dashboard = ({ handleUnauth }) => {
 		setActiveTimetableName('Default');
 	};
 
-	const createTimetableCopy = (newName) => {
+	const createTimetableCopy = (newName: string) => {
 		const initialName = activeTimetableName;
 
 		if (timetableNames.includes(newName)) return;
@@ -459,7 +486,7 @@ const Dashboard = ({ handleUnauth }) => {
 		setActiveTimetableName(newName);
 	};
 
-	const generateTimetable = (prefs) => {
+	const generateTimetable = (prefs: TTGenPreferences) => {
 		executePostGenerateTT({
 			data: { pref: prefs },
 		});
@@ -475,7 +502,8 @@ const Dashboard = ({ handleUnauth }) => {
 					selectedCurriculum={selectedCurriculumPrefix}
 					handleCurriculumChange={setSelectedCurriculumPrefix}
 					changeActiveTheme={setActiveTheme}
-					doLogout={handleUnauth}
+					doLogout={handleUnauth as any}
+					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 				/>
 			</Row>
 
@@ -522,7 +550,7 @@ const Dashboard = ({ handleUnauth }) => {
 					show={showMagicFill}
 					user={userData}
 					inProcess={postGenerateTTLoading}
-					genTT={(prefs) => { generateTimetable(prefs); }}
+					genTT={(prefs: TTGenPreferences) => { generateTimetable(prefs); }}
 				/>
 			</Row>
 
@@ -538,7 +566,6 @@ const Dashboard = ({ handleUnauth }) => {
 
 			<Row>
 				<Timetable
-					clashMap={clashmap}
 					filledSlots={filledSlots}
 					timetable={userTimetable || []}
 					activeTimetableName={activeTimetableName}

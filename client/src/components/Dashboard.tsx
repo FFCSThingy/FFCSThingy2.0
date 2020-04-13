@@ -143,11 +143,6 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 	const [showAlert, setShowAlert] = useState(false);
 	const [timetableGenerationError, setTimetableGenerationError] = useState('');
 
-
-	useEffect(() => {
-		setActiveTheme('default');
-	});
-
 	// Sets theme for the app
 	useEffect(() => {
 		document.documentElement.className = '';
@@ -198,7 +193,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 		
 		if(selectedCurriculumData !== null)
 			setCurrentCurriculum(JSON.parse(selectedCurriculumData));
-			
+
 		else if (selectedCurriculumData === null && currentCurriculumResponse) {
 			setCurrentCurriculum(currentCurriculumResponse.data);
 			localStorage.setItem(selectedCurriculumPrefix, JSON.stringify(currentCurriculumResponse.data));

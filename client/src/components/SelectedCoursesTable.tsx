@@ -4,12 +4,12 @@ import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import styles from '../css/SelectedCoursesTable.module.scss';
 
-import TimetableData from '../models/TimetableData';
+import TimetableCourse from '../models/TimetableCourse';
 
-const sortTimetable = ((a: TimetableData, b: TimetableData) => a.code.localeCompare(b.code));
+const sortTimetable = ((a: TimetableCourse, b: TimetableCourse) => a.code.localeCompare(b.code));
 
 interface SelectedCoursesTable {
-	timetable: TimetableData[];
+	timetable: TimetableCourse[];
 	activeTimetableName: string;
 	creditCount: number;
 	unselectSlot: Function;
@@ -39,9 +39,9 @@ const SelectedCoursesTable: FC<SelectedCoursesTable> = (
 				<tbody className={styles.selectedCourseBody}>
 					{
 						timetable
-							.filter((v: TimetableData) => v.timetableName === activeTimetableName)
+							.filter((v: TimetableCourse) => v.timetableName === activeTimetableName)
 							.sort(sortTimetable)
-							.map((value: TimetableData) => (
+							.map((value: TimetableCourse) => (
 								<tr key={value._id}>
 									<td>{value.slot}</td>
 									<td>{value.code}</td>

@@ -7,7 +7,7 @@ import TimetableCell from './TimetableCell';
 
 import { SLOTS, HEADERS } from '../constants/Timetable';
 
-import TimetableData from '../models/TimetableData';
+import TimetableCourse from '../models/TimetableCourse';
 
 import styles from '../css/Timetable.module.scss';
 
@@ -113,7 +113,7 @@ const TimetableHeader: FC<TimetableHeader> = memo(
 );
 
 interface TimetableBodyRow {
-	timetable: TimetableData[];
+	timetable: TimetableCourse[];
 	rowNumber: number;
 	isMobile?: boolean;
 	isAfternoon?: boolean;
@@ -239,7 +239,7 @@ const TimetableBodyRow: FC<TimetableBodyRow> = memo(
 );
 
 interface TimetableBody {
-	timetable: TimetableData[];
+	timetable: TimetableCourse[];
 	isMobile?: boolean;
 	isAfternoon?: boolean;
 	filledSlots: string[];
@@ -275,7 +275,7 @@ const TimetableBody: FC<TimetableBody> = memo(
 );
 
 interface Timetable {
-	timetable: TimetableData[];
+	timetable: TimetableCourse[];
 	activeTimetableName: string;
 	filledSlots: string[];
 };

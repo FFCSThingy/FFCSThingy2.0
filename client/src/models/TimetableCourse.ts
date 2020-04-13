@@ -1,4 +1,4 @@
-export default interface TimetableData {
+export default interface TimetableCourse {
 	_id: string;
 	code: string;
 	course_type: string;

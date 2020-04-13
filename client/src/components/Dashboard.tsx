@@ -22,7 +22,7 @@ import styles from '../css/Dashboard.module.scss';
 import useAxiosFFCS from '../hooks/useAxiosFFCS';
 import useInterval from '../hooks/useInterval';
 
-import TimetableData from '../models/TimetableData';
+import TimetableCourse from '../models/TimetableCourse';
 import TTGenPreferences from '../models/TTGenPreferences';
 import { Curriculum } from '../models/Curriculum';
 import Clashmap from '../models/Clashmap';
@@ -130,7 +130,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 	const [heatmapTimestamp, setHeatmapTimestamp] = useState(localStorage.getItem('heatmapTimestamp') || null);
 
 	const [clashmap, setClashmap] = useState<Clashmap>(CLASHMAP);
-	const [userTimetable, setUserTimetable] = useState<TimetableData[]>([]);
+	const [userTimetable, setUserTimetable] = useState<TimetableCourse[]>([]);
 	const [timetableNames, setTimetableNames] = useState(['Default']);
 	const [activeTimetableName, setActiveTimetableName] = useState('Default');
 	const [filledSlots, setFilledSlots] = useState<string[]>([]);
@@ -322,7 +322,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 		return clashingSlots;
 	};
 
-	const addSlotToTimetable = (course: TimetableData) => {
+	const addSlotToTimetable = (course: TimetableCourse) => {
 		course.timetableName = activeTimetableName;
 		const coursesToAdd = [course];
 		let reqdProjectComponent;
@@ -345,7 +345,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 		}
 
 		setUserTimetable((prevTimetable) => {
-			let newTimetable: TimetableData[] = [...coursesToAdd];
+			let newTimetable: TimetableCourse[] = [...coursesToAdd];
 
 			if (prevTimetable) {
 				newTimetable = Array.from(
@@ -356,14 +356,14 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 			// Properties to keep in user timetables
 			const reqdProperties = ['_id', 'code', 'course_type', 'credits', 'faculty', 'slot', 'venue', 'title', 'timetableName', 'simpleCourseType'];
 
-			newTimetable = newTimetable.map((crs: TimetableData) => Object.keys(crs)
+			newTimetable = newTimetable.map((crs: TimetableCourse) => Object.keys(crs)
 				.filter((key) => reqdProperties.includes(key)) // Filter out required properties from each course
 				.reduce((acc, reqdKey) => ({ // Assign appropriate values to properties
 					...acc,
-					[reqdKey]: crs[reqdKey as keyof TimetableData],
+					[reqdKey]: crs[reqdKey as keyof TimetableCourse],
 					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 				}), {})
-			) as TimetableData[];
+			) as TimetableCourse[];
 			// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 
 			executePostSelectedCourses({
@@ -374,7 +374,7 @@ const Dashboard: FC<Dashboard> = ({ handleUnauth }) => {
 		});
 	};
 
-	const removeSlotFromTimetable = (course: TimetableData) => {
+	const removeSlotFromTimetable = (course: TimetableCourse) => {
 		course.timetableName = activeTimetableName;
 
 		setUserTimetable((prevTimetable) => {

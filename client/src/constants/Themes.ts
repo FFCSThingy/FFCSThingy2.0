@@ -8,6 +8,8 @@ const themeList: ThemeList = {
 	'pretty-green': 'Pretty Green',
 	'arctic-blue': 'Artic Blue',
 	'persian-pink': 'Persian Pink',
+	'solarised-dark': 'Solarised Dark',
+	'solarised-light': 'Solarised Light',
 };
 
 export default themeList;

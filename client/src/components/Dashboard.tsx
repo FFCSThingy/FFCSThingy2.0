@@ -491,6 +491,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 					creditCount={creditCount}
 					curriculumList={curriculumListResponse ? curriculumListResponse.data : []}
 					selectedCurriculum={selectedCurriculumPrefix}
+					activeTheme={activeTheme}
 					handleCurriculumChange={setSelectedCurriculumPrefix}
 					changeActiveTheme={setActiveTheme}
 					doLogout={handleUnauth as any}

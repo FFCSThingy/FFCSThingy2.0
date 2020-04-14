@@ -17,16 +17,25 @@ const CurriculumDropdown: FC<CurriculumDropdownProps> = (
 			<Dropdown.Menu className={styles.dropdownMenu}>
 				{
 					curriculumList
-						.map((v) => (
-							<NavDropdown.Item
-								key={v}
-								eventKey={v}
-								className={styles.dropdownItem}
-							>
-								{v}
-								<NavDropdown.Divider className={styles.dropdownDivider} />
-							</NavDropdown.Item>
-						))
+						.map((v) => {
+							if(!v)
+								return <></>;
+
+							let className = styles.dropdownItem;
+							if(v === selectedCurriculum)
+								className = `${styles.dropdownItem} ${styles.selected}`;
+
+							return (
+								<NavDropdown.Item
+									key={v}
+									eventKey={v}
+									className={className}
+								>
+									{v}
+								</NavDropdown.Item>
+							)
+						}
+						)
 				}
 			</Dropdown.Menu>
 		</NavDropdown>

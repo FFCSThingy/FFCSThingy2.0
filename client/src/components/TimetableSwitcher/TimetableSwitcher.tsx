@@ -50,15 +50,21 @@ const TimetableSwitcher: FC<TimetableSwitcherProps> = memo(
 			return activeTimetableName;
 		};
 
-		const dropdownItems = timetableNames.map((value) => (
-			<Dropdown.Item
-				key={`TimetableSwitcherDropdownItem-${value}`}
-				eventKey={value}
-				className={styles.dropdownItem}
-			>
-				{value}
-			</Dropdown.Item>
-		));
+		const dropdownItems = timetableNames.map((value) => {
+			let className = styles.dropdownItem;
+			if (value === activeTimetableName)
+				className = `${styles.dropdownItem} ${styles.selected}`;
+
+			return (
+				<Dropdown.Item
+					key={`TimetableSwitcherDropdownItem-${value}`}
+					eventKey={value}
+					className={className}
+				>
+					{value}
+				</Dropdown.Item>
+			)
+		});
 
 
 		return (

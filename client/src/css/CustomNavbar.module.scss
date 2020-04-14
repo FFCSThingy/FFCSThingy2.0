@@ -153,6 +153,10 @@
 			&:hover {
 				@include theme-aware('background-color', 'color-background-table-alternate');
 			}
+
+			&.selected {
+				@include theme-aware('background-color', 'color-background-table-alternate');
+			}
 		}
 	}
 }

@@ -7,7 +7,7 @@ import styles from '../../css/CustomNavbar.module.scss';
 
 import ThemeDropdownProps from "../../models/components/CustomNavbar/ThemeDropdown";
 
-const ThemeDropdown: FC<ThemeDropdownProps> = ({ changeActiveTheme }) => (
+const ThemeDropdown: FC<ThemeDropdownProps> = ({ activeTheme, changeActiveTheme }) => (
 	<NavDropdown
 		id="ThemeDropdown"
 		title="Theme"
@@ -17,16 +17,21 @@ const ThemeDropdown: FC<ThemeDropdownProps> = ({ changeActiveTheme }) => (
 		<Dropdown.Menu className={styles.dropdownMenu}>
 			{
 				Object.keys(themeList)
-					.map((v: string) => (
-						<NavDropdown.Item
-							eventKey={v}
-							key={v}
-							className={styles.dropdownItem}
-						>
-							{themeList[v]}
-							<NavDropdown.Divider className={styles.dropdownDivider} />
-						</NavDropdown.Item>
-					))
+					.map((v: string) => {
+						let className = styles.dropdownItem;
+						if (v === activeTheme)
+							className = `${styles.dropdownItem} ${styles.selected}`;
+
+						return (
+							<NavDropdown.Item
+								eventKey={v}
+								key={v}
+								className={className}
+							>
+								{themeList[v]}
+							</NavDropdown.Item>
+						)
+					})
 			}
 		</Dropdown.Menu>
 	</NavDropdown>

@@ -94,7 +94,7 @@
 	width: auto;
 
 	.dropdownItem {
-		@include theme-aware('color', 'color-text-other');
+		@include theme-aware('color', 'color-text-inverted');
 		padding: 0.5rem 1rem;
 		outline: 0;
 		font-weight: bold;
@@ -105,6 +105,10 @@
 		}
 
 		&:hover {
+			@include theme-aware('background-color', 'color-background-table-alternate');
+		}
+
+		&.selected {
 			@include theme-aware('background-color', 'color-background-table-alternate');
 		}
 	}

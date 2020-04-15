@@ -2,9 +2,7 @@ import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-import {
-	Container, Row, Card,
-} from 'react-bootstrap';
+import { Container, Row, Card, } from 'react-bootstrap';
 import MediaQuery from 'react-responsive';
 
 import styles from '../css/Login.module.scss';
@@ -71,7 +69,7 @@ const Login = () => (
 		<Row className={styles.brand}>
 			<img className={styles.brandLogo} src={logo} alt="" />
 			<span className={styles.brandText}>
-					FFCS Thingy
+				FFCS Thingy
 			</span>
 		</Row>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-	Route, BrowserRouter as Router, Switch,
+	BrowserRouter as Router, Switch,
 } from 'react-router-dom';
 
 import ReactGA from 'react-ga';

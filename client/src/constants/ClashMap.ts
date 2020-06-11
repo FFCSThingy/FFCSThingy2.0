@@ -1,4 +1,6 @@
-const CLASHMAP = {
+import Clashmap from '../models/constants/Clashmap';
+
+const CLASHMAP: Clashmap = {
 	A1: {
 		clashesWith: ['A1', 'L1', 'L2', 'L13', 'L14'],
 		isFilled: false,

@@ -1,32 +1,41 @@
-import React, { memo } from 'react';
+import React, { memo, FC } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-import styles from '../css/TimetableCell.module.scss';
+import styles from '../../css/TimetableCell.module.scss';
 
-const TimetableCell = memo(({
-	isFilled, isLab, dayHeader, timeHeader, isBreak, children, reqdCourse,
-}) => {
+import TimetableCellProps from '../../models/components/Timetable/TimetableCell';
+
+const TimetableCell: FC<TimetableCellProps> = memo(
+	({
+		isFilled=false, isLab=false, dayHeader=false, timeHeader=false, isBreak=false, reqdCourse={}, children=<></>, defaultValue=''
+	}
+) => {
 	if (isBreak) {
 		return (
-			<th key={children} rowSpan={9} className={styles.break}>{children}</th>
+			<th
+				rowSpan={9} 
+				className={styles.break}
+			>
+				{children}
+			</th>
 		);
 	}
 	if (timeHeader) {
 		return (
-			<td key={children} className={styles.timeHeader}>
+			<td className={styles.timeHeader}>
 				{children}
 			</td>
 		);
 	}
 	if (dayHeader) {
 		return (
-			<th key={children} className={styles.dayHeader}>{children}</th>
+			<th className={styles.dayHeader}>{children}</th>
 		);
 	}
 	if (isFilled) {
 		const cellClass = (isLab) ? styles.filledLab : styles.filledTheory;
 		const tooltip = (
-			<Tooltip>
+			<Tooltip id={defaultValue}>
 				<h6 className={styles.courseDetails}>
 					<b>{reqdCourse.title}</b>
 					<br />
@@ -38,7 +47,7 @@ const TimetableCell = memo(({
 		);
 
 		return (
-			<td key={children} className={cellClass}>
+			<td className={cellClass}>
 				<OverlayTrigger
 					key={`${children}-Overlay`}
 					placement="top"
@@ -58,17 +67,8 @@ const TimetableCell = memo(({
 	}
 
 	return (
-		<td key={children} className={styles.empty}>{children}</td>
+		<td className={styles.empty}>{children}</td>
 	);
 });
-
-
-TimetableCell.defaultProps = {
-	filled: false,
-	lab: false,
-	day: false,
-	time: false,
-	slotString: '',
-};
 
 export default TimetableCell;

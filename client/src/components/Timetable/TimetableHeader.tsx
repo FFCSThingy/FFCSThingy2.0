@@ -2,7 +2,7 @@ import React, { FC, memo } from 'react';
 
 import TimetableCell from './TimetableCell';
 
-import { HEADERS } from '../../constants/Timetable';
+import { HEADERS, breakPosition } from '../../constants/Timetable';
 
 import TimetableHeaderProps, { TimetableHeaderRowProps } from '../../models/components/Timetable/TimetableHeader';
 
@@ -36,14 +36,14 @@ const TimetableHeaderRow: FC<TimetableHeaderRowProps> = memo(
 
 			if (isMobile) {
 				// Only need first 7 cells for morning
-				if (!isAfternoon && i > 6) return null;
+				if (!isAfternoon && i >= breakPosition) return null;
 
 				// Only need cells after 8 for evening row1 (Because break cell)
-				if (isAfternoon && rowNumber === 0 && i < 8) return null;
+				if (isAfternoon && rowNumber === 0 && i <= breakPosition) return null;
 
 				// Only need cells after 7 for evening row2
 				if (isAfternoon && i < 7) return null;
-			} else if (rowNumber === 0 && i === 7) { // Break Cell
+			} else if (rowNumber === 0 && i === breakPosition) { // Break Cell
 				return (
 					<TimetableCell
 						key={`TimetableBreakCell-${val}`}

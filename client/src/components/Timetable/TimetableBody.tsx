@@ -2,7 +2,7 @@ import React, { FC, memo } from 'react';
 
 import TimetableCell from './TimetableCell';
 
-import { SLOTS } from '../../constants/Timetable';
+import { SLOTS, breakPosition } from '../../constants/Timetable';
 
 import TimetableBodyProps, { TimetableBodyRowProps } from '../../models/components/Timetable/TimetableBody';
 
@@ -34,7 +34,7 @@ const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
 			}
 
 			// Break Cell for desktop
-			if (!isMobile && rowNumber === 0 && i === 7) {
+			if (!isMobile && rowNumber === 0 && i === breakPosition) {
 				return (
 					<TimetableCell
 						key={`TimetableBreakCell-${slotString}`}
@@ -47,13 +47,13 @@ const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
 			}
 
 			// Break not needed
-			if (isMobile && rowNumber === 0 && i === 7) return null;
+			if (isMobile && rowNumber === 0 && i === breakPosition) return null;
 
 			// Dont need cols after 5 for morning
-			if (isMobile && !isAfternoon && i > 6) return null;
+			if (isMobile && !isAfternoon && i >= breakPosition) return null;
 
 			// Dont need cols before 7 (6 is break) for afternoon
-			if (isMobile && isAfternoon && i < 7) return null;
+			if (isMobile && isAfternoon && i < breakPosition) return null;
 
 			// Splits slot string to find lab and theory slot of the given cell
 			const currentCellSlots = slotVal.split('/');

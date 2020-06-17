@@ -5,6 +5,8 @@ import styles from '../../css/TimetableCell.module.scss';
 
 import TimetableCellProps from '../../models/components/Timetable/TimetableCell';
 
+import { breakRowSpan } from '../../constants/Timetable';
+
 const TimetableCell: FC<TimetableCellProps> = memo(
 	({
 		isFilled=false, isLab=false, dayHeader=false, timeHeader=false, isBreak=false, reqdCourse={}, children=<></>, defaultValue=''
@@ -13,7 +15,7 @@ const TimetableCell: FC<TimetableCellProps> = memo(
 	if (isBreak) {
 		return (
 			<th
-				rowSpan={9} 
+				rowSpan={breakRowSpan} 
 				className={styles.break}
 			>
 				{children}

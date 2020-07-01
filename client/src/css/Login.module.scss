@@ -29,6 +29,7 @@
 		width: 40px;
 		vertical-align: sub;
 		margin-right: 1rem;
+		align-self: center;
 
 		@media (max-width: 400px) {
 			width: 30px;
@@ -68,14 +69,14 @@
 
 	@media (min-width: 1030px) {
 		justify-content: space-evenly;
-		margin-top: 7vh;
+		margin-top: 10vh;
 	}
 }
 
 .featuresCard_Desktop {
 	background-color: map-get(map-get($themes, 'default'), 'color-background-table');
 	display: block;
-	width: 40vw;
+	width: 45vw;
 	border-radius: 1rem;
 	text-align: center;
 	
@@ -84,13 +85,7 @@
 		flex-direction: column;
 		justify-content: center;
 
-		height: 60vh;
-
 		.featuresImage {
-			height: 100%;
-			max-height: 100%;
-
-			width: auto;
 			max-width: 100%;
 		}
 	}
@@ -146,15 +141,14 @@
 
 	.tagline {
 		font-size: 2rem;
+		font-weight: bold;
 
 		@media (min-width: 1030px) {
-			font-size: 3rem;
-			font-weight: bold;
-
+			font-size: 2.8rem;
 			text-align: center;
 			color: map-get(map-get($themes, 'default'), 'color-text');
 			
-			padding-bottom: 3rem;
+			padding-top: 3rem;
 		}
 	}
 

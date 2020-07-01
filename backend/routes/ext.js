@@ -42,7 +42,7 @@ router.get('/testCurriculum', (req, res) => {
 			logger.error(`Test Curriculum Error: ${error}`);
 		} else {
 			const curr = await curriculum.parseCurriculum(pgResp);
-			res.json(curr);
+			// res.json(curr);
 			logger.debug(`Test Curriculum RegPrefix: ${curr.reg_prefix}`);
 			const currDoc = await curriculumUtility.addCurriculumFromExt(curr);
 			res.send(currDoc);

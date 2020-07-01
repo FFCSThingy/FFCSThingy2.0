@@ -182,10 +182,11 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	useEffect(() => {
 		const selectedCurriculumData = localStorage.getItem(selectedCurriculumPrefix);
 		
-		if(selectedCurriculumData !== null)
-			setCurrentCurriculum(JSON.parse(selectedCurriculumData));
+		// if(selectedCurriculumData !== null)
+			// setCurrentCurriculum(JSON.parse(selectedCurriculumData));
 
-		else if (selectedCurriculumData === null && currentCurriculumResponse) {
+		// else if (selectedCurriculumData === null && currentCurriculumResponse) {
+		if (currentCurriculumResponse) {
 			setCurrentCurriculum(currentCurriculumResponse.data);
 			localStorage.setItem(selectedCurriculumPrefix, JSON.stringify(currentCurriculumResponse.data));
 		}

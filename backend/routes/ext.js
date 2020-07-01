@@ -37,11 +37,12 @@ router.post('/processExtensionData', async (req, res) => {
 });
 
 router.get('/testCurriculum', (req, res) => {
-	fs.readFile(path.join(__dirname, '../samples/curriculum/16BCE.html'), async (error, pgResp) => {
+	fs.readFile(path.join(__dirname, '../samples/19-curriculum.html'), async (error, pgResp) => {
 		if (error) {
 			logger.error(`Test Curriculum Error: ${error}`);
 		} else {
 			const curr = await curriculum.parseCurriculum(pgResp);
+			res.json(curr);
 			logger.debug(`Test Curriculum RegPrefix: ${curr.reg_prefix}`);
 			const currDoc = await curriculumUtility.addCurriculumFromExt(curr);
 			res.send(currDoc);
@@ -50,7 +51,7 @@ router.get('/testCurriculum', (req, res) => {
 });
 
 router.get('/testGrades', (req, res) => {
-	fs.readFile(path.join(__dirname, '../samples/gradeHistory.html'), async (error, pgResp) => {
+	fs.readFile(path.join(__dirname, '../samples/19-gradeHistory.html'), async (error, pgResp) => {
 		if (error) {
 			logger.error(`Test Grades Error: ${error}`);
 		} else {

@@ -5,7 +5,7 @@ module.exports.parseCurriculum = (html, userID = '') => new Promise((resolve, re
 	try {
 		const $ = cheerio.load(html);
 
-		const courseType = ['pc', 'pe', 'uc', 'ue', 'bridge'];
+		const courseType = ['pc', 'pe', 'uc', 'ue', 'bridge', 'nonCredit'];
 		const columnHeadings = ['srno', 'code', 'title', 'course_type', 'l', 't', 'p', 'j', 'c'];
 
 		const curr = {};

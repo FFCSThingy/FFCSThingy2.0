@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^1.4.0",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.11.1",
     "@types/react": "^16.9.34",
@@ -32,6 +33,7 @@
     "react-responsive": "^7.0.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.4.3",
+    "redux": "^4.0.5",
     "typescript": "^3.8.3"
   },
   "scripts": {

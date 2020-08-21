@@ -492,9 +492,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 					creditCount={creditCount}
 					curriculumList={curriculumListResponse ? curriculumListResponse.data : []}
 					selectedCurriculum={selectedCurriculumPrefix}
-					activeTheme={activeTheme}
 					handleCurriculumChange={setSelectedCurriculumPrefix}
-					changeActiveTheme={setActiveTheme}
 					doLogout={handleUnauth as any}
 					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 				/>

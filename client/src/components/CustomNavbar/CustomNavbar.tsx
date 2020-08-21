@@ -17,8 +17,8 @@ import CustomNavbarProps from '../../models/components/CustomNavbar/CustomNavbar
 
 const CustomNavbar: FC<CustomNavbarProps> = memo(
 	({
-		curriculumList, selectedCurriculum, activeTheme, handleCurriculumChange,
-		changeActiveTheme, creditCount, doLogout, userDetails,
+		curriculumList, selectedCurriculum, handleCurriculumChange,
+		creditCount, doLogout, userDetails,
 	}) => {
 		const [showModal, setShowModal] = useState(false);
 

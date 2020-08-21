@@ -76,7 +76,7 @@ const TimetableHeaderRow: FC<TimetableHeaderRowProps> = memo(
 				{rowCells}
 			</tr>
 		);
-	}
+	},
 );
 
 const TimetableHeader: FC<TimetableHeaderProps> = memo(
@@ -95,7 +95,7 @@ const TimetableHeader: FC<TimetableHeaderProps> = memo(
 				key="TimetableHeaderRow-1"
 			/>
 		</thead>
-	)
+	),
 );
 
 export default TimetableHeader;

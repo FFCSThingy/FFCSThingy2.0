@@ -7,7 +7,7 @@ export interface TimetableBodyRowProps {
 	isAfternoon?: boolean;
 	filledSlots: string[];
 	activeTimetableName: string;
-};
+}
 
 export default interface TimetableBodyProps {
 	timetable: TimetableCourse[];
@@ -15,4 +15,4 @@ export default interface TimetableBodyProps {
 	isAfternoon?: boolean;
 	filledSlots: string[];
 	activeTimetableName: string;
-};
+}

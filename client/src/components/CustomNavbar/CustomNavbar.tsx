@@ -14,15 +14,12 @@ import brandImage from '../../images/logo.1.png';
 
 import CustomNavbarProps from '../../models/components/CustomNavbar/CustomNavbar';
 
-
 const CustomNavbar: FC<CustomNavbarProps> = memo(
 	({
 		curriculumList, selectedCurriculum, handleCurriculumChange,
 		creditCount, doLogout, userDetails,
 	}) => {
 		const [showModal, setShowModal] = useState(false);
-
-
 
 		const SyncModal = () => (
 			<Modal
@@ -34,13 +31,13 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 				<Modal.Header closeButton className={styles.popup}>
 					<Modal.Title>
 						Sync with VTOP
-				</Modal.Title>
+					</Modal.Title>
 				</Modal.Header>
 
 				<Modal.Body className={styles.popup}>
 					<p>
 						Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
-				</p>
+					</p>
 					<a href="https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh" target="_blank" rel="noopener noreferrer">Chrome Extension</a>
 					<br />
 					<a href="https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi" rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
@@ -52,7 +49,7 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 						className={styles.closeButton}
 					>
 						Close
-				</Button>
+					</Button>
 				</Modal.Footer>
 
 			</Modal>
@@ -69,13 +66,11 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 						<span className={styles.branding}>FFCSThingy</span>
 					</NavbarBrand>
 
-
 					<CurriculumDropdown
 						curriculumList={curriculumList}
 						selectedCurriculum={selectedCurriculum}
 						handleCurriculumChange={handleCurriculumChange}
 					/>
-
 
 					<Navbar.Toggle
 						className={styles.mobileMenuToggle}
@@ -92,14 +87,14 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 							className={styles.navLink}
 						>
 							About
-					</Nav.Link>
+						</Nav.Link>
 						<Nav.Link
 							href="https://discord.gg/Un4UanH"
 							className={styles.navLink}
 							target="_blank"
 						>
 							Join our Discord
-					</Nav.Link>
+						</Nav.Link>
 						{/* <Nav.Link
 						onClick={() => setShowModal(true)}
 						className={`${styles.navLink} ${styles.sync}`}
@@ -127,7 +122,7 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 
 			</Navbar>
 		);
-	}
+	},
 );
 
 export default CustomNavbar;

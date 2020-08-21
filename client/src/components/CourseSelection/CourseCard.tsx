@@ -1,5 +1,5 @@
 import React, { memo, FC } from 'react';
-import { Card, OverlayTrigger, Tooltip, } from 'react-bootstrap';
+import { Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
@@ -121,7 +121,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 				</Card>
 			</OverlayTrigger>
 		);
-	}
+	},
 );
 
 export default CourseCard;

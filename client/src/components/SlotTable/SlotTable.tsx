@@ -11,7 +11,6 @@ import styles from '../../css/SlotTable.module.scss';
 import HeatmapCourse from '../../models/data/HeatmapCourse';
 import SlotTableProps from '../../models/components/SlotTable/SlotTable';
 
-
 const SlotTable: FC<SlotTableProps> = ({
 	selectedCourseCode, selectedCourseSlots, addSlotToTimetable, slotClashesWith, isSelected,
 }) => {
@@ -60,7 +59,6 @@ const SlotTable: FC<SlotTableProps> = ({
 
 		setTypeFilters([]);
 		setVenueFilters([]);
-
 	}, [selectedCourseCode, selectedCourseSlots]);
 
 	useEffect(() => {

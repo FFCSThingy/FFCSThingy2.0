@@ -1,4 +1,4 @@
-import { CourseList } from "../../data/CourseLists";
+import { CourseList } from '../../data/CourseLists';
 import RequisitesList from '../../data/RequisitesList';
 
 export default interface CourseCardListProps {
@@ -9,4 +9,4 @@ export default interface CourseCardListProps {
 		[key: string]: string;
 	};
 	doSelectCourse: Function;
-};
+}

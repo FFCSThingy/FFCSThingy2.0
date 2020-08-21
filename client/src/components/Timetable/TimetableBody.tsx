@@ -122,7 +122,7 @@ const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
 				{rowCells}
 			</tr>
 		);
-	}
+	},
 );
 
 const TimetableBody: FC<TimetableBodyProps> = memo(
@@ -150,7 +150,7 @@ const TimetableBody: FC<TimetableBodyProps> = memo(
 				{bodyRows}
 			</tbody>
 		);
-	}
+	},
 );
 
 export default TimetableBody;

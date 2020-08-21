@@ -2,7 +2,7 @@ import React from 'react';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
-import { Container, Row, Card, } from 'react-bootstrap';
+import { Container, Row, Card } from 'react-bootstrap';
 import MediaQuery from 'react-responsive';
 
 import styles from '../css/Login.module.scss';

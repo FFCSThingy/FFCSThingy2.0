@@ -51,7 +51,6 @@ const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? 
 	</Row>
 ) : (<></>));
 
-
 const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) => (error ? (
 	<Row>
 		<Alert
@@ -63,7 +62,6 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 		</Alert>
 	</Row>
 ) : (<></>));
-
 
 const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	const [{ data: userData }] = useAxiosFFCS({
@@ -86,7 +84,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 		url: '/user/selectedCourses',
 	}, { manual: true });
 
-	const [{  }, executePostSelectedCourses] = useAxiosFFCS({
+	const [{ }, executePostSelectedCourses] = useAxiosFFCS({
 		url: '/user/selectedCoursesBulk',
 		method: 'POST',
 		headers: {
@@ -102,14 +100,12 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 		},
 	}, { manual: true });
 
-
 	// Curriculum Prefix and Fetch
 	const [selectedCurriculumPrefix, setSelectedCurriculumPrefix] = useState(localStorage.getItem('selectedCurriculum') || '19BCE');
 
 	const [{ data: currentCurriculumResponse }, executeGetCurrentCurriculumResponse] = useAxiosFFCS({
 		url: `curriculum/curriculumFromPrefix/${selectedCurriculumPrefix || '19BCE'}`,
 	}, { manual: true });
-
 
 	// Defaults
 	const [activeTheme, setActiveTheme] = useState(localStorage.getItem('theme') || 'default');
@@ -141,7 +137,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 		document.documentElement.classList.add(`theme-${activeTheme}`);
 	}, [activeTheme]);
 
-
 	// Gets heatmap response from server
 	useEffect(() => {
 		executeGetHeatmapResponse();
@@ -166,7 +161,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 		}
 	}, [selectedCourseCode, heatmap]);
 
-
 	// Gets currently selected curriculum data from server
 	useEffect(() => {
 		executeGetCurrentCurriculumResponse();
@@ -181,9 +175,9 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	// Ex - 19BCE: {Data...}
 	useEffect(() => {
 		const selectedCurriculumData = localStorage.getItem(selectedCurriculumPrefix);
-		
+
 		// if(selectedCurriculumData !== null)
-			// setCurrentCurriculum(JSON.parse(selectedCurriculumData));
+		// setCurrentCurriculum(JSON.parse(selectedCurriculumData));
 
 		// else if (selectedCurriculumData === null && currentCurriculumResponse) {
 		if (currentCurriculumResponse) {
@@ -191,7 +185,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 			localStorage.setItem(selectedCurriculumPrefix, JSON.stringify(currentCurriculumResponse.data));
 		}
 	}, [currentCurriculumResponse, selectedCurriculumPrefix]);
-
 
 	// Gets user timetable from the server
 	useEffect(() => {
@@ -354,8 +347,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 					...acc,
 					[reqdKey]: crs[reqdKey as keyof TimetableCourse],
 					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
-				}), {})
-			) as TimetableCourse[];
+				}), {})) as TimetableCourse[];
 			// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 
 			executePostSelectedCourses({

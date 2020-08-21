@@ -7,4 +7,4 @@ export default interface CustomNavbarProps {
 	userDetails: UserDetails;
 	handleCurriculumChange: Function;
 	doLogout: React.MouseEventHandler<this>;
-};
+}

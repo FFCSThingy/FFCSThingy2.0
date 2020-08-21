@@ -4,4 +4,4 @@ export default interface UserDetails {
 	picture: string;
 	email: string;
 	vtopSignedIn: boolean;
-};
+}

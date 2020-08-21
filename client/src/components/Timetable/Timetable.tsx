@@ -38,7 +38,7 @@ const MobileTimetable: FC<TimetableProps> = memo(
 				/>
 			</table>
 		</Container>
-	)
+	),
 );
 
 const DesktopTimetable: FC<TimetableProps> = memo(
@@ -53,7 +53,7 @@ const DesktopTimetable: FC<TimetableProps> = memo(
 				/>
 			</table>
 		</Container>
-	)
+	),
 );
 
 const Timetable: FC<TimetableProps> = memo(
@@ -79,7 +79,7 @@ const Timetable: FC<TimetableProps> = memo(
 				);
 			}}
 		</MediaQuery>
-	)
+	),
 );
 
 export default Timetable;

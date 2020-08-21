@@ -1,12 +1,11 @@
 import React, { FC } from 'react';
-import { CardColumns, } from 'react-bootstrap';
+import { CardColumns } from 'react-bootstrap';
 
 import CourseCard from './CourseCard';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
 import CourseCardListProps from '../../models/components/CourseSelection/CourseCardList';
-
 
 const CourseCardList: FC<CourseCardListProps> = ({
 	filteredCourseList = {}, selectedCourse, doSelectCourse, prereqList, completedCourses,

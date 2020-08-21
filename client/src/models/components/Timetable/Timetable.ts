@@ -4,4 +4,4 @@ export default interface TimetableProps {
 	timetable: TimetableCourse[];
 	activeTimetableName: string;
 	filledSlots: string[];
-};
+}

@@ -1,5 +1,5 @@
-import React, { FC } from "react";
-import { NavDropdown, Dropdown } from "react-bootstrap";
+import React, { FC } from 'react';
+import { NavDropdown, Dropdown } from 'react-bootstrap';
 
 import styles from '../../css/CustomNavbar.module.scss';
 

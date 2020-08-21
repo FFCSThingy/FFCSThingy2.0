@@ -8,4 +8,4 @@ export default interface TimetableSwitcherProps {
 	doEdit: Function;
 	doDelete: Function;
 	doCopy: Function;
-};
+}

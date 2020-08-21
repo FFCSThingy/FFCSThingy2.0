@@ -1,4 +1,4 @@
-import CourseReqs from "../../data/CourseReqs";
+import CourseReqs from '../../data/CourseReqs';
 
 export default interface CourseCardProps {
 	code: string;
@@ -9,8 +9,8 @@ export default interface CourseCardProps {
 	selected: boolean;
 	prereqs: CourseReqs;
 	doSelectCourse: Function;
-};
+}
 
 export interface PrereqTextProps {
 	value: string;
-};
+}

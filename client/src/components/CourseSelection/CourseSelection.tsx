@@ -12,9 +12,10 @@ import * as COURSE from '../../constants/Courses';
 
 import { CurriculumCourse } from '../../models/data/Curriculum';
 import CourseSelectionProps from '../../models/components/CourseSelection/CourseSelection';
-import { CourseList, CourseFacultyList, CourseSlotList, CourseTypeList } from '../../models/data/CourseLists';
+import {
+	CourseList, CourseFacultyList, CourseSlotList, CourseTypeList,
+} from '../../models/data/CourseLists';
 import RequisitesList from '../../models/data/RequisitesList';
-
 
 const CourseSelection: FC<CourseSelectionProps> = ({
 	selectedCurriculum, selectedCurriculumPrefix, selectedCourse, completedCourses, doSelectCourse,
@@ -95,8 +96,7 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 				new Set(
 					Object.keys(courseSlotList)
 						.filter((slot) => searchStringSlots
-							.every((s) => slot.replace(' ', '').split('+').includes(s))
-						)
+							.every((s) => slot.replace(' ', '').split('+').includes(s)))
 						.flatMap((s: string) => courseSlotList[s]),
 				),
 			);

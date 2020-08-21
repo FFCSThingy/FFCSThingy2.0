@@ -1,5 +1,5 @@
 export default interface StateModel {
-    misc: {
-        theme: string,
-    },
+	misc: {
+		theme: string,
+	},
 }

@@ -1,4 +1,4 @@
-import { Curriculum } from "../../data/Curriculum";
+import { Curriculum } from '../../data/Curriculum';
 
 export default interface CourseSelectionProps {
 	selectedCurriculum: Curriculum;
@@ -8,4 +8,4 @@ export default interface CourseSelectionProps {
 		[key: string]: string;
 	};
 	doSelectCourse: Function;
-};
+}

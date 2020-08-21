@@ -1,5 +1,5 @@
 import React, { useState, memo, FC } from 'react';
-import { Dropdown, ButtonGroup, Button, } from 'react-bootstrap';
+import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import {
 	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
 } from 'react-icons/fa';
@@ -52,8 +52,7 @@ const TimetableSwitcher: FC<TimetableSwitcherProps> = memo(
 
 		const dropdownItems = timetableNames.map((value) => {
 			let className = styles.dropdownItem;
-			if (value === activeTimetableName)
-				className = `${styles.dropdownItem} ${styles.selected}`;
+			if (value === activeTimetableName) className = `${styles.dropdownItem} ${styles.selected}`;
 
 			return (
 				<Dropdown.Item
@@ -63,9 +62,8 @@ const TimetableSwitcher: FC<TimetableSwitcherProps> = memo(
 				>
 					{value}
 				</Dropdown.Item>
-			)
+			);
 		});
-
 
 		return (
 			<div className={styles.dropdownButtonGroupContainer}>
@@ -117,7 +115,7 @@ const TimetableSwitcher: FC<TimetableSwitcherProps> = memo(
 
 			</div>
 		);
-	}
+	},
 );
 
 export default TimetableSwitcher;

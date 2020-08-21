@@ -8,7 +8,7 @@ export interface CurriculumCourse {
 	p: number;
 	j: number;
 	c: number;
-};
+}
 
 export interface Curriculum {
 	[key: string]: any;
@@ -26,4 +26,4 @@ export interface Curriculum {
 	uc: CurriculumCourse[];
 	pe: CurriculumCourse[];
 	ue: CurriculumCourse[];
-};
+}

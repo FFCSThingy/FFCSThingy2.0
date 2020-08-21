@@ -5,4 +5,4 @@ export default interface SelectedCoursesTableProps {
 	activeTimetableName: string;
 	creditCount: number;
 	unselectSlot: Function;
-};
+}

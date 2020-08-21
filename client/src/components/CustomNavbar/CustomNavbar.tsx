@@ -115,10 +115,7 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 							{`Credits: ${creditCount}`}
 						</Nav.Link>
 
-						<ThemeDropdown
-							activeTheme={activeTheme}
-							changeActiveTheme={changeActiveTheme}
-						/>
+						<ThemeDropdown />
 
 						<UserDropdown
 							userDetails={userDetails}

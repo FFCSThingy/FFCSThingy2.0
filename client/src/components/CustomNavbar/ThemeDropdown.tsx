@@ -1,25 +1,33 @@
-import React, { FC } from "react";
+import React from "react";
 import { NavDropdown, Dropdown } from "react-bootstrap";
+import { connect, ConnectedProps } from 'react-redux';
 
 import themeList from "../../constants/Themes";
+import { changeTheme } from '../../reducers/misc'
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import ThemeDropdownProps from "../../models/components/CustomNavbar/ThemeDropdown";
+import StateModel from '../../models/State';
 
-const ThemeDropdown: FC<ThemeDropdownProps> = ({ activeTheme, changeActiveTheme }) => (
+const mapStateToProps = (state: StateModel) => ({ theme: state.misc.theme });
+const mapDispatch = { changeTheme };
+
+const connector = connect(mapStateToProps, mapDispatch);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const ThemeDropdown = (props: PropsFromRedux) => (
 	<NavDropdown
 		id="ThemeDropdown"
 		title="Theme"
 		className={styles.navbarDropdown}
-		onSelect={changeActiveTheme}
+		onSelect={props.changeTheme}
 	>
 		<Dropdown.Menu className={styles.dropdownMenu}>
 			{
 				Object.keys(themeList)
 					.map((v: string) => {
 						let className = styles.dropdownItem;
-						if (v === activeTheme)
+						if (v === props.theme)
 							className = `${styles.dropdownItem} ${styles.selected}`;
 
 						return (
@@ -37,4 +45,4 @@ const ThemeDropdown: FC<ThemeDropdownProps> = ({ activeTheme, changeActiveTheme 
 	</NavDropdown>
 );
 
-export default ThemeDropdown;
+export default connector(ThemeDropdown);

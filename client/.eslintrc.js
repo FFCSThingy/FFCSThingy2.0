@@ -1,11 +1,12 @@
 module.exports = {
-	parser: 'babel-eslint',
+	root: true,
+	parser: '@typescript-eslint/parser',
 	env: {
 		browser: true,
 		es6: true,
 	},
 	extends: [
-		'airbnb',
+		'airbnb-typescript',
 	],
 	globals: {
 		Atomics: 'readonly',
@@ -17,15 +18,17 @@ module.exports = {
 		},
 		ecmaVersion: 2018,
 		sourceType: 'module',
+		project: './tsconfig.json',
 	},
 	plugins: [
 		// 'react',
 	],
 	rules: {
-		'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx'] }],
+		'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
 		'indent': [2, 'tab', {SwitchCase: 1, ignoredNodes: ['JSXElement', 'JSXElement > *', 'JSXAttribute', 'JSXIdentifier', 'JSXNamespacedName', 'JSXMemberExpression', 'JSXSpreadAttribute', 'JSXExpressionContainer', 'JSXOpeningElement', 'JSXClosingElement', 'JSXText', 'JSXEmptyExpression', 'JSXSpreadChild'],}],
 		'react/jsx-indent': [2, 'tab'],
 		'react/jsx-indent-props': [2, 'tab'],
+		'@typescript-eslint/indent': [2, 'tab'],
 		'no-tabs': 0,
 		'react/destructuring-assignment': [0],
 		'react/prop-types': 0,

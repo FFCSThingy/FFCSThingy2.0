@@ -12,6 +12,7 @@ import API from './API';
 import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
+import Theme from './components/Theme';
 
 import rootReducer from './reducers/rootReducer';
 
@@ -41,6 +42,7 @@ const App = () => {
 
 	return (
 		<Provider store={store}>
+			<Theme />
 			<Router>
 				<Switch>
 					{/* <Route exact path="/login" component={Login} /> */}

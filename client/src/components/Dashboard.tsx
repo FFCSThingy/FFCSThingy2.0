@@ -107,9 +107,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 		url: `curriculum/curriculumFromPrefix/${selectedCurriculumPrefix || '19BCE'}`,
 	}, { manual: true });
 
-	// Defaults
-	const [activeTheme, setActiveTheme] = useState(localStorage.getItem('theme') || 'default');
-
 	// Oh Lord, Forgive me for the sins I am about to commit with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 	const [currentCurriculum, setCurrentCurriculum] = useState<Curriculum>({} as Curriculum);
 
@@ -129,13 +126,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [timetableGenerationError, setTimetableGenerationError] = useState('');
-
-	// Sets theme for the app
-	useEffect(() => {
-		document.documentElement.className = '';
-		localStorage.setItem('theme', activeTheme);
-		document.documentElement.classList.add(`theme-${activeTheme}`);
-	}, [activeTheme]);
 
 	// Gets heatmap response from server
 	useEffect(() => {

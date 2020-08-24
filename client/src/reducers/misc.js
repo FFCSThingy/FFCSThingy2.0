@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-	theme: 'default',
+	theme: localStorage.getItem('theme') ?? 'default',
 };
 
 const miscSlice = createSlice({
@@ -13,7 +13,6 @@ const miscSlice = createSlice({
 				return { payload: { theme } };
 			},
 			reducer(state, action) {
-				console.log('Theme reducer called');
 				const { theme } = action.payload;
 				state.theme = theme;
 			},

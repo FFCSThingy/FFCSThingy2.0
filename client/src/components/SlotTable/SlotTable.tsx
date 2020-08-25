@@ -12,7 +12,7 @@ import HeatmapCourse from '../../models/data/HeatmapCourse';
 import SlotTableProps from '../../models/components/SlotTable/SlotTable';
 
 const SlotTable: FC<SlotTableProps> = ({
-	selectedCourseCode, selectedCourseSlots, addSlotToTimetable, slotClashesWith, isSelected,
+	selectedCourse, selectedCourseSlots, addSlotToTimetable, slotClashesWith, isSelected,
 }) => {
 	const [selectedCourseTypes, setSelectedCourseTypes] = useState<string[]>([]);
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
@@ -23,7 +23,7 @@ const SlotTable: FC<SlotTableProps> = ({
 	const [projectAvailableVenueList, setProjectAvailableVenueList] = useState<string[]>([]);
 	const [filteredSlots, setFilteredSlots] = useState<HeatmapCourse[]>(selectedCourseSlots);
 
-	// Reset filters and update lists when selectedCourseCode changes.
+	// Reset filters and update lists when selectedCourse changes.
 	useEffect(() => {
 		const types = Array.from(
 			new Set(selectedCourseSlots.map((course) => course.simpleCourseType)),
@@ -59,7 +59,7 @@ const SlotTable: FC<SlotTableProps> = ({
 
 		setTypeFilters([]);
 		setVenueFilters([]);
-	}, [selectedCourseCode, selectedCourseSlots]);
+	}, [selectedCourse, selectedCourseSlots]);
 
 	useEffect(() => {
 		const doCourseSlotsFilter = () => selectedCourseSlots

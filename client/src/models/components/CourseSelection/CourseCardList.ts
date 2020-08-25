@@ -3,10 +3,18 @@ import RequisitesList from '../../data/RequisitesList';
 
 export default interface CourseCardListProps {
 	filteredCourseList: CourseList;
-	selectedCourse: string;
 	prereqList: RequisitesList;
 	completedCourses: {
 		[key: string]: string;
 	};
-	doSelectCourse: Function;
+	selectedCourse: string;
+	selectCourse: Function;
+}
+
+export interface CourseCardListContainerProps {
+	filteredCourseList: CourseList;
+	prereqList: RequisitesList;
+	completedCourses: {
+		[key: string]: string;
+	};
 }

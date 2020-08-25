@@ -8,7 +8,7 @@ import styles from '../../css/CourseSelectionList.module.scss';
 import CourseCardListProps from '../../models/components/CourseSelection/CourseCardList';
 
 const CourseCardList: FC<CourseCardListProps> = ({
-	filteredCourseList = {}, selectedCourse, doSelectCourse, prereqList, completedCourses,
+	filteredCourseList = {}, selectedCourse, prereqList, completedCourses, selectCourse,
 }) => {
 	const completedCourseCards = Object.keys(filteredCourseList)
 		.filter((code) => completedCourses && completedCourses[code])
@@ -24,7 +24,7 @@ const CourseCardList: FC<CourseCardListProps> = ({
 					selected={(selectedCourse === code)}
 					completed={completedCourses[code]}
 					prereqs={prereqList[code]}
-					doSelectCourse={doSelectCourse}
+					doSelectCourse={selectCourse}
 					key={`${code}-CourseCard`}
 				/>
 			);
@@ -43,7 +43,7 @@ const CourseCardList: FC<CourseCardListProps> = ({
 					shortCourseTypes={shortCourseTypes}
 					selected={(selectedCourse === code)}
 					prereqs={prereqList[code]}
-					doSelectCourse={doSelectCourse}
+					doSelectCourse={selectCourse}
 					key={`${code}-CourseCard`}
 				/>
 			);

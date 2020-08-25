@@ -2,7 +2,7 @@ import React, { useState, useEffect, FC } from 'react';
 import { Card } from 'react-bootstrap';
 
 import FilterControls from './FilterControls';
-import CourseCardList from './CourseCardList';
+import CourseCardListContainer from './CourseCardListContainer';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
@@ -179,13 +179,13 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 				/>
 			</Card.Header>
 			<Card.Body className={styles.courseSelectTableBody}>
-				<CourseCardList
+				<CourseCardListContainer
 					filteredCourseList={filteredCourseList}
-					selectedCourse={selectedCourse}
+					// selectedCourse={selectedCourse}
 					prereqList={prereqList}
 					completedCourses={completedCourses}
 
-					doSelectCourse={doSelectCourse}
+					// doSelectCourse={doSelectCourse}
 				/>
 			</Card.Body>
 		</Card>

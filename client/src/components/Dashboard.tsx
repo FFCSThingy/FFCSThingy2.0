@@ -9,7 +9,7 @@ import {
 import CustomNavbar from './CustomNavbar/CustomNavbar';
 
 import CourseSelection from './CourseSelection/CourseSelection';
-import SlotTable from './SlotTable/SlotTable';
+import SlotTableContainer from './SlotTable/SlotTableContainer';
 
 import MagicFill from './MagicFill';
 import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
@@ -493,8 +493,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 				</Col>
 
 				<Col xs={12} md={8}>
-					<SlotTable
-						selectedCourseCode={selectedCourseCode}
+					<SlotTableContainer
 						selectedCourseSlots={currentlySelectedCourseSlots}
 
 						addSlotToTimetable={addSlotToTimetable}

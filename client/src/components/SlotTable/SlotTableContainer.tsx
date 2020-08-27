@@ -9,7 +9,7 @@ import { selectCourse } from '../../reducers/course';
 import State from '../../models/State';
 import { SlotTableContainerProps } from '../../models/components/SlotTable/SlotTable';
 
-const selectHeatmap = (state: State) => state.course.heatmap;
+const selectHeatmap = (state: State) => state.course.heatmap.data;
 const selectSelectedCourse = (state: State) => state.course.selected;
 const selectFilteredSlots = createSelector(
 	[selectHeatmap, selectSelectedCourse],

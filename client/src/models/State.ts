@@ -6,7 +6,9 @@ export default interface StateModel {
 	},
 	course: {
 		selected: string,
-		heatmap: Array<HeatmapCourse>,
-		heatmapTimestamp : Date,
+		heatmap: {
+			timestamp : Date,
+			data: Array<HeatmapCourse>,
+		}
 	},
 }

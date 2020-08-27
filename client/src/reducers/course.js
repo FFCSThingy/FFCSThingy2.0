@@ -2,7 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
 	selected: '',
-	heatmap: JSON.parse(localStorage.getItem('heatmap')) || [],
+	heatmap: {
+		data: JSON.parse(localStorage.getItem('heatmap')) || [],
+		timestamp: localStorage.getItem('heatmapTimestamp') || null,
+	},
 };
 
 const courseSlice = createSlice({
@@ -19,12 +22,13 @@ const courseSlice = createSlice({
 			},
 		},
 		setHeatmap: {
-			prepare(heatmap) {
-				return { payload: { heatmap } };
+			prepare(heatmap, timestamp) {
+				return { payload: { heatmap, timestamp } };
 			},
 			reducer(state, action) {
-				const { heatmap } = action.payload;
-				state.heatmap = heatmap;
+				const { heatmap, timestamp } = action.payload;
+				state.heatmap.data = heatmap;
+				state.heatmap.timestamp = timestamp;
 			},
 		},
 	},

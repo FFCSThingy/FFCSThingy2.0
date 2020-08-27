@@ -135,9 +135,10 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 	// Sets heatmap in state
 	useEffect(() => {
 		if (heatmapResponse) {
-			setHeatmap(heatmapResponse.data.heatmap);
-			setHeatmapRedux(heatmapResponse.data.heatmap);
-			setHeatmapTimestamp(heatmapResponse.data.timestamp);
+			const { heatmap: resHeatmap, timestamp } = heatmapResponse.data;
+			setHeatmap(resHeatmap);
+			setHeatmapRedux(resHeatmap, timestamp);
+			setHeatmapTimestamp(timestamp);
 		}
 	}, [heatmapResponse]);
 

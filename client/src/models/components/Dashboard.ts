@@ -10,4 +10,9 @@ export interface TTErrorProps {
 
 export default interface DashboardProps {
 	handleUnauth: Function;
+	setHeatmap: Function;
+}
+
+export interface DashboardContainerProps {
+	handleUnauth: Function;
 }

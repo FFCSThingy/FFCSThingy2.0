@@ -11,7 +11,8 @@ import API from './API';
 
 import PrivateRoute from './components/PrivateRoute';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+// import Dashboard from './components/Dashboard';
+import DashboardContainer from './components/DashboardContainer';
 import Theme from './components/Theme';
 
 import rootReducer from './reducers/rootReducer';
@@ -56,7 +57,7 @@ const App = () => {
 					<PrivateRoute
 						path="/"
 						redirect="/login"
-						component={Dashboard}
+						component={DashboardContainer}
 						isAuthenticated={authenticated}
 						handleUnauth={() => {
 							API.get('/logout');

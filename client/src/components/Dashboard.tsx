@@ -63,7 +63,7 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 	</Row>
 ) : (<></>));
 
-const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
+const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRedux }) => {
 	const [{ data: userData }] = useAxiosFFCS({
 		url: '/account',
 	});
@@ -121,7 +121,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	const [creditCount, setCreditCount] = useState(0);
 
 	const [selectedCourseCode, setSelectedCourseCode] = useState('');
-	const [currentlySelectedCourseSlots, setCurrentlySelectedCourseSlots] = useState<HeatmapCourse[]>([]);
 
 	const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
@@ -139,17 +138,10 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	useEffect(() => {
 		if (heatmapResponse) {
 			setHeatmap(heatmapResponse.data.heatmap);
+			setHeatmapRedux(heatmapResponse.data.heatmap);
 			setHeatmapTimestamp(heatmapResponse.data.timestamp);
 		}
 	}, [heatmapResponse]);
-
-	// Sets currently selected course slots for SlotTable from heatmap
-	useEffect(() => {
-		if (heatmap) {
-			const slots = heatmap.filter((course) => course.code === selectedCourseCode);
-			setCurrentlySelectedCourseSlots(slots);
-		}
-	}, [selectedCourseCode, heatmap]);
 
 	// Gets currently selected curriculum data from server
 	useEffect(() => {
@@ -494,8 +486,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 
 				<Col xs={12} md={8}>
 					<SlotTableContainer
-						selectedCourseSlots={currentlySelectedCourseSlots}
-
 						addSlotToTimetable={addSlotToTimetable}
 						slotClashesWith={slotClashesWith}
 						isSelected={isSelected}

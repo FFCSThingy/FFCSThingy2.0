@@ -18,7 +18,7 @@ import {
 import RequisitesList from '../../models/data/RequisitesList';
 
 const CourseSelection: FC<CourseSelectionProps> = ({
-	selectedCurriculum, selectedCurriculumPrefix, selectedCourse, completedCourses, doSelectCourse,
+	selectedCurriculum, selectedCurriculumPrefix, completedCourses,
 }) => {
 	const [{ data: allCourseLists }, executeGetAllCourseLists] = useAxiosFFCS({
 		url: '/course/allCourseLists',
@@ -181,11 +181,8 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 			<Card.Body className={styles.courseSelectTableBody}>
 				<CourseCardListContainer
 					filteredCourseList={filteredCourseList}
-					// selectedCourse={selectedCourse}
 					prereqList={prereqList}
 					completedCourses={completedCourses}
-
-					// doSelectCourse={doSelectCourse}
 				/>
 			</Card.Body>
 		</Card>

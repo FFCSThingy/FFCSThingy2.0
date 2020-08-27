@@ -120,8 +120,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 	const [filledSlots, setFilledSlots] = useState<string[]>([]);
 	const [creditCount, setCreditCount] = useState(0);
 
-	const [selectedCourseCode, setSelectedCourseCode] = useState('');
-
 	const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [timetableGenerationError, setTimetableGenerationError] = useState('');
@@ -475,10 +473,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 			<Row className={styles.slotSelectionRow}>
 				<Col xs={12} md={4}>
 					<CourseSelection
-						doSelectCourse={setSelectedCourseCode}
-
 						completedCourses={completedCoursesResponse ? completedCoursesResponse.data : []}
-						selectedCourse={selectedCourseCode}
 						selectedCurriculum={currentCurriculum}
 						selectedCurriculumPrefix={selectedCurriculumPrefix}
 					/>

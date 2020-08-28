@@ -1,6 +1,7 @@
-import React, { FC, memo } from 'react';
+import React, { FC } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
+import memoizeOne from 'memoize-one';
 
 import SlotTable from './SlotTable';
 
@@ -24,26 +25,29 @@ const selectFilteredSlots = createSelector(
 
 const selectClashingSlots = createSelector(
 	[selectClashMap],
-	// TODO: Memoize this function
-	(clashmap) => (slot: string) => {
-		if (slot === 'NIL') return [];
+	(clashmap) => memoizeOne(
+		(slot: string) => {
+			if (slot === 'NIL') return [];
 
-		const clashingSlots = slot.replace(' ', '').split('+')
-			.reduce<string[]>((a, v) => Array.from(new Set([...a, ...clashmap[v].currentlyClashesWith])), [])
-			.filter((v) => v && v.length > 0);
+			const clashingSlots = slot.replace(' ', '').split('+')
+				.reduce<string[]>((a, v) => Array.from(new Set([...a, ...clashmap[v].currentlyClashesWith])), [])
+				.filter((v) => v && v.length > 0);
 
-		return clashingSlots;
-	},
+			return clashingSlots;
+		},
+	),
 );
 
 const checkSelected = createSelector(
 	[selectTimetable, selectActiveTimetable],
-	// TODO: Memoize this function
-	(timetable, active) => (course: HeatmapCourse) => timetable.reduce(
-		(a, timetableCourse) => (a || (
-			timetableCourse._id === course._id
-			&& timetableCourse.timetableName === active
-		)), false,
+	(timetable, active) => memoizeOne(
+		(course: HeatmapCourse) => timetable.reduce(
+			(a, timetableCourse) => (a || (
+				timetableCourse._id === course._id
+				&& timetableCourse.timetableName === active
+			)),
+			false,
+		),
 	),
 );
 

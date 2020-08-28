@@ -9,7 +9,5 @@ export default interface SlotTableProps {
 }
 
 export interface SlotTableContainerProps {
-	slotClashesWith: Function;
-	isSelected: Function;
-	addSlotToTimetable: Function;
+	// isSelected: Function;
 }

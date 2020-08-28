@@ -289,7 +289,8 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 	};
 
 	const addSlotToTimetable = (course: TimetableCourse) => {
-		course.timetableName = activeTimetableName;
+		course = { ...course, timetableName: activeTimetableName };
+		// course.timetableName = activeTimetableName;
 		const coursesToAdd = [course];
 		let reqdProjectComponent;
 
@@ -481,11 +482,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 				</Col>
 
 				<Col xs={12} md={8}>
-					<SlotTableContainer
-						addSlotToTimetable={addSlotToTimetable}
-						slotClashesWith={slotClashesWith}
-						isSelected={isSelected}
-					/>
+					<SlotTableContainer />
 				</Col>
 			</Row>
 

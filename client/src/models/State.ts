@@ -1,4 +1,5 @@
 import HeatmapCourse from './data/HeatmapCourse';
+import TimetableCourse from './data/TimetableCourse';
 import Clashmap from './constants/Clashmap';
 
 export default interface StateModel {
@@ -17,7 +18,7 @@ export default interface StateModel {
 		names: Array<string>,
 		filledSlots: Array<string>,
 		timestamp: string,
-		data: Array<HeatmapCourse>,
+		data: Array<TimetableCourse>,
 		clashmap: Clashmap,
 		creditCount: number,
 	}

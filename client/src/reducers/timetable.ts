@@ -4,18 +4,35 @@ import CLASHMAP from '../constants/clashmapTry';
 // IDK what is going on
 // Throws a state mutated between dispatch error
 
+import TimetableCourse from '../models/data/TimetableCourse';
 import HeatmapCourse from '../models/data/HeatmapCourse';
 import Clashmap from '../models/constants/Clashmap';
 
+const convertHeatmapToTimetableCourse = (
+	timetableName: string,
+	course: HeatmapCourse,
+): TimetableCourse => ({
+	_id: course._id,
+	code: course.code,
+	course_type: course.course_type,
+	credits: course.credits,
+	faculty: course.faculty,
+	slot: course.slot,
+	venue: course.venue,
+	title: course.title,
+	simpleCourseType: course.simpleCourseType,
+	timetableName,
+});
+
 const checkExistsInArray = (
-	array: Array<HeatmapCourse>,
-	val: HeatmapCourse,
+	array: Array<TimetableCourse>,
+	val: TimetableCourse,
 ) => array.reduce((a, v) => (a || (
 	v._id === val._id
 	&& v.timetableName === val.timetableName
 )), false);
 
-const findFilledSlots = (data: Array<HeatmapCourse>, activeTimetable: string): Array<string> => Array.from(
+const findFilledSlots = (data: Array<TimetableCourse>, activeTimetable: string): Array<string> => Array.from(
 	new Set(
 		data
 			.filter((v) => v.timetableName === activeTimetable)
@@ -24,7 +41,7 @@ const findFilledSlots = (data: Array<HeatmapCourse>, activeTimetable: string): A
 	),
 );
 
-const countCredits = (data: Array<HeatmapCourse>) => data.reduce((a, v) => a + v.credits, 0);
+const countCredits = (data: Array<TimetableCourse>) => data.reduce((a, v) => a + v.credits, 0);
 
 const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 	const newClashmap = { ...clashmap };
@@ -70,7 +87,9 @@ const timetableSlice = createSlice({
 			},
 			reducer(state, action: PayloadAction<{course: HeatmapCourse, timestamp: string}, string>) {
 				const { course, timestamp } = action.payload;
-				const courseWithTimetableName = { ...course, timetableName: state.active };
+				const courseWithTimetableName = convertHeatmapToTimetableCourse(
+					state.active, course,
+				);
 
 				if (checkExistsInArray(state.data, courseWithTimetableName)) return;
 
@@ -92,9 +111,15 @@ const timetableSlice = createSlice({
 			},
 			reducer(state, action: PayloadAction<{course: HeatmapCourse, timestamp: string}, string>) {
 				const { course, timestamp } = action.payload;
+				const ttCourse = convertHeatmapToTimetableCourse(
+					state.active, course,
+				);
 
 				const newData = state.data.filter(
-					(v: HeatmapCourse) => !(v._id === course._id && v.timetableName === state.active),
+					(v: TimetableCourse) => !(
+						v._id === ttCourse._id
+						&& v.timetableName === state.active
+					),
 				);
 
 				const filledSlots = findFilledSlots(newData, state.active);

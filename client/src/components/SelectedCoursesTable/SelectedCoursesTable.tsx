@@ -4,10 +4,10 @@ import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
 import styles from '../../css/SelectedCoursesTable.module.scss';
 
-import HeatmapCourse from '../../models/data/HeatmapCourse';
+import TimetableCourse from '../../models/data/TimetableCourse';
 import SelectedCoursesTableProps from '../../models/components/SelectedCoursesTable/SelectedCoursesTable';
 
-const sortTimetable = ((a: HeatmapCourse, b: HeatmapCourse) => a.code.localeCompare(b.code));
+const sortTimetable = ((a: TimetableCourse, b: TimetableCourse) => a.code.localeCompare(b.code));
 
 const SelectedCoursesTable: FC<SelectedCoursesTableProps> = (
 	{
@@ -34,7 +34,7 @@ const SelectedCoursesTable: FC<SelectedCoursesTableProps> = (
 				{
 					timetable
 						.sort(sortTimetable)
-						.map((value: HeatmapCourse) => (
+						.map((value: TimetableCourse) => (
 							<tr key={value._id}>
 								<td>{value.slot}</td>
 								<td>{value.code}</td>

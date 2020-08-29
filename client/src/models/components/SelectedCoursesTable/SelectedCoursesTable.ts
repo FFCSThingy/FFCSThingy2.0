@@ -1,8 +1,7 @@
 import TimetableCourse from '../../data/TimetableCourse';
-import HeatmapCourse from '../../data/HeatmapCourse';
 
 export default interface SelectedCoursesTableProps {
-	timetable: HeatmapCourse[];
+	timetable: TimetableCourse[];
 	creditCount: number;
 	unselectSlot: Function;
 }

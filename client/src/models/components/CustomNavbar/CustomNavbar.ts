@@ -8,3 +8,10 @@ export default interface CustomNavbarProps {
 	handleCurriculumChange: Function;
 	doLogout: React.MouseEventHandler<this>;
 }
+export interface CustomNavbarContainerProps {
+	curriculumList: string[];
+	selectedCurriculum: string;
+	userDetails: UserDetails;
+	handleCurriculumChange: Function;
+	doLogout: React.MouseEventHandler<this>;
+}

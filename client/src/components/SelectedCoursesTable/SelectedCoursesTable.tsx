@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 
 import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
-import styles from '../css/SelectedCoursesTable.module.scss';
+import styles from '../../css/SelectedCoursesTable.module.scss';
 
-import TimetableCourse from '../models/data/TimetableCourse';
-import SelectedCoursesTableProps from '../models/components/SelectedCoursesTable';
+import TimetableCourse from '../../models/data/TimetableCourse';
+import SelectedCoursesTableProps from '../../models/components/SelectedCoursesTable/SelectedCoursesTable';
 
 const sortTimetable = ((a: TimetableCourse, b: TimetableCourse) => a.code.localeCompare(b.code));
 

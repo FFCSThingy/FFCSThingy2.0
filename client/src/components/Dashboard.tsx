@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 
 // Components
-import CustomNavbar from './CustomNavbar/CustomNavbar';
+import CustomNavbarContainer from './CustomNavbar/CustomNavbarContainer';
 
 import CourseSelection from './CourseSelection/CourseSelection';
 import SlotTableContainer from './SlotTable/SlotTableContainer';
@@ -15,7 +15,7 @@ import MagicFill from './MagicFill';
 import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
 import Timetable from './Timetable/Timetable';
 
-import SelectedCoursesTable from './SelectedCoursesTable';
+import SelectedCoursesTableContainer from './SelectedCoursesTable/SelectedCoursesTableContainer';
 
 // Constants
 import CLASHMAP from '../constants/ClashMap';
@@ -461,9 +461,8 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 	return (
 		<Container fluid className={styles.mainContainer}>
 			<Row className={styles.navBarRow}>
-				<CustomNavbar
+				<CustomNavbarContainer
 					userDetails={userData}
-					creditCount={creditCount}
 					curriculumList={curriculumListResponse ? curriculumListResponse.data : []}
 					selectedCurriculum={selectedCurriculumPrefix}
 					handleCurriculumChange={setSelectedCurriculumPrefix}
@@ -528,11 +527,10 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 			</Row>
 
 			<Row>
-				<SelectedCoursesTable
+				<SelectedCoursesTableContainer
 					timetable={userTimetable || []}
 					unselectSlot={removeSlotFromTimetable}
 					activeTimetableName={activeTimetableName}
-					creditCount={creditCount}
 				/>
 			</Row>
 

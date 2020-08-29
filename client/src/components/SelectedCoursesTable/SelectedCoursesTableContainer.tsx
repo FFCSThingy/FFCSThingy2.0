@@ -3,9 +3,9 @@ import { connect, ConnectedProps } from 'react-redux';
 import { createSelector } from '@reduxjs/toolkit';
 
 import SelectedCoursesTable from './SelectedCoursesTable';
+import { removeCourse } from '../../reducers/timetable';
 
 import State from '../../models/State';
-import { SelectedCoursesTableContainerProps } from '../../models/components/SelectedCoursesTable/SelectedCoursesTable';
 
 const selectTimetable = (state: State) => state.timetable.data;
 const selectActiveTimetableName = (state: State) => state.timetable.active;
@@ -15,13 +15,12 @@ const selectFilteredTimetable = createSelector(
 	(timetable, active) => timetable.filter((v) => v.timetableName === active),
 );
 
-const mapStateToProps = (state: State, ownProps: SelectedCoursesTableContainerProps) => ({
+const mapStateToProps = (state: State) => ({
 	creditCount: state.timetable.creditCount,
 	timetable: selectFilteredTimetable(state),
-	ownProps,
 });
 
-const mapDispatch = {};
+const mapDispatch = { removeCourse };
 
 const connector = connect(mapStateToProps, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -29,7 +28,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 const SelectedCoursesTableContainer: FC<PropsFromRedux> = (props) => (
 	<SelectedCoursesTable
 		timetable={props.timetable}
-		unselectSlot={props.ownProps.unselectSlot}
+		unselectSlot={props.removeCourse}
 		creditCount={props.creditCount}
 	/>
 );

@@ -5,7 +5,3 @@ export default interface SelectedCoursesTableProps {
 	creditCount: number;
 	unselectSlot: Function;
 }
-
-export interface SelectedCoursesTableContainerProps {
-	unselectSlot: Function;
-}

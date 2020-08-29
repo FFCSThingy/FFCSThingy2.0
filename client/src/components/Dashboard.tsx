@@ -527,9 +527,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 			</Row>
 
 			<Row>
-				<SelectedCoursesTableContainer
-					unselectSlot={removeSlotFromTimetable}
-				/>
+				<SelectedCoursesTableContainer />
 			</Row>
 
 		</Container>

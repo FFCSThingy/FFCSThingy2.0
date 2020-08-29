@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 
 import { setHeatmap } from '../reducers/course';
 
-import State from '../models/State';
+import State from '../models/state/State';
 import { DashboardContainerProps } from '../models/components/Dashboard';
 
 const mapStateToProps = (state: State, ownProps: DashboardContainerProps) => ({

@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import CustomNavbar from './CustomNavbar';
 
-import State from '../../models/State';
+import State from '../../models/state/State';
 import { CustomNavbarContainerProps } from '../../models/components/CustomNavbar/CustomNavbar';
 
 const mapStateToProps = (state: State, ownProps: CustomNavbarContainerProps) => ({

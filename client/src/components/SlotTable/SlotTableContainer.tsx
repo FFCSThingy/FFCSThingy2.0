@@ -8,7 +8,7 @@ import SlotTable from './SlotTable';
 import { selectCourse } from '../../reducers/course';
 import { addCourse } from '../../reducers/timetable';
 
-import State from '../../models/State';
+import State from '../../models/state/State';
 import { SlotTableContainerProps } from '../../models/components/SlotTable/SlotTable';
 import HeatmapCourse from '../../models/data/HeatmapCourse';
 

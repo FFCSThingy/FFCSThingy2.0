@@ -5,7 +5,7 @@ import SelectedCoursesTable from './SelectedCoursesTable';
 import { removeCourse } from '../../reducers/timetable';
 import selectFilteredTimetable from '../../selectors/selectFilteredTimetable';
 
-import State from '../../models/State';
+import State from '../../models/state/State';
 
 const mapStateToProps = (state: State) => ({
 	creditCount: state.timetable.creditCount,

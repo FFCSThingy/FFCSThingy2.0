@@ -7,7 +7,7 @@ import { changeTheme } from '../../reducers/misc';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import StateModel from '../../models/State';
+import StateModel from '../../models/state/State';
 
 const mapStateToProps = (state: StateModel) => ({ theme: state.misc.theme });
 const mapDispatch = { changeTheme };

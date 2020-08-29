@@ -5,7 +5,7 @@ import CourseCardList from './CourseCardList';
 
 import { selectCourse } from '../../reducers/course';
 
-import State from '../../models/State';
+import State from '../../models/state/State';
 import { CourseCardListContainerProps } from '../../models/components/CourseSelection/CourseCardList';
 
 const mapStateToProps = (state: State, ownProps: CourseCardListContainerProps) => ({

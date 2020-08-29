@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import State from '../models/State';
+import State from '../models/state/State';
 
 const selectTimetable = (state: State) => state.timetable.data;
 const selectActiveTimetableName = (state: State) => state.timetable.active;

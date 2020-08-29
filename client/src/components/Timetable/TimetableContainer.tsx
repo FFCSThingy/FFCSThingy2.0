@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import Timetable from './Timetable';
 import selectFilteredTimetable from '../../selectors/selectFilteredTimetable';
 
-import State from '../../models/State';
+import State from '../../models/state/State';
 
 const mapStateToProps = (state: State) => ({
 	timetable: selectFilteredTimetable(state),

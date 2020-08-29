@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import StateModel from '../models/State';
+import StateModel from '../models/state/State';
 
 const mapStateToProps = (state: StateModel) => ({ theme: state.misc.theme });
 const mapDispatch = {};

@@ -7,6 +7,7 @@ import CLASHMAP from '../constants/clashmapTry';
 import TimetableCourse from '../models/data/TimetableCourse';
 import HeatmapCourse from '../models/data/HeatmapCourse';
 import Clashmap from '../models/constants/Clashmap';
+import TimetableSlice from '../models/state/TimetableSlice';
 
 const convertHeatmapToTimetableCourse = (
 	timetableName: string,
@@ -67,12 +68,12 @@ const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 	return newClashmap;
 };
 
-const initialState = {
+const initialState: TimetableSlice = {
 	active: 'Default',
 	names: ['Default'],
 	filledSlots: [] as Array<string>,
 	data: JSON.parse(localStorage.getItem('timetable') || '[]'),
-	timestamp: localStorage.getItem('timetableTimestamp') || null,
+	timestamp: localStorage.getItem('timetableTimestamp'),
 	clashmap: CLASHMAP,
 	creditCount: 0,
 };
@@ -116,7 +117,7 @@ const timetableSlice = createSlice({
 				);
 
 				const newData = state.data.filter(
-					(v: TimetableCourse) => !(
+					(v) => !(
 						v._id === ttCourse._id
 						&& v.timetableName === state.active
 					),

@@ -1,6 +1,6 @@
 import HeatmapCourse from '../data/HeatmapCourse';
-import TimetableCourse from '../data/TimetableCourse';
-import Clashmap from '../constants/Clashmap';
+
+import TimetableSlice from './TimetableSlice';
 
 export default interface StateModel {
 	misc: {
@@ -13,13 +13,5 @@ export default interface StateModel {
 			data: Array<HeatmapCourse>,
 		}
 	},
-	timetable: {
-		active: string,
-		names: Array<string>,
-		filledSlots: Array<string>,
-		timestamp: string,
-		data: Array<TimetableCourse>,
-		clashmap: Clashmap,
-		creditCount: number,
-	}
+	timetable: TimetableSlice,
 }

@@ -13,7 +13,7 @@ import SlotTableContainer from './SlotTable/SlotTableContainer';
 
 import MagicFill from './MagicFill';
 import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
-import Timetable from './Timetable/Timetable';
+import TimetableContainer from './Timetable/TimetableContainer';
 
 import SelectedCoursesTableContainer from './SelectedCoursesTable/SelectedCoursesTableContainer';
 
@@ -519,11 +519,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 			/>
 
 			<Row>
-				<Timetable
-					filledSlots={filledSlots}
-					timetable={userTimetable || []}
-					activeTimetableName={activeTimetableName}
-				/>
+				<TimetableContainer />
 			</Row>
 
 			<Row>

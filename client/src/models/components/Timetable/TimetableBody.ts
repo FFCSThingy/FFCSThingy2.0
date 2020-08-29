@@ -6,7 +6,6 @@ export interface TimetableBodyRowProps {
 	isMobile?: boolean;
 	isAfternoon?: boolean;
 	filledSlots: string[];
-	activeTimetableName: string;
 }
 
 export default interface TimetableBodyProps {
@@ -14,5 +13,4 @@ export default interface TimetableBodyProps {
 	isMobile?: boolean;
 	isAfternoon?: boolean;
 	filledSlots: string[];
-	activeTimetableName: string;
 }

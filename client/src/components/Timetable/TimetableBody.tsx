@@ -15,7 +15,6 @@ const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
 		rowNumber,
 		filledSlots,
 		timetable,
-		activeTimetableName,
 	}) => {
 		const rowCells = SLOTS[rowNumber].map((slotVal, i) => {
 			let slotString = slotVal;
@@ -61,17 +60,13 @@ const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
 
 			// Checks timetable to find the selected lab course for this cell
 			const reqdLabCourse = filledSlots.includes(labSlot)
-				&& timetable.find((course) => (
-					course.slot.replace(' ', '').split('+').includes(labSlot)
-					&& course.timetableName === activeTimetableName
-				));
+				&& timetable.find((course) => course.slot
+					.replace(' ', '').split('+').includes(labSlot));
 
 			// Checks timetable to find the selected theory course for this cell
 			const reqdTheoryCourse = filledSlots.includes(theorySlot)
-				&& timetable.find((course) => (
-					course.slot.replace(' ', '').split('+').includes(theorySlot)
-					&& course.timetableName === activeTimetableName
-				));
+				&& timetable.find((course) => course.slot
+					.replace(' ', '').split('+').includes(theorySlot));
 
 			// For Slots with only one component (L6, L12, EXTM, L24, L30)
 			if (!labSlot) slotString = theorySlot;
@@ -131,7 +126,6 @@ const TimetableBody: FC<TimetableBodyProps> = memo(
 		isAfternoon,
 		filledSlots,
 		timetable,
-		activeTimetableName,
 	}) => {
 		const bodyRows = SLOTS.map((v, i) => (
 			<TimetableBodyRow
@@ -142,7 +136,6 @@ const TimetableBody: FC<TimetableBodyProps> = memo(
 
 				filledSlots={filledSlots}
 				timetable={timetable}
-				activeTimetableName={activeTimetableName}
 			/>
 		));
 		return (

@@ -11,7 +11,7 @@ import TimetableBody from './TimetableBody';
 import styles from '../../css/Timetable.module.scss';
 
 const MobileTimetable: FC<TimetableProps> = memo(
-	({ timetable, activeTimetableName, filledSlots }) => (
+	({ timetable, filledSlots }) => (
 		<Container className={styles.timetableContainer}>
 			<FaSun className={styles.morningIcon} size="2x" color="yellow" />
 			<table className={styles.timetableA}>
@@ -20,7 +20,6 @@ const MobileTimetable: FC<TimetableProps> = memo(
 					isMobile
 
 					timetable={timetable}
-					activeTimetableName={activeTimetableName}
 					filledSlots={filledSlots}
 				/>
 			</table>
@@ -33,7 +32,6 @@ const MobileTimetable: FC<TimetableProps> = memo(
 					isAfternoon
 
 					timetable={timetable}
-					activeTimetableName={activeTimetableName}
 					filledSlots={filledSlots}
 				/>
 			</table>
@@ -42,13 +40,12 @@ const MobileTimetable: FC<TimetableProps> = memo(
 );
 
 const DesktopTimetable: FC<TimetableProps> = memo(
-	({ timetable, activeTimetableName, filledSlots }) => (
+	({ timetable, filledSlots }) => (
 		<Container className={styles.timetableContainer} fluid>
 			<table className={styles.timetable}>
 				<TimetableHeader />
 				<TimetableBody
 					timetable={timetable}
-					activeTimetableName={activeTimetableName}
 					filledSlots={filledSlots}
 				/>
 			</table>
@@ -57,7 +54,7 @@ const DesktopTimetable: FC<TimetableProps> = memo(
 );
 
 const Timetable: FC<TimetableProps> = memo(
-	({ timetable, activeTimetableName, filledSlots }) => (
+	({ timetable, filledSlots }) => (
 		// Media Query for phones
 		<MediaQuery minDeviceWidth={768}>
 			{(matches) => {
@@ -65,7 +62,6 @@ const Timetable: FC<TimetableProps> = memo(
 					return (
 						<DesktopTimetable
 							timetable={timetable}
-							activeTimetableName={activeTimetableName}
 							filledSlots={filledSlots}
 						/>
 					);
@@ -73,7 +69,6 @@ const Timetable: FC<TimetableProps> = memo(
 				return (
 					<MobileTimetable
 						timetable={timetable}
-						activeTimetableName={activeTimetableName}
 						filledSlots={filledSlots}
 					/>
 				);

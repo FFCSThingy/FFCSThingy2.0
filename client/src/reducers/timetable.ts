@@ -42,7 +42,13 @@ const findFilledSlots = (data: Array<TimetableCourse>, activeTimetable: string):
 	),
 );
 
-const countCredits = (data: Array<TimetableCourse>) => data.reduce((a, v) => a + v.credits, 0);
+const countCredits = (
+	data: Array<TimetableCourse>,
+	active: string,
+) => data.reduce(
+	(a, v) => a + ((v.timetableName === active) ? v.credits : 0),
+	0,
+);
 
 const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 	const newClashmap = { ...clashmap };
@@ -97,7 +103,7 @@ const timetableSlice = createSlice({
 				const newData = [...state.data, courseWithTimetableName];
 				const filledSlots = findFilledSlots(newData, state.active);
 				const clashmap = updateClashmap(state.clashmap, filledSlots);
-				const creditCount = countCredits(newData);
+				const creditCount = countCredits(newData, state.active);
 
 				state.clashmap = clashmap;
 				state.filledSlots = filledSlots;
@@ -125,7 +131,7 @@ const timetableSlice = createSlice({
 
 				const filledSlots = findFilledSlots(newData, state.active);
 				const clashmap = updateClashmap(state.clashmap, filledSlots);
-				const creditCount = countCredits(newData);
+				const creditCount = countCredits(newData, state.active);
 
 				state.clashmap = clashmap;
 				state.filledSlots = filledSlots;
@@ -134,9 +140,105 @@ const timetableSlice = createSlice({
 				state.timestamp = timestamp;
 			},
 		},
+		changeTimetable: {
+			prepare(timetableName: string) {
+				return { payload: { timetableName } };
+			},
+			reducer(state, action: PayloadAction<{ timetableName: string }, string>) {
+				const { timetableName } = action.payload;
+
+				if (!state.names.includes(timetableName)) return;
+
+				state.active = timetableName;
+
+				const filledSlots = findFilledSlots(state.data, timetableName);
+				const clashmap = updateClashmap(state.clashmap, filledSlots);
+				const creditCount = countCredits(state.data, timetableName);
+
+				state.clashmap = clashmap;
+				state.filledSlots = filledSlots;
+				state.creditCount = creditCount;
+			},
+		},
+		addTimetable: {
+			prepare(timetableName: string) {
+				return { payload: { timetableName } };
+			},
+			reducer(state, action: PayloadAction<{ timetableName: string }, string>) {
+				const { timetableName } = action.payload;
+
+				if (state.names.includes(timetableName)) return;
+
+				state.names.push(timetableName);
+				state.active = timetableName;
+
+				const filledSlots = findFilledSlots(state.data, timetableName);
+				const clashmap = updateClashmap(state.clashmap, filledSlots);
+				const creditCount = countCredits(state.data, timetableName);
+
+				state.clashmap = clashmap;
+				state.filledSlots = filledSlots;
+				state.creditCount = creditCount;
+			},
+		},
+		removeTimetable: (state) => {
+			if (state.active === 'Default') return;
+
+			state.data = state.data.filter((v) => v.timetableName !== state.active);
+			state.names = state.names.filter((v) => v !== state.active);
+			[state.active] = state.names;
+		},
+		renameTimetable: {
+			prepare(newName: string) {
+				return { payload: { newName } };
+			},
+			reducer(state, action: PayloadAction<{newName: string }, string>) {
+				const { newName } = action.payload;
+
+				if (state.names.includes(newName)) return;
+
+				state.data = state.data.map((v) => {
+					if (v.timetableName === state.active) {
+						v.timetableName = newName;
+					}
+					return v;
+				});
+				state.names = state.names.map((v) => {
+					if (v === state.active) {
+						return newName;
+					}
+					return v;
+				});
+				state.active = newName;
+			},
+		},
+		copyTimetable: {
+			prepare(newName: string) {
+				return { payload: { newName } };
+			},
+			reducer(state, action: PayloadAction<{ newName: string }, string>) {
+				const { newName } = action.payload;
+
+				const copiedCourses = state.data
+					.filter((v) => v.timetableName === state.active)
+					.map((v) => ({ ...v, timetableName: newName }));
+
+				state.data = [...state.data, ...copiedCourses];
+				state.names = [...state.names, newName];
+				state.active = newName;
+			},
+		},
 	},
 });
 
-export const { addCourse, removeCourse } = timetableSlice.actions;
+export const {
+	addCourse,
+	removeCourse,
+	changeTimetable,
+	addTimetable,
+	removeTimetable,
+	renameTimetable,
+	copyTimetable,
+} = timetableSlice.actions;
 
 export default timetableSlice.reducer;

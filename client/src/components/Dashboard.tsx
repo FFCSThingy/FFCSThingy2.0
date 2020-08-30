@@ -12,7 +12,7 @@ import CourseSelection from './CourseSelection/CourseSelection';
 import SlotTableContainer from './SlotTable/SlotTableContainer';
 
 import MagicFill from './MagicFill';
-import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
+import TimetableSwitcherContainer from './TimetableSwitcher/TimetableSwitcherContainer';
 import TimetableContainer from './Timetable/TimetableContainer';
 
 import SelectedCoursesTableContainer from './SelectedCoursesTable/SelectedCoursesTableContainer';
@@ -487,15 +487,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 
 			<Row>
 				<Col>
-					<TimetableSwitcher
-						activeTimetableName={activeTimetableName}
-						timetableNames={timetableNames}
-						setActiveTimetableName={setActiveTimetableName}
-						doEdit={editTimetableName}
-						doDelete={deleteTimetable}
-						doNew={createTimetable}
-						doCopy={createTimetableCopy}
-					/>
+					<TimetableSwitcherContainer />
 				</Col>
 			</Row>
 

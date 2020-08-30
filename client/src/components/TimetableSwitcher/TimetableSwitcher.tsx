@@ -86,12 +86,12 @@ const TimetableSwitcher: FC<TimetableSwitcherProps> = memo(
 						<FaPlusSquare />
 					</Button>
 
-					{/* <Button
-					className={styles.customButton}
-					onClick={() => handleAction('Copy')}
-				>
-					<FaCopy />
-				</Button> */}
+					<Button
+						className={styles.customButton}
+						onClick={() => handleAction('Copy')}
+					>
+						<FaCopy />
+					</Button>
 
 					<Button
 						className={styles.customButton}

@@ -1,10 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import HeatmapCourse from '../models/data/HeatmapCourse';
 
 const initialState = {
 	selected: '',
 	heatmap: {
-		data: JSON.parse(localStorage.getItem('heatmap')) || [],
-		timestamp: localStorage.getItem('heatmapTimestamp') || null,
+		data: JSON.parse(localStorage.getItem('heatmap') || '[]'),
+		timestamp: localStorage.getItem('heatmapTimestamp'),
 	},
 };
 
@@ -13,19 +15,19 @@ const courseSlice = createSlice({
 	initialState,
 	reducers: {
 		selectCourse: {
-			prepare(course) {
+			prepare(course: string) {
 				return { payload: { course } };
 			},
-			reducer(state, action) {
+			reducer(state, action: PayloadAction<{ course: string }, string>) {
 				const { course } = action.payload;
 				state.selected = course;
 			},
 		},
 		setHeatmap: {
-			prepare(heatmap, timestamp) {
+			prepare(heatmap: HeatmapCourse[], timestamp: string) {
 				return { payload: { heatmap, timestamp } };
 			},
-			reducer(state, action) {
+			reducer(state, action: PayloadAction<{ heatmap: HeatmapCourse[], timestamp: string }, string>) {
 				const { heatmap, timestamp } = action.payload;
 				state.heatmap.data = heatmap;
 				state.heatmap.timestamp = timestamp;

@@ -1,17 +1,9 @@
-import HeatmapCourse from '../data/HeatmapCourse';
-
+import MiscSlice from './MiscSlice';
+import CourseSlice from './CourseSlice';
 import TimetableSlice from './TimetableSlice';
 
 export default interface StateModel {
-	misc: {
-		theme: string,
-	},
-	course: {
-		selected: string,
-		heatmap: {
-			timestamp : Date,
-			data: Array<HeatmapCourse>,
-		}
-	},
+	misc: MiscSlice,
+	course: CourseSlice,
 	timetable: TimetableSlice,
 }

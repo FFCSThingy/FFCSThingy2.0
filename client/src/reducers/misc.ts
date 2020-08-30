@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
 	theme: localStorage.getItem('theme') ?? 'default',
@@ -12,7 +12,7 @@ const miscSlice = createSlice({
 			prepare(theme) {
 				return { payload: { theme } };
 			},
-			reducer(state, action) {
+			reducer(state, action: PayloadAction<{ theme: string }, string>) {
 				const { theme } = action.payload;
 				state.theme = theme;
 			},

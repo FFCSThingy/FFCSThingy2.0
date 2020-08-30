@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import CLASHMAP from '../constants/clashmapTry';
+import CLASHMAP from '../constants/ClashMap';
 // Uses a copy of the same file because apparently the original clashmap gets modified somewhere?
 // IDK what is going on
 // Throws a state mutated between dispatch error

@@ -12,7 +12,7 @@ import HeatmapCourse from '../../models/data/HeatmapCourse';
 import SlotTableProps from '../../models/components/SlotTable/SlotTable';
 
 const SlotTable: FC<SlotTableProps> = ({
-	selectedCourse, slots, addSlotToTimetable, slotClashesWith, isSelected,
+	selectedCourse, slots, addSlotToTimetable, slotClashesWith, isSelected, checkRelated,
 }) => {
 	const [selectedCourseTypes, setSelectedCourseTypes] = useState<string[]>([]);
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
@@ -92,12 +92,15 @@ const SlotTable: FC<SlotTableProps> = ({
 	const clashingCourses: JSX.Element[] = [];
 
 	filteredSlots.map((slot) => {
+		const isRelated = checkRelated(slot);
+
 		if (isSelected(slot)) {
 			return selectedCourses.push(
 				<SlotCard
 					slotDetails={slot}
 					type="selected"
 					key={`SlotCard-${slot._id}`}
+					isRelated={isRelated}
 				/>,
 			);
 		}
@@ -110,6 +113,7 @@ const SlotTable: FC<SlotTableProps> = ({
 					type="clashing"
 					clashingSlots={clashingSlots}
 					key={`SlotCard-${slot._id}`}
+					isRelated={isRelated}
 				/>,
 			);
 		}
@@ -120,6 +124,7 @@ const SlotTable: FC<SlotTableProps> = ({
 				type="normal"
 				onClick={addSlotToTimetable}
 				key={`SlotCard-${slot._id}`}
+				isRelated={isRelated}
 			/>,
 		);
 	});

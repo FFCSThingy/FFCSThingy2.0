@@ -7,10 +7,20 @@ import styles from '../../css/SlotTable.module.scss';
 import SlotCardProps from '../../models/components/SlotTable/SlotCard';
 
 const SlotCard: FC<SlotCardProps> = ({
-	slotDetails, onClick, type, clashingSlots,
+	slotDetails, onClick, type, clashingSlots, isRelated = false,
 }) => {
-	let clashSubtitle; let selectedSubtitle; let
-		cardBodyClass = styles.cardBody;
+	let clashSubtitle;
+	let selectedSubtitle;
+	let relatedSubtitle;
+	let cardBodyClass = styles.cardBody;
+
+	if (isRelated) {
+		cardBodyClass = styles.cardBodyRelated;
+		relatedSubtitle = (
+			<Card.Subtitle className={styles.cardRelatedSubtitle}>Related</Card.Subtitle>
+		);
+	}
+
 	if (type === 'clashing' && clashingSlots) {
 		const clashingString = clashingSlots.join(', ');
 		cardBodyClass = styles.cardBodyClash;
@@ -21,6 +31,7 @@ const SlotCard: FC<SlotCardProps> = ({
 			</Card.Subtitle>
 		);
 	}
+
 	if (type === 'selected') {
 		cardBodyClass = styles.cardBodySelected;
 		selectedSubtitle = (
@@ -57,6 +68,10 @@ const SlotCard: FC<SlotCardProps> = ({
 
 				{
 					(type === 'selected' ? selectedSubtitle : null)
+				}
+
+				{
+					(isRelated ? relatedSubtitle : null)
 				}
 
 			</Card.Body>

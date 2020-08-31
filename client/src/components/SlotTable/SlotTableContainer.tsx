@@ -9,7 +9,6 @@ import { selectCourse } from '../../reducers/course';
 import { addCourse } from '../../reducers/timetable';
 
 import State from '../../models/state/State';
-import { SlotTableContainerProps } from '../../models/components/SlotTable/SlotTable';
 import HeatmapCourse from '../../models/data/HeatmapCourse';
 
 const selectHeatmap = (state: State) => state.course.heatmap.data;
@@ -51,12 +50,39 @@ const checkSelected = createSelector(
 	),
 );
 
-const mapStateToProps = (state: State, ownProps: SlotTableContainerProps) => ({
+const checkRelated = createSelector(
+	[selectTimetable, selectActiveTimetable],
+	(timetable, active) => memoizeOne(
+		(course: HeatmapCourse) => timetable.reduce(
+			(a, timetableCourse) => {
+				if (timetableCourse.timetableName !== active) {
+					return a || false;
+				}
+
+				if (course.simpleCourseType === timetableCourse.simpleCourseType) {
+					return a || false;
+				}
+
+				if (
+					timetableCourse.code === course.code
+					&& timetableCourse.faculty === course.faculty
+				) {
+					return a || true;
+				}
+
+				return a || false;
+			},
+			false,
+		),
+	),
+);
+
+const mapStateToProps = (state: State) => ({
 	selectedCourse: state.course.selected,
 	slots: selectFilteredSlots(state),
 	clashesWith: selectClashingSlots(state),
 	checkSelected: checkSelected(state),
-	ownProps,
+	checkRelated: checkRelated(state),
 });
 
 const mapDispatch = { selectCourse, addCourse };
@@ -72,6 +98,7 @@ const SlotTableContainer: FC<PropsFromRedux> = (props) => (
 		addSlotToTimetable={props.addCourse}
 		slotClashesWith={props.clashesWith}
 		isSelected={props.checkSelected}
+		checkRelated={props.checkRelated}
 	/>
 );
 

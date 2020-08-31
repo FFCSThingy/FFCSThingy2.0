@@ -6,8 +6,5 @@ export default interface SlotTableProps {
 	slotClashesWith: Function;
 	isSelected: Function;
 	addSlotToTimetable: Function;
-}
-
-export interface SlotTableContainerProps {
-	// isSelected: Function;
+	checkRelated: Function;
 }

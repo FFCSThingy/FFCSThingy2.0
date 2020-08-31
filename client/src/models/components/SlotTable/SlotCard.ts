@@ -5,4 +5,5 @@ export default interface SlotCardProps {
 	type: string;
 	clashingSlots?: string[];
 	onClick?: Function;
+	isRelated?: boolean;
 }

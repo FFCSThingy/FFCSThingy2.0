@@ -20,9 +20,6 @@ const CustomNavbarContainer: FC<PropsFromRedux> = (props) => (
 	<CustomNavbar
 		userDetails={props.ownProps.userDetails}
 		creditCount={props.creditCount}
-		curriculumList={props.ownProps.curriculumList}
-		selectedCurriculum={props.ownProps.selectedCurriculum}
-		handleCurriculumChange={props.ownProps.handleCurriculumChange}
 		doLogout={props.ownProps.doLogout as any}
 	/>
 );

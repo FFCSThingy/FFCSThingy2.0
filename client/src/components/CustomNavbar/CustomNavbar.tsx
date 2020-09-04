@@ -15,10 +15,7 @@ import brandImage from '../../images/logo.1.png';
 import CustomNavbarProps from '../../models/components/CustomNavbar/CustomNavbar';
 
 const CustomNavbar: FC<CustomNavbarProps> = memo(
-	({
-		curriculumList, selectedCurriculum, handleCurriculumChange,
-		creditCount, doLogout, userDetails,
-	}) => {
+	({ creditCount, doLogout, userDetails }) => {
 		const [showModal, setShowModal] = useState(false);
 
 		const SyncModal = () => (
@@ -66,11 +63,7 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 						<span className={styles.branding}>FFCSThingy</span>
 					</NavbarBrand>
 
-					<CurriculumDropdown
-						curriculumList={curriculumList}
-						selectedCurriculum={selectedCurriculum}
-						handleCurriculumChange={handleCurriculumChange}
-					/>
+					<CurriculumDropdown />
 
 					<Navbar.Toggle
 						className={styles.mobileMenuToggle}

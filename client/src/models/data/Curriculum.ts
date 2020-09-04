@@ -10,7 +10,7 @@ export interface CurriculumCourse {
 	c: number;
 }
 
-export interface Curriculum {
+export default interface Curriculum {
 	[key: string]: any;
 	_id: string;
 	reg_prefix: string;

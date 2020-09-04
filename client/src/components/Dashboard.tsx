@@ -8,7 +8,7 @@ import {
 // Components
 import CustomNavbarContainer from './CustomNavbar/CustomNavbarContainer';
 
-import CourseSelection from './CourseSelection/CourseSelection';
+import CourseSelectionContainer from './CourseSelection/CourseSelectionContainer';
 import SlotTableContainer from './SlotTable/SlotTableContainer';
 
 import MagicFill from './MagicFill';
@@ -26,7 +26,7 @@ import useInterval from '../hooks/useInterval';
 // Models/Interfaces
 import DashboardProps, { AlertRowProps, TTErrorProps } from '../models/components/Dashboard';
 import TTGenPreferences from '../models/data/TTGenPreferences';
-import { Curriculum } from '../models/data/Curriculum';
+import Curriculum from '../models/data/Curriculum';
 
 // const useStateWithLabel = (initialValue, name) => {
 // 	const [value, setValue] = useState(initialValue);
@@ -57,7 +57,14 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 	</Row>
 ) : (<></>));
 
-const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRedux }) => {
+const Dashboard: FC<DashboardProps> = ({
+	handleUnauth,
+	setHeatmap: setHeatmapRedux,
+	setPrefixList,
+	setSelectedCurriculum,
+	setCurrentCurriculumData,
+	selectedCurriculum,
+}) => {
 	const [{ data: userData }] = useAxiosFFCS({
 		url: '/account',
 	});
@@ -95,14 +102,14 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 	}, { manual: true });
 
 	// Curriculum Prefix and Fetch
-	const [selectedCurriculumPrefix, setSelectedCurriculumPrefix] = useState(localStorage.getItem('selectedCurriculum') || '19BCE');
+	// const [selectedCurriculumPrefix, setSelectedCurriculumPrefix] = useState(localStorage.getItem('selectedCurriculum') || '19BCE');
 
 	const [{ data: currentCurriculumResponse }, executeGetCurrentCurriculumResponse] = useAxiosFFCS({
-		url: `curriculum/curriculumFromPrefix/${selectedCurriculumPrefix || '19BCE'}`,
+		url: `curriculum/curriculumFromPrefix/${selectedCurriculum || '19BCE'}`,
 	}, { manual: true });
 
 	// Oh Lord, Forgive me for the sins I am about to commit with this typecast, but there was no better way to keep my sanity intact and this code working strictly
-	const [currentCurriculum, setCurrentCurriculum] = useState<Curriculum>({} as Curriculum);
+	// const [currentCurriculum, setCurrentCurriculum] = useState<Curriculum>({} as Curriculum);
 
 	const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
@@ -124,30 +131,47 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 		}
 	}, [heatmapResponse, setHeatmapRedux]);
 
+	useEffect(() => {
+		if (curriculumListResponse) {
+			if (!curriculumListResponse.data.includes(selectedCurriculum)) {
+				setSelectedCurriculum(curriculumListResponse.data[0]);
+			}
+			setPrefixList(curriculumListResponse.data);
+		}
+	}, [
+		curriculumListResponse,
+		setPrefixList,
+		selectedCurriculum,
+		setSelectedCurriculum,
+	]);
+
 	// Gets currently selected curriculum data from server
 	useEffect(() => {
 		executeGetCurrentCurriculumResponse();
-	}, [executeGetCurrentCurriculumResponse, selectedCurriculumPrefix]);
+	}, [executeGetCurrentCurriculumResponse, selectedCurriculum]);
 
 	// Updates selected curriculum prefix in localStorage
 	useEffect(() => {
-		localStorage.setItem('selectedCurriculum', selectedCurriculumPrefix);
-	}, [selectedCurriculumPrefix]);
+		localStorage.setItem('selectedCurriculum', selectedCurriculum);
+		setSelectedCurriculum(selectedCurriculum);
+	}, [selectedCurriculum, setSelectedCurriculum]);
 
 	// Sets Curriculum in LocalStorage corresponding to prefix
 	// Ex - 19BCE: {Data...}
 	useEffect(() => {
-		const selectedCurriculumData = localStorage.getItem(selectedCurriculumPrefix);
+		const selectedCurriculumData = JSON.parse(localStorage.getItem(selectedCurriculum) || '{}');
 
-		// if(selectedCurriculumData !== null)
-		// setCurrentCurriculum(JSON.parse(selectedCurriculumData));
-
-		// else if (selectedCurriculumData === null && currentCurriculumResponse) {
-		if (currentCurriculumResponse) {
-			setCurrentCurriculum(currentCurriculumResponse.data);
-			localStorage.setItem(selectedCurriculumPrefix, JSON.stringify(currentCurriculumResponse.data));
+		if (currentCurriculumResponse && currentCurriculumResponse.data) {
+			setCurrentCurriculumData(currentCurriculumResponse.data);
+			localStorage.setItem(selectedCurriculum, JSON.stringify(currentCurriculumResponse.data));
+		} else if (selectedCurriculumData) {
+			setCurrentCurriculumData(selectedCurriculumData);
 		}
-	}, [currentCurriculumResponse, selectedCurriculumPrefix]);
+	}, [
+		currentCurriculumResponse,
+		selectedCurriculum,
+		setCurrentCurriculumData,
+	]);
 
 	// Gets user timetable from the server
 	useEffect(() => {
@@ -203,9 +227,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 			<Row className={styles.navBarRow}>
 				<CustomNavbarContainer
 					userDetails={userData}
-					curriculumList={curriculumListResponse ? curriculumListResponse.data : []}
-					selectedCurriculum={selectedCurriculumPrefix}
-					handleCurriculumChange={setSelectedCurriculumPrefix}
 					doLogout={handleUnauth as any}
 					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 				/>
@@ -213,10 +234,8 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth, setHeatmap: setHeatmapRed
 
 			<Row className={styles.slotSelectionRow}>
 				<Col xs={12} md={4}>
-					<CourseSelection
+					<CourseSelectionContainer
 						completedCourses={completedCoursesResponse ? completedCoursesResponse.data : []}
-						selectedCurriculum={currentCurriculum}
-						selectedCurriculumPrefix={selectedCurriculumPrefix}
 					/>
 				</Col>
 

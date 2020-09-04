@@ -4,24 +4,39 @@ import { connect, ConnectedProps } from 'react-redux';
 import Dashboard from './Dashboard';
 
 import { setHeatmap } from '../reducers/course';
+import {
+	setPrefixList,
+	setSelectedCurriculum,
+	setCurrentCurriculumData,
+} from '../reducers/curriculum';
 
 import State from '../models/state/State';
 import { DashboardContainerProps } from '../models/components/Dashboard';
 
 const mapStateToProps = (state: State, ownProps: DashboardContainerProps) => ({
+	selectedCurriculum: state.curriculum.selectedPrefix,
 	ownProps,
 });
 
-const mapDispatch = { setHeatmap };
+const mapDispatch = {
+	setHeatmap,
+	setPrefixList,
+	setSelectedCurriculum,
+	setCurrentCurriculumData,
+};
 
 const connector = connect(mapStateToProps, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
-const SlotTableContainer: FC<PropsFromRedux> = (props) => (
+const DashboardContainer: FC<PropsFromRedux> = (props) => (
 	<Dashboard
 		handleUnauth={props.ownProps.handleUnauth}
 		setHeatmap={props.setHeatmap}
+		setPrefixList={props.setPrefixList}
+		setSelectedCurriculum={props.setSelectedCurriculum}
+		setCurrentCurriculumData={props.setCurrentCurriculumData}
+		selectedCurriculum={props.selectedCurriculum}
 	/>
 );
 
-export default connector(SlotTableContainer);
+export default connector(DashboardContainer);

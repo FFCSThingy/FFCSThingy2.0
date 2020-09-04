@@ -157,7 +157,11 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 	}, [courseList, courseTypeList, courseSlotList, courseFacultyList, searchString, creditFilter, typeFilters, selectedCategory, selectedCurriculum, selectedCurriculumPrefix]);
 
 	useEffect(() => {
-		if (!selectedCurriculum || Object.keys(selectedCurriculum).length === 0 || selectedCurriculumPrefix === 'Curriculum') {
+		if (
+			!selectedCurriculum
+			|| Object.keys(selectedCurriculum).length === 0
+			|| selectedCurriculumPrefix === 'Curriculum'
+		) {
 			setTabsDisabled(true);
 		} else {
 			setTabsDisabled(false);

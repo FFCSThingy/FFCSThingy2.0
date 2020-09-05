@@ -26,13 +26,6 @@ import useInterval from '../hooks/useInterval';
 // Models/Interfaces
 import DashboardProps, { AlertRowProps, TTErrorProps } from '../models/components/Dashboard';
 import TTGenPreferences from '../models/data/TTGenPreferences';
-import Curriculum from '../models/data/Curriculum';
-
-// const useStateWithLabel = (initialValue, name) => {
-// 	const [value, setValue] = useState(initialValue);
-// 	useDebugValue(`${name}: ${value}`);
-// 	return [value, setValue];
-// };
 
 const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? (
 	<Row>
@@ -101,15 +94,9 @@ const Dashboard: FC<DashboardProps> = ({
 		},
 	}, { manual: true });
 
-	// Curriculum Prefix and Fetch
-	// const [selectedCurriculumPrefix, setSelectedCurriculumPrefix] = useState(localStorage.getItem('selectedCurriculum') || '19BCE');
-
 	const [{ data: currentCurriculumResponse }, executeGetCurrentCurriculumResponse] = useAxiosFFCS({
 		url: `curriculum/curriculumFromPrefix/${selectedCurriculum || '19BCE'}`,
 	}, { manual: true });
-
-	// Oh Lord, Forgive me for the sins I am about to commit with this typecast, but there was no better way to keep my sanity intact and this code working strictly
-	// const [currentCurriculum, setCurrentCurriculum] = useState<Curriculum>({} as Curriculum);
 
 	const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);

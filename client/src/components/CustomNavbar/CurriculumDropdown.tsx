@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { NavDropdown, Dropdown } from 'react-bootstrap';
 import { connect, ConnectedProps } from 'react-redux';
 
@@ -6,7 +6,6 @@ import { setSelectedCurriculum } from '../../reducers/curriculum';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import CurriculumDropdownProps from '../../models/components/CustomNavbar/CurriculumDropdown';
 import State from '../../models/state/State';
 
 const mapStateToProps = (state: State) => ({

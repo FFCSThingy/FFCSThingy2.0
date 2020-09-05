@@ -5,14 +5,10 @@ import {
 	CourseFacultyList,
 	CourseTypeList,
 } from '../../data/CourseLists';
-import RequisitesList from '../../data/RequisitesList';
 
 export default interface CourseSelectionProps {
 	selectedCurriculum: Curriculum;
 	selectedCurriculumPrefix: string;
-	completedCourses: {
-		[key: string]: string;
-	};
 
 	courseList: CourseList;
 	courseFacultyList: CourseFacultyList;
@@ -24,10 +20,4 @@ export default interface CourseSelectionProps {
 	setCourseSlotList: Function;
 	setCourseTypeList: Function;
 	setReqList: Function;
-}
-
-export interface CourseSelectionContainerProps {
-	completedCourses: {
-		[key: string]: string;
-	};
 }

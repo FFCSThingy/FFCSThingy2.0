@@ -1,11 +1,22 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { NavDropdown, Dropdown } from 'react-bootstrap';
+import { connect, ConnectedProps } from 'react-redux';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
 import UserDropdownProps from '../../models/components/CustomNavbar/UserDropdown';
+import StateModel from '../../models/state/State';
 
-const UserDropdown: FC<UserDropdownProps> = ({ userDetails, doLogout }) => (
+const mapStateToProps = (state: StateModel, ownProps: UserDropdownProps) => ({
+	userDetails: state.user.details,
+	ownProps,
+});
+const mapDispatch = {};
+
+const connector = connect(mapStateToProps, mapDispatch);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+const UserDropdown = (props: PropsFromRedux) => (
 	<NavDropdown
 		id="UserDropdown"
 		alignRight
@@ -13,19 +24,19 @@ const UserDropdown: FC<UserDropdownProps> = ({ userDetails, doLogout }) => (
 			<img
 				className={styles.userProfileImage}
 				alt=""
-				src={userDetails?.picture}
+				src={props.userDetails?.picture}
 			/>
 		)}
 		className={styles.navbarDropdown}
 	>
 		<Dropdown.Menu className={styles.dropdownMenu}>
 			<NavDropdown.Item disabled key="DisplayNameDropdownItem" className={styles.dropdownItem}>
-				{userDetails?.display_name}
+				{props.userDetails?.display_name}
 				<NavDropdown.Divider className={styles.dropdownDivider} />
 			</NavDropdown.Item>
 
 			<NavDropdown.Item
-				onClick={doLogout}
+				onClick={props.ownProps.doLogout}
 				className={styles.dropdownItem}
 				key="LogoutDropdownItem"
 			>
@@ -36,4 +47,4 @@ const UserDropdown: FC<UserDropdownProps> = ({ userDetails, doLogout }) => (
 	</NavDropdown>
 );
 
-export default UserDropdown;
+export default connector(UserDropdown);

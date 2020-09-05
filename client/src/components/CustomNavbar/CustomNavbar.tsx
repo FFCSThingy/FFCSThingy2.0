@@ -15,7 +15,7 @@ import brandImage from '../../images/logo.1.png';
 import CustomNavbarProps from '../../models/components/CustomNavbar/CustomNavbar';
 
 const CustomNavbar: FC<CustomNavbarProps> = memo(
-	({ creditCount, doLogout, userDetails }) => {
+	({ creditCount, doLogout }) => {
 		const [showModal, setShowModal] = useState(false);
 
 		const SyncModal = () => (
@@ -106,7 +106,6 @@ const CustomNavbar: FC<CustomNavbarProps> = memo(
 						<ThemeDropdown />
 
 						<UserDropdown
-							userDetails={userDetails}
 							doLogout={doLogout}
 						/>
 					</div>

@@ -11,6 +11,7 @@ import { CourseCardListContainerProps } from '../../models/components/CourseSele
 const mapStateToProps = (state: State, ownProps: CourseCardListContainerProps) => ({
 	selectedCourse: state.course.selected,
 	prereqList: state.course.lists.req,
+	completedCourses: state.user.completedCourses,
 	ownProps,
 });
 
@@ -23,7 +24,7 @@ const CourseCardListContainer: FC<PropsFromRedux> = (props) => (
 	<CourseCardList
 		filteredCourseList={props.ownProps.filteredCourseList}
 		prereqList={props.prereqList}
-		completedCourses={props.ownProps.completedCourses}
+		completedCourses={props.completedCourses}
 		selectedCourse={props.selectedCourse}
 		selectCourse={props.selectCourse}
 	/>

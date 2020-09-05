@@ -5,3 +5,7 @@ export default interface UserDetails {
 	email: string;
 	vtopSignedIn: boolean;
 }
+
+export interface CompletedCourses {
+	[key: string]: string;
+}

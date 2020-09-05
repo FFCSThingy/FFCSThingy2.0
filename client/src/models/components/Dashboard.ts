@@ -15,6 +15,8 @@ export default interface DashboardProps {
 	setSelectedCurriculum: Function;
 	setCurrentCurriculumData: Function;
 	selectedCurriculum: string;
+	setCompletedCourses: Function;
+	setUserDetails: Function;
 }
 
 export interface DashboardContainerProps {

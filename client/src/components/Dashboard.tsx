@@ -57,6 +57,8 @@ const Dashboard: FC<DashboardProps> = ({
 	setSelectedCurriculum,
 	setCurrentCurriculumData,
 	selectedCurriculum,
+	setCompletedCourses,
+	setUserDetails,
 }) => {
 	const [{ data: userData }] = useAxiosFFCS({
 		url: '/account',
@@ -131,6 +133,18 @@ const Dashboard: FC<DashboardProps> = ({
 		selectedCurriculum,
 		setSelectedCurriculum,
 	]);
+
+	useEffect(() => {
+		if (completedCoursesResponse && completedCoursesResponse.success) {
+			setCompletedCourses(completedCoursesResponse.data);
+		}
+	}, [completedCoursesResponse, setCompletedCourses]);
+
+	useEffect(() => {
+		if (userData) {
+			setUserDetails(userData);
+		}
+	}, [userData, setUserDetails]);
 
 	// Gets currently selected curriculum data from server
 	useEffect(() => {
@@ -213,7 +227,6 @@ const Dashboard: FC<DashboardProps> = ({
 		<Container fluid className={styles.mainContainer}>
 			<Row className={styles.navBarRow}>
 				<CustomNavbarContainer
-					userDetails={userData}
 					doLogout={handleUnauth as any}
 					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 				/>
@@ -221,9 +234,7 @@ const Dashboard: FC<DashboardProps> = ({
 
 			<Row className={styles.slotSelectionRow}>
 				<Col xs={12} md={4}>
-					<CourseSelectionContainer
-						completedCourses={completedCoursesResponse ? completedCoursesResponse.data : []}
-					/>
+					<CourseSelectionContainer />
 				</Col>
 
 				<Col xs={12} md={8}>

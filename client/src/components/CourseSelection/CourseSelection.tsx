@@ -17,7 +17,6 @@ import { CourseList } from '../../models/data/CourseLists';
 const CourseSelection: FC<CourseSelectionProps> = ({
 	selectedCurriculum,
 	selectedCurriculumPrefix,
-	completedCourses,
 
 	courseList,
 	courseFacultyList,
@@ -197,7 +196,6 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 			<Card.Body className={styles.courseSelectTableBody}>
 				<CourseCardListContainer
 					filteredCourseList={filteredCourseList}
-					completedCourses={completedCourses}
 				/>
 			</Card.Body>
 		</Card>

@@ -9,6 +9,10 @@ import {
 	setSelectedCurriculum,
 	setCurrentCurriculumData,
 } from '../reducers/curriculum';
+import {
+	setCompletedCourses,
+	setUserDetails,
+} from '../reducers/user';
 
 import State from '../models/state/State';
 import { DashboardContainerProps } from '../models/components/Dashboard';
@@ -23,6 +27,8 @@ const mapDispatch = {
 	setPrefixList,
 	setSelectedCurriculum,
 	setCurrentCurriculumData,
+	setCompletedCourses,
+	setUserDetails,
 };
 
 const connector = connect(mapStateToProps, mapDispatch);
@@ -36,6 +42,8 @@ const DashboardContainer: FC<PropsFromRedux> = (props) => (
 		setSelectedCurriculum={props.setSelectedCurriculum}
 		setCurrentCurriculumData={props.setCurrentCurriculumData}
 		selectedCurriculum={props.selectedCurriculum}
+		setCompletedCourses={props.setCompletedCourses}
+		setUserDetails={props.setUserDetails}
 	/>
 );
 

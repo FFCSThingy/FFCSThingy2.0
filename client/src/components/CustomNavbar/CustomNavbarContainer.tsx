@@ -18,7 +18,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const CustomNavbarContainer: FC<PropsFromRedux> = (props) => (
 	<CustomNavbar
-		userDetails={props.ownProps.userDetails}
 		creditCount={props.creditCount}
 		doLogout={props.ownProps.doLogout as any}
 	/>

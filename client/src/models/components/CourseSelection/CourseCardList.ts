@@ -13,7 +13,6 @@ export default interface CourseCardListProps {
 
 export interface CourseCardListContainerProps {
 	filteredCourseList: CourseList;
-	prereqList: RequisitesList;
 	completedCourses: {
 		[key: string]: string;
 	};

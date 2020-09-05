@@ -12,13 +12,23 @@ import * as COURSE from '../../constants/Courses';
 
 import { CurriculumCourse } from '../../models/data/Curriculum';
 import CourseSelectionProps from '../../models/components/CourseSelection/CourseSelection';
-import {
-	CourseList, CourseFacultyList, CourseSlotList, CourseTypeList,
-} from '../../models/data/CourseLists';
-import RequisitesList from '../../models/data/RequisitesList';
+import { CourseList } from '../../models/data/CourseLists';
 
 const CourseSelection: FC<CourseSelectionProps> = ({
-	selectedCurriculum, selectedCurriculumPrefix, completedCourses,
+	selectedCurriculum,
+	selectedCurriculumPrefix,
+	completedCourses,
+
+	courseList,
+	courseFacultyList,
+	courseSlotList,
+	courseTypeList,
+
+	setCourseList,
+	setCourseFacultyList,
+	setCourseSlotList,
+	setCourseTypeList,
+	setReqList,
 }) => {
 	const [{ data: allCourseLists }, executeGetAllCourseLists] = useAxiosFFCS({
 		url: '/course/allCourseLists',
@@ -28,24 +38,26 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 		executeGetAllCourseLists();
 	}, [executeGetAllCourseLists]);
 
-	const [courseList, setCourseList] = useState<CourseList>({});
-	const [courseFacultyList, setCourseFacultyList] = useState<CourseFacultyList>({});
-	const [courseSlotList, setCourseSlotList] = useState<CourseSlotList>({});
-	const [courseTypeList, setCourseTypeList] = useState<CourseTypeList>({});
-	const [prereqList, setPrereqList] = useState<RequisitesList>({});
-
 	const [filteredCourseList, setFilteredCourseList] = useState<CourseList>({});
 
 	useEffect(() => {
 		if (allCourseLists) {
 			setCourseList(allCourseLists.data.courseList);
-			setFilteredCourseList(allCourseLists.data.courseList);
 			setCourseFacultyList(allCourseLists.data.courseFacultyList);
 			setCourseSlotList(allCourseLists.data.courseSlotList);
 			setCourseTypeList(allCourseLists.data.courseTypeList);
-			setPrereqList(allCourseLists.data.prerequisites);
+			setReqList(allCourseLists.data.prerequisites);
+
+			setFilteredCourseList(allCourseLists.data.courseList);
 		}
-	}, [allCourseLists]);
+	}, [
+		allCourseLists,
+		setCourseList,
+		setCourseFacultyList,
+		setCourseSlotList,
+		setCourseTypeList,
+		setReqList,
+	]);
 
 	const [searchString, setSearchString] = useState('');
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
@@ -185,7 +197,6 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 			<Card.Body className={styles.courseSelectTableBody}>
 				<CourseCardListContainer
 					filteredCourseList={filteredCourseList}
-					prereqList={prereqList}
 					completedCourses={completedCourses}
 				/>
 			</Card.Body>

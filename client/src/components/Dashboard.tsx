@@ -1,5 +1,5 @@
 import React, { useState, useEffect, FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -9,7 +9,7 @@ import {
 // Components
 import CustomNavbarContainer from './CustomNavbar/CustomNavbarContainer';
 
-import CourseSelectionContainer from './CourseSelection/CourseSelectionContainer';
+import CourseSelection from './CourseSelection/CourseSelection';
 import SlotTableContainer from './SlotTable/SlotTableContainer';
 
 import MagicFill from './MagicFill';
@@ -22,6 +22,7 @@ import styles from '../css/Dashboard.module.scss';
 
 import { fetchUserDetails, fetchCompletedCourses } from '../reducers/user';
 import { fetchCurriculumPrefixes, fetchCurriculumFromPrefix } from '../reducers/curriculum';
+import { fetchHeatmap, fetchAllCourseLists } from '../reducers/course';
 
 // Custom Hooks
 import useAxiosFFCS from '../hooks/useAxiosFFCS';
@@ -30,6 +31,7 @@ import useInterval from '../hooks/useInterval';
 // Models/Interfaces
 import DashboardProps, { AlertRowProps, TTErrorProps } from '../models/components/Dashboard';
 import TTGenPreferences from '../models/data/TTGenPreferences';
+import { RootState } from '../app/rootReducer';
 
 const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? (
 	<Row>
@@ -56,16 +58,17 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 
 const Dashboard: FC<DashboardProps> = ({
 	handleUnauth,
-	setHeatmap: setHeatmapRedux,
 	setSelectedCurriculum,
 	setCurrentCurriculumData,
 	selectedCurriculum,
 }) => {
 	const dispatch = useDispatch();
-
-	const [{ data: heatmapResponse }, executeGetHeatmapResponse] = useAxiosFFCS({
-		url: '/course/fullHeatmap',
-	}, { manual: true });
+	const heatmapTimestamp = useSelector(
+		(state: RootState) => state.course.heatmap.timestamp,
+	);
+	const listsTimestamp = useSelector(
+		(state: RootState) => state.course.lists.timestamp,
+	);
 
 	const [{ data: timetableResponse }, executeGetTimetableResponse] = useAxiosFFCS({
 		url: '/user/selectedCourses',
@@ -99,32 +102,18 @@ const Dashboard: FC<DashboardProps> = ({
 		dispatch(fetchUserDetails());
 		dispatch(fetchCompletedCourses());
 		dispatch(fetchCurriculumPrefixes());
+		dispatch(fetchHeatmap(heatmapTimestamp));
+		dispatch(fetchAllCourseLists(listsTimestamp));
 	}, [dispatch]);
+
+	useInterval(
+		() => dispatch(fetchHeatmap(heatmapTimestamp)),
+		1000 * 60 * 2,
+	);
 
 	useEffect(() => {
 		dispatch(fetchCurriculumFromPrefix(selectedCurriculum));
 	}, [dispatch, selectedCurriculum]);
-
-	// Gets heatmap response from server
-	useEffect(() => {
-		executeGetHeatmapResponse();
-	}, [executeGetHeatmapResponse]);
-
-	// Sets up 2 minute interval for heatmap sync
-	useInterval(executeGetHeatmapResponse, 1000 * 60 * 2);
-
-	// Sets heatmap in state
-	useEffect(() => {
-		if (heatmapResponse) {
-			const { heatmap: resHeatmap, timestamp } = heatmapResponse.data;
-			setHeatmapRedux(resHeatmap, timestamp);
-		}
-	}, [heatmapResponse, setHeatmapRedux]);
-
-	// // Gets currently selected curriculum data from server
-	// useEffect(() => {
-	// 	executeGetCurrentCurriculumResponse();
-	// }, [executeGetCurrentCurriculumResponse, selectedCurriculum]);
 
 	// Updates selected curriculum prefix in localStorage
 	useEffect(() => {
@@ -209,7 +198,7 @@ const Dashboard: FC<DashboardProps> = ({
 
 			<Row className={styles.slotSelectionRow}>
 				<Col xs={12} md={4}>
-					<CourseSelectionContainer />
+					<CourseSelection />
 				</Col>
 
 				<Col xs={12} md={8}>

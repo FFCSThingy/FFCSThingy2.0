@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import Dashboard from './Dashboard';
 
-import { setHeatmap } from '../reducers/course';
 import {
 	setSelectedCurriculum,
 	setCurrentCurriculumData,
@@ -18,7 +17,6 @@ const mapStateToProps = (state: RootState, ownProps: DashboardContainerProps) =>
 });
 
 const mapDispatch = {
-	setHeatmap,
 	setSelectedCurriculum,
 	setCurrentCurriculumData,
 };
@@ -29,7 +27,6 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 const DashboardContainer: FC<PropsFromRedux> = (props) => (
 	<Dashboard
 		handleUnauth={props.ownProps.handleUnauth}
-		setHeatmap={props.setHeatmap}
 		setSelectedCurriculum={props.setSelectedCurriculum}
 		setCurrentCurriculumData={props.setCurrentCurriculumData}
 		selectedCurriculum={props.selectedCurriculum}

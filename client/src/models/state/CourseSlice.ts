@@ -10,7 +10,7 @@ import RequisitesList from '../data/RequisitesList';
 export default interface CourseSlice {
 	selected: string,
 	heatmap: {
-		timestamp : string | null,
+		timestamp : string,
 		data: Array<HeatmapCourse>,
 	},
 	lists: {
@@ -19,5 +19,6 @@ export default interface CourseSlice {
 		slot: CourseSlotList,
 		type: CourseTypeList,
 		req: RequisitesList,
+		timestamp: string,
 	},
 }

@@ -1,62 +1,40 @@
 import React, { useState, useEffect, FC } from 'react';
 import { Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 import FilterControls from './FilterControls';
 import CourseCardListContainer from './CourseCardListContainer';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
-import useAxiosFFCS from '../../hooks/useAxiosFFCS';
-
 import * as COURSE from '../../constants/Courses';
 
 import { CurriculumCourse } from '../../models/data/Curriculum';
 import CourseSelectionProps from '../../models/components/CourseSelection/CourseSelection';
 import { CourseList } from '../../models/data/CourseLists';
+import { RootState } from '../../app/rootReducer';
 
-const CourseSelection: FC<CourseSelectionProps> = ({
-	selectedCurriculum,
-	selectedCurriculumPrefix,
-
-	courseList,
-	courseFacultyList,
-	courseSlotList,
-	courseTypeList,
-
-	setCourseList,
-	setCourseFacultyList,
-	setCourseSlotList,
-	setCourseTypeList,
-	setReqList,
-}) => {
-	const [{ data: allCourseLists }, executeGetAllCourseLists] = useAxiosFFCS({
-		url: '/course/allCourseLists',
-	}, { manual: true });
-
-	useEffect(() => {
-		executeGetAllCourseLists();
-	}, [executeGetAllCourseLists]);
+const CourseSelection: FC<CourseSelectionProps> = () => {
+	const courseList = useSelector(
+		(state: RootState) => state.course.lists.course,
+	);
+	const courseFacultyList = useSelector(
+		(state: RootState) => state.course.lists.faculty,
+	);
+	const courseSlotList = useSelector(
+		(state: RootState) => state.course.lists.slot,
+	);
+	const courseTypeList = useSelector(
+		(state: RootState) => state.course.lists.type,
+	);
+	const selectedCurriculumPrefix = useSelector(
+		(state: RootState) => state.curriculum.selectedPrefix,
+	);
+	const selectedCurriculum = useSelector(
+		(state: RootState) => state.curriculum.currentData,
+	);
 
 	const [filteredCourseList, setFilteredCourseList] = useState<CourseList>({});
-
-	useEffect(() => {
-		if (allCourseLists) {
-			setCourseList(allCourseLists.data.courseList);
-			setCourseFacultyList(allCourseLists.data.courseFacultyList);
-			setCourseSlotList(allCourseLists.data.courseSlotList);
-			setCourseTypeList(allCourseLists.data.courseTypeList);
-			setReqList(allCourseLists.data.prerequisites);
-
-			setFilteredCourseList(allCourseLists.data.courseList);
-		}
-	}, [
-		allCourseLists,
-		setCourseList,
-		setCourseFacultyList,
-		setCourseSlotList,
-		setCourseTypeList,
-		setReqList,
-	]);
 
 	const [searchString, setSearchString] = useState('');
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
@@ -165,7 +143,18 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 			.reduce((acc, code) => ({ ...acc, [code]: courseList[code] }), {});
 
 		setFilteredCourseList(filteredCourses);
-	}, [courseList, courseTypeList, courseSlotList, courseFacultyList, searchString, creditFilter, typeFilters, selectedCategory, selectedCurriculum, selectedCurriculumPrefix]);
+	}, [
+		courseList,
+		courseTypeList,
+		courseSlotList,
+		courseFacultyList,
+		searchString,
+		creditFilter,
+		typeFilters,
+		selectedCategory,
+		selectedCurriculum,
+		selectedCurriculumPrefix,
+	]);
 
 	useEffect(() => {
 		if (

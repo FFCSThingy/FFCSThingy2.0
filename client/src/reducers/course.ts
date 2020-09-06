@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+
+import { getHeatmap, getAllCourseLists } from '../api/course';
 
 import HeatmapCourse from '../models/data/HeatmapCourse';
 import {
@@ -12,11 +14,27 @@ import CourseSlice from '../models/state/CourseSlice';
 
 const ACTION_BASE = 'course';
 
+export const fetchHeatmap = createAsyncThunk(
+	`${ACTION_BASE}/fetchHeatmap`,
+	async (timestamp: string) => {
+		const data = await getHeatmap(timestamp);
+		return data;
+	},
+);
+
+export const fetchAllCourseLists = createAsyncThunk(
+	`${ACTION_BASE}/fetchAllCourseLists`,
+	async (timestamp: string) => {
+		const data = getAllCourseLists(timestamp);
+		return data;
+	},
+);
+
 const initialState: CourseSlice = {
 	selected: '',
 	heatmap: {
-		data: JSON.parse(localStorage.getItem('heatmap') || '[]'),
-		timestamp: localStorage.getItem('heatmapTimestamp'),
+		data: JSON.parse(localStorage.getItem('heatmap') ?? '[]'),
+		timestamp: localStorage.getItem('heatmapTimestamp') ?? '',
 	},
 	lists: {
 		course: {},
@@ -24,6 +42,7 @@ const initialState: CourseSlice = {
 		faculty: {},
 		type: {},
 		req: {},
+		timestamp: localStorage.getItem('listsTimetstamp') ?? '',
 	},
 };
 
@@ -40,72 +59,50 @@ const courseSlice = createSlice({
 				state.selected = course;
 			},
 		},
-		setHeatmap: {
-			prepare(heatmap: HeatmapCourse[], timestamp: string) {
-				return { payload: { heatmap, timestamp } };
-			},
-			reducer(state, action: PayloadAction<{ heatmap: HeatmapCourse[], timestamp: string }, string>) {
+	},
+	extraReducers: (builder) => {
+		builder.addCase(
+			fetchHeatmap.fulfilled,
+			(state, action: PayloadAction<{ heatmap: HeatmapCourse[], timestamp: string }>) => {
 				const { heatmap, timestamp } = action.payload;
+
 				state.heatmap.data = heatmap;
 				state.heatmap.timestamp = timestamp;
 			},
-		},
-		setCourseList: {
-			prepare(list: CourseList) {
-				return { payload: { list } };
+		);
+
+		builder.addCase(
+			fetchAllCourseLists.fulfilled,
+			(state, action: PayloadAction<{
+				courseList: CourseList,
+				courseSlotList: CourseSlotList,
+				courseFacultyList: CourseFacultyList,
+				courseTypeList: CourseTypeList,
+				prerequisites: RequisitesList,
+				timestamp: string
+			}>) => {
+				const {
+					courseList,
+					courseSlotList,
+					courseFacultyList,
+					courseTypeList,
+					prerequisites,
+					timestamp,
+				} = action.payload;
+
+				state.lists.course = courseList;
+				state.lists.slot = courseSlotList;
+				state.lists.faculty = courseFacultyList;
+				state.lists.type = courseTypeList;
+				state.lists.req = prerequisites;
+				state.lists.timestamp = timestamp;
 			},
-			reducer(state, action: PayloadAction<{ list: CourseList }, string>) {
-				const { list } = action.payload;
-				state.lists.course = list;
-			},
-		},
-		setCourseFacultyList: {
-			prepare(list: CourseFacultyList) {
-				return { payload: { list } };
-			},
-			reducer(state, action: PayloadAction<{ list: CourseFacultyList }, string>) {
-				const { list } = action.payload;
-				state.lists.faculty = list;
-			},
-		},
-		setCourseSlotList: {
-			prepare(list: CourseSlotList) {
-				return { payload: { list } };
-			},
-			reducer(state, action: PayloadAction<{ list: CourseSlotList }, string>) {
-				const { list } = action.payload;
-				state.lists.slot = list;
-			},
-		},
-		setCourseTypeList: {
-			prepare(list: CourseTypeList) {
-				return { payload: { list } };
-			},
-			reducer(state, action: PayloadAction<{ list: CourseTypeList }, string>) {
-				const { list } = action.payload;
-				state.lists.type = list;
-			},
-		},
-		setReqList: {
-			prepare(list: RequisitesList) {
-				return { payload: { list } };
-			},
-			reducer(state, action: PayloadAction<{ list: RequisitesList }, string>) {
-				const { list } = action.payload;
-				state.lists.req = list;
-			},
-		},
+		);
 	},
 });
 
 export const {
 	selectCourse,
-	setHeatmap,
-	setCourseList,
-	setCourseFacultyList,
-	setCourseSlotList,
-	setCourseTypeList,
-	setReqList,
 } = courseSlice.actions;
 
 export default courseSlice.reducer;

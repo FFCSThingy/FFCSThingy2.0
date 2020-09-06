@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const UserSlice = createSlice({
-	name: 'course',
+	name: 'user',
 	initialState,
 	reducers: {
 		setCompletedCourses: {

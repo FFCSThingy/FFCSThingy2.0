@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
-import StateModel from '../models/state/State';
+import { RootState } from '../app/rootReducer';
 
-const mapStateToProps = (state: StateModel) => ({ theme: state.misc.theme });
+const mapStateToProps = (state: RootState) => ({ theme: state.misc.theme });
 const mapDispatch = {};
 
 const connector = connect(mapStateToProps, mapDispatch);

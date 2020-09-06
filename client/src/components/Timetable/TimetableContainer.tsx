@@ -4,9 +4,9 @@ import { connect, ConnectedProps } from 'react-redux';
 import Timetable from './Timetable';
 import selectFilteredTimetable from '../../selectors/selectFilteredTimetable';
 
-import State from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: RootState) => ({
 	timetable: selectFilteredTimetable(state),
 	filledSlots: state.timetable.filledSlots,
 });

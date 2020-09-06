@@ -1,13 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import UserDetails, { CompletedCourses } from '../models/data/UserDetails';
+import UserSliceModel from '../models/state/UserSlice';
 
-const initialState = {
-	details: {},
+const ACTION_BASE = 'user';
+
+const initialState: UserSliceModel = {
+	details: {
+		google_id: '',
+		display_name: '',
+		picture: '',
+		email: '',
+		vtopSignedIn: false,
+	},
 	completedCourses: {},
 };
 
-const UserSlice = createSlice({
-	name: 'user',
+const userSlice = createSlice({
+	name: ACTION_BASE,
 	initialState,
 	reducers: {
 		setCompletedCourses: {
@@ -34,6 +43,6 @@ const UserSlice = createSlice({
 export const {
 	setCompletedCourses,
 	setUserDetails,
-} = UserSlice.actions;
+} = userSlice.actions;
 
-export default UserSlice.reducer;
+export default userSlice.reducer;

@@ -14,10 +14,10 @@ import {
 	setUserDetails,
 } from '../reducers/user';
 
-import State from '../models/state/State';
+import { RootState } from '../app/rootReducer';
 import { DashboardContainerProps } from '../models/components/Dashboard';
 
-const mapStateToProps = (state: State, ownProps: DashboardContainerProps) => ({
+const mapStateToProps = (state: RootState, ownProps: DashboardContainerProps) => ({
 	selectedCurriculum: state.curriculum.selectedPrefix,
 	ownProps,
 });

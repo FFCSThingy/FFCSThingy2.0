@@ -6,9 +6,9 @@ import { setSelectedCurriculum } from '../../reducers/curriculum';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import State from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: RootState) => ({
 	curriculumList: state.curriculum.list,
 	selected: state.curriculum.selectedPrefix,
 });

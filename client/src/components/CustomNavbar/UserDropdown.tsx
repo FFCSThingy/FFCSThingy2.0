@@ -5,9 +5,9 @@ import { connect, ConnectedProps } from 'react-redux';
 import styles from '../../css/CustomNavbar.module.scss';
 
 import UserDropdownProps from '../../models/components/CustomNavbar/UserDropdown';
-import StateModel from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 
-const mapStateToProps = (state: StateModel, ownProps: UserDropdownProps) => ({
+const mapStateToProps = (state: RootState, ownProps: UserDropdownProps) => ({
 	userDetails: state.user.details,
 	ownProps,
 });

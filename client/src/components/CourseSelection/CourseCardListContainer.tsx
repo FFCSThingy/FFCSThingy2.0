@@ -5,10 +5,10 @@ import CourseCardList from './CourseCardList';
 
 import { selectCourse } from '../../reducers/course';
 
-import State from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 import { CourseCardListContainerProps } from '../../models/components/CourseSelection/CourseCardList';
 
-const mapStateToProps = (state: State, ownProps: CourseCardListContainerProps) => ({
+const mapStateToProps = (state: RootState, ownProps: CourseCardListContainerProps) => ({
 	selectedCourse: state.course.selected,
 	prereqList: state.course.lists.req,
 	completedCourses: state.user.completedCourses,

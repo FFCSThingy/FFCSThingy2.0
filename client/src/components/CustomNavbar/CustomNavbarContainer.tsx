@@ -3,10 +3,10 @@ import { connect, ConnectedProps } from 'react-redux';
 
 import CustomNavbar from './CustomNavbar';
 
-import State from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 import { CustomNavbarContainerProps } from '../../models/components/CustomNavbar/CustomNavbar';
 
-const mapStateToProps = (state: State, ownProps: CustomNavbarContainerProps) => ({
+const mapStateToProps = (state: RootState, ownProps: CustomNavbarContainerProps) => ({
 	creditCount: state.timetable.creditCount,
 	ownProps,
 });

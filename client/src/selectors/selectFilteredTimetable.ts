@@ -1,9 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import State from '../models/state/State';
+import { RootState } from '../app/rootReducer';
 
-const selectTimetable = (state: State) => state.timetable.data;
-const selectActiveTimetableName = (state: State) => state.timetable.active;
+const selectTimetable = (state: RootState) => state.timetable.data;
+const selectActiveTimetableName = (state: RootState) => state.timetable.active;
 
 const selectFilteredTimetable = createSelector(
 	[selectTimetable, selectActiveTimetableName],

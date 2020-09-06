@@ -8,8 +8,11 @@ import {
 	CourseFacultyList,
 } from '../models/data/CourseLists';
 import RequisitesList from '../models/data/RequisitesList';
+import CourseSlice from '../models/state/CourseSlice';
 
-const initialState = {
+const ACTION_BASE = 'course';
+
+const initialState: CourseSlice = {
 	selected: '',
 	heatmap: {
 		data: JSON.parse(localStorage.getItem('heatmap') || '[]'),
@@ -25,7 +28,7 @@ const initialState = {
 };
 
 const courseSlice = createSlice({
-	name: 'course',
+	name: ACTION_BASE,
 	initialState,
 	reducers: {
 		selectCourse: {

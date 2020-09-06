@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import CLASHMAP from '../constants/ClashMap';
-// Uses a copy of the same file because apparently the original clashmap gets modified somewhere?
-// IDK what is going on
-// Throws a state mutated between dispatch error
 
 import TimetableCourse from '../models/data/TimetableCourse';
 import HeatmapCourse from '../models/data/HeatmapCourse';
 import Clashmap from '../models/constants/Clashmap';
 import TimetableSlice from '../models/state/TimetableSlice';
+
+const ACTION_BASE = 'timetable';
 
 const convertHeatmapToTimetableCourse = (
 	timetableName: string,
@@ -77,7 +76,7 @@ const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 const initialState: TimetableSlice = {
 	active: 'Default',
 	names: ['Default'],
-	filledSlots: [] as Array<string>,
+	filledSlots: [] as string[],
 	data: JSON.parse(localStorage.getItem('timetable') || '[]'),
 	timestamp: localStorage.getItem('timetableTimestamp'),
 	clashmap: CLASHMAP,
@@ -85,7 +84,7 @@ const initialState: TimetableSlice = {
 };
 
 const timetableSlice = createSlice({
-	name: 'timetable',
+	name: ACTION_BASE,
 	initialState,
 	reducers: {
 		addCourse: {

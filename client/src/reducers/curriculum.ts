@@ -1,15 +1,33 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import Curriculum from '../models/data/Curriculum';
+import CurriculumSlice from '../models/state/CurriculumSlice';
 
-const initialState = {
+const ACTION_BASE = 'curriculum';
+
+const initialState: CurriculumSlice = {
 	selectedPrefix: '19BCE',
 	list: [] as string[],
-	currentData: {},
+	currentData: {
+		_id: '',
+		reg_prefix: '',
+		__v: 0,
+		todo_creds: {
+			pc: 0,
+			uc: 0,
+			pe: 0,
+			ue: 0,
+		},
+		bridge: [],
+		pc: [],
+		uc: [],
+		pe: [],
+		ue: [],
+	},
 };
 
 const curriculumSlice = createSlice({
-	name: 'curriculum',
+	name: ACTION_BASE,
 	initialState,
 	reducers: {
 		setPrefixList: {

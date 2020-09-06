@@ -11,9 +11,9 @@ import {
 	setReqList,
 } from '../../reducers/course';
 
-import State from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: RootState) => ({
 	selectedCurriculumPrefix: state.curriculum.selectedPrefix,
 	selectedCurriculum: state.curriculum.currentData,
 	courseList: state.course.lists.course,

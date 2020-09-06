@@ -8,14 +8,14 @@ import SlotTable from './SlotTable';
 import { selectCourse } from '../../reducers/course';
 import { addCourse } from '../../reducers/timetable';
 
-import State from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 import HeatmapCourse from '../../models/data/HeatmapCourse';
 
-const selectHeatmap = (state: State) => state.course.heatmap.data;
-const selectSelectedCourse = (state: State) => state.course.selected;
-const selectClashMap = (state: State) => state.timetable.clashmap;
-const selectTimetable = (state: State) => state.timetable.data;
-const selectActiveTimetable = (state: State) => state.timetable.active;
+const selectHeatmap = (state: RootState) => state.course.heatmap.data;
+const selectSelectedCourse = (state: RootState) => state.course.selected;
+const selectClashMap = (state: RootState) => state.timetable.clashmap;
+const selectTimetable = (state: RootState) => state.timetable.data;
+const selectActiveTimetable = (state: RootState) => state.timetable.active;
 
 const selectFilteredSlots = createSelector(
 	[selectHeatmap, selectSelectedCourse],
@@ -77,7 +77,7 @@ const checkRelated = createSelector(
 	),
 );
 
-const mapStateToProps = (state: State) => ({
+const mapStateToProps = (state: RootState) => ({
 	selectedCourse: state.course.selected,
 	slots: selectFilteredSlots(state),
 	clashesWith: selectClashingSlots(state),

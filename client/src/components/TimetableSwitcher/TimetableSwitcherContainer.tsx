@@ -4,26 +4,26 @@ import { connect, ConnectedProps } from 'react-redux';
 import TimetableSwitcher from './TimetableSwitcher';
 
 import {
-    changeTimetable,
-    addTimetable,
+	changeTimetable,
+	addTimetable,
 	removeTimetable,
 	renameTimetable,
-    copyTimetable, 
+	copyTimetable,
 } from '../../reducers/timetable';
 
-import State from '../../models/state/State';
+import { RootState } from '../../app/rootReducer';
 
-const mapStateToProps = (state: State) => ({
-    names: state.timetable.names,
-    active: state.timetable.active,
+const mapStateToProps = (state: RootState) => ({
+	names: state.timetable.names,
+	active: state.timetable.active,
 });
 
-const mapDispatch = { 
-    changeTimetable,
-    addTimetable,
+const mapDispatch = {
+	changeTimetable,
+	addTimetable,
 	removeTimetable,
 	renameTimetable,
-    copyTimetable,  
+	copyTimetable,
 };
 
 const connector = connect(mapStateToProps, mapDispatch);
@@ -31,13 +31,13 @@ type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const TimetableSwitcherContainer: FC<PropsFromRedux> = (props) => (
 	<TimetableSwitcher
-        timetableNames={props.names}
-        activeTimetableName={props.active}
-        setActiveTimetableName={props.changeTimetable}
-        doNew={props.addTimetable}
-        doEdit={props.renameTimetable}
-        doDelete={props.removeTimetable}
-        doCopy={props.copyTimetable}
+		timetableNames={props.names}
+		activeTimetableName={props.active}
+		setActiveTimetableName={props.changeTimetable}
+		doNew={props.addTimetable}
+		doEdit={props.renameTimetable}
+		doDelete={props.removeTimetable}
+		doCopy={props.copyTimetable}
 	/>
 );
 

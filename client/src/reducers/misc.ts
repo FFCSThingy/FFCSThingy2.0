@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import MiscSlice from '../models/state/MiscSlice';
 
-const initialState = {
+const ACTION_BASE = 'misc';
+
+const initialState: MiscSlice = {
 	theme: localStorage.getItem('theme') ?? 'default',
 };
 
 const miscSlice = createSlice({
-	name: 'misc',
+	name: ACTION_BASE,
 	initialState,
 	reducers: {
 		changeTheme: {

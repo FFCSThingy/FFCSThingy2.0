@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import miscReducer from './misc';
-import courseReducer from './course';
-import timetableReducer from './timetable';
-import curriculumReducer from './curriculum';
-import userReducer from './user';
+import miscReducer from '../reducers/misc';
+import courseReducer from '../reducers/course';
+import timetableReducer from '../reducers/timetable';
+import curriculumReducer from '../reducers/curriculum';
+import userReducer from '../reducers/user';
 
 const rootReducer = combineReducers({
 	misc: miscReducer,

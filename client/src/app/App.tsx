@@ -3,28 +3,23 @@ import {
 	BrowserRouter as Router, Switch,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
 
 import ReactGA from 'react-ga';
 
-import API from './API';
+import API from '../API';
 
-import PrivateRoute from './components/PrivateRoute';
-import Login from './components/Login';
+import PrivateRoute from '../components/PrivateRoute';
+import Login from '../components/Login';
 // import Dashboard from './components/Dashboard';
-import DashboardContainer from './components/DashboardContainer';
-import Theme from './components/Theme';
+import DashboardContainer from '../components/DashboardContainer';
+import Theme from '../components/Theme';
 
-import rootReducer from './reducers/rootReducer';
+import store from './store';
 
 ReactGA.initialize('UA-156974674-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
-	const store = configureStore({
-		reducer: rootReducer,
-	});
-
 	const [authenticated, setAuthenticated] = useState(false);
 
 	const isAuthenticated = () => API.get('/account')

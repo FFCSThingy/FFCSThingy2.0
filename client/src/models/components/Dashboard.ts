@@ -10,9 +10,7 @@ export interface TTErrorProps {
 
 export default interface DashboardProps {
 	handleUnauth: Function;
-	setSelectedCurriculum: Function;
 	setCurrentCurriculumData: Function;
-	selectedCurriculum: string;
 }
 
 export interface DashboardContainerProps {

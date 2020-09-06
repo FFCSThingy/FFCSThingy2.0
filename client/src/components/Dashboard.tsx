@@ -21,7 +21,10 @@ import SelectedCoursesTableContainer from './SelectedCoursesTable/SelectedCourse
 import styles from '../css/Dashboard.module.scss';
 
 import { fetchUserDetails, fetchCompletedCourses } from '../reducers/user';
-import { fetchCurriculumPrefixes, fetchCurriculumFromPrefix } from '../reducers/curriculum';
+import {
+	fetchCurriculumPrefixes,
+	fetchCurriculumFromPrefix,
+} from '../reducers/curriculum';
 import { fetchHeatmap, fetchAllCourseLists } from '../reducers/course';
 
 // Custom Hooks
@@ -58,16 +61,18 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 
 const Dashboard: FC<DashboardProps> = ({
 	handleUnauth,
-	setSelectedCurriculum,
 	setCurrentCurriculumData,
-	selectedCurriculum,
 }) => {
 	const dispatch = useDispatch();
+
 	const heatmapTimestamp = useSelector(
 		(state: RootState) => state.course.heatmap.timestamp,
 	);
 	const listsTimestamp = useSelector(
 		(state: RootState) => state.course.lists.timestamp,
+	);
+	const selectedCurriculum = useSelector(
+		(state: RootState) => state.curriculum.selectedPrefix,
 	);
 
 	const [{ data: timetableResponse }, executeGetTimetableResponse] = useAxiosFFCS({
@@ -118,8 +123,7 @@ const Dashboard: FC<DashboardProps> = ({
 	// Updates selected curriculum prefix in localStorage
 	useEffect(() => {
 		localStorage.setItem('selectedCurriculum', selectedCurriculum);
-		setSelectedCurriculum(selectedCurriculum);
-	}, [selectedCurriculum, setSelectedCurriculum]);
+	}, [selectedCurriculum]);
 
 	// Sets Curriculum in LocalStorage corresponding to prefix
 	// Ex - 19BCE: {Data...}

@@ -1,12 +1,34 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+	createSlice,
+	PayloadAction,
+	createAsyncThunk,
+} from '@reduxjs/toolkit';
+
+import { getCurriculumPrefixes, getCurriculumByPrefix } from '../api/curriculum';
 
 import Curriculum from '../models/data/Curriculum';
 import CurriculumSlice from '../models/state/CurriculumSlice';
 
 const ACTION_BASE = 'curriculum';
 
+export const fetchCurriculumPrefixes = createAsyncThunk(
+	`${ACTION_BASE}/fetchCurriculumPrefixes`,
+	async () => {
+		const data = await getCurriculumPrefixes();
+		return data;
+	},
+);
+
+export const fetchCurriculumFromPrefix = createAsyncThunk(
+	`${ACTION_BASE}/fetchCurriculumFromPrefix`,
+	async (prefix: string) => {
+		const data = await getCurriculumByPrefix(prefix);
+		return data;
+	},
+);
+
 const initialState: CurriculumSlice = {
-	selectedPrefix: '19BCE',
+	selectedPrefix: localStorage.getItem('selectedCurriculum') ?? 'Curriculum',
 	list: [] as string[],
 	currentData: {
 		_id: '',
@@ -57,6 +79,30 @@ const curriculumSlice = createSlice({
 				state.currentData = currentCurriculum;
 			},
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(
+			fetchCurriculumPrefixes.fulfilled,
+			(state, action: PayloadAction<string[]>) => {
+				const list = action.payload;
+				if (
+					!list.includes(state.selectedPrefix)
+					&& state.selectedPrefix !== 'Curriculum'
+				) {
+					[state.selectedPrefix] = list;
+				}
+
+				state.list = list;
+			},
+		);
+
+		builder.addCase(
+			fetchCurriculumFromPrefix.fulfilled,
+			(state, action: PayloadAction<Curriculum>) => {
+				const data = action.payload;
+				state.currentData = data;
+			},
+		);
 	},
 });
 

@@ -1,17 +1,17 @@
 import axiosBase from './axiosBase';
 
 export async function getUserDetails() {
-    const detailsResponse = await axiosBase.get('/account');
-    const { data } = detailsResponse;
-    return data;
+	const response = await axiosBase.get('/account');
+	const { data } = response;
+	return data;
 }
 
 export async function getCompletedCourses() {
-    const detailsResponse = await axiosBase.get('/user/completedCourses');
-    const { data } = detailsResponse;
+	const response = await axiosBase.get('/user/completedCourses');
+	const { data } = response;
 
-    if (!data.success) {
-        return {};
-    }
-    return data.data;
+	if (!data.success) {
+		throw data.message;
+	}
+	return data.data;
 }

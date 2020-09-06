@@ -11,12 +11,9 @@ export interface TTErrorProps {
 export default interface DashboardProps {
 	handleUnauth: Function;
 	setHeatmap: Function;
-	setPrefixList: Function;
 	setSelectedCurriculum: Function;
 	setCurrentCurriculumData: Function;
 	selectedCurriculum: string;
-	setCompletedCourses: Function;
-	setUserDetails: Function;
 }
 
 export interface DashboardContainerProps {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, FC } from 'react';
+import { useDispatch } from 'react-redux';
 
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
@@ -18,6 +19,9 @@ import TimetableContainer from './Timetable/TimetableContainer';
 import SelectedCoursesTableContainer from './SelectedCoursesTable/SelectedCoursesTableContainer';
 
 import styles from '../css/Dashboard.module.scss';
+
+import { fetchUserDetails, fetchCompletedCourses } from '../reducers/user';
+import { fetchCurriculumPrefixes, fetchCurriculumFromPrefix } from '../reducers/curriculum';
 
 // Custom Hooks
 import useAxiosFFCS from '../hooks/useAxiosFFCS';
@@ -53,24 +57,11 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 const Dashboard: FC<DashboardProps> = ({
 	handleUnauth,
 	setHeatmap: setHeatmapRedux,
-	setPrefixList,
 	setSelectedCurriculum,
 	setCurrentCurriculumData,
 	selectedCurriculum,
-	setCompletedCourses,
-	setUserDetails,
 }) => {
-	const [{ data: userData }] = useAxiosFFCS({
-		url: '/account',
-	});
-
-	const [{ data: completedCoursesResponse }] = useAxiosFFCS({
-		url: '/user/completedCourses',
-	});
-
-	const [{ data: curriculumListResponse }] = useAxiosFFCS({
-		url: '/curriculum/prefixes',
-	});
+	const dispatch = useDispatch();
 
 	const [{ data: heatmapResponse }, executeGetHeatmapResponse] = useAxiosFFCS({
 		url: '/course/fullHeatmap',
@@ -104,6 +95,16 @@ const Dashboard: FC<DashboardProps> = ({
 	const [showAlert, setShowAlert] = useState(false);
 	const [timetableGenerationError, setTimetableGenerationError] = useState('');
 
+	useEffect(() => {
+		dispatch(fetchUserDetails());
+		dispatch(fetchCompletedCourses());
+		dispatch(fetchCurriculumPrefixes());
+	}, [dispatch]);
+
+	useEffect(() => {
+		dispatch(fetchCurriculumFromPrefix(selectedCurriculum));
+	}, [dispatch, selectedCurriculum]);
+
 	// Gets heatmap response from server
 	useEffect(() => {
 		executeGetHeatmapResponse();
@@ -120,36 +121,10 @@ const Dashboard: FC<DashboardProps> = ({
 		}
 	}, [heatmapResponse, setHeatmapRedux]);
 
-	useEffect(() => {
-		if (curriculumListResponse) {
-			if (!curriculumListResponse.data.includes(selectedCurriculum)) {
-				setSelectedCurriculum(curriculumListResponse.data[0]);
-			}
-			setPrefixList(curriculumListResponse.data);
-		}
-	}, [
-		curriculumListResponse,
-		setPrefixList,
-		selectedCurriculum,
-		setSelectedCurriculum,
-	]);
-
-	useEffect(() => {
-		if (completedCoursesResponse && completedCoursesResponse.success) {
-			setCompletedCourses(completedCoursesResponse.data);
-		}
-	}, [completedCoursesResponse, setCompletedCourses]);
-
-	useEffect(() => {
-		if (userData) {
-			setUserDetails(userData);
-		}
-	}, [userData, setUserDetails]);
-
-	// Gets currently selected curriculum data from server
-	useEffect(() => {
-		executeGetCurrentCurriculumResponse();
-	}, [executeGetCurrentCurriculumResponse, selectedCurriculum]);
+	// // Gets currently selected curriculum data from server
+	// useEffect(() => {
+	// 	executeGetCurrentCurriculumResponse();
+	// }, [executeGetCurrentCurriculumResponse, selectedCurriculum]);
 
 	// Updates selected curriculum prefix in localStorage
 	useEffect(() => {
@@ -159,20 +134,20 @@ const Dashboard: FC<DashboardProps> = ({
 
 	// Sets Curriculum in LocalStorage corresponding to prefix
 	// Ex - 19BCE: {Data...}
-	useEffect(() => {
-		const selectedCurriculumData = JSON.parse(localStorage.getItem(selectedCurriculum) || '{}');
+	// useEffect(() => {
+	// 	const selectedCurriculumData = JSON.parse(localStorage.getItem(selectedCurriculum) || '{}');
 
-		if (currentCurriculumResponse && currentCurriculumResponse.data) {
-			setCurrentCurriculumData(currentCurriculumResponse.data);
-			localStorage.setItem(selectedCurriculum, JSON.stringify(currentCurriculumResponse.data));
-		} else if (selectedCurriculumData) {
-			setCurrentCurriculumData(selectedCurriculumData);
-		}
-	}, [
-		currentCurriculumResponse,
-		selectedCurriculum,
-		setCurrentCurriculumData,
-	]);
+	// 	if (currentCurriculumResponse && currentCurriculumResponse.data) {
+	// 		setCurrentCurriculumData(currentCurriculumResponse.data);
+	// 		localStorage.setItem(selectedCurriculum, JSON.stringify(currentCurriculumResponse.data));
+	// 	} else if (selectedCurriculumData) {
+	// 		setCurrentCurriculumData(selectedCurriculumData);
+	// 	}
+	// }, [
+	// 	currentCurriculumResponse,
+	// 	selectedCurriculum,
+	// 	setCurrentCurriculumData,
+	// ]);
 
 	// Gets user timetable from the server
 	useEffect(() => {
@@ -248,14 +223,14 @@ const Dashboard: FC<DashboardProps> = ({
 				</Col>
 			</Row>
 
-			<Row>
+			{/* <Row>
 				<MagicFill
 					show={showMagicFill}
 					user={userData}
 					inProcess={postGenerateTTLoading}
 					genTT={(prefs: TTGenPreferences) => { generateTimetable(prefs); }}
 				/>
-			</Row>
+			</Row> */}
 
 			<TTError
 				error={timetableGenerationError}

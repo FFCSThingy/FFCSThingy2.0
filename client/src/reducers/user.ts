@@ -1,8 +1,27 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+
+import { getUserDetails, getCompletedCourses } from '../api/user';
+
 import UserDetails, { CompletedCourses } from '../models/data/UserDetails';
 import UserSliceModel from '../models/state/UserSlice';
 
 const ACTION_BASE = 'user';
+
+export const fetchUserDetails = createAsyncThunk(
+	`${ACTION_BASE}/fetchUserDetails`,
+	async () => {
+		const data = await getUserDetails();
+		return data;
+	},
+);
+
+export const fetchCompletedCourses = createAsyncThunk(
+	`${ACTION_BASE}/fetchCompletedCourses`,
+	async () => {
+		const data = await getCompletedCourses();
+		return data;
+	},
+);
 
 const initialState: UserSliceModel = {
 	details: {
@@ -37,6 +56,21 @@ const userSlice = createSlice({
 				state.details = details;
 			},
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(
+			fetchUserDetails.fulfilled,
+			(state, action: PayloadAction<UserDetails>) => {
+				state.details = action.payload;
+			},
+		);
+
+		builder.addCase(
+			fetchCompletedCourses.fulfilled,
+			(state, action: PayloadAction<CompletedCourses>) => {
+				state.completedCourses = action.payload;
+			},
+		);
 	},
 });
 

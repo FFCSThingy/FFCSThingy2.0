@@ -50,14 +50,8 @@ const courseSlice = createSlice({
 	name: ACTION_BASE,
 	initialState,
 	reducers: {
-		selectCourse: {
-			prepare(course: string) {
-				return { payload: { course } };
-			},
-			reducer(state, action: PayloadAction<{ course: string }, string>) {
-				const { course } = action.payload;
-				state.selected = course;
-			},
+		selectCourse: (state, action: PayloadAction<string>) => {
+			state.selected = action.payload;
 		},
 	},
 	extraReducers: (builder) => {

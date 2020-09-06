@@ -8,7 +8,6 @@ export default interface CourseCardProps {
 	completed?: string;
 	selected: boolean;
 	prereqs: CourseReqs;
-	doSelectCourse: Function;
 }
 
 export interface PrereqTextProps {

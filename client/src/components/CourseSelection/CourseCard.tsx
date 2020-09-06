@@ -1,5 +1,8 @@
 import React, { memo, FC } from 'react';
 import { Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+
+import { selectCourse } from '../../reducers/course';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
@@ -7,8 +10,10 @@ import CourseCardProps, { PrereqTextProps } from '../../models/components/Course
 
 const CourseCard: FC<CourseCardProps> = memo(
 	({
-		code, title, credits, shortCourseTypes, completed = '', selected = false, prereqs = null, doSelectCourse,
+		code, title, credits, shortCourseTypes, completed = '', selected = false, prereqs = null,
 	}) => {
+		const dispatch = useDispatch();
+
 		const cardClass = selected ? `${styles.courseCard} ${styles.active}` : styles.courseCard;
 		const completionClass = ['N', 'F'].includes(completed) ? styles.cardCompletionFailedSubtitle : styles.cardCompletedSubtitle;
 
@@ -73,7 +78,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 		};
 
 		const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			doSelectCourse(e.currentTarget.title);
+			dispatch(selectCourse(e.currentTarget.title));
 		};
 
 		return (

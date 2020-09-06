@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
 import FilterControls from './FilterControls';
-import CourseCardListContainer from './CourseCardListContainer';
+import CourseCardList from './CourseCardList';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
@@ -183,7 +183,7 @@ const CourseSelection: FC<CourseSelectionProps> = () => {
 				/>
 			</Card.Header>
 			<Card.Body className={styles.courseSelectTableBody}>
-				<CourseCardListContainer
+				<CourseCardList
 					filteredCourseList={filteredCourseList}
 				/>
 			</Card.Body>

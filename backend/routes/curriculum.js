@@ -52,7 +52,11 @@ router.get('/prefixes', async (req, res) => {
 router.get('/curriculumFromPrefix/:prefix', async (req, res) => {
 	try {
 		const doc = await curriculum.findCurriculumFromPrefix(req.params.prefix);
-		res.json({ success: true, data: doc });
+		if (doc) {
+			res.json({ success: true, data: doc });
+		} else {
+			res.json({ success: false, error: 'Not Found' });
+		}
 	} catch (err) {
 		logger.error(`Error in /curriculumFromPrefix ${err}`);
 		res.status(500).json({ success: false, error: 'Error in /curriculumFromPrefix' });

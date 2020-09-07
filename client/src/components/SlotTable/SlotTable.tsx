@@ -1,4 +1,5 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
 	Card, Col, CardColumns, ToggleButtonGroup, ToggleButton, Row,
@@ -6,14 +7,40 @@ import {
 
 import SlotCard from './SlotCard';
 
+import {
+	selectSlotsForCourse,
+	selectClashingSlots,
+	checkSelected,
+	checkRelated,
+} from '../../selectors/slots';
+import { addCourse } from '../../reducers/timetable';
+
 import styles from '../../css/SlotTable.module.scss';
 
 import HeatmapCourse from '../../models/data/HeatmapCourse';
-import SlotTableProps from '../../models/components/SlotTable/SlotTable';
+import { RootState } from '../../app/rootReducer';
 
-const SlotTable: FC<SlotTableProps> = ({
-	selectedCourse, slots, addSlotToTimetable, slotClashesWith, isSelected, checkRelated,
-}) => {
+const SlotTable = () => {
+	const dispatch = useDispatch();
+
+	const selectedCourse = useSelector(
+		(state: RootState) => state.course.selected,
+	);
+	const slots = useSelector(
+		(state: RootState) => selectSlotsForCourse(state),
+	);
+
+	// Custom Selectors
+	const slotClashesWith = useSelector(
+		(state: RootState) => selectClashingSlots(state),
+	);
+	const isSelected = useSelector(
+		(state: RootState) => checkSelected(state),
+	);
+	const checkIsRelated = useSelector(
+		(state: RootState) => checkRelated(state),
+	);
+
 	const [selectedCourseTypes, setSelectedCourseTypes] = useState<string[]>([]);
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
 	const [venueFilters, setVenueFilters] = useState<string[]>([]);
@@ -92,7 +119,7 @@ const SlotTable: FC<SlotTableProps> = ({
 	const clashingCourses: JSX.Element[] = [];
 
 	filteredSlots.map((slot) => {
-		const isRelated = checkRelated(slot);
+		const isRelated = checkIsRelated(slot);
 
 		if (isSelected(slot)) {
 			return selectedCourses.push(
@@ -122,7 +149,9 @@ const SlotTable: FC<SlotTableProps> = ({
 			<SlotCard
 				slotDetails={slot}
 				type="normal"
-				onClick={addSlotToTimetable}
+				onClick={
+					() => dispatch(addCourse(slot))
+				}
 				key={`SlotCard-${slot._id}`}
 				isRelated={isRelated}
 			/>,

@@ -1,21 +1,30 @@
 import React, { FC, memo } from 'react';
+import { useSelector } from 'react-redux';
 
 import TimetableCell from './TimetableCell';
 
 import { SLOTS, breakPosition } from '../../constants/Timetable';
 
-import TimetableBodyProps, { TimetableBodyRowProps } from '../../models/components/Timetable/TimetableBody';
-
 import styles from '../../css/Timetable.module.scss';
+
+import selectFilteredTimetable from '../../selectors/timetable';
+
+import { RootState } from '../../app/rootReducer';
+import TimetableBodyProps, { TimetableBodyRowProps } from '../../models/components/Timetable/TimetableBody';
 
 const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
 	({
 		isMobile,
 		isAfternoon,
 		rowNumber,
-		filledSlots,
-		timetable,
 	}) => {
+		const timetable = useSelector(
+			(state: RootState) => selectFilteredTimetable(state),
+		);
+		const filledSlots = useSelector(
+			(state: RootState) => state.timetable.filledSlots,
+		);
+
 		const rowCells = SLOTS[rowNumber].map((slotVal, i) => {
 			let slotString = slotVal;
 
@@ -124,8 +133,6 @@ const TimetableBody: FC<TimetableBodyProps> = memo(
 	({
 		isMobile,
 		isAfternoon,
-		filledSlots,
-		timetable,
 	}) => {
 		const bodyRows = SLOTS.map((v, i) => (
 			<TimetableBodyRow
@@ -133,9 +140,6 @@ const TimetableBody: FC<TimetableBodyProps> = memo(
 				isAfternoon={isAfternoon}
 				rowNumber={i}
 				key={`TimetableBodyRow-${v[0]}`}
-
-				filledSlots={filledSlots}
-				timetable={timetable}
 			/>
 		));
 		return (

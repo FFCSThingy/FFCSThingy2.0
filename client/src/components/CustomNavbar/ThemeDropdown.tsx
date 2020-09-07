@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavDropdown, Dropdown } from 'react-bootstrap';
-import { connect, ConnectedProps } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import themeList from '../../constants/Themes';
 import { changeTheme } from '../../reducers/misc';
@@ -9,41 +9,44 @@ import styles from '../../css/CustomNavbar.module.scss';
 
 import { RootState } from '../../app/rootReducer';
 
-const mapStateToProps = (state: RootState) => ({ theme: state.misc.theme });
-const mapDispatch = { changeTheme };
+const ThemeDropdown = () => {
+	const dispatch = useDispatch();
+	const theme = useSelector(
+		(state: RootState) => state.misc.theme,
+	);
 
-const connector = connect(mapStateToProps, mapDispatch);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const ThemeDropdown = (props: PropsFromRedux) => (
-	<NavDropdown
-		id="ThemeDropdown"
-		title="Theme"
-		className={styles.navbarDropdown}
-		onSelect={props.changeTheme}
-	>
-		<Dropdown.Menu className={styles.dropdownMenu}>
-			{
-				Object.keys(themeList)
-					.map((v: string) => {
-						let className = styles.dropdownItem;
-						if (v === props.theme) {
-							className = `${styles.dropdownItem} ${styles.selected}`;
-						}
-
-						return (
-							<NavDropdown.Item
-								eventKey={v}
-								key={v}
-								className={className}
-							>
-								{themeList[v]}
-							</NavDropdown.Item>
-						);
-					})
+	return (
+		<NavDropdown
+			id="ThemeDropdown"
+			title="Theme"
+			className={styles.navbarDropdown}
+			onSelect={
+				(selectedTheme: string) => dispatch(changeTheme(selectedTheme))
 			}
-		</Dropdown.Menu>
-	</NavDropdown>
-);
+		>
+			<Dropdown.Menu className={styles.dropdownMenu}>
+				{
+					Object.keys(themeList)
+						.map((v: string) => {
+							let className = styles.dropdownItem;
+							if (v === theme) {
+								className = `${styles.dropdownItem} ${styles.selected}`;
+							}
 
-export default connector(ThemeDropdown);
+							return (
+								<NavDropdown.Item
+									eventKey={v}
+									key={v}
+									className={className}
+								>
+									{themeList[v]}
+								</NavDropdown.Item>
+							);
+						})
+				}
+			</Dropdown.Menu>
+		</NavDropdown>
+	);
+};
+
+export default ThemeDropdown;

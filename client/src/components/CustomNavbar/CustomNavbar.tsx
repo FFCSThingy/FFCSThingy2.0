@@ -1,4 +1,5 @@
 import React, { useState, memo, FC } from 'react';
+import { useSelector } from 'react-redux';
 
 import {
 	Navbar, Nav, NavbarBrand, Modal, Button,
@@ -13,9 +14,14 @@ import styles from '../../css/CustomNavbar.module.scss';
 import brandImage from '../../images/logo.1.png';
 
 import CustomNavbarProps from '../../models/components/CustomNavbar/CustomNavbar';
+import { RootState } from '../../app/rootReducer';
 
 const CustomNavbar: FC<CustomNavbarProps> = memo(
-	({ creditCount, doLogout }) => {
+	({ doLogout }) => {
+		const creditCount = useSelector(
+			(state: RootState) => state.timetable.creditCount,
+		);
+
 		const [showModal, setShowModal] = useState(false);
 
 		const SyncModal = () => (

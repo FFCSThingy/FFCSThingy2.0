@@ -6,13 +6,13 @@ import {
 } from 'react-bootstrap';
 
 // Components
-import CustomNavbarContainer from './CustomNavbar/CustomNavbarContainer';
+import CustomNavbar from './CustomNavbar/CustomNavbar';
 import CourseSelection from './CourseSelection/CourseSelection';
-import SlotTableContainer from './SlotTable/SlotTableContainer';
+import SlotTable from './SlotTable/SlotTable';
 import MagicFill from './MagicFill';
-import TimetableSwitcherContainer from './TimetableSwitcher/TimetableSwitcherContainer';
-import TimetableContainer from './Timetable/TimetableContainer';
-import SelectedCoursesTableContainer from './SelectedCoursesTable/SelectedCoursesTableContainer';
+import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
+import Timetable from './Timetable/Timetable';
+import SelectedCoursesTable from './SelectedCoursesTable/SelectedCoursesTable';
 
 // CSS
 import styles from '../css/Dashboard.module.scss';
@@ -155,7 +155,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	return (
 		<Container fluid className={styles.mainContainer}>
 			<Row className={styles.navBarRow}>
-				<CustomNavbarContainer
+				<CustomNavbar
 					doLogout={handleUnauth as any}
 					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
 				/>
@@ -167,13 +167,13 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 				</Col>
 
 				<Col xs={12} md={8}>
-					<SlotTableContainer />
+					<SlotTable />
 				</Col>
 			</Row>
 
 			<Row>
 				<Col>
-					<TimetableSwitcherContainer />
+					<TimetableSwitcher />
 				</Col>
 			</Row>
 
@@ -197,11 +197,11 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 			/>
 
 			<Row>
-				<TimetableContainer />
+				<Timetable />
 			</Row>
 
 			<Row>
-				<SelectedCoursesTableContainer />
+				<SelectedCoursesTable />
 			</Row>
 
 		</Container>

@@ -43,7 +43,7 @@ const SlotCard: FC<SlotCardProps> = ({
 		<Card
 			className={styles.slotCard}
 			key={slotDetails._id}
-			onClick={() => ((type === 'normal' && onClick) ? onClick(slotDetails) : null)}
+			onClick={() => ((type === 'normal' && onClick) ? onClick() : null)}
 		>
 
 			<Card.Body className={cardBodyClass}>

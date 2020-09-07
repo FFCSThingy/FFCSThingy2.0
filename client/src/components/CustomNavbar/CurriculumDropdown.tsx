@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavDropdown, Dropdown } from 'react-bootstrap';
-import { connect, ConnectedProps } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { setSelectedCurriculum } from '../../reducers/curriculum';
 
@@ -8,44 +8,49 @@ import styles from '../../css/CustomNavbar.module.scss';
 
 import { RootState } from '../../app/rootReducer';
 
-const mapStateToProps = (state: RootState) => ({
-	curriculumList: state.curriculum.list,
-	selected: state.curriculum.selectedPrefix,
-});
-const mapDispatch = { setSelectedCurriculum };
+const CurriculumDropdown = () => {
+	const dispatch = useDispatch();
+	const curriculumList = useSelector(
+		(state: RootState) => state.curriculum.list,
+	);
+	const selected = useSelector(
+		(state: RootState) => state.curriculum.selectedPrefix,
+	);
 
-const connector = connect(mapStateToProps, mapDispatch);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-const CurriculumDropdown = (props: PropsFromRedux) => (
-	<NavDropdown
-		id="CurriculumDropdown"
-		title={props.selected}
-		className={styles.navbarDropdown}
-		onSelect={props.setSelectedCurriculum}
-	>
-		<Dropdown.Menu className={styles.dropdownMenu}>
-			{
-				props.curriculumList
-					.map((v) => {
-						if (!v) return <></>;
-
-						let className = styles.dropdownItem;
-						if (v === props.selected) className = `${styles.dropdownItem} ${styles.selected}`;
-
-						return (
-							<NavDropdown.Item
-								key={v}
-								eventKey={v}
-								className={className}
-							>
-								{v}
-							</NavDropdown.Item>
-						);
-					})
+	return (
+		<NavDropdown
+			id="CurriculumDropdown"
+			title={selected}
+			className={styles.navbarDropdown}
+			onSelect={
+				(selectedCurr: string) => dispatch(setSelectedCurriculum(selectedCurr))
 			}
-		</Dropdown.Menu>
-	</NavDropdown>
-);
+		>
+			<Dropdown.Menu className={styles.dropdownMenu}>
+				{
+					curriculumList
+						.map((v) => {
+							if (!v) return <></>;
 
-export default connector(CurriculumDropdown);
+							let className = styles.dropdownItem;
+							if (v === selected) {
+								className = `${styles.dropdownItem} ${styles.selected}`;
+							}
+
+							return (
+								<NavDropdown.Item
+									key={v}
+									eventKey={v}
+									className={className}
+								>
+									{v}
+								</NavDropdown.Item>
+							);
+						})
+				}
+			</Dropdown.Menu>
+		</NavDropdown>
+	);
+};
+
+export default CurriculumDropdown;

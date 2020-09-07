@@ -1,6 +1,5 @@
 import React, { useState, useEffect, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {
 	Container, Row, Col, Alert,
@@ -8,22 +7,22 @@ import {
 
 // Components
 import CustomNavbarContainer from './CustomNavbar/CustomNavbarContainer';
-
 import CourseSelection from './CourseSelection/CourseSelection';
 import SlotTableContainer from './SlotTable/SlotTableContainer';
-
 import MagicFill from './MagicFill';
 import TimetableSwitcherContainer from './TimetableSwitcher/TimetableSwitcherContainer';
 import TimetableContainer from './Timetable/TimetableContainer';
-
 import SelectedCoursesTableContainer from './SelectedCoursesTable/SelectedCoursesTableContainer';
 
+// CSS
 import styles from '../css/Dashboard.module.scss';
 
+// Actions
 import { fetchUserDetails, fetchCompletedCourses } from '../reducers/user';
 import {
 	fetchCurriculumPrefixes,
 	fetchCurriculumFromPrefix,
+	setCurrentCurriculumData,
 } from '../reducers/curriculum';
 import { fetchHeatmap, fetchAllCourseLists } from '../reducers/course';
 
@@ -59,10 +58,7 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 	</Row>
 ) : (<></>));
 
-const Dashboard: FC<DashboardProps> = ({
-	handleUnauth,
-	setCurrentCurriculumData,
-}) => {
+const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	const dispatch = useDispatch();
 
 	const heatmapTimestamp = useSelector(
@@ -73,6 +69,9 @@ const Dashboard: FC<DashboardProps> = ({
 	);
 	const selectedCurriculum = useSelector(
 		(state: RootState) => state.curriculum.selectedPrefix,
+	);
+	const currentCurriculumData = useSelector(
+		(state: RootState) => state.curriculum.currentData,
 	);
 
 	const [{ data: timetableResponse }, executeGetTimetableResponse] = useAxiosFFCS({
@@ -95,10 +94,6 @@ const Dashboard: FC<DashboardProps> = ({
 		},
 	}, { manual: true });
 
-	const [{ data: currentCurriculumResponse }, executeGetCurrentCurriculumResponse] = useAxiosFFCS({
-		url: `curriculum/curriculumFromPrefix/${selectedCurriculum || '19BCE'}`,
-	}, { manual: true });
-
 	const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
 	const [timetableGenerationError, setTimetableGenerationError] = useState('');
@@ -116,31 +111,33 @@ const Dashboard: FC<DashboardProps> = ({
 		1000 * 60 * 2,
 	);
 
+	// Fetches curriculum based on prefix
 	useEffect(() => {
-		dispatch(fetchCurriculumFromPrefix(selectedCurriculum));
+		const selectedCurriculumData = JSON.parse(
+			localStorage.getItem(selectedCurriculum) || '[]',
+		);
+
+		if (!selectedCurriculumData) {
+			dispatch(fetchCurriculumFromPrefix(selectedCurriculum));
+		} else {
+			dispatch(setCurrentCurriculumData(selectedCurriculumData));
+		}
+
+		localStorage.setItem('selectedCurriculum', selectedCurriculum);
 	}, [dispatch, selectedCurriculum]);
 
-	// Updates selected curriculum prefix in localStorage
+	// Updates curriculum for prefix in localStorage
 	useEffect(() => {
-		localStorage.setItem('selectedCurriculum', selectedCurriculum);
-	}, [selectedCurriculum]);
-
-	// Sets Curriculum in LocalStorage corresponding to prefix
-	// Ex - 19BCE: {Data...}
-	// useEffect(() => {
-	// 	const selectedCurriculumData = JSON.parse(localStorage.getItem(selectedCurriculum) || '{}');
-
-	// 	if (currentCurriculumResponse && currentCurriculumResponse.data) {
-	// 		setCurrentCurriculumData(currentCurriculumResponse.data);
-	// 		localStorage.setItem(selectedCurriculum, JSON.stringify(currentCurriculumResponse.data));
-	// 	} else if (selectedCurriculumData) {
-	// 		setCurrentCurriculumData(selectedCurriculumData);
-	// 	}
-	// }, [
-	// 	currentCurriculumResponse,
-	// 	selectedCurriculum,
-	// 	setCurrentCurriculumData,
-	// ]);
+		if (
+			!localStorage.getItem(selectedCurriculum)
+			&& selectedCurriculum !== 'Curriculum'
+		) {
+			localStorage.setItem(
+				selectedCurriculum,
+				JSON.stringify(currentCurriculumData),
+			);
+		}
+	}, [currentCurriculumData]);
 
 	// Gets user timetable from the server
 	useEffect(() => {

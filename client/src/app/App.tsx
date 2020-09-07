@@ -11,7 +11,7 @@ import API from '../API';
 import PrivateRoute from '../components/PrivateRoute';
 import Login from '../components/Login';
 // import Dashboard from './components/Dashboard';
-import DashboardContainer from '../components/DashboardContainer';
+import Dashboard from '../components/Dashboard';
 import Theme from '../components/Theme';
 
 import store from './store';
@@ -52,7 +52,7 @@ const App = () => {
 					<PrivateRoute
 						path="/"
 						redirect="/login"
-						component={DashboardContainer}
+						component={Dashboard}
 						isAuthenticated={authenticated}
 						handleUnauth={() => {
 							API.get('/logout');

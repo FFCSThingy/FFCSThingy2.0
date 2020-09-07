@@ -25,6 +25,7 @@ import {
 	setCurrentCurriculumData,
 } from '../reducers/curriculum';
 import { fetchHeatmap, fetchAllCourseLists } from '../reducers/course';
+import { syncTimetable } from '../reducers/timetable';
 
 // Custom Hooks
 import useAxiosFFCS from '../hooks/useAxiosFFCS';
@@ -67,24 +68,18 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	const listsTimestamp = useSelector(
 		(state: RootState) => state.course.lists.timestamp,
 	);
+	const timetableTimestamp = useSelector(
+		(state: RootState) => state.timetable.timestamp,
+	);
 	const selectedCurriculum = useSelector(
 		(state: RootState) => state.curriculum.selectedPrefix,
 	);
 	const currentCurriculumData = useSelector(
 		(state: RootState) => state.curriculum.currentData,
 	);
-
-	const [{ data: timetableResponse }, executeGetTimetableResponse] = useAxiosFFCS({
-		url: '/user/selectedCourses',
-	}, { manual: true });
-
-	const [{ }, executePostSelectedCourses] = useAxiosFFCS({
-		url: '/user/selectedCoursesBulk',
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	}, { manual: true });
+	const timetable = useSelector(
+		(state: RootState) => state.timetable.data,
+	);
 
 	const [{ data: postGenerateTTResponse, loading: postGenerateTTLoading }, executePostGenerateTT] = useAxiosFFCS({
 		url: '/ttgen/generateTimetable',
@@ -104,11 +99,23 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 		dispatch(fetchCurriculumPrefixes());
 		dispatch(fetchHeatmap(heatmapTimestamp));
 		dispatch(fetchAllCourseLists(listsTimestamp));
+		dispatch(syncTimetable({
+			timestamp: timetableTimestamp,
+			timetable,
+		}));
 	}, [dispatch]);
 
 	useInterval(
 		() => dispatch(fetchHeatmap(heatmapTimestamp)),
 		1000 * 60 * 2,
+	);
+
+	useInterval(
+		() => dispatch(syncTimetable({
+			timestamp: timetableTimestamp,
+			timetable,
+		})),
+		1000 * 60 * 1,
 	);
 
 	// Fetches curriculum based on prefix
@@ -138,49 +145,6 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 			);
 		}
 	}, [currentCurriculumData]);
-
-	// Gets user timetable from the server
-	useEffect(() => {
-		executeGetTimetableResponse();
-	}, [executeGetTimetableResponse]);
-
-	// Sets up 3 minute interval for timetable sync
-	useInterval(executeGetTimetableResponse, 1000 * 60);
-
-	// Sets timetable in state
-	useEffect(() => {
-		if (timetableResponse) {
-			// setUserTimetable(timetableResponse.data);
-		}
-	}, [timetableResponse]);
-
-	// TTGen
-	useEffect(() => {
-		if (postGenerateTTResponse) {
-			const { success } = postGenerateTTResponse;
-			if (success) {
-				const { data } = postGenerateTTResponse;
-				// setUserTimetable((prevTimetable) => {
-				// 	let newTimetable = [...data];
-
-				// 	if (prevTimetable) {
-				// 		newTimetable = Array.from(
-				// 			new Set([...prevTimetable, ...newTimetable]),
-				// 		);
-				// 	}
-
-				// 	executePostSelectedCourses({
-				// 		data: { selected_courses: newTimetable },
-				// 	});
-
-				// 	return newTimetable;
-				// });
-			} else {
-				const { message } = postGenerateTTResponse;
-				setTimetableGenerationError(message);
-			}
-		}
-	}, [postGenerateTTResponse, executePostSelectedCourses]);
 
 	const generateTimetable = (prefs: TTGenPreferences) => {
 		executePostGenerateTT({

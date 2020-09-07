@@ -1,5 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import CLASHMAP from '../constants/ClashMap';
+
+import { getTimetable, postTimetable } from '../api/user';
 
 import TimetableCourse from '../models/data/TimetableCourse';
 import HeatmapCourse from '../models/data/HeatmapCourse';
@@ -7,6 +9,23 @@ import Clashmap from '../models/constants/Clashmap';
 import TimetableSlice from '../models/state/TimetableSlice';
 
 const ACTION_BASE = 'timetable';
+
+export const fetchTimetable = createAsyncThunk(
+	`${ACTION_BASE}/fetchTimetable`,
+	async (timestamp: string) => {
+		const data = await getTimetable(timestamp);
+		return data;
+	},
+);
+
+export const syncTimetable = createAsyncThunk(
+	`${ACTION_BASE}/syncTimetable`,
+	async (data: { timetable: TimetableCourse[], timestamp: string }) => {
+		const { timetable, timestamp } =  data;
+		const res = await postTimetable(timetable, timestamp);
+		return res;
+	},
+);
 
 const convertHeatmapToTimetableCourse = (
 	timetableName: string,
@@ -78,7 +97,7 @@ const initialState: TimetableSlice = {
 	names: ['Default'],
 	filledSlots: [] as string[],
 	data: JSON.parse(localStorage.getItem('timetable') || '[]'),
-	timestamp: localStorage.getItem('timetableTimestamp'),
+	timestamp: localStorage.getItem('timetableTimestamp') ?? '',
 	clashmap: CLASHMAP,
 	creditCount: 0,
 };
@@ -227,6 +246,30 @@ const timetableSlice = createSlice({
 				state.active = newName;
 			},
 		},
+	},
+	extraReducers: (builder) => {
+		builder.addCase(
+			syncTimetable.fulfilled,
+			(
+				state,
+				action: PayloadAction<{timetable: TimetableCourse[], timestamp: string}>,
+			) => {
+				const {
+					timetable,
+					timestamp = new Date(Date.now()).toISOString(),
+				} = action.payload;
+
+				const filledSlots = findFilledSlots(timetable, state.active);
+				const clashmap = updateClashmap(state.clashmap, filledSlots);
+				const creditCount = countCredits(timetable, state.active);
+
+				state.clashmap = clashmap;
+				state.filledSlots = filledSlots;
+				state.data = timetable;
+				state.creditCount = creditCount;
+				state.timestamp = timestamp;
+			},
+		);
 	},
 });
 

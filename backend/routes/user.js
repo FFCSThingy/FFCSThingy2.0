@@ -11,8 +11,8 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 router.get('/selectedCourses', async (req, res) => {
 	try {
-		const data = req.user.selected_courses;
-		res.json({ success: true, data });
+		const { selected_courses: timetable, timestamp } = req.user;
+		res.json({ success: true, data: { timetable, timestamp } });
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });
 		logger.error(`Error in getSelectedCourses: ${err}`);
@@ -21,11 +21,37 @@ router.get('/selectedCourses', async (req, res) => {
 
 router.post('/selectedCoursesBulk', async (req, res) => {
 	try {
-		const queryData = { _id: req.user.id };
-		const updateData = { selected_courses: req.body.selected_courses };
+		const reqTimestamp = req.body.timestamp || 10;
 
-		const data = await user.updateUser(queryData, updateData);
-		res.json({ success: true, data });
+		const queryData = { _id: req.user.id };
+		const updateData = {
+			selected_courses: req.body.selected_courses,
+			timestamp: new Date(reqTimestamp),
+		};
+
+		if (updateData.timestamp > req.user.timestamp) {
+			const data = await user.updateUser(queryData, updateData);
+			res.json({
+				success: true,
+				data: {
+					timetable: data.selected_courses,
+					timestamp: data.timestamp,
+				},
+			});
+		} else if (updateData.timestamp < req.user.timestamp) {
+			res.json({
+				success: true,
+				data: {
+					timetable: req.user.selected_courses,
+					timestamp: req.user.timestamp,
+				},
+			});
+		} else {
+			res.json({
+				success: false,
+				message: 'Up to date',
+			});
+		}
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/updateSelectedCoursesBulk failed' });
 		logger.error(`Error in selectedCoursesBulk: ${err}`);

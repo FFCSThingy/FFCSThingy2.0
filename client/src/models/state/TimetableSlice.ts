@@ -5,7 +5,7 @@ export default interface TimetableSlice {
 	active: string,
 	names: Array<string>,
 	filledSlots: Array<string>,
-	timestamp: string | null,
+	timestamp: string,
 	data: Array<TimetableCourse>,
 	clashmap: Clashmap,
 	creditCount: number,

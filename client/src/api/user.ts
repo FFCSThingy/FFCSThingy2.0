@@ -17,22 +17,12 @@ export async function getCompletedCourses() {
 	return data.data;
 }
 
-export async function getTimetable(timestamp: string) {
-	const response = await axiosBase.get('/user/selectedCourses');
-	const { data } = response;
-
-	if (!data.success || !data.data) {
-		throw data.message;
-	}
-	return data.data;
-}
-
-export async function postTimetable(
+export async function postSyncTimetable(
 	timetable: TimetableCourse[],
 	timestamp: string,
 ) {
 	const reqData = { selected_courses: timetable, timestamp };
-	const response = await axiosBase.post('/user/selectedCoursesBulk', reqData);
+	const response = await axiosBase.post('/user/syncTimetable', reqData);
 	const { data } = response;
 
 	if (!data.success) {

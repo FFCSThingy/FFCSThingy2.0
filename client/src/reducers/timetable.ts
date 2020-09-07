@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import CLASHMAP from '../constants/ClashMap';
 
-import { getTimetable, postTimetable } from '../api/user';
+import { postSyncTimetable } from '../api/user';
 
 import TimetableCourse from '../models/data/TimetableCourse';
 import HeatmapCourse from '../models/data/HeatmapCourse';
@@ -10,19 +10,11 @@ import TimetableSlice from '../models/state/TimetableSlice';
 
 const ACTION_BASE = 'timetable';
 
-export const fetchTimetable = createAsyncThunk(
-	`${ACTION_BASE}/fetchTimetable`,
-	async (timestamp: string) => {
-		const data = await getTimetable(timestamp);
-		return data;
-	},
-);
-
 export const syncTimetable = createAsyncThunk(
 	`${ACTION_BASE}/syncTimetable`,
 	async (data: { timetable: TimetableCourse[], timestamp: string }) => {
 		const { timetable, timestamp } = data;
-		const res = await postTimetable(timetable, timestamp);
+		const res = await postSyncTimetable(timetable, timestamp);
 		return res;
 	},
 );

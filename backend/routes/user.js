@@ -9,17 +9,7 @@ const router = express.Router();
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-router.get('/selectedCourses', async (req, res) => {
-	try {
-		const { selected_courses: timetable, timestamp } = req.user;
-		res.json({ success: true, data: { timetable, timestamp } });
-	} catch (err) {
-		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });
-		logger.error(`Error in getSelectedCourses: ${err}`);
-	}
-});
-
-router.post('/selectedCoursesBulk', async (req, res) => {
+router.post('/syncTimetable', async (req, res) => {
 	try {
 		const reqTimestamp = req.body.timestamp || 10;
 
@@ -55,19 +45,6 @@ router.post('/selectedCoursesBulk', async (req, res) => {
 	} catch (err) {
 		res.status(500).json({ success: false, message: '/updateSelectedCoursesBulk failed' });
 		logger.error(`Error in selectedCoursesBulk: ${err}`);
-	}
-});
-
-router.post('/selectedCurriculum', async (req, res) => {
-	try {
-		const queryData = { _id: req.user.id };
-		const updateData = { selected_curriculum: req.body.selected_curriculum };
-
-		const data = await user.updateUser(queryData, updateData);
-		res.json({ success: true, data });
-	} catch (err) {
-		res.status(500).json({ success: false, message: '/setSelectedCurriculum failed' });
-		logger.error(`Error in selectedCurriculum: ${err}`);
 	}
 });
 

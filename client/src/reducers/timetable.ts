@@ -21,7 +21,7 @@ export const fetchTimetable = createAsyncThunk(
 export const syncTimetable = createAsyncThunk(
 	`${ACTION_BASE}/syncTimetable`,
 	async (data: { timetable: TimetableCourse[], timestamp: string }) => {
-		const { timetable, timestamp } =  data;
+		const { timetable, timestamp } = data;
 		const res = await postTimetable(timetable, timestamp);
 		return res;
 	},
@@ -106,98 +106,78 @@ const timetableSlice = createSlice({
 	name: ACTION_BASE,
 	initialState,
 	reducers: {
-		addCourse: {
-			prepare(course: HeatmapCourse, timestamp: string = new Date(Date.now()).toISOString()) {
-				return { payload: { course, timestamp } };
-			},
-			reducer(state, action: PayloadAction<{course: HeatmapCourse, timestamp: string}, string>) {
-				const { course, timestamp } = action.payload;
-				const courseWithTimetableName = convertHeatmapToTimetableCourse(
-					state.active, course,
-				);
+		addCourse: (state, action: PayloadAction<HeatmapCourse>) => {
+			const course = action.payload;
+			const timestamp = new Date(Date.now()).toISOString();
 
-				if (checkExistsInArray(state.data, courseWithTimetableName)) return;
+			const courseWithTimetableName = convertHeatmapToTimetableCourse(
+				state.active, course,
+			);
 
-				const newData = [...state.data, courseWithTimetableName];
-				const filledSlots = findFilledSlots(newData, state.active);
-				const clashmap = updateClashmap(state.clashmap, filledSlots);
-				const creditCount = countCredits(newData, state.active);
+			if (checkExistsInArray(state.data, courseWithTimetableName)) return;
 
-				state.clashmap = clashmap;
-				state.filledSlots = filledSlots;
-				state.data = newData;
-				state.creditCount = creditCount;
-				state.timestamp = timestamp;
-			},
+			const newData = [...state.data, courseWithTimetableName];
+			const filledSlots = findFilledSlots(newData, state.active);
+			const clashmap = updateClashmap(state.clashmap, filledSlots);
+			const creditCount = countCredits(newData, state.active);
+
+			state.clashmap = clashmap;
+			state.filledSlots = filledSlots;
+			state.data = newData;
+			state.creditCount = creditCount;
+			state.timestamp = timestamp;
 		},
-		removeCourse: {
-			prepare(course: HeatmapCourse, timestamp: string = new Date(Date.now()).toISOString()) {
-				return { payload: { course, timestamp } };
-			},
-			reducer(state, action: PayloadAction<{course: HeatmapCourse, timestamp: string}, string>) {
-				const { course, timestamp } = action.payload;
-				const ttCourse = convertHeatmapToTimetableCourse(
-					state.active, course,
-				);
+		removeCourse: (state, action: PayloadAction<TimetableCourse>) => {
+			const course = action.payload;
+			const timestamp = new Date(Date.now()).toISOString();
 
-				const newData = state.data.filter(
-					(v) => !(
-						v._id === ttCourse._id
+			const newData = state.data.filter(
+				(v) => !(
+					v._id === course._id
 						&& v.timetableName === state.active
-					),
-				);
+				),
+			);
 
-				const filledSlots = findFilledSlots(newData, state.active);
-				const clashmap = updateClashmap(state.clashmap, filledSlots);
-				const creditCount = countCredits(newData, state.active);
+			const filledSlots = findFilledSlots(newData, state.active);
+			const clashmap = updateClashmap(state.clashmap, filledSlots);
+			const creditCount = countCredits(newData, state.active);
 
-				state.clashmap = clashmap;
-				state.filledSlots = filledSlots;
-				state.data = newData;
-				state.creditCount = creditCount;
-				state.timestamp = timestamp;
-			},
+			state.clashmap = clashmap;
+			state.filledSlots = filledSlots;
+			state.data = newData;
+			state.creditCount = creditCount;
+			state.timestamp = timestamp;
 		},
-		changeTimetable: {
-			prepare(timetableName: string) {
-				return { payload: { timetableName } };
-			},
-			reducer(state, action: PayloadAction<{ timetableName: string }, string>) {
-				const { timetableName } = action.payload;
+		changeTimetable: (state, action: PayloadAction<string>) => {
+			const timetableName = action.payload;
 
-				if (!state.names.includes(timetableName)) return;
+			if (!state.names.includes(timetableName)) return;
 
-				state.active = timetableName;
+			state.active = timetableName;
 
-				const filledSlots = findFilledSlots(state.data, timetableName);
-				const clashmap = updateClashmap(state.clashmap, filledSlots);
-				const creditCount = countCredits(state.data, timetableName);
+			const filledSlots = findFilledSlots(state.data, timetableName);
+			const clashmap = updateClashmap(state.clashmap, filledSlots);
+			const creditCount = countCredits(state.data, timetableName);
 
-				state.clashmap = clashmap;
-				state.filledSlots = filledSlots;
-				state.creditCount = creditCount;
-			},
+			state.clashmap = clashmap;
+			state.filledSlots = filledSlots;
+			state.creditCount = creditCount;
 		},
-		addTimetable: {
-			prepare(timetableName: string) {
-				return { payload: { timetableName } };
-			},
-			reducer(state, action: PayloadAction<{ timetableName: string }, string>) {
-				const { timetableName } = action.payload;
+		addTimetable: (state, action: PayloadAction<string>) => {
+			const timetableName = action.payload;
 
-				if (state.names.includes(timetableName)) return;
+			if (state.names.includes(timetableName)) return;
 
-				state.names.push(timetableName);
-				state.active = timetableName;
+			state.names.push(timetableName);
+			state.active = timetableName;
 
-				const filledSlots = findFilledSlots(state.data, timetableName);
-				const clashmap = updateClashmap(state.clashmap, filledSlots);
-				const creditCount = countCredits(state.data, timetableName);
+			const filledSlots = findFilledSlots(state.data, timetableName);
+			const clashmap = updateClashmap(state.clashmap, filledSlots);
+			const creditCount = countCredits(state.data, timetableName);
 
-				state.clashmap = clashmap;
-				state.filledSlots = filledSlots;
-				state.creditCount = creditCount;
-			},
+			state.clashmap = clashmap;
+			state.filledSlots = filledSlots;
+			state.creditCount = creditCount;
 		},
 		removeTimetable: (state) => {
 			if (state.active === 'Default') return;
@@ -206,45 +186,35 @@ const timetableSlice = createSlice({
 			state.names = state.names.filter((v) => v !== state.active);
 			[state.active] = state.names;
 		},
-		renameTimetable: {
-			prepare(newName: string) {
-				return { payload: { newName } };
-			},
-			reducer(state, action: PayloadAction<{newName: string }, string>) {
-				const { newName } = action.payload;
+		renameTimetable: (state, action: PayloadAction<string>) => {
+			const newName = action.payload;
 
-				if (state.names.includes(newName)) return;
+			if (state.names.includes(newName)) return;
 
-				state.data = state.data.map((v) => {
-					if (v.timetableName === state.active) {
-						v.timetableName = newName;
-					}
-					return v;
-				});
-				state.names = state.names.map((v) => {
-					if (v === state.active) {
-						return newName;
-					}
-					return v;
-				});
-				state.active = newName;
-			},
+			state.data = state.data.map((v) => {
+				if (v.timetableName === state.active) {
+					v.timetableName = newName;
+				}
+				return v;
+			});
+			state.names = state.names.map((v) => {
+				if (v === state.active) {
+					return newName;
+				}
+				return v;
+			});
+			state.active = newName;
 		},
-		copyTimetable: {
-			prepare(newName: string) {
-				return { payload: { newName } };
-			},
-			reducer(state, action: PayloadAction<{ newName: string }, string>) {
-				const { newName } = action.payload;
+		copyTimetable: (state, action: PayloadAction<string>) => {
+			const newName = action.payload;
 
-				const copiedCourses = state.data
-					.filter((v) => v.timetableName === state.active)
-					.map((v) => ({ ...v, timetableName: newName }));
+			const copiedCourses = state.data
+				.filter((v) => v.timetableName === state.active)
+				.map((v) => ({ ...v, timetableName: newName }));
 
-				state.data = [...state.data, ...copiedCourses];
-				state.names = [...state.names, newName];
-				state.active = newName;
-			},
+			state.data = [...state.data, ...copiedCourses];
+			state.names = [...state.names, newName];
+			state.active = newName;
 		},
 	},
 	extraReducers: (builder) => {

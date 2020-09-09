@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 
@@ -10,11 +10,10 @@ import styles from '../../css/CourseSelectionList.module.scss';
 import * as COURSE from '../../constants/Courses';
 
 import { CurriculumCourse } from '../../models/data/Curriculum';
-import CourseSelectionProps from '../../models/components/CourseSelection/CourseSelection';
 import { CourseList } from '../../models/data/CourseLists';
 import { RootState } from '../../app/rootReducer';
 
-const CourseSelection: FC<CourseSelectionProps> = () => {
+const CourseSelection = () => {
 	const courseList = useSelector(
 		(state: RootState) => state.course.lists.course,
 	);

@@ -23,6 +23,9 @@ const App = () => {
 
 	useEffect(() => {
 		dispatch(checkAuth());
+	// Don't add more dependencies
+	// Only needs to run once
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

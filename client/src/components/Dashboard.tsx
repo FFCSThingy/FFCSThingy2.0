@@ -106,7 +106,10 @@ const Dashboard = () => {
 			timestamp: timetableTimestamp,
 			timetable,
 		}));
-	}, [dispatch]);
+	// Only needs to run on component load
+	// Don't add other dependencies
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	useInterval(
 		() => dispatch(fetchHeatmap(heatmapTimestamp)),
@@ -144,6 +147,10 @@ const Dashboard = () => {
 				JSON.stringify(currentCurriculumData),
 			);
 		}
+	// Don't add selectedCurriculum to the list of dependencies
+	// Might cause race condition where the wrong curriculum is saved
+	// For the wrong prefix
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentCurriculumData]);
 
 	// const generateTimetable = (prefs: TTGenPreferences) => {

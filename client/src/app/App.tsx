@@ -8,7 +8,6 @@ import ReactGA from 'react-ga';
 
 import Login from '../components/Login';
 import Dashboard from '../components/Dashboard';
-import Theme from '../components/Theme';
 
 import { RootState } from './rootReducer';
 import { checkAuth } from '../reducers/auth';
@@ -27,24 +26,21 @@ const App = () => {
 	}, []);
 
 	return (
-		<>
-			<Theme />
-			<Router>
-				<Switch>
-					<Route path="/login">
-						{!isAuthenticated
-							? <Login />
-							: <Redirect to="/" />}
-					</Route>
+		<Router>
+			<Switch>
+				<Route path="/login">
+					{!isAuthenticated
+						? <Login />
+						: <Redirect to="/" />}
+				</Route>
 
-					<Route path="/">
-						{isAuthenticated
-							? <Dashboard />
-							: <Redirect to="/login" />}
-					</Route>
-				</Switch>
-			</Router>
-		</>
+				<Route path="/">
+					{isAuthenticated
+						? <Dashboard />
+						: <Redirect to="/login" />}
+				</Route>
+			</Switch>
+		</Router>
 	);
 };
 

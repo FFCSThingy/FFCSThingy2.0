@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import {
-	BrowserRouter as Router, Switch,
+	BrowserRouter as Router, Switch, Route, Redirect,
 } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ReactGA from 'react-ga';
 
-import PrivateRoute from '../components/PrivateRoute';
 import Login from '../components/Login';
 import Dashboard from '../components/Dashboard';
 import Theme from '../components/Theme';
@@ -32,20 +31,17 @@ const App = () => {
 			<Theme />
 			<Router>
 				<Switch>
-					{/* <Route exact path="/login" component={Login} /> */}
-					<PrivateRoute
-						path="/login"
-						redirect="/"
-						component={Login}
-						isAuthenticated={!isAuthenticated}
-					/>
+					<Route path="/login">
+						{!isAuthenticated
+							? <Login />
+							: <Redirect to="/" />}
+					</Route>
 
-					<PrivateRoute
-						path="/"
-						redirect="/login"
-						component={Dashboard}
-						isAuthenticated={isAuthenticated}
-					/>
+					<Route path="/">
+						{isAuthenticated
+							? <Dashboard />
+							: <Redirect to="/login" />}
+					</Route>
 				</Switch>
 			</Router>
 		</>

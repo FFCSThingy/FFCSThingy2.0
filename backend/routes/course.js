@@ -6,6 +6,7 @@ const { logger } = require('../utility/loggers.js');
 const curriculum = require('../utility/curriculumUtility');
 const course = require('../utility/courseUtility');
 const system = require('../utility/systemUtility');
+const consts = require('../utility/constants');
 
 const prereqJSON = require('../data/prereqs.json');
 
@@ -284,10 +285,6 @@ router.get('/cleanDemOldCourses/SuckOnDeezNumbNutz', async (req, res) => {
 	} catch (err) {
 		logger.error(err);
 	}
-});
-
-router.get('/prereqs', async (req, res) => {
-	res.json({ success: true, data: prereqJSON });
 });
 
 module.exports = router;

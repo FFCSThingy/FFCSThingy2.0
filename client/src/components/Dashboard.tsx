@@ -9,7 +9,7 @@ import {
 import CustomNavbar from './CustomNavbar/CustomNavbar';
 import CourseSelection from './CourseSelection/CourseSelection';
 import SlotTable from './SlotTable/SlotTable';
-import MagicFill from './MagicFill';
+// import MagicFill from './MagicFill';
 import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
 import Timetable from './Timetable/Timetable';
 import SelectedCoursesTable from './SelectedCoursesTable/SelectedCoursesTable';
@@ -28,12 +28,15 @@ import { fetchHeatmap, fetchAllCourseLists } from '../reducers/course';
 import { syncTimetable } from '../reducers/timetable';
 
 // Custom Hooks
-import useAxiosFFCS from '../hooks/useAxiosFFCS';
+// import useAxiosFFCS from '../hooks/useAxiosFFCS';
 import useInterval from '../hooks/useInterval';
 
 // Models/Interfaces
-import { AlertRowProps, TTErrorProps } from '../models/components/Dashboard';
-import TTGenPreferences from '../models/data/TTGenPreferences';
+import {
+	AlertRowProps,
+	// TTErrorProps,
+} from '../models/components/Dashboard';
+// import TTGenPreferences from '../models/data/TTGenPreferences';
 import { RootState } from '../app/rootReducer';
 
 const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? (
@@ -47,17 +50,17 @@ const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? 
 	</Row>
 ) : (<></>));
 
-const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) => (error ? (
-	<Row>
-		<Alert
-			variant="danger"
-			onClose={() => setTimetableGenerationError('')}
-			dismissible
-		>
-			<p>{error}</p>
-		</Alert>
-	</Row>
-) : (<></>));
+// const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) => (error ? (
+// 	<Row>
+// 		<Alert
+// 			variant="danger"
+// 			onClose={() => setTimetableGenerationError('')}
+// 			dismissible
+// 		>
+// 			<p>{error}</p>
+// 		</Alert>
+// 	</Row>
+// ) : (<></>));
 
 const Dashboard = () => {
 	const dispatch = useDispatch();
@@ -81,17 +84,17 @@ const Dashboard = () => {
 		(state: RootState) => state.timetable.data,
 	);
 
-	const [{ data: postGenerateTTResponse, loading: postGenerateTTLoading }, executePostGenerateTT] = useAxiosFFCS({
-		url: '/ttgen/generateTimetable',
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	}, { manual: true });
+	// const [{ data: postGenerateTTResponse, loading: postGenerateTTLoading }, executePostGenerateTT] = useAxiosFFCS({
+	// 	url: '/ttgen/generateTimetable',
+	// 	method: 'POST',
+	// 	headers: {
+	// 		'Content-Type': 'application/json',
+	// 	},
+	// }, { manual: true });
 
-	const [showMagicFill, setShowMagicFill] = useState(false);
+	// const [showMagicFill, setShowMagicFill] = useState(false);
 	const [showAlert, setShowAlert] = useState(false);
-	const [timetableGenerationError, setTimetableGenerationError] = useState('');
+	// const [timetableGenerationError, setTimetableGenerationError] = useState('');
 
 	useEffect(() => {
 		dispatch(fetchUserDetails());
@@ -143,11 +146,11 @@ const Dashboard = () => {
 		}
 	}, [currentCurriculumData]);
 
-	const generateTimetable = (prefs: TTGenPreferences) => {
-		executePostGenerateTT({
-			data: { pref: prefs },
-		});
-	};
+	// const generateTimetable = (prefs: TTGenPreferences) => {
+	// 	executePostGenerateTT({
+	// 		data: { pref: prefs },
+	// 	});
+	// };
 
 	return (
 		<Container fluid className={styles.mainContainer}>
@@ -180,10 +183,10 @@ const Dashboard = () => {
 				/>
 			</Row> */}
 
-			<TTError
+			{/* <TTError
 				error={timetableGenerationError}
 				setTimetableGenerationError={setTimetableGenerationError}
-			/>
+			/> */}
 
 			<AlertRow
 				show={showAlert}

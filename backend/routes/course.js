@@ -18,7 +18,7 @@ router.use(express.urlencoded({ limit: '50mb', extended: false }));
 router.get('/fullHeatmap/:timestamp?', async (req, res) => {
 	try {
 		const systemTimestamp = await system.getHeatmapUpdateTime();
-		const reqTimestamp = req.params.timestamp;
+		const reqTimestamp = req.params.timestamp || 10;
 
 		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
 			return res.json({
@@ -29,109 +29,16 @@ router.get('/fullHeatmap/:timestamp?', async (req, res) => {
 				},
 			});
 		}
-		return res.status(304).json({ success: true, message: 'Up To Date' });
+		return res.status(304).json(consts.failJson(consts.messages.upToDate));
 	} catch (err) {
-		return res.status(500).json({ success: false, message: '/getFullHeatmap failed' });
-	}
-});
-
-router.get('/courseList/:timestamp?', async (req, res) => {
-	try {
-		const systemTimestamp = await system.getRepopulateTime();
-		const reqTimestamp = req.params.timestamp;
-
-		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
-			return res.json({
-				success: true,
-				data: {
-					courseList: await course.getCourseList(),
-					timestamp: systemTimestamp,
-				},
-			});
-		}
-		return res.status(304).json({ success: true, message: 'Up To Date' });
-	} catch (err) {
-		logger.error(err);
-		return res.status(500).json({ success: false, message: '/getCourseList failed' });
-	}
-});
-
-router.get('/courseFacultyList/:timestamp?', async (req, res) => {
-	try {
-		const systemTimestamp = await system.getRepopulateTime();
-		const reqTimestamp = req.params.timestamp;
-		let courseFacultyList;
-
-		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
-			courseFacultyList = await course.getCourseFacultyList();
-
-			return res.json({
-				success: true,
-				data: {
-					courseFacultyList: courseFacultyList[0].list,
-					timestamp: systemTimestamp,
-				},
-			});
-		}
-		return res.status(304).json({ success: true, message: 'Up To Date' });
-	} catch (err) {
-		logger.error(err);
-		return res.status(500).json({ success: false, message: `${req.url} failed` });
-	}
-});
-
-router.get('/courseSlotList/:timestamp?', async (req, res) => {
-	try {
-		const systemTimestamp = await system.getRepopulateTime();
-		const reqTimestamp = req.params.timestamp;
-		let courseSlotList;
-
-		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
-			courseSlotList = await course.getCourseSlotList();
-
-			return res.json({
-				success: true,
-				data: {
-					courseSlotList: courseSlotList[0].courseSlotList,
-					timestamp: systemTimestamp,
-				},
-			});
-		}
-		return res.status(304).json({ success: true, message: 'Up To Date' });
-	} catch (err) {
-		logger.error(err);
-		return res.status(500).json({ success: false, message: '/getCourseList failed' });
-	}
-});
-
-router.get('/courseTypeList/:timestamp?', async (req, res) => {
-	try {
-		const systemTimestamp = await system.getRepopulateTime();
-		const reqTimestamp = req.params.timestamp;
-		let courseTypeList;
-
-		if (!reqTimestamp || new Date(reqTimestamp) < new Date(systemTimestamp)) {
-			courseTypeList = await course.getCourseTypeList();
-
-			return res.json({
-				success: true,
-				data: {
-					courseTypeList: courseTypeList[0].courseTypeList,
-					timestamp: systemTimestamp,
-				},
-			});
-		}
-		return res.status(304).json({ success: true, message: 'Up To Date' });
-	} catch (err) {
-		logger.error(err);
-		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+		return res.status(500).json(consts.failJson(consts.messages.serverError));
 	}
 });
 
 router.get('/allCourseLists/:timestamp?', async (req, res) => {
 	try {
 		const systemTimestamp = await system.getRepopulateTime();
-		const reqTimestamp = req.params.timestamp;
+		const reqTimestamp = req.params.timestamp || 10;
 		let courseList;
 		let courseFacultyList;
 		let courseSlotList;
@@ -155,10 +62,10 @@ router.get('/allCourseLists/:timestamp?', async (req, res) => {
 				},
 			});
 		}
-		return res.status(304).json({ success: true, message: 'Up To Date' });
+		return res.status(304).json(consts.failJson(consts.messages.upToDate));
 	} catch (err) {
 		logger.error(err);
-		return res.status(500).json({ success: false, message: '/getCourseList failed' });
+		return res.status(500).json(consts.failJson(consts.messages.serverError));
 	}
 });
 
@@ -231,7 +138,7 @@ router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res) => {
 		return res.json({ updates: results, deletes, cleanDetails });
 	} catch (err) {
 		logger.error(`addCoursesToDB Error: ${err}`);
-		return res.status(500).json({ success: false, message: '/addCoursesToDB failed' });
+		return res.status(500).json(consts.failJson(consts.messages.serverError));
 	}
 });
 
@@ -247,9 +154,13 @@ router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res
 
 		const doc = await course.getCourseDetails(data);
 
-		if (doc) { res.json({ success: true, data: doc }); } else { res.status(404).json({ success: false, message: 'Not found' }); }
+		if (doc) {
+			res.json({ success: true, data: doc });
+		} else {
+			res.status(404).json(consts.failJson(consts.messages.notFound));
+		}
 	} catch (err) {
-		res.status(500).json({ success: false, message: '/getCourseByDetails failed' });
+		res.status(500).json(consts.failJson(consts.messages.serverError));
 		logger.error(`courseByDetails Error: ${err}`);
 	}
 });
@@ -262,9 +173,13 @@ router.get('/courseByID/:id', async (req, res) => {
 
 		const doc = await course.getCourseDetails(data);
 
-		if (doc) { res.json({ success: true, data: doc }); } else { res.status(404).json({ success: false, message: 'Not found' }); }
+		if (doc) {
+			res.json({ success: true, data: doc });
+		} else {
+			res.status(404).json(consts.failJson(consts.messages.notFound));
+		}
 	} catch (err) {
-		res.status(500).json({ success: false, message: '/getCourseByID failed' });
+		res.status(500).json(consts.failJson(consts.messages.serverError));
 		logger.error(`courseByID Error: ${err}`);
 	}
 });

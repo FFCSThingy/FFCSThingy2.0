@@ -120,24 +120,21 @@ const Dashboard = () => {
 
 	// Fetches curriculum based on prefix
 	useEffect(() => {
-		const selectedCurriculumData = JSON.parse(
-			localStorage.getItem(selectedCurriculum) || '[]',
-		);
+		const selectedCurriculumData = localStorage.getItem(selectedCurriculum);
 
-		if (!selectedCurriculumData) {
+		if (!selectedCurriculumData || selectedCurriculumData === '[]') {
 			dispatch(fetchCurriculumFromPrefix(selectedCurriculum));
 		} else {
-			dispatch(setCurrentCurriculumData(selectedCurriculumData));
+			dispatch(setCurrentCurriculumData(JSON.parse(
+				selectedCurriculumData,
+			)));
 		}
-
-		localStorage.setItem('selectedCurriculum', selectedCurriculum);
 	}, [dispatch, selectedCurriculum]);
 
 	// Updates curriculum for prefix in localStorage
 	useEffect(() => {
 		if (
-			!localStorage.getItem(selectedCurriculum)
-			&& selectedCurriculum !== 'Curriculum'
+			selectedCurriculum !== 'Curriculum'
 		) {
 			localStorage.setItem(
 				selectedCurriculum,

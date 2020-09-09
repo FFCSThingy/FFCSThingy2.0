@@ -48,7 +48,10 @@ function ensureAuthenticated(req, res, next) {
 		return next();
 	}
 
-	return res.status(401).json({ success: false, authenticated: false });
+	return res.status(401).json({
+		success: false,
+		message: 'Not Authenticated',
+	});
 }
 
 passport.serializeUser((user, done) => done(null, user));

@@ -32,7 +32,7 @@ import useAxiosFFCS from '../hooks/useAxiosFFCS';
 import useInterval from '../hooks/useInterval';
 
 // Models/Interfaces
-import DashboardProps, { AlertRowProps, TTErrorProps } from '../models/components/Dashboard';
+import { AlertRowProps, TTErrorProps } from '../models/components/Dashboard';
 import TTGenPreferences from '../models/data/TTGenPreferences';
 import { RootState } from '../app/rootReducer';
 
@@ -59,7 +59,7 @@ const TTError: FC<TTErrorProps> = ({ error = '', setTimetableGenerationError }) 
 	</Row>
 ) : (<></>));
 
-const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
+const Dashboard = () => {
 	const dispatch = useDispatch();
 
 	const heatmapTimestamp = useSelector(
@@ -155,10 +155,7 @@ const Dashboard: FC<DashboardProps> = ({ handleUnauth }) => {
 	return (
 		<Container fluid className={styles.mainContainer}>
 			<Row className={styles.navBarRow}>
-				<CustomNavbar
-					doLogout={handleUnauth as any}
-					// Oh Lord, Forgive me for the sins I have committed with this typecast, but there was no better way to keep my sanity intact and this code working strictly
-				/>
+				<CustomNavbar />
 			</Row>
 
 			<Row className={styles.slotSelectionRow}>

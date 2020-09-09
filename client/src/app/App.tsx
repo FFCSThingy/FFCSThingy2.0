@@ -1,43 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
 	BrowserRouter as Router, Switch,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ReactGA from 'react-ga';
 
-import API from '../API';
-
 import PrivateRoute from '../components/PrivateRoute';
 import Login from '../components/Login';
-// import Dashboard from './components/Dashboard';
 import Dashboard from '../components/Dashboard';
 import Theme from '../components/Theme';
 
-import store from './store';
+import { RootState } from './rootReducer';
+import { checkAuth } from '../reducers/auth';
 
 ReactGA.initialize('UA-156974674-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
-	const [authenticated, setAuthenticated] = useState(false);
-
-	const isAuthenticated = () => API.get('/account')
-		.then((res) => {
-			if (res.data.google_id) {
-				setAuthenticated(true);
-			} else {
-				setAuthenticated(false);
-			}
-		})
-		.catch((err) => setAuthenticated(!err));
+	const dispatch = useDispatch();
+	const isAuthenticated = useSelector(
+		(state: RootState) => state.auth.isAuthenticated,
+	);
 
 	useEffect(() => {
-		isAuthenticated();
+		dispatch(checkAuth());
 	}, []);
 
 	return (
-		<Provider store={store}>
+		<>
 			<Theme />
 			<Router>
 				<Switch>
@@ -46,22 +37,18 @@ const App = () => {
 						path="/login"
 						redirect="/"
 						component={Login}
-						isAuthenticated={!authenticated}
+						isAuthenticated={!isAuthenticated}
 					/>
 
 					<PrivateRoute
 						path="/"
 						redirect="/login"
 						component={Dashboard}
-						isAuthenticated={authenticated}
-						handleUnauth={() => {
-							API.get('/logout');
-							setAuthenticated(false);
-						}}
+						isAuthenticated={isAuthenticated}
 					/>
 				</Switch>
 			</Router>
-		</Provider>
+		</>
 	);
 };
 

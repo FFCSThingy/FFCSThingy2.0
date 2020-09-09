@@ -8,6 +8,4 @@ export interface TTErrorProps {
 	setTimetableGenerationError: Function;
 }
 
-export default interface DashboardProps {
-	handleUnauth: Function;
-}
+export default interface DashboardProps { }

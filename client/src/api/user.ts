@@ -1,10 +1,18 @@
 import axiosBase from './axiosBase';
 import TimetableCourse from '../models/data/TimetableCourse';
 
+export async function doLogout() {
+	return axiosBase.get('/logout');
+}
+
 export async function getUserDetails() {
 	const response = await axiosBase.get('/account');
 	const { data } = response;
-	return data;
+
+	if (!data.success) {
+		throw data.message;
+	}
+	return data.data;
 }
 
 export async function getCompletedCourses() {

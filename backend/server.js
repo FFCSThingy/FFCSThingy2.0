@@ -131,7 +131,7 @@ app.get('/account', ensureAuthenticated, (req, res) => {
 
 		vtopSignedIn: req.user.vtopSignedIn,
 	};
-	return res.json(data);
+	return res.json({ success: true, data });
 });
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));

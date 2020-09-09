@@ -1,13 +1,14 @@
-import React, { FC } from 'react';
+import React from 'react';
 import { NavDropdown, Dropdown } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import UserDropdownProps from '../../models/components/CustomNavbar/UserDropdown';
 import { RootState } from '../../app/rootReducer';
+import { logout } from '../../reducers/auth';
 
-const UserDropdown: FC<UserDropdownProps> = ({ doLogout }) => {
+const UserDropdown = () => {
+	const dispatch = useDispatch();
 	const userDetails = useSelector(
 		(state: RootState) => state.user.details,
 	);
@@ -32,7 +33,7 @@ const UserDropdown: FC<UserDropdownProps> = ({ doLogout }) => {
 				</NavDropdown.Item>
 
 				<NavDropdown.Item
-					onClick={doLogout}
+					onClick={() => dispatch(logout())}
 					className={styles.dropdownItem}
 					key="LogoutDropdownItem"
 				>

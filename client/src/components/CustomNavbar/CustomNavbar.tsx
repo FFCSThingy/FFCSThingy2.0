@@ -1,4 +1,4 @@
-import React, { useState, memo, FC } from 'react';
+import React, { useState, memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import {
@@ -13,114 +13,109 @@ import UserDropdown from './UserDropdown';
 import styles from '../../css/CustomNavbar.module.scss';
 import brandImage from '../../images/logo.1.png';
 
-import CustomNavbarProps from '../../models/components/CustomNavbar/CustomNavbar';
 import { RootState } from '../../app/rootReducer';
 
-const CustomNavbar: FC<CustomNavbarProps> = memo(
-	({ doLogout }) => {
-		const creditCount = useSelector(
-			(state: RootState) => state.timetable.creditCount,
-		);
+const CustomNavbar = memo(() => {
+	const creditCount = useSelector(
+		(state: RootState) => state.timetable.creditCount,
+	);
 
-		const [showModal, setShowModal] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 
-		const SyncModal = () => (
-			<Modal
-				size="lg"
-				centered
-				show={showModal}
-				onHide={() => setShowModal(false)}
-			>
-				<Modal.Header closeButton className={styles.popup}>
-					<Modal.Title>
+	const SyncModal = () => (
+		<Modal
+			size="lg"
+			centered
+			show={showModal}
+			onHide={() => setShowModal(false)}
+		>
+			<Modal.Header closeButton className={styles.popup}>
+				<Modal.Title>
 						Sync with VTOP
-					</Modal.Title>
-				</Modal.Header>
+				</Modal.Title>
+			</Modal.Header>
 
-				<Modal.Body className={styles.popup}>
-					<p>
+			<Modal.Body className={styles.popup}>
+				<p>
 						Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
-					</p>
-					<a href="https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh" target="_blank" rel="noopener noreferrer">Chrome Extension</a>
-					<br />
-					<a href="https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi" rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
-				</Modal.Body>
+				</p>
+				<a href="https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh" target="_blank" rel="noopener noreferrer">Chrome Extension</a>
+				<br />
+				<a href="https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi" rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
+			</Modal.Body>
 
-				<Modal.Footer className={styles.popup}>
-					<Button
-						onClick={() => setShowModal(false)}
-						className={styles.closeButton}
-					>
+			<Modal.Footer className={styles.popup}>
+				<Button
+					onClick={() => setShowModal(false)}
+					className={styles.closeButton}
+				>
 						Close
-					</Button>
-				</Modal.Footer>
+				</Button>
+			</Modal.Footer>
 
-			</Modal>
-		);
+		</Modal>
+	);
 
-		return (
-			<Navbar className={styles.navbar} fixed="top" expand="md">
+	return (
+		<Navbar className={styles.navbar} fixed="top" expand="md">
 
-				<div className={styles.leftContainer}>
-					<NavbarBrand
-						className={styles.navbarBrand}
+			<div className={styles.leftContainer}>
+				<NavbarBrand
+					className={styles.navbarBrand}
+				>
+					<img className={styles.logo} alt="" src={brandImage} />
+					<span className={styles.branding}>FFCSThingy</span>
+				</NavbarBrand>
+
+				<CurriculumDropdown />
+
+				<Navbar.Toggle
+					className={styles.mobileMenuToggle}
+				>
+					<FaBars />
+				</Navbar.Toggle>
+			</div>
+
+			<Navbar.Collapse className={styles.collapseContainer}>
+
+				<div className={styles.middleContainer}>
+					<Nav.Link
+						href={`${process.env.REACT_APP_BASE_URL || 'http://localhost:3001'}/about`}
+						className={styles.navLink}
 					>
-						<img className={styles.logo} alt="" src={brandImage} />
-						<span className={styles.branding}>FFCSThingy</span>
-					</NavbarBrand>
-
-					<CurriculumDropdown />
-
-					<Navbar.Toggle
-						className={styles.mobileMenuToggle}
-					>
-						<FaBars />
-					</Navbar.Toggle>
-				</div>
-
-				<Navbar.Collapse className={styles.collapseContainer}>
-
-					<div className={styles.middleContainer}>
-						<Nav.Link
-							href={`${process.env.REACT_APP_BASE_URL || 'http://localhost:3001'}/about`}
-							className={styles.navLink}
-						>
 							About
-						</Nav.Link>
-						<Nav.Link
-							href="https://discord.gg/Un4UanH"
-							className={styles.navLink}
-							target="_blank"
-						>
+					</Nav.Link>
+					<Nav.Link
+						href="https://discord.gg/Un4UanH"
+						className={styles.navLink}
+						target="_blank"
+					>
 							Join our Discord
-						</Nav.Link>
-						{/* <Nav.Link
+					</Nav.Link>
+					{/* <Nav.Link
 						onClick={() => setShowModal(true)}
 						className={`${styles.navLink} ${styles.sync}`}
 					>
 						Sync VTOP
 					</Nav.Link> */}
-					</div>
+				</div>
 
-					<SyncModal />
+				<SyncModal />
 
-					<div className={styles.rightContainer}>
-						<Nav.Link className={styles.navLink} disabled>
-							{`Credits: ${creditCount}`}
-						</Nav.Link>
+				<div className={styles.rightContainer}>
+					<Nav.Link className={styles.navLink} disabled>
+						{`Credits: ${creditCount}`}
+					</Nav.Link>
 
-						<ThemeDropdown />
+					<ThemeDropdown />
 
-						<UserDropdown
-							doLogout={doLogout}
-						/>
-					</div>
+					<UserDropdown />
+				</div>
 
-				</Navbar.Collapse>
+			</Navbar.Collapse>
 
-			</Navbar>
-		);
-	},
-);
+		</Navbar>
+	);
+});
 
 export default CustomNavbar;

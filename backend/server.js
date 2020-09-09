@@ -14,6 +14,7 @@ const courseRoute = require('./routes/course');
 const ttgenRoute = require('./routes/ttgen');
 
 const userUtility = require('./utility/userUtility');
+const consts = require('./utility/constants');
 const { logger, expressWinstonLogger } = require('./utility/loggers.js');
 
 // set our port to either a predetermined port number if you have set it up, or 3001
@@ -48,10 +49,7 @@ function ensureAuthenticated(req, res, next) {
 		return next();
 	}
 
-	return res.status(401).json({
-		success: false,
-		message: 'Not Authenticated',
-	});
+	return res.status(401).json(consts.failJson(consts.messages.notAuth));
 }
 
 passport.serializeUser((user, done) => done(null, user));

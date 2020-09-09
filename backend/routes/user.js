@@ -2,7 +2,7 @@ const express = require('express');
 const { logger } = require('../utility/loggers.js');
 
 const user = require('../utility/userUtility');
-
+const consts = require('../utility/constants');
 
 const router = express.Router();
 
@@ -37,13 +37,10 @@ router.post('/syncTimetable', async (req, res) => {
 				},
 			});
 		} else {
-			res.json({
-				success: false,
-				message: 'Up to date',
-			});
+			res.json(consts.failJson(consts.messages.upToDate));
 		}
 	} catch (err) {
-		res.status(500).json({ success: false, message: '/updateSelectedCoursesBulk failed' });
+		res.status(500).json(consts.failJson(consts.messages.serverError));
 		logger.error(`Error in selectedCoursesBulk: ${err}`);
 	}
 });
@@ -57,7 +54,9 @@ router.get('/completedCourses', async (req, res) => {
 				return a;
 			}, {}),
 		});
-	} else { res.json({ success: false, message: 'Not signed in to VTOP' }); }
+	} else {
+		res.json(consts.failJson(consts.messages.notVtop));
+	}
 });
 
 

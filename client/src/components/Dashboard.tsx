@@ -83,6 +83,9 @@ const Dashboard = () => {
 	const timetable = useSelector(
 		(state: RootState) => state.timetable.data,
 	);
+	const isAuthenticated = useSelector(
+		(state: RootState) => state.auth.isAuthenticated,
+	);
 
 	// const [{ data: postGenerateTTResponse, loading: postGenerateTTLoading }, executePostGenerateTT] = useAxiosFFCS({
 	// 	url: '/ttgen/generateTimetable',
@@ -97,19 +100,22 @@ const Dashboard = () => {
 	// const [timetableGenerationError, setTimetableGenerationError] = useState('');
 
 	useEffect(() => {
-		dispatch(fetchUserDetails());
-		dispatch(fetchCompletedCourses());
+		if (isAuthenticated) {
+			dispatch(fetchUserDetails());
+			dispatch(fetchCompletedCourses());
+			dispatch(syncTimetable({
+				timestamp: timetableTimestamp,
+				timetable,
+			}));
+		}
+
 		dispatch(fetchCurriculumPrefixes());
 		dispatch(fetchHeatmap(heatmapTimestamp));
 		dispatch(fetchAllCourseLists(listsTimestamp));
-		dispatch(syncTimetable({
-			timestamp: timetableTimestamp,
-			timetable,
-		}));
 	// Only needs to run on component load
 	// Don't add other dependencies
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [isAuthenticated]);
 
 	useInterval(
 		() => dispatch(fetchHeatmap(heatmapTimestamp)),
@@ -117,10 +123,15 @@ const Dashboard = () => {
 	);
 
 	useInterval(
-		() => dispatch(syncTimetable({
-			timestamp: timetableTimestamp,
-			timetable,
-		})),
+		() => {
+			if (isAuthenticated) {
+				return dispatch(syncTimetable({
+					timestamp: timetableTimestamp,
+					timetable,
+				}));
+			}
+			return null;
+		},
 		1000 * 60 * 1,
 	);
 

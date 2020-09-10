@@ -38,9 +38,10 @@ const App = () => {
 				</Route>
 
 				<Route path="/">
-					{isAuthenticated
+					<Dashboard />
+					{/* {isAuthenticated
 						? <Dashboard />
-						: <Redirect to="/login" />}
+						: <Redirect to="/login" />} */}
 				</Route>
 			</Switch>
 		</Router>

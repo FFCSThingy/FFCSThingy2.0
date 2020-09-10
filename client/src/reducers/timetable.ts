@@ -174,9 +174,21 @@ const timetableSlice = createSlice({
 		removeTimetable: (state) => {
 			if (state.active === 'Default') return;
 
-			state.data = state.data.filter((v) => v.timetableName !== state.active);
-			state.names = state.names.filter((v) => v !== state.active);
-			[state.active] = state.names;
+			const newData = state.data.filter((v) => v.timetableName !== state.active);
+			const newNames = state.names.filter((v) => v !== state.active);
+			const [newActive] = state.names;
+
+			const filledSlots = findFilledSlots(newData, newActive);
+			const clashmap = updateClashmap(state.clashmap, filledSlots);
+			const creditCount = countCredits(newData, newActive);
+
+			state.clashmap = clashmap;
+			state.filledSlots = filledSlots;
+			state.creditCount = creditCount;
+
+			state.data = newData;
+			state.names = newNames;
+			state.active = newActive;
 		},
 		renameTimetable: (state, action: PayloadAction<string>) => {
 			const newName = action.payload;

@@ -1,0 +1,33 @@
+@import '../utilities/mixins';
+
+.customButton {
+	@include theme-aware('background-color', 'color-brand');
+	@include theme-aware('color', 'color-text');
+	@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+	border-radius: 0.5rem !important;
+	border: none;
+	margin: 0 1rem;
+	padding: 0.375rem 0.75rem;
+
+	&:global(.active),
+	&:active {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		transform: translateY(2px);
+		border: none;
+	}
+
+	&:global(.focus),
+	&:focus {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		border: none;
+	}
+
+	&:not(:disabled):active:focus {
+		@include theme-aware('background-color', 'color-brand');
+		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
+		transform: translateY(2px);
+		border: none;
+	}
+}

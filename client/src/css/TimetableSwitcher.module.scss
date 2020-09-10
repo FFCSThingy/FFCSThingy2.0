@@ -10,76 +10,12 @@
 	align-items: center;
 }
 
-.customButton {
-	@include theme-aware('background-color', 'color-brand');
-	@include theme-aware('color', 'color-text');
-	@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-	border-radius: 0.5rem !important;
-	border: none;
-	margin: 0 1rem;
-	padding: 0.375rem 0.75rem;
-
-	&:global(.active),
-	&:active {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-		transform: translateY(2px);
-		border: none;
-	}
-
-	&:global(.focus),
-	&:focus {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-		border: none;
-	}
-
-	&:not(:disabled):active:focus {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-		transform: translateY(2px);
-		border: none;
-	}
+.button {
+	composes: customButton from './baseStyles/CustomButton.module.scss';
 }
 
-.customDropdownButton {
-	padding: 0.375rem 0.75rem;
-	margin: 0 1rem;
-	@include theme-aware('background-color', 'color-brand');
-	@include theme-aware('color', 'color-text');
-	@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-	border-radius: 0.5rem;
-	border: none;
-
-	:global(.show) > & {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-	}
-
-	&:global(.active),
-	&:not(:disabled):active,
-	:global(.show) > &:active {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-		transform: translateY(2px);
-		border: none;
-	}
-
-	&:global(.focus),
-	&:not(:disabled):focus,
-	:global(.show) > &:focus {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-		border: none;
-	}
-
-	&:not(:disabled):active:focus,
-	:global(.show) > &:not(:disabled):active:focus {
-		@include theme-aware('background-color', 'color-brand');
-		@include theme-aware-shadow(0 6px, 'color-border-dropdown');
-		transform: translateY(2px);
-		border: none;
-	}
+.dropdownButton {
+	composes: customDropdownButton from './baseStyles/CustomDropdownButton.module.scss';
 }
 
 // The Dropdown.Menu item inside NavDropdown

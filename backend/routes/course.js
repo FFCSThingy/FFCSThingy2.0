@@ -7,6 +7,7 @@ const curriculum = require('../utility/curriculumUtility');
 const course = require('../utility/courseUtility');
 const system = require('../utility/systemUtility');
 const consts = require('../utility/constants');
+const ensureAuthenticated = require('../utility/middleware');
 
 const prereqJSON = require('../data/prereqs.json');
 
@@ -109,39 +110,6 @@ function doBarUpdate(promises, progressCallback) {
 	return Promise.all(promises);
 }
 
-router.get('/addCoursesToDB/SuckOnDeezNumbNutz', async (req, res) => {
-	try {
-		const courses = await course.parseXLSX();
-
-		const repopTime = await system.updateRepopulateTime();
-
-		system.updateHeatmapUpdateTime();
-
-		const actions = courses.map(course.addCourseToDB);
-
-		logger.warn('Starting Courses Add/Update');
-		// Makes a progress Bar, 0 to actions.length
-		const addCoursesBar = new cliProgress.SingleBar({
-			format: 'Adding Courses: |{bar}| {percentage}% | {value}/{total} | {duration}s',
-		}, cliProgress.Presets.shades_classic);
-		addCoursesBar.start(actions.length, 0);
-		// Pass a callback function.
-		const results = await doBarUpdate(actions, (p) => {
-			addCoursesBar.update(p);
-		});
-		addCoursesBar.stop();
-		logger.warn('Finished Courses Add/Update');
-
-		const deletes = await course.cleanCoursesAfterRepopulate(repopTime);
-		const cleanDetails = await course.doCleanRemovedCourses();
-
-		return res.json({ updates: results, deletes, cleanDetails });
-	} catch (err) {
-		logger.error(`addCoursesToDB Error: ${err}`);
-		return res.status(500).json(consts.failJson(consts.messages.serverError));
-	}
-});
-
 router.get('/courseByDetails/:code/:type/:faculty/:venue/:slot', async (req, res) => {
 	try {
 		const data = {
@@ -184,6 +152,9 @@ router.get('/courseByID/:id', async (req, res) => {
 	}
 });
 
+// Routes after this are authenticated
+router.use(ensureAuthenticated);
+
 router.get('/updateHeatmap', async (req, res) => {
 	try {
 		const doc = await course.updateHeatmap();
@@ -193,13 +164,52 @@ router.get('/updateHeatmap', async (req, res) => {
 	}
 });
 
-router.get('/cleanDemOldCourses/SuckOnDeezNumbNutz', async (req, res) => {
-	try {
-		const data = await course.doCleanRemovedCourses();
-		res.send(data);
-	} catch (err) {
-		logger.error(err);
-	}
-});
+router.get(
+	'/addCoursesToDB/SuckOnDeezNumbNutz',
+	async (req, res) => {
+		try {
+			const courses = await course.parseXLSX();
+
+			const repopTime = await system.updateRepopulateTime();
+
+			system.updateHeatmapUpdateTime();
+
+			const actions = courses.map(course.addCourseToDB);
+
+			logger.warn('Starting Courses Add/Update');
+			// Makes a progress Bar, 0 to actions.length
+			const addCoursesBar = new cliProgress.SingleBar({
+				format: 'Adding Courses: |{bar}| {percentage}% | {value}/{total} | {duration}s',
+			}, cliProgress.Presets.shades_classic);
+			addCoursesBar.start(actions.length, 0);
+			// Pass a callback function.
+			const results = await doBarUpdate(actions, (p) => {
+				addCoursesBar.update(p);
+			});
+			addCoursesBar.stop();
+			logger.warn('Finished Courses Add/Update');
+
+			const deletes = await course.cleanCoursesAfterRepopulate(repopTime);
+			const cleanDetails = await course.doCleanRemovedCourses();
+
+			return res.json({ updates: results, deletes, cleanDetails });
+		} catch (err) {
+			logger.error(`addCoursesToDB Error: ${err}`);
+			return res.status(500).json(consts.failJson(consts.messages.serverError));
+		}
+	},
+);
+
+router.get(
+	'/cleanDemOldCourses/SuckOnDeezNumbNutz',
+	async (req, res) => {
+		try {
+			const data = await course.doCleanRemovedCourses();
+			res.send(data);
+		} catch (err) {
+			logger.error(err);
+		}
+	},
+);
 
 module.exports = router;

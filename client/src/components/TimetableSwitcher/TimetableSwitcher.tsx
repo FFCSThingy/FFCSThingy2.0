@@ -67,7 +67,9 @@ const TimetableSwitcher = memo(() => {
 
 	const dropdownItems = timetableNames.map((value) => {
 		let className = styles.dropdownItem;
-		if (value === activeTimetableName) className = `${styles.dropdownItem} ${styles.selected}`;
+		if (value === activeTimetableName) {
+			className = `${styles.dropdownItem} ${styles.selected}`;
+		}
 
 		return (
 			<Dropdown.Item
@@ -88,7 +90,10 @@ const TimetableSwitcher = memo(() => {
 					(selected: string) => dispatch(changeTimetable(selected))
 				}
 				>
-					<Dropdown.Toggle id="DropdownToggle" className={styles.customDropdownButton}>
+					<Dropdown.Toggle
+						id="DropdownToggle"
+						className={styles.dropdownButton}
+					>
 						{activeTimetableName}
 					</Dropdown.Toggle>
 
@@ -98,21 +103,21 @@ const TimetableSwitcher = memo(() => {
 				</Dropdown>
 
 				<Button
-					className={styles.customButton}
+					className={styles.button}
 					onClick={() => handleAction('New')}
 				>
 					<FaPlusSquare />
 				</Button>
 
 				<Button
-					className={styles.customButton}
+					className={styles.button}
 					onClick={() => handleAction('Copy')}
 				>
 					<FaCopy />
 				</Button>
 
 				<Button
-					className={styles.customButton}
+					className={styles.button}
 					onClick={() => handleAction('Edit')}
 					disabled={activeTimetableName === 'Default'}
 				>
@@ -120,7 +125,7 @@ const TimetableSwitcher = memo(() => {
 				</Button>
 
 				<Button
-					className={styles.customButton}
+					className={styles.button}
 					onClick={() => handleAction('Delete')}
 					disabled={activeTimetableName === 'Default'}
 				>

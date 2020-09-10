@@ -39,10 +39,12 @@ const store = configureStore({
 });
 
 store.subscribe(throttle(() => {
-	let state = store.getState();
+	const state = { ...store.getState() };
 
 	// Don't set auth in store
-	state = { ...state, auth: { isAuthenticated: null } };
+	// state = {};
+	delete state.auth;
+	delete state.user;
 
 	saveState(state);
 }, 2000));

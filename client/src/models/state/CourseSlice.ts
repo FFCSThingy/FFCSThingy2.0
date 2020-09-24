@@ -12,6 +12,7 @@ export default interface CourseSlice {
 	heatmap: {
 		timestamp : string,
 		data: Array<HeatmapCourse>,
+		syncing: boolean,
 	},
 	lists: {
 		course: CourseList,

@@ -9,4 +9,5 @@ export default interface TimetableSlice {
 	data: Array<TimetableCourse>,
 	clashmap: Clashmap,
 	creditCount: number,
+	syncing: boolean,
 }

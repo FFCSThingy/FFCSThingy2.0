@@ -33,8 +33,9 @@ export const fetchAllCourseLists = createAsyncThunk(
 const initialState: CourseSlice = {
 	selected: '',
 	heatmap: {
-		data: JSON.parse(localStorage.getItem('heatmap') ?? '[]'),
-		timestamp: localStorage.getItem('heatmapTimestamp') ?? '',
+		data: [],
+		timestamp: '',
+		syncing: false,
 	},
 	lists: {
 		course: {},
@@ -42,7 +43,7 @@ const initialState: CourseSlice = {
 		faculty: {},
 		type: {},
 		req: {},
-		timestamp: localStorage.getItem('listsTimetstamp') ?? '',
+		timestamp: '',
 	},
 };
 
@@ -56,12 +57,27 @@ const courseSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(
+			fetchHeatmap.pending,
+			(state) => {
+				state.heatmap.syncing = true;
+			},
+		);
+
+		builder.addCase(
+			fetchHeatmap.rejected,
+			(state) => {
+				state.heatmap.syncing = false;
+			},
+		);
+
+		builder.addCase(
 			fetchHeatmap.fulfilled,
 			(state, action: PayloadAction<{ heatmap: HeatmapCourse[], timestamp: string }>) => {
 				const { heatmap, timestamp } = action.payload;
 
 				state.heatmap.data = heatmap;
 				state.heatmap.timestamp = timestamp;
+				state.heatmap.syncing = false;
 			},
 		);
 

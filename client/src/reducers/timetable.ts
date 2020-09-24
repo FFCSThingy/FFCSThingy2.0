@@ -92,6 +92,7 @@ const initialState: TimetableSlice = {
 	timestamp: '',
 	clashmap: CLASHMAP,
 	creditCount: 0,
+	syncing: false,
 };
 
 const timetableSlice = createSlice({
@@ -232,6 +233,20 @@ const timetableSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder.addCase(
+			syncTimetable.pending,
+			(state) => {
+				state.syncing = true;
+			},
+		);
+
+		builder.addCase(
+			syncTimetable.rejected,
+			(state) => {
+				state.syncing = false;
+			},
+		);
+
+		builder.addCase(
 			syncTimetable.fulfilled,
 			(
 				state,
@@ -251,6 +266,7 @@ const timetableSlice = createSlice({
 				state.data = timetable;
 				state.creditCount = creditCount;
 				state.timestamp = timestamp;
+				state.syncing = false;
 			},
 		);
 	},

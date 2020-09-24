@@ -14,6 +14,7 @@ import TimetableSwitcher from './TimetableSwitcher/TimetableSwitcher';
 import Timetable from './Timetable/Timetable';
 import SelectedCoursesTable from './SelectedCoursesTable/SelectedCoursesTable';
 
+import Toasts from './Toasts/Toasts';
 // CSS
 import styles from '../css/Dashboard.module.scss';
 
@@ -175,6 +176,8 @@ const Dashboard = () => {
 			<Row className={styles.navBarRow}>
 				<CustomNavbar />
 			</Row>
+
+			<Toasts />
 
 			<Row className={styles.slotSelectionRow}>
 				<Col xs={12} md={4}>

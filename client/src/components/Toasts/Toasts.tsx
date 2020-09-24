@@ -9,7 +9,7 @@ import styles from '../../css/Toasts.module.scss';
 const TimetableIcon = () => (
 	<OverlayTrigger
 		key="TimetableSync-Overlay"
-		placement="left"
+		placement="bottom"
 		trigger={['hover']}
 		overlay={(
 			<Tooltip id="TimetableSync-Tooltip">
@@ -26,7 +26,7 @@ const TimetableIcon = () => (
 const HeatmapIcon = () => (
 	<OverlayTrigger
 		key="HeatmapSync-Overlay"
-		placement="left"
+		placement="bottom"
 		trigger={['hover']}
 		overlay={(
 			<Tooltip id="HeatmapSync-Tooltip">
@@ -74,14 +74,7 @@ const SyncToast = () => {
 };
 
 const Toasts = () => (
-	<div
-		style={{
-			position: 'fixed',
-			top: '7vh',
-			right: '1vw',
-			zIndex: 2000,
-		}}
-	>
+	<div className={styles.toastContainer}>
 		<SyncToast />
 	</div>
 );

@@ -1,3 +1,10 @@
+.toastContainer {
+    position: fixed;
+    top: 7vh;
+    right: 1vw;
+    z-index: 2000;
+}
+
 .syncIcon {
     margin-right: 20px;
     animation: rotation 2s infinite linear;

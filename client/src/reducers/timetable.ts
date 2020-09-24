@@ -87,9 +87,9 @@ const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 const initialState: TimetableSlice = {
 	active: 'Default',
 	names: ['Default'],
-	filledSlots: [] as string[],
-	data: JSON.parse(localStorage.getItem('timetable') || '[]'),
-	timestamp: localStorage.getItem('timetableTimestamp') ?? '',
+	filledSlots: [],
+	data: [],
+	timestamp: '',
 	clashmap: CLASHMAP,
 	creditCount: 0,
 };
@@ -98,6 +98,15 @@ const timetableSlice = createSlice({
 	name: ACTION_BASE,
 	initialState,
 	reducers: {
+		clearLocalData: (state) => {
+			state.active = 'Default';
+			state.names = ['Default'];
+			state.filledSlots = [];
+			state.data = [];
+			state.timestamp = '';
+			state.clashmap = updateClashmap(state.clashmap, []);
+			state.creditCount = 0;
+		},
 		addCourse: (state, action: PayloadAction<HeatmapCourse>) => {
 			const course = action.payload;
 			const timestamp = new Date(Date.now()).toISOString();
@@ -255,6 +264,7 @@ export const {
 	removeTimetable,
 	renameTimetable,
 	copyTimetable,
+	clearLocalData,
 } = timetableSlice.actions;
 
 export default timetableSlice.reducer;

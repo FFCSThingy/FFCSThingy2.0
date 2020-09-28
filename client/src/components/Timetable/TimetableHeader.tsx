@@ -13,10 +13,10 @@ const TimetableHeaderRow: FC<TimetableHeaderRowProps> = memo(
 		const rowCells = HEADERS[rowNumber].map((val, i) => {
 			// To split with a <br> between words
 			// Adds <br> only if acc exists
-			const cellVal = val.split(' ').reduce((acc, v) => (
+			const cellVal = val.split(' ').reduce((acc, v, i) => (
 				<>
 					{acc}
-					{acc ? (<br />) : ''}
+					{i === 0 ? '' : (<br />)}
 					{v}
 				</>
 			), <></>);
@@ -76,7 +76,7 @@ const TimetableHeaderRow: FC<TimetableHeaderRowProps> = memo(
 				{rowCells}
 			</tr>
 		);
-	}
+	},
 );
 
 const TimetableHeader: FC<TimetableHeaderProps> = memo(
@@ -95,7 +95,7 @@ const TimetableHeader: FC<TimetableHeaderProps> = memo(
 				key="TimetableHeaderRow-1"
 			/>
 		</thead>
-	)
+	),
 );
 
 export default TimetableHeader;

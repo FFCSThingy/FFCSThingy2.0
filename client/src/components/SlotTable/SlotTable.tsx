@@ -1,4 +1,5 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
 	Card, Col, CardColumns, ToggleButtonGroup, ToggleButton, Row,
@@ -6,15 +7,40 @@ import {
 
 import SlotCard from './SlotCard';
 
+import {
+	selectSlotsForCourse,
+	selectClashingSlots,
+	checkSelected,
+	checkRelated,
+} from '../../selectors/slots';
+import { addCourse } from '../../reducers/timetable';
+
 import styles from '../../css/SlotTable.module.scss';
 
 import HeatmapCourse from '../../models/data/HeatmapCourse';
-import SlotTableProps from '../../models/components/SlotTable/SlotTable';
+import { RootState } from '../../app/rootReducer';
 
+const SlotTable = () => {
+	const dispatch = useDispatch();
 
-const SlotTable: FC<SlotTableProps> = ({
-	selectedCourseCode, selectedCourseSlots, addSlotToTimetable, slotClashesWith, isSelected,
-}) => {
+	const selectedCourse = useSelector(
+		(state: RootState) => state.course.selected,
+	);
+	const slots = useSelector(
+		(state: RootState) => selectSlotsForCourse(state),
+	);
+
+	// Custom Selectors
+	const slotClashesWith = useSelector(
+		(state: RootState) => selectClashingSlots(state),
+	);
+	const isSelected = useSelector(
+		(state: RootState) => checkSelected(state),
+	);
+	const checkIsRelated = useSelector(
+		(state: RootState) => checkRelated(state),
+	);
+
 	const [selectedCourseTypes, setSelectedCourseTypes] = useState<string[]>([]);
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
 	const [venueFilters, setVenueFilters] = useState<string[]>([]);
@@ -22,19 +48,19 @@ const SlotTable: FC<SlotTableProps> = ({
 	const [theoryAvailableVenueList, setTheoryAvailableVenueList] = useState<string[]>([]);
 	const [labAvailableVenueList, setLabAvailableVenueList] = useState<string[]>([]);
 	const [projectAvailableVenueList, setProjectAvailableVenueList] = useState<string[]>([]);
-	const [filteredSlots, setFilteredSlots] = useState<HeatmapCourse[]>(selectedCourseSlots);
+	const [filteredSlots, setFilteredSlots] = useState<HeatmapCourse[]>(slots);
 
-	// Reset filters and update lists when selectedCourseCode changes.
+	// Reset filters and update lists when selectedCourse changes.
 	useEffect(() => {
 		const types = Array.from(
-			new Set(selectedCourseSlots.map((course) => course.simpleCourseType)),
+			new Set(slots.map((course) => course.simpleCourseType)),
 		).sort();
 
 		const findAvailableVenues = (type = '') => {
 			const venueRegex = /^[A-Z]+/;
 			return Array.from(
 				new Set(
-					selectedCourseSlots
+					slots
 						.filter((c) => !(c.venue === 'NIL'))
 						.filter((c) => {
 							if (type) return c.simpleCourseType === type;
@@ -60,11 +86,10 @@ const SlotTable: FC<SlotTableProps> = ({
 
 		setTypeFilters([]);
 		setVenueFilters([]);
-
-	}, [selectedCourseCode, selectedCourseSlots]);
+	}, [selectedCourse, slots]);
 
 	useEffect(() => {
-		const doCourseSlotsFilter = () => selectedCourseSlots
+		const doCourseSlotsFilter = () => slots
 			.filter((course) => {	// Filter on simpleCourseType
 				if (typeFilters.length === 0) { return true; }
 
@@ -83,7 +108,7 @@ const SlotTable: FC<SlotTableProps> = ({
 			});
 
 		setFilteredSlots(doCourseSlotsFilter());
-	}, [typeFilters, venueFilters, selectedCourseSlots]);
+	}, [typeFilters, venueFilters, slots]);
 
 	const handleTypeChange = (val: string[]) => setTypeFilters(val);
 
@@ -94,12 +119,15 @@ const SlotTable: FC<SlotTableProps> = ({
 	const clashingCourses: JSX.Element[] = [];
 
 	filteredSlots.map((slot) => {
+		const isRelated = checkIsRelated(slot);
+
 		if (isSelected(slot)) {
 			return selectedCourses.push(
 				<SlotCard
 					slotDetails={slot}
 					type="selected"
 					key={`SlotCard-${slot._id}`}
+					isRelated={isRelated}
 				/>,
 			);
 		}
@@ -112,6 +140,7 @@ const SlotTable: FC<SlotTableProps> = ({
 					type="clashing"
 					clashingSlots={clashingSlots}
 					key={`SlotCard-${slot._id}`}
+					isRelated={isRelated}
 				/>,
 			);
 		}
@@ -120,8 +149,11 @@ const SlotTable: FC<SlotTableProps> = ({
 			<SlotCard
 				slotDetails={slot}
 				type="normal"
-				onClick={addSlotToTimetable}
+				onClick={
+					() => dispatch(addCourse(slot))
+				}
 				key={`SlotCard-${slot._id}`}
+				isRelated={isRelated}
 			/>,
 		);
 	});

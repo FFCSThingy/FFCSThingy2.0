@@ -4,4 +4,4 @@ export default interface Clashmap {
 		isFilled: boolean;
 		currentlyClashesWith: string[];
 	};
-};
+}

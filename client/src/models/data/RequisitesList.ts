@@ -1,5 +1,5 @@
-import CourseReqs from "./CourseReqs";
+import CourseReqs from './CourseReqs';
 
 export default interface RequisitesList {
 	[key: string]: CourseReqs;
-};
+}

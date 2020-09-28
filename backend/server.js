@@ -14,6 +14,7 @@ const courseRoute = require('./routes/course');
 const ttgenRoute = require('./routes/ttgen');
 
 const userUtility = require('./utility/userUtility');
+const ensureAuthenticated = require('./utility/middleware');
 const { logger, expressWinstonLogger } = require('./utility/loggers.js');
 
 // set our port to either a predetermined port number if you have set it up, or 3001
@@ -40,16 +41,6 @@ db.on('error', logger.error.bind(logger, 'connection error:'));
 db.once('open', () => {
 	logger.info('Connected to MongoDB Instance');
 });
-
-function ensureAuthenticated(req, res, next) {
-	req.authenticated = req.isAuthenticated();
-
-	if (req.isAuthenticated()) {
-		return next();
-	}
-
-	return res.status(401).json({ success: false, authenticated: false });
-}
 
 passport.serializeUser((user, done) => done(null, user));
 
@@ -117,8 +108,8 @@ app.use((req, res, next) => {
 });
 
 app.use('/ext', ensureAuthenticated, extRoute);
-app.use('/curriculum', ensureAuthenticated, curriculumRoute);
-app.use('/course', ensureAuthenticated, courseRoute);
+app.use('/curriculum', curriculumRoute);
+app.use('/course', courseRoute);
 app.use('/user', ensureAuthenticated, userRoute);
 app.use('/ttgen', ensureAuthenticated, ttgenRoute);
 
@@ -131,7 +122,7 @@ app.get('/account', ensureAuthenticated, (req, res) => {
 
 		vtopSignedIn: req.user.vtopSignedIn,
 	};
-	return res.json(data);
+	return res.json({ success: true, data });
 });
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));

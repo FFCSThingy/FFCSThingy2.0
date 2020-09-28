@@ -14,4 +14,4 @@ export default interface TimetableCellProps {
 	};
 	defaultValue: string;
 	children: React.ReactNode;
-};
+}

@@ -1,7 +1,7 @@
 import ThemeList from '../models/constants/ThemeList';
 
 const themeList: ThemeList = {
-	'default': 'Default',
+	default: 'Default',
 	'eerie-black': 'Eerie Black',
 	'mellow-yellow': 'Mellow Yellow',
 	'light-coral': 'Light Coral',

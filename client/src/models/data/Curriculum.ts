@@ -8,9 +8,9 @@ export interface CurriculumCourse {
 	p: number;
 	j: number;
 	c: number;
-};
+}
 
-export interface Curriculum {
+export default interface Curriculum {
 	[key: string]: any;
 	_id: string;
 	reg_prefix: string;
@@ -26,4 +26,4 @@ export interface Curriculum {
 	uc: CurriculumCourse[];
 	pe: CurriculumCourse[];
 	ue: CurriculumCourse[];
-};
+}

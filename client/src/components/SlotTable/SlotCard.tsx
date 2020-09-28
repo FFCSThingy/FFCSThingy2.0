@@ -7,10 +7,22 @@ import styles from '../../css/SlotTable.module.scss';
 import SlotCardProps from '../../models/components/SlotTable/SlotCard';
 
 const SlotCard: FC<SlotCardProps> = ({
-	slotDetails, onClick, type, clashingSlots,
+	slotDetails, onClick, type, clashingSlots, isRelated = false,
 }) => {
-	let clashSubtitle; let selectedSubtitle; let
-		cardBodyClass = styles.cardBody;
+	let clashSubtitle;
+	let selectedSubtitle;
+	let relatedSubtitle;
+	let cardBodyClass = styles.cardBody;
+
+	if (isRelated && type !== 'selected') {
+		cardBodyClass = styles.cardBodyRelated;
+		relatedSubtitle = (
+			<Card.Subtitle className={styles.cardRelatedSubtitle}>
+				Related
+			</Card.Subtitle>
+		);
+	}
+
 	if (type === 'clashing' && clashingSlots) {
 		const clashingString = clashingSlots.join(', ');
 		cardBodyClass = styles.cardBodyClash;
@@ -21,10 +33,13 @@ const SlotCard: FC<SlotCardProps> = ({
 			</Card.Subtitle>
 		);
 	}
+
 	if (type === 'selected') {
 		cardBodyClass = styles.cardBodySelected;
 		selectedSubtitle = (
-			<Card.Subtitle className={styles.cardSelectedSubtitle}>Selected</Card.Subtitle>
+			<Card.Subtitle className={styles.cardSelectedSubtitle}>
+				Selected
+			</Card.Subtitle>
 		);
 	}
 
@@ -32,12 +47,19 @@ const SlotCard: FC<SlotCardProps> = ({
 		<Card
 			className={styles.slotCard}
 			key={slotDetails._id}
-			onClick={() => ((type === 'normal' && onClick) ? onClick(slotDetails) : null)}
+			onClick={() => (
+				(type === 'normal' && onClick)
+					? onClick() : null
+			)}
 		>
 
 			<Card.Body className={cardBodyClass}>
-				<Card.Text className={styles.slotText}>{slotDetails.slot}</Card.Text>
-				<Card.Title className={styles.cardTitle}>{slotDetails.faculty}</Card.Title>
+				<Card.Text className={styles.slotText}>
+					{slotDetails.slot}
+				</Card.Text>
+				<Card.Title className={styles.cardTitle}>
+					{slotDetails.faculty}
+				</Card.Title>
 				<Card.Subtitle className={styles.cardSubtitle}>
 					{`${slotDetails.venue} - ${slotDetails.course_type}`}
 				</Card.Subtitle>
@@ -57,6 +79,10 @@ const SlotCard: FC<SlotCardProps> = ({
 
 				{
 					(type === 'selected' ? selectedSubtitle : null)
+				}
+
+				{
+					(isRelated ? relatedSubtitle : null)
 				}
 
 			</Card.Body>

@@ -16,4 +16,4 @@ export default interface HeatmapCourse {
 	total: number;
 	percent: number;
 	timestamp: string;
-};
+}

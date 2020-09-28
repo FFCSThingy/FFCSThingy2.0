@@ -1,21 +1,29 @@
-import React, { FC } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Container } from 'react-bootstrap';
 import { FaTrashAlt } from 'react-icons/fa';
-import styles from '../css/SelectedCoursesTable.module.scss';
+import styles from '../../css/SelectedCoursesTable.module.scss';
 
-import TimetableCourse from '../models/data/TimetableCourse';
-import SelectedCoursesTableProps from '../models/components/SelectedCoursesTable';
+import { removeCourse } from '../../reducers/timetable';
+import selectFilteredTimetable from '../../selectors/timetable';
 
-const sortTimetable = ((a: TimetableCourse, b: TimetableCourse) => a.code.localeCompare(b.code));
+import TimetableCourse from '../../models/data/TimetableCourse';
+import { RootState } from '../../app/rootReducer';
 
-const SelectedCoursesTable: FC<SelectedCoursesTableProps> = (
-	{
-		timetable,
-		activeTimetableName,
-		creditCount,
-		unselectSlot,
-	}) => (
+const sortTimetable = (
+	(a: TimetableCourse, b: TimetableCourse) => a.code.localeCompare(b.code));
+
+const SelectedCoursesTable = () => {
+	const dispatch = useDispatch();
+	const timetable = useSelector(
+		(state: RootState) => selectFilteredTimetable(state),
+	);
+	const creditCount = useSelector(
+		(state: RootState) => state.timetable.creditCount,
+	);
+
+	return (
 		<Container className={styles.selectedCourseContainer}>
 			<table className={styles.selectedCourseTable}>
 				<thead className={styles.selectedCourseHead}>
@@ -33,7 +41,7 @@ const SelectedCoursesTable: FC<SelectedCoursesTableProps> = (
 				<tbody className={styles.selectedCourseBody}>
 					{
 						timetable
-							.filter((v: TimetableCourse) => v.timetableName === activeTimetableName)
+							.slice() // To make a copy, avoid TypeError
 							.sort(sortTimetable)
 							.map((value: TimetableCourse) => (
 								<tr key={value._id}>
@@ -46,7 +54,9 @@ const SelectedCoursesTable: FC<SelectedCoursesTableProps> = (
 									<td>
 										<FaTrashAlt
 											className={styles.trashButton}
-											onClick={() => unselectSlot(value)}
+											onClick={
+												() => dispatch(removeCourse(value))
+											}
 										/>
 									</td>
 								</tr>
@@ -64,5 +74,6 @@ const SelectedCoursesTable: FC<SelectedCoursesTableProps> = (
 			</table>
 		</Container>
 	);
+};
 
 export default SelectedCoursesTable;

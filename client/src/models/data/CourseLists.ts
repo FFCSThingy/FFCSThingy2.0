@@ -6,16 +6,16 @@ export interface CourseList {
 		simpleCourseTypes: string[];
 		shortCourseTypes: string[];
 	};
-};
+}
 
 export interface CourseSlotList {
 	[key: string]: string[];
-};
+}
 
 export interface CourseFacultyList {
 	[key: string]: string[];
-};
+}
 
 export interface CourseTypeList {
 	[key: string]: string[];
-};
+}

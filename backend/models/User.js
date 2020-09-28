@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema({
 		code: String,
 		title: String,
 		course_type: String,
-		credits: String,
+		credits: Number,
 		slot: String,
 		faculty: String,
 		venue: String,

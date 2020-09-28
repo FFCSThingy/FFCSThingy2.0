@@ -152,4 +152,17 @@
 			@include theme-aware('color', 'color-text-selected');
 		}
 	}
+
+	.cardBodyRelated {
+		border-radius: 0.7rem;
+		
+		@include theme-aware('background-color', 'color-background-card-related');
+		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
+		transition: box-shadow 0.17s ease-in-out;
+	}
+
+	.cardRelatedSubtitle {
+		margin-top: 0 !important;
+		@include theme-aware('color', 'color-text-related');
+	}
 }

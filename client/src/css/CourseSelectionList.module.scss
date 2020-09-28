@@ -280,6 +280,10 @@
 		transition: color 0.17s ease-in;
 		outline: 0;
 
+		&:global(.disabled) {
+			@include theme-aware('color', 'color-text-other');
+		}
+
 		&:hover {
 			@include theme-aware('color', 'color-background-button-selected');
 			transition: color 0.17s ease-in;

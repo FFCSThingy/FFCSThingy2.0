@@ -25,11 +25,18 @@ router.post('/generateTimetable', async (req, res) => {
 
 	if (!user.vtopSignedIn) { return res.json({ success: false, message: 'Not signed in to VTOP' }); }
 
-	if (user.dailyCount >= dailyCountLimit) { return res.json({ success: false, message: 'Exceeded Daily Limit' }); }
+	if (user.dailyCount >= dailyCountLimit) {
+		return res.json({ success: false, message: 'Exceeded Daily Limit' });
+	}
 
-	if (user.hourlyCount >= hourlyCountLimit) { return res.json({ success: false, message: 'Exceeded Hourly Limit' }); }
+	if (user.hourlyCount >= hourlyCountLimit) {
+		return res.json({ success: false, message: 'Exceeded Hourly Limit' });
+	}
 
-	userUtility.updateUser({ _id: req.user._id }, { $inc: { dailyCount: 1, hourlyCount: 1, totalCount: 1 } });
+	userUtility.updateUser(
+		{ _id: req.user._id },
+		{ $inc: { dailyCount: 1, hourlyCount: 1, totalCount: 1 } },
+	);
 
 	const completedCourses = user.completed_courses.reduce((a, v) => {
 		a[v.code] = v.grade;
@@ -44,7 +51,13 @@ router.post('/generateTimetable', async (req, res) => {
 	// };
 	const { pref } = req.body;
 	pref.regno = user.reg_no;
-	const allowed = ['16BCE', '16BME', '16BIT', '16BEC', '16BEM', '17BCI', '17BEC', '17BIT', '17BCE', '17BEM', '17BME', '17BIS', '18BCB', '18BCE', '18BCL', '18BCI', '18BEC', '18BIT', '18BEE', '17BMD', '17BCL', '17BEE', '16BCB', '16BCL', '18BME', '17BMA', '18BEM', '16BCI'];
+	const allowed = [
+		'16BCE', '16BME', '16BIT', '16BEC', '16BEM', '17BCI', '17BEC', '17BIT',
+		'17BCE', '17BEM', '17BME', '17BIS', '18BCB', '18BCE', '18BCL', '18BCI',
+		'18BEC', '18BIT', '18BEE', '17BMD', '17BCL', '17BEE', '16BCB', '16BCL',
+		'18BME', '17BMA', '18BEM', '16BCI',
+	];
+
 	if (!allowed.includes(pref.regno.slice(0, 5))) {
 		return res.json({ success: false, message: 'Coming soon for your curriculum, check back soon' });
 	}

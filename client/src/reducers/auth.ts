@@ -38,9 +38,7 @@ const authSlice = createSlice({
 			(state) => {
 				state.isAuthenticated = true;
 			},
-		);
-
-		builder.addCase(
+		).addCase(
 			checkAuth.rejected,
 			(state) => {
 				state.isAuthenticated = false;
@@ -52,9 +50,7 @@ const authSlice = createSlice({
 			(state) => {
 				state.isAuthenticated = false;
 			},
-		);
-
-		builder.addCase(
+		).addCase(
 			logout.rejected,
 			(state) => {
 				state.isAuthenticated = false;

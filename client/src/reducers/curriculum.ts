@@ -94,9 +94,7 @@ const curriculumSlice = createSlice({
 
 				state.list = list;
 			},
-		);
-
-		builder.addCase(
+		).addCase(
 			fetchCurriculumFromPrefix.fulfilled,
 			(state, action: PayloadAction<Curriculum>) => {
 				const data = action.payload;

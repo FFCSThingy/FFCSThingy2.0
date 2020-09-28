@@ -61,16 +61,12 @@ const courseSlice = createSlice({
 			(state) => {
 				state.heatmap.syncing = true;
 			},
-		);
-
-		builder.addCase(
+		).addCase(
 			fetchHeatmap.rejected,
 			(state) => {
 				state.heatmap.syncing = false;
 			},
-		);
-
-		builder.addCase(
+		).addCase(
 			fetchHeatmap.fulfilled,
 			(state, action: PayloadAction<{ heatmap: HeatmapCourse[], timestamp: string }>) => {
 				const { heatmap, timestamp } = action.payload;

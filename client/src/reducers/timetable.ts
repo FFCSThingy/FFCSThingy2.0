@@ -237,16 +237,12 @@ const timetableSlice = createSlice({
 			(state) => {
 				state.syncing = true;
 			},
-		);
-
-		builder.addCase(
+		).addCase(
 			syncTimetable.rejected,
 			(state) => {
 				state.syncing = false;
 			},
-		);
-
-		builder.addCase(
+		).addCase(
 			syncTimetable.fulfilled,
 			(
 				state,

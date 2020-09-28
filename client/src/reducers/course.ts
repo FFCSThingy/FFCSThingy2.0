@@ -30,7 +30,7 @@ export const fetchAllCourseLists = createAsyncThunk(
 	},
 );
 
-const initialState: CourseSlice = {
+export const initialState: CourseSlice = {
 	selected: '',
 	heatmap: {
 		data: [],

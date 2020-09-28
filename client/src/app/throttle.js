@@ -2,13 +2,13 @@ export default function throttle(callback, limit) {
 	let waiting = false; // Initially, we're not waiting
 	let latestCallThis = null;
 	let latestCallArgs = null;
-	const throttledFunction = function throttledFunction() {
+	const throttledFunction = function throttledFunction(...args) {
 		if (waiting) {
 			// save latest call infos
 			latestCallThis = this;
-			latestCallArgs = arguments;
+			latestCallArgs = args;
 		} else {
-			callback.apply(this, arguments);
+			callback.apply(this, args);
 			waiting = true;
 			setTimeout(() => {
 				waiting = false;

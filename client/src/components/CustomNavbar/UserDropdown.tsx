@@ -6,7 +6,7 @@ import {
 	Tooltip,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
@@ -29,7 +29,7 @@ const UserDropdown = () => {
 			<OverlayTrigger
 				key="LoginLink-Overlay"
 				placement="left"
-				trigger={['hover', 'focus']}
+				trigger={['hover']}
 				overlay={(
 					<Tooltip id="CustomNavbar_LoginLinkTooltip">
 						Login for cross-device sync and backups on the server
@@ -51,19 +51,21 @@ const UserDropdown = () => {
 				>
 					<Dropdown.Menu className={styles.dropdownMenu}>
 						<NavDropdown.Item
+							as={Link}
+							to="/login"
 							key="LoginDropdown_KeepLocal"
 							className={styles.dropdownItem}
-							onClick={() => history.replace('/login')}
 						>
 							Keep local data
 						</NavDropdown.Item>
 
 						<NavDropdown.Item
+							as={Link}
+							to="/login"
 							key="LoginDropdown_KeepServer"
 							className={styles.dropdownItem}
 							onClick={() => {
 								dispatch(clearLocalData());
-								history.replace('/login');
 							}}
 						>
 							Keep server data

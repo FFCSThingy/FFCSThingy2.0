@@ -25,7 +25,7 @@ export const fetchHeatmap = createAsyncThunk(
 export const fetchAllCourseLists = createAsyncThunk(
 	`${ACTION_BASE}/fetchAllCourseLists`,
 	async (timestamp: string) => {
-		const data = getAllCourseLists(timestamp);
+		const data = await getAllCourseLists(timestamp);
 		return data;
 	},
 );

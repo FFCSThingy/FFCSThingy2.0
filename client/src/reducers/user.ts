@@ -37,26 +37,7 @@ const initialState: UserSliceModel = {
 const userSlice = createSlice({
 	name: ACTION_BASE,
 	initialState,
-	reducers: {
-		setCompletedCourses: {
-			prepare(courses: CompletedCourses) {
-				return { payload: { courses } };
-			},
-			reducer(state, action: PayloadAction<{ courses: CompletedCourses }, string>) {
-				const { courses } = action.payload;
-				state.completedCourses = courses;
-			},
-		},
-		setUserDetails: {
-			prepare(details: UserDetails) {
-				return { payload: { details } };
-			},
-			reducer(state, action: PayloadAction<{ details: UserDetails }, string>) {
-				const { details } = action.payload;
-				state.details = details;
-			},
-		},
-	},
+	reducers: {},
 	extraReducers: (builder) => {
 		builder.addCase(
 			fetchUserDetails.fulfilled,
@@ -73,10 +54,5 @@ const userSlice = createSlice({
 		);
 	},
 });
-
-export const {
-	setCompletedCourses,
-	setUserDetails,
-} = userSlice.actions;
 
 export default userSlice.reducer;

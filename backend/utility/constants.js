@@ -4,6 +4,7 @@ const messages = {
 	notFound: 'Not Found',
 	notAuth: 'Not Authenticated',
 	notVtop: 'Not signed in to VTOP',
+	notAdmin: 'Not an admin. Admin privileges required for this action',
 };
 
 function failJson(msg = messages.serverError) {
@@ -13,7 +14,13 @@ function failJson(msg = messages.serverError) {
 	});
 }
 
+const userScopes = {
+	user: 'user',
+	admin: 'admin',
+};
+
 module.exports = {
 	messages,
 	failJson,
+	userScopes,
 };

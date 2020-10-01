@@ -14,7 +14,8 @@ const courseRoute = require('./routes/course');
 const ttgenRoute = require('./routes/ttgen');
 
 const userUtility = require('./utility/userUtility');
-const ensureAuthenticated = require('./utility/middleware');
+const middleware = require('./utility/middleware');
+const consts = require('./utility/constants');
 const { logger, expressWinstonLogger } = require('./utility/loggers.js');
 
 // set our port to either a predetermined port number if you have set it up, or 3001
@@ -66,6 +67,7 @@ passport.use(new GoogleStrategy({
 		email: profile.email,
 		picture: profile.picture,
 		timestamp: Date.now(),
+		scopes: [consts.userScopes.user],
 	};
 
 	const queryData = { google_id: profile.id };
@@ -107,13 +109,13 @@ app.use((req, res, next) => {
 	return next();
 });
 
-app.use('/ext', ensureAuthenticated, extRoute);
+app.use('/ext', middleware.ensureAuthenticated, extRoute);
 app.use('/curriculum', curriculumRoute);
 app.use('/course', courseRoute);
-app.use('/user', ensureAuthenticated, userRoute);
-app.use('/ttgen', ensureAuthenticated, ttgenRoute);
+app.use('/user', middleware.ensureAuthenticated, userRoute);
+app.use('/ttgen', middleware.ensureAuthenticated, ttgenRoute);
 
-app.get('/account', ensureAuthenticated, (req, res) => {
+app.get('/account', middleware.ensureAuthenticated, (req, res) => {
 	const data = {
 		google_id: req.user.google_id,
 		display_name: req.user.display_name,
@@ -125,7 +127,10 @@ app.get('/account', ensureAuthenticated, (req, res) => {
 	return res.json({ success: true, data });
 });
 
-app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+app.get('/auth/google', passport.authenticate(
+	'google',
+	{ scope: ['email', 'profile'] },
+));
 
 app.get('/auth/google/callback',
 	passport.authenticate('google', {

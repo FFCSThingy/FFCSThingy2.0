@@ -7,7 +7,7 @@ const curriculum = require('../utility/curriculumUtility');
 const course = require('../utility/courseUtility');
 const system = require('../utility/systemUtility');
 const consts = require('../utility/constants');
-const ensureAuthenticated = require('../utility/middleware');
+const middleware = require('../utility/middleware');
 
 const prereqJSON = require('../data/prereqs.json');
 
@@ -153,7 +153,8 @@ router.get('/courseByID/:id', async (req, res) => {
 });
 
 // Routes after this are authenticated
-router.use(ensureAuthenticated);
+router.use(middleware.ensureAuthenticated);
+router.use(middleware.ensureAdmin);
 
 router.get('/updateHeatmap', async (req, res) => {
 	try {
@@ -165,7 +166,7 @@ router.get('/updateHeatmap', async (req, res) => {
 });
 
 router.get(
-	'/addCoursesToDB/SuckOnDeezNumbNutz',
+	'/addCoursesToDB',
 	async (req, res) => {
 		try {
 			const courses = await course.parseXLSX();
@@ -201,7 +202,7 @@ router.get(
 );
 
 router.get(
-	'/cleanDemOldCourses/SuckOnDeezNumbNutz',
+	'/cleanDemOldCourses',
 	async (req, res) => {
 		try {
 			const data = await course.doCleanRemovedCourses();

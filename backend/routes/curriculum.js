@@ -6,7 +6,7 @@ const Curriculum = require('../models/Curriculum');
 // Utilities
 const curriculum = require('../utility/curriculumUtility');
 const consts = require('../utility/constants');
-const ensureAuthenticated = require('../utility/middleware');
+const middleware = require('../utility/middleware');
 
 const router = express.Router();
 
@@ -50,10 +50,11 @@ router.get('/curriculumFromPrefix/:prefix', async (req, res) => {
 });
 
 // Routes after this are authenticated
-router.use(ensureAuthenticated);
+router.use(middleware.ensureAuthenticated);
+router.use(middleware.ensureAdmin);
 
 router.get(
-	'/updateCurriculums/SuckOnDeezNumbNutz',
+	'/updateCurriculums',
 	(req, res) => {
 		const currs = [
 			'16BCE', '16BEC', '16BEM', '16BIT', '16BME', '17BCE',
@@ -71,7 +72,7 @@ router.get(
 );
 
 router.get(
-	'/updateSpecificCurriculum/SuckOnDeezNumbNutz/:regPrefix',
+	'/updateSpecificCurriculum/:regPrefix',
 	async (req, res) => {
 		try {
 			const data = await curriculum.doParseAndSaveCurriculum(req.params.regPrefix);

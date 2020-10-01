@@ -89,6 +89,45 @@ describe('timetable reducer', () => {
 					},
 	};
 
+	const bothCourseDefaultSelected = {
+		active: 'Default',
+		names: ['Default', 'Sample'],
+		filledSlots: ['A1', 'TA1'],
+		data: [
+			{ ...course1 },
+			{ ...course2 },
+		],
+		timestamp,
+		creditCount: 3,
+		syncing: false,
+		clashmap: course1Clashmap,
+	};
+	const bothCourseSampleSelected = {
+		active: 'Sample',
+		names: ['Default', 'Sample'],
+		filledSlots: ['B1', 'TB1'],
+		data: [
+			{ ...course1 },
+			{ ...course2 },
+		],
+		timestamp,
+		creditCount: 3,
+		syncing: false,
+		clashmap: course2Clashmap,
+	};
+	const onlyDefaultCourse = {
+		active: 'Default',
+		names: ['Default'],
+		filledSlots: ['A1', 'TA1'],
+		data: [
+			{ ...course1 },
+		],
+		timestamp,
+		creditCount: 3,
+		syncing: false,
+		clashmap: course1Clashmap,
+	};
+
 	it('should handle initial state', () => {
 		expect.hasAssertions();
 		expect(timetable(undefined, { type: '' })).toStrictEqual(initialState);
@@ -135,34 +174,6 @@ describe('timetable reducer', () => {
 		});
 
 		describe(`${changeTimetable}`, () => {
-			const initState = {
-				active: 'Default',
-				names: ['Default', 'Sample'],
-				filledSlots: ['A1', 'TA1'],
-				data: [
-					{ ...course1 },
-					{ ...course2 },
-				],
-				timestamp,
-				creditCount: 3,
-				syncing: false,
-				clashmap: course1Clashmap,
-			};
-
-			const finalState = {
-				active: 'Sample',
-				names: ['Default', 'Sample'],
-				filledSlots: ['B1', 'TB1'],
-				data: [
-					{ ...course1 },
-					{ ...course2 },
-				],
-				timestamp,
-				creditCount: 3,
-				syncing: false,
-				clashmap: course2Clashmap,
-			};
-
 			it('should change to an existing timetable', () => {
 				expect.hasAssertions();
 
@@ -171,7 +182,8 @@ describe('timetable reducer', () => {
 					payload: 'Sample',
 				};
 
-				expect(timetable(initState, action)).toStrictEqual(finalState);
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual(bothCourseSampleSelected);
 			});
 
 			it('should not change to a non-existent timetable', () => {
@@ -182,7 +194,8 @@ describe('timetable reducer', () => {
 					payload: 'NonExistent',
 				};
 
-				expect(timetable(initState, action)).toStrictEqual(initState);
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual(bothCourseDefaultSelected);
 			});
 
 			it('should do nothing on changing to active timetable', () => {
@@ -193,7 +206,8 @@ describe('timetable reducer', () => {
 					payload: 'Default',
 				};
 
-				expect(timetable(initState, action)).toStrictEqual(initState);
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual(bothCourseDefaultSelected);
 			});
 		});
 
@@ -204,52 +218,17 @@ describe('timetable reducer', () => {
 
 			it('should remove current timetable', () => {
 				expect.hasAssertions();
-				const initState = {
-					active: 'Sample',
-					names: ['Default', 'Sample'],
-					filledSlots: ['B1', 'TB1'],
-					data: [
-						{ ...course1 },
-						{ ...course2 },
-					],
-					timestamp,
-					creditCount: 3,
-					syncing: false,
-					clashmap: course2Clashmap,
-				};
-				const finalState = {
-					active: 'Default',
-					names: ['Default'],
-					filledSlots: ['A1', 'TA1'],
-					data: [
-						{ ...course1 },
-					],
-					timestamp,
-					creditCount: 3,
-					syncing: false,
-					clashmap: course1Clashmap,
-				};
 
-				expect(timetable(initState, action)).toStrictEqual(finalState);
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(onlyDefaultCourse);
 			});
 
 			it('should not remove current if Default', () => {
 				expect.hasAssertions();
-				const initState = {
-					active: 'Default',
-					names: ['Default', 'Sample'],
-					filledSlots: ['B1', 'TB1'],
-					data: [
-						{ ...course1 },
-						{ ...course2 },
-					],
-					timestamp,
-					creditCount: 3,
-					syncing: false,
-					clashmap: course1Clashmap,
-				};
 
-				expect(timetable(initState, action)).toStrictEqual(initState);
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual(bothCourseDefaultSelected);
+			});
 			});
 		});
 	});

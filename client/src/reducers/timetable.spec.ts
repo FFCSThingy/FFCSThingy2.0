@@ -196,5 +196,61 @@ describe('timetable reducer', () => {
 				expect(timetable(initState, action)).toStrictEqual(initState);
 			});
 		});
+
+		describe(`${removeTimetable}`, () => {
+			const action = {
+				type: removeTimetable.type,
+			};
+
+			it('should remove current timetable', () => {
+				expect.hasAssertions();
+				const initState = {
+					active: 'Sample',
+					names: ['Default', 'Sample'],
+					filledSlots: ['B1', 'TB1'],
+					data: [
+						{ ...course1 },
+						{ ...course2 },
+					],
+					timestamp,
+					creditCount: 3,
+					syncing: false,
+					clashmap: course2Clashmap,
+				};
+				const finalState = {
+					active: 'Default',
+					names: ['Default'],
+					filledSlots: ['A1', 'TA1'],
+					data: [
+						{ ...course1 },
+					],
+					timestamp,
+					creditCount: 3,
+					syncing: false,
+					clashmap: course1Clashmap,
+				};
+
+				expect(timetable(initState, action)).toStrictEqual(finalState);
+			});
+
+			it('should not remove current if Default', () => {
+				expect.hasAssertions();
+				const initState = {
+					active: 'Default',
+					names: ['Default', 'Sample'],
+					filledSlots: ['B1', 'TB1'],
+					data: [
+						{ ...course1 },
+						{ ...course2 },
+					],
+					timestamp,
+					creditCount: 3,
+					syncing: false,
+					clashmap: course1Clashmap,
+				};
+
+				expect(timetable(initState, action)).toStrictEqual(initState);
+			});
+		});
 	});
 });

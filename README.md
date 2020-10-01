@@ -1,56 +1,59 @@
 # FFCSThingy2.0
 
-![](screenshots/LoginPage.png)
+FFCSThingy2.0 is a course scheduling helper built for FFCS in VIT, Vellore. 
 
-## Extension:
-### https://github.com/namsnath/ffcs.ooo-scraper-extension
-- Basic UI with a Google Sign-In Button
-- Vtop login button after Google Sign-In
-- After VTOP login, data is scraped and saved (Backend)
+The framework is extensible and modular, allowing use with other timetable structures as well.
 
-## Frontend:
-### Last Year: https://github.com/palashgo/FFCSThingyFrontend
-- Google Login. VTOP Login optional for smart features (Needs extension)
-- Courses displayed under UE, PE, PC, UC, other, all
-- You select one of these, it shows you a list of courses
-- You click a course, it shows you available slots
-- Can filter these by slot and venue
-- Click one of the slots, it gets added. 
-- if there's a clash, show appropriate error on the card and don't allow adding
-![](screenshots/Dashboard.png)
-- Update timetable and course list + credits accordingly
-- Multiple timetables ka feature. Choose which timetable to edit and work on
-![](screenshots/Timetable.png)
-![](screenshots/MobileTimetable.png)
-![](screenshots/CourseList.png)
-- Integration with Palash's timetable generator (this isn't very tough)
-- Hover over timetable for details
-- Color coding per subject for easy readability
-
-![](screenshots/Themes.png)
-
-## Backend:
-### Last Year: https://github.com/namsnath/FFCSThingy
-- Google Auth
-- Sessions
-- VTOP Scraping from Extension data
-- Course add/delete
-- Multiple Timetables
-- Heatmaps/Popularity
-- Credit calculation from parsed data
-- TTGen
-
+## Built With
+- [React.js](https://reactjs.org/)
+- [React Bootstrap](https://react-bootstrap.github.io/)
+- [Redux](https://redux.js.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Node.js](https://nodejs.org/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
 
 ## Setting Up:
 - Install Node, Mongo
 - Run ```mongod``` in a terminal somewhere (Not required if it's running as a service)
-- In root, run ```npm i```
-- ```npm i -g express nodemon concurrently babel-cli```
-- In backend, client, run ```npm i```
-- In backend, run ```npm run start:server```
-- In client, run ```npm start```
+- Backend
+  - run ```npm i```
+  - run ```node server.js```
+- Client
+  - run ```npm i```
+  - run ```npm start```
+  - Login using a Google Account (top-right corner)
+- Database
+  - Add an admin scope to your user to be able to populate the details in the DB
+  - Open a mongo shell with ```mongo```
+  - Choose the appropriate DB with ```use FFCS```
+  - Run ```db.users.update({}, { $set: { scopes: ['user', 'admin'] } })```
+    - This will add the admin scope to all existing users, so be careful
 - Navigate to: 
 	-  ```http://localhost:3001/course/addCoursesToDB```    
     -  ```http://localhost:3001/curriculum/updateCurriculums```
-- Go to ```http://localhost:3001/auth/google``` and login
-- Go to ```http://localhost:3000/dashboard``` and you're up and running.
+    -  These will populate the database with pre-existing data
+ -  You should be good to go!
+
+## Features
+### Frontend
+- Built with Redux and React
+- Uses custom components built on top of React Bootstrap
+- Uses TypeScript
+- Extensible
+  - [Timetable](/client/src/constants/Timetable.js) defines the layout of the timetable and values of cells
+  - [Clashmap](/client/src/constants/ClashMap.ts) defines the data structure used to check for clashes
+    - This can be changed to define which slots clash with each other
+    - It forms the base of a lot of interactions of the app
+  - [Courses](/client/src/constants/Courses.js) defines the type of courses and slots available and utility functions to check types and convert them to standard types
+    - The ```validSlots``` constant is used to search for courses by slot
+  - Theming
+    - [Themes](/client/src/constants/Themes.ts) defines the themes in the app
+    - [Theme CSS](/client/src/css/constants/_colorPalette.scss) defines the actual theme components
+    - Uses SCSS and CSS Modules for a clean structure
+    - Theming is based on CSS variables using a [mixin](/client/src/css/utilities/_mixins.scss)
+
+### Backend
+- Built with Node and MongoDB
+- Uses Mongoose for stricter MongoDB usage
+- Uses Express for routing

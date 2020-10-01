@@ -94,11 +94,34 @@ const curriculumSlice = createSlice({
 
 				state.list = list;
 			},
-		).addCase(
+		);
+
+		builder.addCase(
 			fetchCurriculumFromPrefix.fulfilled,
 			(state, action: PayloadAction<Curriculum>) => {
 				const data = action.payload;
 				state.currentData = data;
+			},
+		).addCase(
+			fetchCurriculumFromPrefix.rejected,
+			(state) => {
+				state.selectedPrefix = 'Curriculum';
+				state.currentData = {
+					_id: '',
+					reg_prefix: '',
+					__v: 0,
+					todo_creds: {
+						pc: 0,
+						uc: 0,
+						pe: 0,
+						ue: 0,
+					},
+					bridge: [],
+					pc: [],
+					uc: [],
+					pe: [],
+					ue: [],
+				};
 			},
 		);
 	},

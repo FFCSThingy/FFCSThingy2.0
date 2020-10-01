@@ -3,13 +3,13 @@ const consts = require('../utility/constants');
 
 const userSchema = new mongoose.Schema({
 	// Google
-	google_id: String,
-	display_name: String,
+	googleId: String,
+	displayName: String,
 	email: String,
 	picture: String,
 
 	// FFCS.OOO
-	selected_curriculum: String,
+	selectedCurriculum: String,
 	timestamp: { type: Date, default: Date.now() },
 	hourlyCount: { type: Number, default: 0 },
 	dailyCount: { type: Number, default: 0 },
@@ -23,19 +23,19 @@ const userSchema = new mongoose.Schema({
 	// VTOP
 	vtopSignedIn: { type: Boolean, default: false },
 	name: String,
-	reg_no: String,
+	regNo: String,
 	gender: String,
 	programme: String,
 	branch: String,
 	school: String,
 	campus: String,
-	joined_yr: String,
+	joinedYr: String,
 
 
 	grades: {	// From Grade History Summary
 		cgpa: Number,
-		creds_reg: Number,
-		creds_earned: Number,
+		credsReg: Number,
+		credsEarned: Number,
 		s: Number,
 		a: Number,
 		b: Number,
@@ -46,34 +46,35 @@ const userSchema = new mongoose.Schema({
 		n: Number,
 	},
 
-	credit_summary: {
-		pc_reqd: Number,
-		pc_earned: Number,
+	creditSummary: {
+		pcReqd: Number,
+		pcEarned: Number,
 		uc_reqd: Number,
-		uc_earned: Number,
-		pe_reqd: Number,
-		pe_earned: Number,
-		ue_reqd: Number,
-		ue_earned: Number,
-		bridge_reqd: String,
-		bridge_earned: String,
-		total_reqd: Number,
-		total_earned: Number,
-		sts_distib: String,
-		sts_reqd: Number,
-		sts_earned: Number,
-		exc_distib: String,
-		exc_reqd: Number,
-		exc_earned: Number,
-		lang_distib: String,
-		lang_reqd: Number,
-		lang_earned: Number,
+		ucReqd: Number,
+		ucEarned: Number,
+		peReqd: Number,
+		peEarned: Number,
+		ueReqd: Number,
+		ueEarned: Number,
+		bridgeReqd: String,
+		bridgeEarned: String,
+		totalReqd: Number,
+		totalEarned: Number,
+		stsDistib: String,
+		stsReqd: Number,
+		stsEarned: Number,
+		excDistib: String,
+		excReqd: Number,
+		excEarned: Number,
+		langDistib: String,
+		langReqd: Number,
+		langEarned: Number,
 	},
 
-	selected_courses: [{
+	selectedCourses: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		credits: Number,
 		slot: String,
 		faculty: String,
@@ -81,10 +82,10 @@ const userSchema = new mongoose.Schema({
 		timetableName: String,
 	}],
 
-	previous_timetables: [{
+	previousTimetables: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		credits: String,
 		slot: String,
 		faculty: String,
@@ -92,10 +93,10 @@ const userSchema = new mongoose.Schema({
 		semester: String,
 	}],
 
-	completed_courses: [{
+	completedCourses: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		credits: String,
 		grade: String,
 	}],

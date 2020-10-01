@@ -4,11 +4,11 @@ const curriculumSchema = mongoose.Schema({	// From My Curriculum
 	branch: String,
 	programme: String,
 	year: String,
-	reg_prefix: String,
+	regPrefix: String,
 	uc: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		l: Number,
 		t: Number,
 		p: Number,
@@ -19,7 +19,7 @@ const curriculumSchema = mongoose.Schema({	// From My Curriculum
 	pc: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		l: Number,
 		t: Number,
 		p: Number,
@@ -30,7 +30,7 @@ const curriculumSchema = mongoose.Schema({	// From My Curriculum
 	ue: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		l: Number,
 		t: Number,
 		p: Number,
@@ -41,7 +41,7 @@ const curriculumSchema = mongoose.Schema({	// From My Curriculum
 	pe: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		l: Number,
 		t: Number,
 		p: Number,
@@ -52,7 +52,7 @@ const curriculumSchema = mongoose.Schema({	// From My Curriculum
 	bridge: [{
 		code: String,
 		title: String,
-		course_type: String,
+		courseType: String,
 		l: Number,
 		t: Number,
 		p: Number,

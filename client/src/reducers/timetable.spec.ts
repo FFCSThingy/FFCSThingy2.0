@@ -2,6 +2,7 @@ import timetable, {
 	initialState,
 	addTimetable,
 	changeTimetable,
+	copyTimetable,
 	removeTimetable,
 	renameTimetable,
 } from './timetable';
@@ -270,6 +271,72 @@ describe('timetable reducer', () => {
 
 				expect(timetable(bothCourseSampleSelected, thisAction))
 					.toStrictEqual(bothCourseSampleSelected);
+			});
+		});
+
+		describe(`${copyTimetable}`, () => {
+			it('should copy current timetable', () => {
+				expect.hasAssertions();
+				const action = {
+					type: copyTimetable.type,
+					payload: 'NewName',
+				};
+
+				const finalState = {
+					...bothCourseSampleSelected,
+					active: 'NewName',
+					names: ['Default', 'Sample', 'NewName'],
+					data: [
+						{ ...course1 },
+						{ ...course2 },
+						{
+							...course2,
+							timetableName: 'NewName',
+						},
+					],
+				};
+
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(finalState);
+			});
+
+			it(
+				'should copy current timetable with generated name if no name given',
+				() => {
+					expect.hasAssertions();
+					const action = {
+						type: copyTimetable.type,
+						payload: '',
+					};
+
+					const finalState = {
+						...bothCourseSampleSelected,
+						active: 'Sample-Copy',
+						names: ['Default', 'Sample', 'Sample-Copy'],
+						data: [
+							{ ...course1 },
+							{ ...course2 },
+							{
+								...course2,
+								timetableName: 'Sample-Copy',
+							},
+						],
+					};
+
+					expect(timetable(bothCourseSampleSelected, action))
+						.toStrictEqual(finalState);
+				},
+			);
+
+			it('should not copy if new name already exists', () => {
+				expect.hasAssertions();
+				const action = {
+					type: copyTimetable.type,
+					payload: 'Sample',
+				};
+
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual(bothCourseDefaultSelected);
 			});
 		});
 	});

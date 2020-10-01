@@ -10,83 +10,83 @@ import clashmap from '../constants/ClashMap';
 
 describe('timetable reducer', () => {
 	const timestamp = new Date(Date.now()).toISOString();
-			const course1 = {
-				_id: '5f59ffe5cee64f31983a29fe',
-				code: 'ARB1001',
-				course_type: 'TH',
-				credits: 3,
-				faculty: 'MOHD SAQIB',
-				slot: 'A1+TA1',
-				venue: 'SJT823',
-				simpleCourseType: 'Theory',
-				title: 'Arabic for Beginners',
-				timetableName: 'Default',
-			};
-			const course2 = {
-				_id: '5f59ffe5cee64f31983a29ff',
-				code: 'ARB1001',
-				course_type: 'TH',
-				credits: 3,
-				faculty: 'MOHD SAQIB',
-				slot: 'B1+TB1',
-				venue: 'SJT403',
-				simpleCourseType: 'Theory',
-				title: 'Arabic for Beginners',
-				timetableName: 'Sample',
-			};
+	const course1 = {
+		_id: '5f59ffe5cee64f31983a29fe',
+		code: 'ARB1001',
+		course_type: 'TH',
+		credits: 3,
+		faculty: 'MOHD SAQIB',
+		slot: 'A1+TA1',
+		venue: 'SJT823',
+		simpleCourseType: 'Theory',
+		title: 'Arabic for Beginners',
+		timetableName: 'Default',
+	};
+	const course2 = {
+		_id: '5f59ffe5cee64f31983a29ff',
+		code: 'ARB1001',
+		course_type: 'TH',
+		credits: 3,
+		faculty: 'MOHD SAQIB',
+		slot: 'B1+TB1',
+		venue: 'SJT403',
+		simpleCourseType: 'Theory',
+		title: 'Arabic for Beginners',
+		timetableName: 'Sample',
+	};
 	const course1Clashmap = {
-					...clashmap,
-					A1: {
-						...clashmap.A1,
-						isFilled: true,
-						currentlyClashesWith: ['A1'],
-					},
-					TA1: {
-						...clashmap.TA1,
-						isFilled: true,
-						currentlyClashesWith: ['TA1'],
-					},
-					L1: {
-						...clashmap.L1,
-						currentlyClashesWith: ['A1'],
-					},
-					L14: {
-						...clashmap.L14,
-						currentlyClashesWith: ['A1'],
-					},
-					L27: {
-						...clashmap.L27,
-						currentlyClashesWith: ['TA1'],
-					},
-			};
+		...clashmap,
+		A1: {
+			...clashmap.A1,
+			isFilled: true,
+			currentlyClashesWith: ['A1'],
+		},
+		TA1: {
+			...clashmap.TA1,
+			isFilled: true,
+			currentlyClashesWith: ['TA1'],
+		},
+		L1: {
+			...clashmap.L1,
+			currentlyClashesWith: ['A1'],
+		},
+		L14: {
+			...clashmap.L14,
+			currentlyClashesWith: ['A1'],
+		},
+		L27: {
+			...clashmap.L27,
+			currentlyClashesWith: ['TA1'],
+		},
+	};
 	const course2Clashmap = {
-					...clashmap,
-					B1: {
-						...clashmap.B1,
-						isFilled: true,
-						currentlyClashesWith: ['B1'],
-					},
-					TB1: {
-						...clashmap.TB1,
-						isFilled: true,
-						currentlyClashesWith: ['TB1'],
-					},
-					L4: {
-						...clashmap.L4,
-						currentlyClashesWith: ['TB1'],
-					},
-					L5: {
-						...clashmap.L5,
-						currentlyClashesWith: ['TB1'],
-					},
-					L7: {
-						...clashmap.L7,
-						currentlyClashesWith: ['B1'],
-					},
-					L20: {
-						...clashmap.L20,
-						currentlyClashesWith: ['B1'],
-					},
+		...clashmap,
+		B1: {
+			...clashmap.B1,
+			isFilled: true,
+			currentlyClashesWith: ['B1'],
+		},
+		TB1: {
+			...clashmap.TB1,
+			isFilled: true,
+			currentlyClashesWith: ['TB1'],
+		},
+		L4: {
+			...clashmap.L4,
+			currentlyClashesWith: ['TB1'],
+		},
+		L5: {
+			...clashmap.L5,
+			currentlyClashesWith: ['TB1'],
+		},
+		L7: {
+			...clashmap.L7,
+			currentlyClashesWith: ['B1'],
+		},
+		L20: {
+			...clashmap.L20,
+			currentlyClashesWith: ['B1'],
+		},
 	};
 
 	const bothCourseDefaultSelected = {
@@ -229,6 +229,47 @@ describe('timetable reducer', () => {
 				expect(timetable(bothCourseDefaultSelected, action))
 					.toStrictEqual(bothCourseDefaultSelected);
 			});
+		});
+
+		describe(`${renameTimetable}`, () => {
+			const action = {
+				type: renameTimetable.type,
+				payload: 'NewName',
+			};
+
+			it('should rename current timetable', () => {
+				expect.hasAssertions();
+
+				const finalState = {
+					...bothCourseSampleSelected,
+					active: 'NewName',
+					names: ['Default', 'NewName'],
+					data: [
+						{ ...course1 },
+						{ ...course2, timetableName: 'NewName' },
+					],
+				};
+
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(finalState);
+			});
+
+			it('should not rename Default timetable', () => {
+				expect.hasAssertions();
+
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual(bothCourseDefaultSelected);
+			});
+
+			it('should not rename current to a name that exists', () => {
+				expect.hasAssertions();
+				const thisAction = {
+					type: renameTimetable.type,
+					payload: 'Sample',
+				};
+
+				expect(timetable(bothCourseSampleSelected, thisAction))
+					.toStrictEqual(bothCourseSampleSelected);
 			});
 		});
 	});

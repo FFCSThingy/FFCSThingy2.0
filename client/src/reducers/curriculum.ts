@@ -28,7 +28,7 @@ export const fetchCurriculumFromPrefix = createAsyncThunk(
 );
 
 const initialState: CurriculumSlice = {
-	selectedPrefix: localStorage.getItem('selectedCurriculum') ?? 'Curriculum',
+	selectedPrefix: 'Curriculum',
 	list: [] as string[],
 	currentData: {
 		_id: '',
@@ -50,7 +50,7 @@ const initialState: CurriculumSlice = {
 
 const curriculumSlice = createSlice({
 	name: ACTION_BASE,
-	initialState,
+	initialState: { ...initialState },
 	reducers: {
 		setPrefixList: {
 			prepare(list: string[]) {

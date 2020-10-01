@@ -84,7 +84,7 @@ const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 	return newClashmap;
 };
 
-const initialState: TimetableSlice = {
+export const initialState: TimetableSlice = {
 	active: 'Default',
 	names: ['Default'],
 	filledSlots: [],
@@ -97,7 +97,7 @@ const initialState: TimetableSlice = {
 
 const timetableSlice = createSlice({
 	name: ACTION_BASE,
-	initialState,
+	initialState: { ...initialState },
 	reducers: {
 		clearLocalData: (state) => {
 			state.active = 'Default';

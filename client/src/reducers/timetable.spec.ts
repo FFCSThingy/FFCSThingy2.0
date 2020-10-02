@@ -3,6 +3,7 @@ import timetable, {
 	addTimetable,
 	addCourse,
 	changeTimetable,
+	clearLocalData,
 	copyTimetable,
 	removeTimetable,
 	removeCourse,
@@ -424,6 +425,18 @@ describe('timetable reducer', () => {
 
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(bothCourseSampleSelected);
+			});
+		});
+
+		describe(`${clearLocalData}`, () => {
+			it('should clear all local timetable data', () => {
+				expect.hasAssertions();
+				const action = {
+					type: clearLocalData.type,
+				};
+
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(initialState);
 			});
 		});
 	});

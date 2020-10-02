@@ -5,6 +5,7 @@ import timetable, {
 	changeTimetable,
 	copyTimetable,
 	removeTimetable,
+	removeCourse,
 	renameTimetable,
 } from './timetable';
 
@@ -379,5 +380,46 @@ describe('timetable reducer', () => {
 			});
 		});
 
+		describe(`${removeCourse}`, () => {
+			it('should remove course if it exists in current timetable', () => {
+				expect.hasAssertions();
+				const action = {
+					type: removeCourse.type,
+					// Change payload to include timestamp once reducer is changed
+					payload: course2,
+				};
+
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(onlyDefaultCourseSampleSelected);
+			});
+
+			it('should not remove course if it doesnt exist in current timetable', () => {
+				expect.hasAssertions();
+				const action = {
+					type: removeCourse.type,
+					// Change payload to include timestamp once reducer is changed
+					payload: {
+						...course2,
+						// Reducer works on the expectation that the _id is unique
+						_id: 'someRandomID',
+					},
+				};
+
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(bothCourseSampleSelected);
+			});
+
+			it('should not remove courses that are not in the active timetable', () => {
+				expect.hasAssertions();
+				const action = {
+					type: removeCourse.type,
+					// Change payload to include timestamp once reducer is changed
+					payload: course1,
+				};
+
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(bothCourseSampleSelected);
+			});
+		});
 	});
 });

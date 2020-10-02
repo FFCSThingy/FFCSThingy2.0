@@ -1,6 +1,7 @@
 import timetable, {
 	initialState,
 	addTimetable,
+	addCourse,
 	changeTimetable,
 	copyTimetable,
 	removeTimetable,
@@ -127,6 +128,18 @@ describe('timetable reducer', () => {
 		creditCount: 3,
 		syncing: false,
 		clashmap: course1Clashmap,
+	};
+	const onlyDefaultCourseSampleSelected = {
+		active: 'Sample',
+		names: ['Default', 'Sample'],
+		filledSlots: [],
+		data: [
+			{ ...course1 },
+		],
+		timestamp,
+		creditCount: 0,
+		syncing: false,
+		clashmap: { ...clashmap },
 	};
 
 	it('should handle initial state', () => {
@@ -339,5 +352,32 @@ describe('timetable reducer', () => {
 					.toStrictEqual(bothCourseDefaultSelected);
 			});
 		});
+
+		describe(`${addCourse}`, () => {
+			it('should add course if it doesnt exist in current timetable', () => {
+				expect.hasAssertions();
+				const action = {
+					type: addCourse.type,
+					// Change payload to include timestamp once reducer is changed
+					payload: course2,
+				};
+
+				expect(timetable(onlyDefaultCourseSampleSelected, action))
+					.toStrictEqual(bothCourseSampleSelected);
+			});
+
+			it('should not add course if it exists in current timetable', () => {
+				expect.hasAssertions();
+				const action = {
+					type: addCourse.type,
+					// Change payload to include timestamp once reducer is changed
+					payload: course2,
+				};
+
+				expect(timetable(bothCourseSampleSelected, action))
+					.toStrictEqual(bothCourseSampleSelected);
+			});
+		});
+
 	});
 });

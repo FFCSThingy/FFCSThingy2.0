@@ -10,10 +10,13 @@ import timetable, {
 } from './timetable';
 
 import clashmap from '../constants/ClashMap';
+import TimetableCourse from '../models/data/TimetableCourse';
+import Clashmap from '../models/constants/Clashmap';
+import TimetableSlice from '../models/state/TimetableSlice';
 
 describe('timetable reducer', () => {
-	const timestamp = new Date(Date.now()).toISOString();
-	const course1 = {
+	const timestamp: string = new Date(Date.now()).toISOString();
+	const course1: TimetableCourse = {
 		_id: '5f59ffe5cee64f31983a29fe',
 		code: 'ARB1001',
 		course_type: 'TH',
@@ -25,7 +28,7 @@ describe('timetable reducer', () => {
 		title: 'Arabic for Beginners',
 		timetableName: 'Default',
 	};
-	const course2 = {
+	const course2: TimetableCourse = {
 		_id: '5f59ffe5cee64f31983a29ff',
 		code: 'ARB1001',
 		course_type: 'TH',
@@ -37,7 +40,7 @@ describe('timetable reducer', () => {
 		title: 'Arabic for Beginners',
 		timetableName: 'Sample',
 	};
-	const course1Clashmap = {
+	const course1Clashmap: Clashmap = {
 		...clashmap,
 		A1: {
 			...clashmap.A1,
@@ -62,7 +65,7 @@ describe('timetable reducer', () => {
 			currentlyClashesWith: ['TA1'],
 		},
 	};
-	const course2Clashmap = {
+	const course2Clashmap: Clashmap = {
 		...clashmap,
 		B1: {
 			...clashmap.B1,
@@ -92,7 +95,7 @@ describe('timetable reducer', () => {
 		},
 	};
 
-	const bothCourseDefaultSelected = {
+	const bothCourseDefaultSelected: TimetableSlice = {
 		active: 'Default',
 		names: ['Default', 'Sample'],
 		filledSlots: ['A1', 'TA1'],
@@ -105,7 +108,7 @@ describe('timetable reducer', () => {
 		syncing: false,
 		clashmap: course1Clashmap,
 	};
-	const bothCourseSampleSelected = {
+	const bothCourseSampleSelected: TimetableSlice = {
 		active: 'Sample',
 		names: ['Default', 'Sample'],
 		filledSlots: ['B1', 'TB1'],
@@ -118,7 +121,7 @@ describe('timetable reducer', () => {
 		syncing: false,
 		clashmap: course2Clashmap,
 	};
-	const onlyDefaultCourse = {
+	const onlyDefaultCourse: TimetableSlice = {
 		active: 'Default',
 		names: ['Default'],
 		filledSlots: ['A1', 'TA1'],
@@ -130,7 +133,7 @@ describe('timetable reducer', () => {
 		syncing: false,
 		clashmap: course1Clashmap,
 	};
-	const onlyDefaultCourseSampleSelected = {
+	const onlyDefaultCourseSampleSelected: TimetableSlice = {
 		active: 'Sample',
 		names: ['Default', 'Sample'],
 		filledSlots: [],
@@ -360,6 +363,7 @@ describe('timetable reducer', () => {
 				const action = {
 					type: addCourse.type,
 					// Change payload to include timestamp once reducer is changed
+					// TODO: Change this course to HeatmapCourse instead of TimetableCourse
 					payload: course2,
 				};
 
@@ -372,6 +376,7 @@ describe('timetable reducer', () => {
 				const action = {
 					type: addCourse.type,
 					// Change payload to include timestamp once reducer is changed
+					// TODO: Change this course to HeatmapCourse instead of TimetableCourse
 					payload: course2,
 				};
 

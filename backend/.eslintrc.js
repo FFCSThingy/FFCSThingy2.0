@@ -27,6 +27,5 @@ module.exports = {
 		'no-param-reassign': 0,
 		'no-underscore-dangle': 0,
 		'max-len': 1,
-		'no-async-promise-executor': 1,
 	}
 }

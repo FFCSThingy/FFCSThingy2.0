@@ -29,6 +29,7 @@
 		width: 40px;
 		vertical-align: sub;
 		margin-right: 1rem;
+		align-self: center;
 
 		@media (max-width: 400px) {
 			width: 30px;
@@ -68,14 +69,14 @@
 
 	@media (min-width: 1030px) {
 		justify-content: space-evenly;
-		margin-top: 7vh;
+		margin-top: 10vh;
 	}
 }
 
 .featuresCard_Desktop {
 	background-color: map-get(map-get($themes, 'default'), 'color-background-table');
 	display: block;
-	width: 40vw;
+	width: 45vw;
 	border-radius: 1rem;
 	text-align: center;
 	
@@ -84,13 +85,7 @@
 		flex-direction: column;
 		justify-content: center;
 
-		height: 60vh;
-
 		.featuresImage {
-			height: 100%;
-			max-height: 100%;
-
-			width: auto;
 			max-width: 100%;
 		}
 	}
@@ -146,15 +141,14 @@
 
 	.tagline {
 		font-size: 2rem;
+		font-weight: bold;
 
 		@media (min-width: 1030px) {
-			font-size: 3rem;
-			font-weight: bold;
-
+			font-size: 2.8rem;
 			text-align: center;
 			color: map-get(map-get($themes, 'default'), 'color-text');
 			
-			padding-bottom: 3rem;
+			padding-top: 3rem;
 		}
 	}
 
@@ -177,17 +171,17 @@
 }
 
 .googleButton {
-	height: auto;
-	width: 100%;
-	background: map-get(map-get($themes, 'default'), 'color-background-table');
-	color: #737373;
-	border-radius: 5px;
+	display: inline-block;
+      background: white;
+      color: #444;
+      width: 190px;
+      border-radius: 5px;
+      border: thin solid #888;
+      box-shadow: 1px 1px 1px grey;
+	  white-space: nowrap;
+	  padding-bottom: 3px;
+	
 
-	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
-
-	transition-property: background-color, box-shadow;
-	transition-duration: 150ms;
-	transition-timing-function: ease-in-out;
 
 	&:focus, &:hover {
 		@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow-highlight');
@@ -201,18 +195,13 @@
 		border: none;
 	}
 
-	@media (max-height: 600px) {
-		padding: 0 0 5px 0;
-	}
-
 }
 
 .googleButton__icon {
-	display: inline-block;
-	margin: 0 0 8px 10px;
-	width: 18px;
-	height: 18px;
-	box-sizing: border-box;
+	  display: inline-block;
+	  margin-left: 0.5rem;
+      width: 18px;
+      height: 18px;
 }
 
 .googleButton__icon--plus {
@@ -221,15 +210,13 @@
 
 .googleButton__text {
 	display: inline-block;
-	vertical-align: middle;
-	padding: 0 0.5rem;
-	font-size: 14px;
-	font-weight: bold;
-	font-family: 'Roboto', sans-serif;
-
-	@media (min-width: 1030px) {
-		padding: 0 1rem;
-	}
+	color: #555;
+      vertical-align: middle;
+      padding-left: 20px;
+      padding-right: 20px;
+      font-size: 14px;
+      font-weight: bold;
+      font-family: 'Roboto', sans-serif;
 }
 
 .footer {

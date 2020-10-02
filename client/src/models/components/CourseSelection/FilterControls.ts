@@ -6,4 +6,4 @@ export default interface FilterControlsProps {
 	setTypeFilters: Function;
 	setCreditFilter: Function;
 	showPlaceholder: boolean;
-};
+}

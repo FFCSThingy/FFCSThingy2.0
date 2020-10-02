@@ -132,7 +132,7 @@ const FilterControls: FC<FilterControlsProps> = memo(
 				</Row>
 			</Container>
 		);
-	}
+	},
 );
 
 export default FilterControls;

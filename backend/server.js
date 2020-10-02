@@ -14,6 +14,8 @@ const courseRoute = require('./routes/course');
 const ttgenRoute = require('./routes/ttgen');
 
 const userUtility = require('./utility/userUtility');
+const middleware = require('./utility/middleware');
+const consts = require('./utility/constants');
 const { logger, expressWinstonLogger } = require('./utility/loggers.js');
 
 // set our port to either a predetermined port number if you have set it up, or 3001
@@ -41,16 +43,6 @@ db.once('open', () => {
 	logger.info('Connected to MongoDB Instance');
 });
 
-function ensureAuthenticated(req, res, next) {
-	req.authenticated = req.isAuthenticated();
-
-	if (req.isAuthenticated()) {
-		return next();
-	}
-
-	return res.status(401).json({ success: false, authenticated: false });
-}
-
 passport.serializeUser((user, done) => done(null, user));
 
 passport.deserializeUser(async (doc, done) => {
@@ -75,6 +67,7 @@ passport.use(new GoogleStrategy({
 		email: profile.email,
 		picture: profile.picture,
 		timestamp: Date.now(),
+		scopes: [consts.userScopes.user],
 	};
 
 	const queryData = { google_id: profile.id };
@@ -116,13 +109,13 @@ app.use((req, res, next) => {
 	return next();
 });
 
-app.use('/ext', ensureAuthenticated, extRoute);
-app.use('/curriculum', ensureAuthenticated, curriculumRoute);
-app.use('/course', ensureAuthenticated, courseRoute);
-app.use('/user', ensureAuthenticated, userRoute);
-app.use('/ttgen', ensureAuthenticated, ttgenRoute);
+app.use('/ext', middleware.ensureAuthenticated, extRoute);
+app.use('/curriculum', curriculumRoute);
+app.use('/course', courseRoute);
+app.use('/user', middleware.ensureAuthenticated, userRoute);
+app.use('/ttgen', middleware.ensureAuthenticated, ttgenRoute);
 
-app.get('/account', ensureAuthenticated, (req, res) => {
+app.get('/account', middleware.ensureAuthenticated, (req, res) => {
 	const data = {
 		google_id: req.user.google_id,
 		display_name: req.user.display_name,
@@ -131,10 +124,13 @@ app.get('/account', ensureAuthenticated, (req, res) => {
 
 		vtopSignedIn: req.user.vtopSignedIn,
 	};
-	return res.json(data);
+	return res.json({ success: true, data });
 });
 
-app.get('/auth/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+app.get('/auth/google', passport.authenticate(
+	'google',
+	{ scope: ['email', 'profile'] },
+));
 
 app.get('/auth/google/callback',
 	passport.authenticate('google', {

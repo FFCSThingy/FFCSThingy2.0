@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const consts = require('../utility/constants');
 
 const userSchema = new mongoose.Schema({
 	// Google
@@ -13,6 +14,10 @@ const userSchema = new mongoose.Schema({
 	hourlyCount: { type: Number, default: 0 },
 	dailyCount: { type: Number, default: 0 },
 	totalCount: { type: Number, default: 0 },
+	scopes: {
+		type: [String],
+		default: [consts.userScopes.user],
+	},
 
 
 	// VTOP
@@ -69,7 +74,7 @@ const userSchema = new mongoose.Schema({
 		code: String,
 		title: String,
 		course_type: String,
-		credits: String,
+		credits: Number,
 		slot: String,
 		faculty: String,
 		venue: String,

@@ -1,85 +1,57 @@
-import React, { memo, FC } from 'react';
+import React, { memo } from 'react';
 import MediaQuery from 'react-responsive';
 import { Container } from 'react-bootstrap';
 import { FaSun } from 'react-icons/fa';
-
-import TimetableProps from '../../models/components/Timetable/Timetable';
 
 import TimetableHeader from './TimetableHeader';
 import TimetableBody from './TimetableBody';
 
 import styles from '../../css/Timetable.module.scss';
 
-const MobileTimetable: FC<TimetableProps> = memo(
-	({ timetable, activeTimetableName, filledSlots }) => (
-		<Container className={styles.timetableContainer}>
-			<FaSun className={styles.morningIcon} size="2x" color="yellow" />
-			<table className={styles.timetableA}>
-				<TimetableHeader isMobile />
-				<TimetableBody
-					isMobile
+const MobileTimetable = memo(() => (
+	<Container className={styles.timetableContainer}>
+		<FaSun className={styles.morningIcon} size="2x" color="yellow" />
+		<table className={styles.timetableA}>
+			<TimetableHeader isMobile />
+			<TimetableBody
+				isMobile
+			/>
+		</table>
 
-					timetable={timetable}
-					activeTimetableName={activeTimetableName}
-					filledSlots={filledSlots}
-				/>
-			</table>
+		<FaSun className={styles.eveningIcon} size="2x" />
+		<table className={styles.timetableB}>
+			<TimetableHeader isMobile isAfternoon />
+			<TimetableBody
+				isMobile
+				isAfternoon
+			/>
+		</table>
+	</Container>
+));
 
-			<FaSun className={styles.eveningIcon} size="2x" />
-			<table className={styles.timetableB}>
-				<TimetableHeader isMobile isAfternoon />
-				<TimetableBody
-					isMobile
-					isAfternoon
+const DesktopTimetable = memo(() => (
+	<Container className={styles.timetableContainer} fluid>
+		<table className={styles.timetable}>
+			<TimetableHeader />
+			<TimetableBody />
+		</table>
+	</Container>
+));
 
-					timetable={timetable}
-					activeTimetableName={activeTimetableName}
-					filledSlots={filledSlots}
-				/>
-			</table>
-		</Container>
-	)
-);
-
-const DesktopTimetable: FC<TimetableProps> = memo(
-	({ timetable, activeTimetableName, filledSlots }) => (
-		<Container className={styles.timetableContainer} fluid>
-			<table className={styles.timetable}>
-				<TimetableHeader />
-				<TimetableBody
-					timetable={timetable}
-					activeTimetableName={activeTimetableName}
-					filledSlots={filledSlots}
-				/>
-			</table>
-		</Container>
-	)
-);
-
-const Timetable: FC<TimetableProps> = memo(
-	({ timetable, activeTimetableName, filledSlots }) => (
-		// Media Query for phones
-		<MediaQuery minDeviceWidth={768}>
-			{(matches) => {
-				if (matches) {
-					return (
-						<DesktopTimetable
-							timetable={timetable}
-							activeTimetableName={activeTimetableName}
-							filledSlots={filledSlots}
-						/>
-					);
-				}
+const Timetable = memo(() => (
+	// Media Query for phones
+	<MediaQuery minDeviceWidth={768}>
+		{(matches) => {
+			if (matches) {
 				return (
-					<MobileTimetable
-						timetable={timetable}
-						activeTimetableName={activeTimetableName}
-						filledSlots={filledSlots}
-					/>
+					<DesktopTimetable />
 				);
-			}}
-		</MediaQuery>
-	)
-);
+			}
+			return (
+				<MobileTimetable />
+			);
+		}}
+	</MediaQuery>
+));
 
 export default Timetable;

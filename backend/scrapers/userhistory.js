@@ -62,6 +62,8 @@ module.exports.parseUserHistory = (html, userID = '') => {
 					return;
 				}
 
+				console.log(i, attrs.eq(1).text(), attrs.eq(2).text());
+
 				switch (i) {
 					case trCount - (10 + diff):
 						data.credit_summary.pc_reqd = attrs.eq(1).text().trim();

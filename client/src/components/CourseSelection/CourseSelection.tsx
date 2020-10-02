@@ -1,50 +1,39 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 import FilterControls from './FilterControls';
 import CourseCardList from './CourseCardList';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
-import useAxiosFFCS from '../../hooks/useAxiosFFCS';
-
 import * as COURSE from '../../constants/Courses';
 
 import { CurriculumCourse } from '../../models/data/Curriculum';
-import CourseSelectionProps from '../../models/components/CourseSelection/CourseSelection';
-import { CourseList, CourseFacultyList, CourseSlotList, CourseTypeList } from '../../models/data/CourseLists';
-import RequisitesList from '../../models/data/RequisitesList';
+import { CourseList } from '../../models/data/CourseLists';
+import { RootState } from '../../app/rootReducer';
 
-
-const CourseSelection: FC<CourseSelectionProps> = ({
-	selectedCurriculum, selectedCurriculumPrefix, selectedCourse, completedCourses, doSelectCourse,
-}) => {
-	const [{ data: allCourseLists }, executeGetAllCourseLists] = useAxiosFFCS({
-		url: '/course/allCourseLists',
-	}, { manual: true });
-
-	useEffect(() => {
-		executeGetAllCourseLists();
-	}, [executeGetAllCourseLists]);
-
-	const [courseList, setCourseList] = useState<CourseList>({});
-	const [courseFacultyList, setCourseFacultyList] = useState<CourseFacultyList>({});
-	const [courseSlotList, setCourseSlotList] = useState<CourseSlotList>({});
-	const [courseTypeList, setCourseTypeList] = useState<CourseTypeList>({});
-	const [prereqList, setPrereqList] = useState<RequisitesList>({});
+const CourseSelection = () => {
+	const courseList = useSelector(
+		(state: RootState) => state.course.lists.course,
+	);
+	const courseFacultyList = useSelector(
+		(state: RootState) => state.course.lists.faculty,
+	);
+	const courseSlotList = useSelector(
+		(state: RootState) => state.course.lists.slot,
+	);
+	const courseTypeList = useSelector(
+		(state: RootState) => state.course.lists.type,
+	);
+	const selectedCurriculumPrefix = useSelector(
+		(state: RootState) => state.curriculum.selectedPrefix,
+	);
+	const selectedCurriculum = useSelector(
+		(state: RootState) => state.curriculum.currentData,
+	);
 
 	const [filteredCourseList, setFilteredCourseList] = useState<CourseList>({});
-
-	useEffect(() => {
-		if (allCourseLists) {
-			setCourseList(allCourseLists.data.courseList);
-			setFilteredCourseList(allCourseLists.data.courseList);
-			setCourseFacultyList(allCourseLists.data.courseFacultyList);
-			setCourseSlotList(allCourseLists.data.courseSlotList);
-			setCourseTypeList(allCourseLists.data.courseTypeList);
-			setPrereqList(allCourseLists.data.prerequisites);
-		}
-	}, [allCourseLists]);
 
 	const [searchString, setSearchString] = useState('');
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
@@ -95,8 +84,7 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 				new Set(
 					Object.keys(courseSlotList)
 						.filter((slot) => searchStringSlots
-							.every((s) => slot.replace(' ', '').split('+').includes(s))
-						)
+							.every((s) => slot.replace(' ', '').split('+').includes(s)))
 						.flatMap((s: string) => courseSlotList[s]),
 				),
 			);
@@ -154,10 +142,25 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 			.reduce((acc, code) => ({ ...acc, [code]: courseList[code] }), {});
 
 		setFilteredCourseList(filteredCourses);
-	}, [courseList, courseTypeList, courseSlotList, courseFacultyList, searchString, creditFilter, typeFilters, selectedCategory, selectedCurriculum, selectedCurriculumPrefix]);
+	}, [
+		courseList,
+		courseTypeList,
+		courseSlotList,
+		courseFacultyList,
+		searchString,
+		creditFilter,
+		typeFilters,
+		selectedCategory,
+		selectedCurriculum,
+		selectedCurriculumPrefix,
+	]);
 
 	useEffect(() => {
-		if (!selectedCurriculum || Object.keys(selectedCurriculum).length === 0 || selectedCurriculumPrefix === 'Curriculum') {
+		if (
+			!selectedCurriculum
+			|| Object.keys(selectedCurriculum).length === 0
+			|| selectedCurriculumPrefix === 'Curriculum'
+		) {
 			setTabsDisabled(true);
 		} else {
 			setTabsDisabled(false);
@@ -181,11 +184,6 @@ const CourseSelection: FC<CourseSelectionProps> = ({
 			<Card.Body className={styles.courseSelectTableBody}>
 				<CourseCardList
 					filteredCourseList={filteredCourseList}
-					selectedCourse={selectedCourse}
-					prereqList={prereqList}
-					completedCourses={completedCourses}
-
-					doSelectCourse={doSelectCourse}
 				/>
 			</Card.Body>
 		</Card>

@@ -1,13 +1,12 @@
 import React, { useState, useEffect, FC } from 'react';
-import { Button, Form, } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 import TimetableSwitcherInputProps from '../../models/components/TimetableSwitcher/TimetableSwitcherInput';
 
 import styles from '../../css/TimetableSwitcher.module.scss';
 
-
 const TimetableSwitcherInput: FC<TimetableSwitcherInputProps> = (
-	{ value = '', okHandler, showInput }
+	{ value = '', okHandler, showInput },
 ) => {
 	const [newTimetableName, setNewTimetableName] = useState(value);
 	useEffect(() => {	// update default value on show and value change

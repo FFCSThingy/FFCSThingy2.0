@@ -123,7 +123,7 @@
 
 	.searchColumn {
 		display: flex;
-		min-height: 1.75rem;
+		min-height: 2.25rem;
 
 		&:focus-within .codeText {
 			display: none;
@@ -279,6 +279,10 @@
 		@include theme-aware('color', 'color-text');
 		transition: color 0.17s ease-in;
 		outline: 0;
+
+		&:global(.disabled) {
+			@include theme-aware('color', 'color-text-other');
+		}
 
 		&:hover {
 			@include theme-aware('color', 'color-background-button-selected');

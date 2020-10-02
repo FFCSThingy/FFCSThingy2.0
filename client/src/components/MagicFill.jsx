@@ -42,8 +42,7 @@ class MagicFill extends Component {
 			}));
 		}
 		this.setState({ [fieldName]: fieldVal });
-	}
-
+	};
 
 	handleShow = () => {
 		if (this.props.user.vtopSignedIn) {
@@ -55,11 +54,11 @@ class MagicFill extends Component {
 				showAlert: true,
 			});
 		}
-	}
+	};
 
 	handleDismiss = () => {
 		this.setState({ showAlert: false });
-	}
+	};
 
 	renderAlert = () => {
 		if (this.state.showAlert) {
@@ -73,7 +72,7 @@ class MagicFill extends Component {
 			);
 		}
 		return <></>;
-	}
+	};
 
 	renderMorningEveningButton = () => {
 		if (this.state.slots === undefined && this.state.priorityList.length < 3) {
@@ -91,7 +90,7 @@ class MagicFill extends Component {
 			);
 		}
 		return null;
-	}
+	};
 
 	renderDayButtons = () => {
 		if (this.state.days === undefined && this.state.priorityList.length < 3) {
@@ -109,7 +108,7 @@ class MagicFill extends Component {
 			);
 		}
 		return null;
-	}
+	};
 
 	renderGapButtons = () => {
 		if (this.state.gaps === undefined && this.state.priorityList.length < 3) {
@@ -127,7 +126,7 @@ class MagicFill extends Component {
 			);
 		}
 		return null;
-	}
+	};
 
 	renderLPButtons = () => {
 		if (this.state.lp === undefined && this.state.priorityList.length < 3) {
@@ -145,7 +144,7 @@ class MagicFill extends Component {
 			);
 		}
 		return null;
-	}
+	};
 
 	renderToggles = () => (
 		<Row className="toggles">
@@ -163,7 +162,7 @@ class MagicFill extends Component {
 				</Col>
 			</Container>
 		</Row>
-	)
+	);
 
 	buildPrefAndSend = () => {
 		const prefs = {
@@ -189,7 +188,7 @@ class MagicFill extends Component {
 			}
 		}
 		this.props.genTT(prefs);
-	}
+	};
 
 	toggleGeneratingFromProps() {
 		this.setState({ generatingInProcess: this.props.inProcess });
@@ -272,13 +271,11 @@ class MagicFill extends Component {
 			);
 		}
 		return <></>;
-	}
-
+	};
 
 	render() {
 		return this.props.show ? (
 			<Container id="magicContainer">
-
 
 				<Button
 					onClick={this.handleShow}
@@ -287,10 +284,8 @@ class MagicFill extends Component {
 					Magic Fill
 				</Button>
 
-
 				{this.renderForm()}
 				{this.renderAlert()}
-
 
 			</Container>
 		) : (<></>);

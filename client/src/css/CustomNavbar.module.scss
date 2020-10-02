@@ -5,7 +5,7 @@
 	width: 100%;
 	font-family: 'Montserrat', sans-serif;
 	font-weight: bold;
-	padding: 0.5rem;
+	padding: 1rem 0.5rem 0.5rem 1rem;
 	align-items: baseline;
 	justify-content: space-between;
 	@include theme-aware-shadow(1px 1px 9px -1px, 'color-shadow');
@@ -139,6 +139,7 @@
 		overflow-y: auto;
 		max-height: 60vh;
 		width: auto;
+		background-clip: border-box;
 
 		.dropdownItem {
 			@include theme-aware('color', 'color-text-inverted');

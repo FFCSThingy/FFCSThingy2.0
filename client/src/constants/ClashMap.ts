@@ -82,7 +82,7 @@ const CLASHMAP: Clashmap = {
 		currentlyClashesWith: [],
 	},
 
-
+	// Evening Theory
 	A2: {
 		clashesWith: ['A2', 'L31', 'L32', 'L43', 'L44'],
 		isFilled: false,
@@ -174,7 +174,7 @@ const CLASHMAP: Clashmap = {
 		currentlyClashesWith: [],
 	},
 
-
+	// Morning Lab
 	L1: {
 		clashesWith: ['L1', 'A1'],
 		isFilled: false,
@@ -318,7 +318,7 @@ const CLASHMAP: Clashmap = {
 		currentlyClashesWith: [],
 	},
 
-
+	// Evening Lab
 	L31: {
 		clashesWith: ['L31', 'A2'],
 		isFilled: false,
@@ -472,7 +472,7 @@ const CLASHMAP: Clashmap = {
 		currentlyClashesWith: [],
 	},
 
-
+	// Virtual
 	V1: {
 		clashesWith: ['V1', 'L16'],
 		isFilled: false,

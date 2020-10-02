@@ -20,6 +20,7 @@
 
 	font-weight: normal;
 
+	padding: 0.5rem 0;
 	height: 4vh;
 }
 
@@ -45,11 +46,16 @@
 
 .empty {
 	composes: timetableCell;
+	font-size: 0.6rem;
 
 	@include theme-aware('color', 'color-text-inverted');
 	@include theme-aware('background-color', 'color-background-table');
 
 	font-weight: bold;
+
+	@media only screen and (min-width: 768px) {
+		font-size: 0.9rem;
+	}
 }
 
 .filledTheory {

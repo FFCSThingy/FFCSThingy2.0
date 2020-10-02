@@ -2,46 +2,46 @@ const express = require('express');
 const { logger } = require('../utility/loggers.js');
 
 const user = require('../utility/userUtility');
-
+const consts = require('../utility/constants');
 
 const router = express.Router();
 
 router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
-router.get('/selectedCourses', async (req, res) => {
+router.post('/syncTimetable', async (req, res) => {
 	try {
-		const data = req.user.selected_courses;
-		res.json({ success: true, data });
-	} catch (err) {
-		res.status(500).json({ success: false, message: '/getSelectedCourses failed' });
-		logger.error(`Error in getSelectedCourses: ${err}`);
-	}
-});
+		const reqTimestamp = req.body.timestamp || 10;
 
-router.post('/selectedCoursesBulk', async (req, res) => {
-	try {
 		const queryData = { _id: req.user.id };
-		const updateData = { selected_courses: req.body.selected_courses };
+		const updateData = {
+			selected_courses: req.body.selected_courses,
+			timestamp: new Date(reqTimestamp),
+		};
 
-		const data = await user.updateUser(queryData, updateData);
-		res.json({ success: true, data });
+		if (updateData.timestamp > req.user.timestamp) {
+			const data = await user.updateUser(queryData, updateData);
+			res.json({
+				success: true,
+				data: {
+					timetable: data.selected_courses,
+					timestamp: data.timestamp,
+				},
+			});
+		} else if (updateData.timestamp < req.user.timestamp) {
+			res.json({
+				success: true,
+				data: {
+					timetable: req.user.selected_courses,
+					timestamp: req.user.timestamp,
+				},
+			});
+		} else {
+			res.json(consts.failJson(consts.messages.upToDate));
+		}
 	} catch (err) {
-		res.status(500).json({ success: false, message: '/updateSelectedCoursesBulk failed' });
+		res.status(500).json(consts.failJson(consts.messages.serverError));
 		logger.error(`Error in selectedCoursesBulk: ${err}`);
-	}
-});
-
-router.post('/selectedCurriculum', async (req, res) => {
-	try {
-		const queryData = { _id: req.user.id };
-		const updateData = { selected_curriculum: req.body.selected_curriculum };
-
-		const data = await user.updateUser(queryData, updateData);
-		res.json({ success: true, data });
-	} catch (err) {
-		res.status(500).json({ success: false, message: '/setSelectedCurriculum failed' });
-		logger.error(`Error in selectedCurriculum: ${err}`);
 	}
 });
 
@@ -54,7 +54,9 @@ router.get('/completedCourses', async (req, res) => {
 				return a;
 			}, {}),
 		});
-	} else { res.json({ success: false, message: 'Not signed in to VTOP' }); }
+	} else {
+		res.json(consts.failJson(consts.messages.notVtop));
+	}
 });
 
 

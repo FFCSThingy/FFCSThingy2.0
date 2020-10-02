@@ -1,11 +1,11 @@
 export default interface TTGenPrefs {
-	slot: { 
+	slot: {
 		evening: number;
 		morning: number;
 	};
-	course: { 
-		ELA: number; 
-		EPJ: number; 
+	course: {
+		ELA: number;
+		EPJ: number;
 		ETH: number;
 	};
 	days: {
@@ -13,11 +13,11 @@ export default interface TTGenPrefs {
 		Tuesday: number;
 		Wednesday: number;
 		Thursday: number;
-		Friday: number;	
+		Friday: number;
 	};
-	misc: { 
+	misc: {
 		checkboard: 1 | 0;
 
 	};
 	credits: number;
-};
+}

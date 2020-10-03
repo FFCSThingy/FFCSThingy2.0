@@ -500,7 +500,7 @@ module.exports.doCleanRemovedCourses = async () => {
 		return cleanDetails;
 	} catch (err) {
 		logger.error('Error in doCleanRemovedCourses()');
-		return err;
+		throw err;
 	}
 };
 
@@ -524,7 +524,7 @@ module.exports.updateHeatmap = async () => {
 		return { timestamp, docs: updates };
 	} catch (err) {
 		logger.error(`Error in updateHeatmap: ${err}`);
-		return err;
+		throw err;
 	}
 };
 

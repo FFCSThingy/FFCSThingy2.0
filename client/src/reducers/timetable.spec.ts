@@ -568,7 +568,19 @@ describe('timetable reducer', () => {
 						.toStrictEqual(bothCourseSampleSelected);
 				});
 
-				it.todo('should switch to Default if active timetable does not exist in received data');
+				it('should maintain local timetable names and active state even if not present in received data', () => {
+					expect.hasAssertions();
+					const thisAction = {
+						type: syncTimetable.fulfilled,
+						payload: {
+							timetable: onlyDefaultCourseSampleSelected.data,
+							timestamp: onlyDefaultCourseSampleSelected.timestamp,
+						},
+					};
+
+					expect(timetable(bothCourseSampleSelected, thisAction))
+						.toStrictEqual(onlyDefaultCourseSampleSelected);
+				});
 			});
 
 			it('rejected: shouldnt change any data other than syncing', () => {

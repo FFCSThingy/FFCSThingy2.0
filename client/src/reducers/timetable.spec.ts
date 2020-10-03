@@ -527,7 +527,7 @@ describe('timetable reducer', () => {
 		// });
 
 		describe(`${syncTimetable.typePrefix}`, () => {
-			it('pending', () => {
+			it('pending: shouldnt change any data other than syncing', () => {
 				expect.hasAssertions();
 				const action = {
 					type: syncTimetable.pending,
@@ -538,8 +538,7 @@ describe('timetable reducer', () => {
 					.toStrictEqual({ ...bothCourseDefaultSelected, syncing: true });
 			});
 
-			it('fulfilled', () => {
-				expect.hasAssertions();
+			describe('fulfilled', () => {
 				const action = {
 					type: syncTimetable.fulfilled,
 					payload: {
@@ -548,17 +547,31 @@ describe('timetable reducer', () => {
 					},
 				};
 
-				expect(timetable(undefined, action))
-					.toStrictEqual(bothCourseDefaultSelected);
+				it('should update all fields in an empty state with received data', () => {
+					expect.hasAssertions();
 
-				expect(timetable(onlyDefaultCourseSampleSelected, action))
-					.toStrictEqual(bothCourseDefaultSelected);
+					expect(timetable(undefined, action))
+						.toStrictEqual(bothCourseDefaultSelected);
+				});
 
-				expect(timetable(onlyDefaultCourse, action))
-					.toStrictEqual(bothCourseDefaultSelected);
+				it('should replace existing data with received data', () => {
+					expect.hasAssertions();
+
+					expect(timetable(onlyDefaultCourse, action))
+						.toStrictEqual(bothCourseDefaultSelected);
+				});
+
+				it('should not switch timetables if active timetable exists in received data', () => {
+					expect.hasAssertions();
+
+					expect(timetable(onlyDefaultCourseSampleSelected, action))
+						.toStrictEqual(bothCourseSampleSelected);
+				});
+
+				it.todo('should switch to Default if active timetable does not exist in received data');
 			});
 
-			it('rejected', () => {
+			it('rejected: shouldnt change any data other than syncing', () => {
 				expect.hasAssertions();
 				const action = {
 					type: syncTimetable.rejected,

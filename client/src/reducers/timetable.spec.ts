@@ -9,6 +9,11 @@ import timetable, {
 	removeTimetable,
 	removeCourse,
 	renameTimetable,
+	// Utility functions
+	convertHeatmapToTimetableCourse,
+	checkExistsInArray,
+	findFilledSlots,
+	countCredits,
 } from './timetable';
 
 import clashmap from '../constants/ClashMap';
@@ -509,6 +514,52 @@ describe('timetable reducer', () => {
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(initialState);
 			});
+		});
+	});
+
+	describe('utility functions', () => {
+		it('should convert from HeatmapCourse to TimetableCourse', () => {
+			expect.hasAssertions();
+
+			expect(convertHeatmapToTimetableCourse('Sample', heatmapCourse2))
+				.toStrictEqual(course2);
+		});
+
+		it('should check if course exists in a given timetable using its _id field', () => {
+			expect.hasAssertions();
+			const course3 = {
+				...course2,
+				_id: 'someRandomID',
+			};
+
+			expect(checkExistsInArray(bothCourseDefaultSelected.data, course1))
+				.toBeTruthy();
+
+			expect(checkExistsInArray(bothCourseDefaultSelected.data, course2))
+				.toBeTruthy();
+
+			expect(checkExistsInArray(bothCourseDefaultSelected.data, course3))
+				.toBeFalsy();
+		});
+
+		it('should be able to get a list of filled slots from a timetable', () => {
+			expect.hasAssertions();
+
+			expect(findFilledSlots(bothCourseDefaultSelected.data, 'Default'))
+				.toStrictEqual(['A1', 'TA1']);
+
+			expect(findFilledSlots(bothCourseSampleSelected.data, 'Sample'))
+				.toStrictEqual(['B1', 'TB1']);
+		});
+
+		it('should count credits of a given timetable', () => {
+			expect.hasAssertions();
+
+			expect(countCredits(bothCourseDefaultSelected.data, 'Default'))
+				.toStrictEqual(3);
+
+			expect(countCredits(bothCourseSampleSelected.data, 'Sample'))
+				.toStrictEqual(3);
 		});
 	});
 });

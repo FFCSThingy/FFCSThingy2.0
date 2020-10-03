@@ -39,5 +39,6 @@ module.exports = {
 		'no-param-reassign': 0,
 		'jsx-a11y/click-events-have-key-events': 0,
 		'no-underscore-dangle': 0,
+		'jest/no-hooks': 0,
 	},
 };

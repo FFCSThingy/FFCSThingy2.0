@@ -19,7 +19,7 @@ export const syncTimetable = createAsyncThunk(
 	},
 );
 
-const convertHeatmapToTimetableCourse = (
+export const convertHeatmapToTimetableCourse = (
 	timetableName: string,
 	course: HeatmapCourse,
 ): TimetableCourse => ({
@@ -35,7 +35,7 @@ const convertHeatmapToTimetableCourse = (
 	timetableName,
 });
 
-const checkExistsInArray = (
+export const checkExistsInArray = (
 	array: Array<TimetableCourse>,
 	val: TimetableCourse,
 ) => array.reduce((a, v) => (a || (
@@ -43,7 +43,7 @@ const checkExistsInArray = (
 	&& v.timetableName === val.timetableName
 )), false);
 
-const findFilledSlots = (data: Array<TimetableCourse>, activeTimetable: string): Array<string> => Array.from(
+export const findFilledSlots = (data: Array<TimetableCourse>, activeTimetable: string): Array<string> => Array.from(
 	new Set(
 		data
 			.filter((v) => v.timetableName === activeTimetable)
@@ -52,7 +52,7 @@ const findFilledSlots = (data: Array<TimetableCourse>, activeTimetable: string):
 	),
 );
 
-const countCredits = (
+export const countCredits = (
 	data: Array<TimetableCourse>,
 	active: string,
 ) => data.reduce(

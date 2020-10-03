@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.4.0",
-    "@types/jest": "^25.2.1",
     "@types/node": "^13.11.1",
     "@types/react": "^16.9.34",
     "@types/react-bootstrap": "^1.0.0",
@@ -59,5 +58,19 @@
     "maintained node versions",
     "not dead"
   ],
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001",
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "!src/models/**"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/redux-mock-store": "^1.0.2",
+    "redux-mock-store": "^1.5.4",
+    "ts-jest": "^26.4.1"
+  }
 }

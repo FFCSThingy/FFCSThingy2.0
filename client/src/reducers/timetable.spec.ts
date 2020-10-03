@@ -1,3 +1,4 @@
+import configureStore from 'redux-mock-store';
 import timetable, {
 	initialState,
 	addTimetable,
@@ -14,8 +15,12 @@ import clashmap from '../constants/ClashMap';
 import TimetableCourse from '../models/data/TimetableCourse';
 import Clashmap from '../models/constants/Clashmap';
 import TimetableSlice from '../models/state/TimetableSlice';
+import HeatmapCourse from '../models/data/HeatmapCourse';
 
 describe('timetable reducer', () => {
+	const mockStore = configureStore();
+	const store = mockStore();
+
 	const timestamp: string = new Date(Date.now()).toISOString();
 	const course1: TimetableCourse = {
 		_id: '5f59ffe5cee64f31983a29fe',
@@ -40,6 +45,15 @@ describe('timetable reducer', () => {
 		simpleCourseType: 'Theory',
 		title: 'Arabic for Beginners',
 		timetableName: 'Sample',
+	};
+	const heatmapCourse2: HeatmapCourse = {
+		...course2,
+		__v: 0,
+		shortCourseType: 'T',
+		count: 0,
+		total: 0,
+		percent: 0,
+		timestamp: '',
 	};
 	const course1Clashmap: Clashmap = {
 		...clashmap,
@@ -153,53 +167,62 @@ describe('timetable reducer', () => {
 	});
 
 	describe('timetable actions', () => {
+		beforeEach(() => {
+			store.clearActions();
+		});
+
 		describe(`${addTimetable}`, () => {
-			const addAction = {
+			const action = {
 				type: addTimetable.type,
 				payload: 'Sample',
 			};
 
 			it('should handle new timetable (no duplicates)', () => {
 				expect.hasAssertions();
-
 				const finalState = {
 					...initialState,
 					active: 'Sample',
 					names: ['Default', 'Sample'],
 				};
 
-				expect(timetable(undefined, addAction)).toStrictEqual(finalState);
+				store.dispatch(addTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
+
+				expect(timetable(undefined, action)).toStrictEqual(finalState);
 			});
 
 			it('should handle new timetable (new name already present)', () => {
 				expect.hasAssertions();
-
 				const initState = {
 					...initialState,
 					active: 'Default',
 					names: ['Default', 'Sample'],
 				};
-
 				const finalState = {
 					...initialState,
 					active: 'Default', // Active timetable should remain same
 					names: ['Default', 'Sample'], // Sample shouldn't be added to the list again
 				};
 
+				store.dispatch(addTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
+
 				// To check that active timetable does not change
 				// and that a duplicate isn't added
-				expect(timetable(initState, addAction)).toStrictEqual(finalState);
+				expect(timetable(initState, action)).toStrictEqual(finalState);
 			});
 		});
 
 		describe(`${changeTimetable}`, () => {
 			it('should change to an existing timetable', () => {
 				expect.hasAssertions();
-
 				const action = {
 					type: changeTimetable.type,
 					payload: 'Sample',
 				};
+
+				store.dispatch(changeTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseDefaultSelected, action))
 					.toStrictEqual(bothCourseSampleSelected);
@@ -207,11 +230,13 @@ describe('timetable reducer', () => {
 
 			it('should not change to a non-existent timetable', () => {
 				expect.hasAssertions();
-
 				const action = {
 					type: changeTimetable.type,
 					payload: 'NonExistent',
 				};
+
+				store.dispatch(changeTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseDefaultSelected, action))
 					.toStrictEqual(bothCourseDefaultSelected);
@@ -219,11 +244,13 @@ describe('timetable reducer', () => {
 
 			it('should do nothing on changing to active timetable', () => {
 				expect.hasAssertions();
-
 				const action = {
 					type: changeTimetable.type,
 					payload: 'Default',
 				};
+
+				store.dispatch(changeTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseDefaultSelected, action))
 					.toStrictEqual(bothCourseDefaultSelected);
@@ -233,10 +260,14 @@ describe('timetable reducer', () => {
 		describe(`${removeTimetable}`, () => {
 			const action = {
 				type: removeTimetable.type,
+				payload: undefined,
 			};
 
 			it('should remove current timetable', () => {
 				expect.hasAssertions();
+
+				store.dispatch(removeTimetable());
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(onlyDefaultCourse);
@@ -244,6 +275,9 @@ describe('timetable reducer', () => {
 
 			it('should not remove current if Default', () => {
 				expect.hasAssertions();
+
+				store.dispatch(removeTimetable());
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseDefaultSelected, action))
 					.toStrictEqual(bothCourseDefaultSelected);
@@ -269,12 +303,18 @@ describe('timetable reducer', () => {
 					],
 				};
 
+				store.dispatch(renameTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
+
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(finalState);
 			});
 
 			it('should not rename Default timetable', () => {
 				expect.hasAssertions();
+
+				store.dispatch(renameTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseDefaultSelected, action))
 					.toStrictEqual(bothCourseDefaultSelected);
@@ -286,6 +326,9 @@ describe('timetable reducer', () => {
 					type: renameTimetable.type,
 					payload: 'Sample',
 				};
+
+				store.dispatch(renameTimetable(thisAction.payload));
+				expect(store.getActions()).toStrictEqual([thisAction]);
 
 				expect(timetable(bothCourseSampleSelected, thisAction))
 					.toStrictEqual(bothCourseSampleSelected);
@@ -314,6 +357,9 @@ describe('timetable reducer', () => {
 					],
 				};
 
+				store.dispatch(copyTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
+
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(finalState);
 			});
@@ -341,6 +387,9 @@ describe('timetable reducer', () => {
 						],
 					};
 
+					store.dispatch(copyTimetable(action.payload));
+					expect(store.getActions()).toStrictEqual([action]);
+
 					expect(timetable(bothCourseSampleSelected, action))
 						.toStrictEqual(finalState);
 				},
@@ -352,6 +401,9 @@ describe('timetable reducer', () => {
 					type: copyTimetable.type,
 					payload: 'Sample',
 				};
+
+				store.dispatch(copyTimetable(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseDefaultSelected, action))
 					.toStrictEqual(bothCourseDefaultSelected);
@@ -365,8 +417,11 @@ describe('timetable reducer', () => {
 					type: addCourse.type,
 					// Change payload to include timestamp once reducer is changed
 					// TODO: Change this course to HeatmapCourse instead of TimetableCourse
-					payload: course2,
+					payload: heatmapCourse2,
 				};
+
+				store.dispatch(addCourse(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(onlyDefaultCourseSampleSelected, action))
 					.toStrictEqual(bothCourseSampleSelected);
@@ -378,8 +433,11 @@ describe('timetable reducer', () => {
 					type: addCourse.type,
 					// Change payload to include timestamp once reducer is changed
 					// TODO: Change this course to HeatmapCourse instead of TimetableCourse
-					payload: course2,
+					payload: heatmapCourse2,
 				};
+
+				store.dispatch(addCourse(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(bothCourseSampleSelected);
@@ -394,6 +452,9 @@ describe('timetable reducer', () => {
 					// Change payload to include timestamp once reducer is changed
 					payload: course2,
 				};
+
+				store.dispatch(removeCourse(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(onlyDefaultCourseSampleSelected);
@@ -411,6 +472,9 @@ describe('timetable reducer', () => {
 					},
 				};
 
+				store.dispatch(removeCourse(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
+
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(bothCourseSampleSelected);
 			});
@@ -423,6 +487,9 @@ describe('timetable reducer', () => {
 					payload: course1,
 				};
 
+				store.dispatch(removeCourse(action.payload));
+				expect(store.getActions()).toStrictEqual([action]);
+
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(bothCourseSampleSelected);
 			});
@@ -433,7 +500,11 @@ describe('timetable reducer', () => {
 				expect.hasAssertions();
 				const action = {
 					type: clearLocalData.type,
+					payload: undefined,
 				};
+
+				store.dispatch(clearLocalData());
+				expect(store.getActions()).toStrictEqual([action]);
 
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(initialState);

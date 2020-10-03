@@ -35,13 +35,6 @@ const UserDropdown = () => {
 					</Tooltip>
 				)}
 			>
-				{/* <Nav.Link
-					href="/login"
-					className={styles.navLink}
-				>
-				Login
-				</Nav.Link> */}
-
 				<NavDropdown
 					id="LoginDropdown"
 					alignRight

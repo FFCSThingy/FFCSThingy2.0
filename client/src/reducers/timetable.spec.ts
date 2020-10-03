@@ -9,6 +9,7 @@ import timetable, {
 	removeTimetable,
 	removeCourse,
 	renameTimetable,
+	syncTimetable,
 	// Utility functions
 	convertHeatmapToTimetableCourse,
 	checkExistsInArray,
@@ -513,6 +514,59 @@ describe('timetable reducer', () => {
 
 				expect(timetable(bothCourseSampleSelected, action))
 					.toStrictEqual(initialState);
+			});
+		});
+	});
+
+	describe('thunks', () => {
+		// TODO: Add tests by calling the thunk directly
+		// store.dispatch(<thunk>(...args))
+
+		// beforeEach(() => {
+		// 	store.clearActions();
+		// });
+
+		describe(`${syncTimetable.typePrefix}`, () => {
+			it('pending', () => {
+				expect.hasAssertions();
+				const action = {
+					type: syncTimetable.pending,
+					payload: undefined,
+				};
+
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual({ ...bothCourseDefaultSelected, syncing: true });
+			});
+
+			it('fulfilled', () => {
+				expect.hasAssertions();
+				const action = {
+					type: syncTimetable.fulfilled,
+					payload: {
+						timetable: bothCourseDefaultSelected.data,
+						timestamp: bothCourseDefaultSelected.timestamp,
+					},
+				};
+
+				expect(timetable(undefined, action))
+					.toStrictEqual(bothCourseDefaultSelected);
+
+				expect(timetable(onlyDefaultCourseSampleSelected, action))
+					.toStrictEqual(bothCourseDefaultSelected);
+
+				expect(timetable(onlyDefaultCourse, action))
+					.toStrictEqual(bothCourseDefaultSelected);
+			});
+
+			it('rejected', () => {
+				expect.hasAssertions();
+				const action = {
+					type: syncTimetable.rejected,
+					payload: undefined,
+				};
+
+				expect(timetable(bothCourseDefaultSelected, action))
+					.toStrictEqual({ ...bothCourseDefaultSelected, syncing: false });
 			});
 		});
 	});

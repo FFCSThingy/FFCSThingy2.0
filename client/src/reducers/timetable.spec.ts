@@ -527,7 +527,7 @@ describe('timetable reducer', () => {
 		// });
 
 		describe(`${syncTimetable.typePrefix}`, () => {
-			it('pending: shouldnt change any data other than syncing', () => {
+			it('pending: shouldnt change any data, should update syncing status', () => {
 				expect.hasAssertions();
 				const action = {
 					type: syncTimetable.pending,
@@ -583,7 +583,7 @@ describe('timetable reducer', () => {
 				});
 			});
 
-			it('rejected: shouldnt change any data other than syncing', () => {
+			it('rejected: shouldnt change any data, should update syncing status', () => {
 				expect.hasAssertions();
 				const action = {
 					type: syncTimetable.rejected,

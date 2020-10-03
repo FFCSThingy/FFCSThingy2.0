@@ -6,7 +6,7 @@ import {
 	Tooltip,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
@@ -22,7 +22,6 @@ const UserDropdown = () => {
 	const isAuthenticated = useSelector(
 		(state: RootState) => state.auth.isAuthenticated,
 	);
-	const history = useHistory();
 
 	if (!isAuthenticated) {
 		return (

@@ -16,8 +16,18 @@ The framework is extensible and modular, allowing use with other timetable struc
 ## Setting Up:
 - Install Node, Mongo
 - Run ```mongod``` in a terminal somewhere (Not required if it's running as a service)
+- Google OAuth
+  - [Enable APIs](https://developers.google.com/identity/protocols/oauth2/web-server#enable-apis)
+  - [Create credentials](https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred)
+    - Under redirect URIs, you want to add `http://localhost:3001/auth/google/redirect`
 - Backend
   - run ```npm i```
+  - create a `.env` file
+  - Add the ID and Secret you got from OAuth in the `.env` file
+  - ```
+    NODE_GOOGLE_CLIENT_ID=<Your Client ID>
+    NODE_GOOGLE_CLIENT_SECRET=<Your Client Secret>
+    ```
   - run ```node server.js```
 - Client
   - run ```npm i```

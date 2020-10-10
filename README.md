@@ -19,7 +19,7 @@ The framework is extensible and modular, allowing use with other timetable struc
 - Google OAuth
   - [Enable APIs](https://developers.google.com/identity/protocols/oauth2/web-server#enable-apis)
   - [Create credentials](https://developers.google.com/identity/protocols/oauth2/web-server#creatingcred)
-    - Under redirect URIs, you want to add `http://localhost:3001/auth/google/redirect`
+    - Under redirect URIs, you want to add `http://localhost:3001/auth/google/callback`
 - Backend
   - run ```npm i```
   - create a `.env` file

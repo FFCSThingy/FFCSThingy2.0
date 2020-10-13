@@ -203,6 +203,7 @@ const timetableSlice = createSlice({
 		renameTimetable: (state, action: PayloadAction<string>) => {
 			const newName = action.payload;
 
+			if (state.active === 'Default') return;
 			if (state.names.includes(newName)) return;
 
 			state.data = state.data.map((v) => {

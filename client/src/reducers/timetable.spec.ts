@@ -458,8 +458,10 @@ describe('timetable reducer', () => {
 				expect.hasAssertions();
 				const action = {
 					type: removeCourse.type,
-					// Change payload to include timestamp once reducer is changed
-					payload: course2,
+					payload: {
+						course: course2,
+						timeEpoch,
+					},
 				};
 
 				store.dispatch(removeCourse(action.payload));
@@ -473,11 +475,13 @@ describe('timetable reducer', () => {
 				expect.hasAssertions();
 				const action = {
 					type: removeCourse.type,
-					// Change payload to include timestamp once reducer is changed
 					payload: {
-						...course2,
-						// Reducer works on the expectation that the _id is unique
-						_id: 'someRandomID',
+						course: {
+							...course2,
+							// Reducer works on the expectation that the _id is unique
+							_id: 'someRandomID',
+						},
+						timeEpoch,
 					},
 				};
 
@@ -492,8 +496,10 @@ describe('timetable reducer', () => {
 				expect.hasAssertions();
 				const action = {
 					type: removeCourse.type,
-					// Change payload to include timestamp once reducer is changed
-					payload: course1,
+					payload: {
+						course: course1,
+						timeEpoch,
+					},
 				};
 
 				store.dispatch(removeCourse(action.payload));

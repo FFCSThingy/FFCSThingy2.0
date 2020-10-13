@@ -135,9 +135,15 @@ const timetableSlice = createSlice({
 			state.creditCount = creditCount;
 			state.timestamp = timestamp;
 		},
-		removeCourse: (state, action: PayloadAction<TimetableCourse>) => {
-			const course = action.payload;
-			const timestamp = new Date(Date.now()).toISOString();
+		removeCourse: (
+			state,
+			action: PayloadAction<{
+				course: TimetableCourse,
+				timeEpoch: number
+			}>,
+		) => {
+			const { course, timeEpoch } = action.payload;
+			const timestamp = new Date(timeEpoch).toISOString();
 
 			const newData = state.data.filter(
 				(v) => !(

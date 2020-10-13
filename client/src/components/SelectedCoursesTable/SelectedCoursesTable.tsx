@@ -55,7 +55,10 @@ const SelectedCoursesTable = () => {
 										<FaTrashAlt
 											className={styles.trashButton}
 											onClick={
-												() => dispatch(removeCourse(value))
+												() => dispatch(removeCourse({
+													course: value,
+													timeEpoch: Date.now(),
+												}))
 											}
 										/>
 									</td>

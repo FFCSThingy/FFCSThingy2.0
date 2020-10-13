@@ -221,15 +221,24 @@ const timetableSlice = createSlice({
 			state.active = newName;
 		},
 		copyTimetable: (state, action: PayloadAction<string>) => {
-			const newName = action.payload;
+			const newName = action.payload || state.active;
+			let newTimetableName = newName;
+
+			while (
+				!newTimetableName
+				|| newTimetableName === ''
+				|| state.names.includes(newTimetableName)
+			) {
+				newTimetableName = `${newTimetableName}-Copy`;
+			}
 
 			const copiedCourses = state.data
 				.filter((v) => v.timetableName === state.active)
-				.map((v) => ({ ...v, timetableName: newName }));
+				.map((v) => ({ ...v, timetableName: newTimetableName }));
 
 			state.data = [...state.data, ...copiedCourses];
-			state.names = [...state.names, newName];
-			state.active = newName;
+			state.names = [...state.names, newTimetableName];
+			state.active = newTimetableName;
 		},
 	},
 	extraReducers: (builder) => {

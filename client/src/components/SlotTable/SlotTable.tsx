@@ -150,7 +150,10 @@ const SlotTable = () => {
 				slotDetails={slot}
 				type="normal"
 				onClick={
-					() => dispatch(addCourse(slot))
+					() => dispatch(addCourse({
+						course: slot,
+						timeEpoch: Date.now(),
+					}))
 				}
 				key={`SlotCard-${slot._id}`}
 				isRelated={isRelated}

@@ -27,7 +27,8 @@ describe('timetable reducer', () => {
 	const mockStore = configureStore();
 	const store = mockStore();
 
-	const timestamp: string = new Date(Date.now()).toISOString();
+	const timeEpoch = Date.now();
+	const timestamp: string = new Date(timeEpoch).toISOString();
 	const course1: TimetableCourse = {
 		_id: '5f59ffe5cee64f31983a29fe',
 		code: 'ARB1001',
@@ -421,9 +422,10 @@ describe('timetable reducer', () => {
 				expect.hasAssertions();
 				const action = {
 					type: addCourse.type,
-					// Change payload to include timestamp once reducer is changed
-					// TODO: Change this course to HeatmapCourse instead of TimetableCourse
-					payload: heatmapCourse2,
+					payload: {
+						course: heatmapCourse2,
+						timeEpoch,
+					},
 				};
 
 				store.dispatch(addCourse(action.payload));
@@ -437,9 +439,10 @@ describe('timetable reducer', () => {
 				expect.hasAssertions();
 				const action = {
 					type: addCourse.type,
-					// Change payload to include timestamp once reducer is changed
-					// TODO: Change this course to HeatmapCourse instead of TimetableCourse
-					payload: heatmapCourse2,
+					payload: {
+						course: heatmapCourse2,
+						timeEpoch,
+					},
 				};
 
 				store.dispatch(addCourse(action.payload));

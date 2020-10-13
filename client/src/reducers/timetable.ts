@@ -108,9 +108,15 @@ const timetableSlice = createSlice({
 			state.clashmap = updateClashmap(state.clashmap, []);
 			state.creditCount = 0;
 		},
-		addCourse: (state, action: PayloadAction<HeatmapCourse>) => {
-			const course = action.payload;
-			const timestamp = new Date(Date.now()).toISOString();
+		addCourse: (
+			state,
+			action: PayloadAction<{
+				course: HeatmapCourse,
+				timeEpoch: number
+			}>,
+		) => {
+			const { course, timeEpoch } = action.payload;
+			const timestamp = new Date(timeEpoch).toISOString();
 
 			const courseWithTimetableName = convertHeatmapToTimetableCourse(
 				state.active, course,

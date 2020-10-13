@@ -221,9 +221,18 @@ const timetableSlice = createSlice({
 			state.active = newName;
 		},
 		copyTimetable: (state, action: PayloadAction<string>) => {
-			const newName = action.payload || state.active;
+			const newName = action.payload;
 			let newTimetableName = newName;
 
+			// Shouldn't copy if name alreadt exists
+			if (state.names.includes(newName)) return;
+			// If newName not given, assign the current name
+			if (!newName || newName === '') {
+				newTimetableName = state.active;
+			}
+
+			// Keep adding '-Copy' to the name until one is found
+			// that does not exist already
 			while (
 				!newTimetableName
 				|| newTimetableName === ''

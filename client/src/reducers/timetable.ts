@@ -288,10 +288,26 @@ const timetableSlice = createSlice({
 					timestamp,
 				} = action.payload;
 
+				const recvdNames = timetable.reduce(
+					(a, v) => a.add(v.timetableName),
+					new Set<string>(),
+				);
+				recvdNames.delete('Default');
+				const recvdNamesArray = Array.from(recvdNames);
+				const combinedNameArray = [...state.names, ...recvdNamesArray];
+				const newNameArray = Array.from(
+					new Set<string>(combinedNameArray),
+				);
+
+				if (!newNameArray.includes(state.active)) {
+					state.active = 'Default';
+				}
+
 				const filledSlots = findFilledSlots(timetable, state.active);
 				const clashmap = updateClashmap(state.clashmap, filledSlots);
 				const creditCount = countCredits(timetable, state.active);
 
+				state.names = newNameArray;
 				state.clashmap = clashmap;
 				state.filledSlots = filledSlots;
 				state.data = timetable;

@@ -277,11 +277,15 @@ const timetableSlice = createSlice({
 			syncTimetable.fulfilled,
 			(
 				state,
-				action: PayloadAction<{timetable: TimetableCourse[], timestamp: string}>,
+				action: PayloadAction<{
+					timetable: TimetableCourse[],
+					timestamp: string
+				}>,
 			) => {
 				const {
 					timetable,
-					timestamp = new Date(Date.now()).toISOString(),
+					// Timestamp should ideally always be present in server response
+					timestamp,
 				} = action.payload;
 
 				const filledSlots = findFilledSlots(timetable, state.active);

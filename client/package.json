@@ -50,7 +50,7 @@
     "build-test-server": "REACT_APP_BASE_URL=http://ffcs.csivit.com npm run build",
     "build-prod": "REACT_APP_BASE_URL=https://ffcs.ooo npm run build",
     "build-stage": "REACT_APP_BASE_URL=http://staging.ffcs.ooo npm run build",
-    "lint": "eslint . --ext .js --ext .jsx"
+    "lint": "eslint . --ext .js --ext .jsx --ext .ts --ext .tsx"
   },
   "browserslist": [
     "last 1 version",

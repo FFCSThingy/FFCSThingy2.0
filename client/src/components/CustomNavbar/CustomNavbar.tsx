@@ -22,6 +22,8 @@ const CustomNavbar = memo(() => {
 
 	const [showModal, setShowModal] = useState(false);
 
+	const EXTENSION_LINK = 'https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh';
+
 	const SyncModal = () => (
 		<Modal
 			size="lg"
@@ -37,11 +39,23 @@ const CustomNavbar = memo(() => {
 
 			<Modal.Body className={styles.popup}>
 				<p>
-						Generate timetable automatically, see completed courses in course selector and more. Add an extension to your browser and sync with VTOP!
+					{'Generate timetable automatically, see completed courses in course selector '
+					+ 'and more. Add an extension to your browser and sync with VTOP!'}
 				</p>
-				<a href="https://chrome.google.com/webstore/detail/ffcsooo/mepdkhhjialfmbggojniffnjidbdhpmh" target="_blank" rel="noopener noreferrer">Chrome Extension</a>
+				<a
+					href={EXTENSION_LINK}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Chrome Extension
+				</a>
 				<br />
-				<a href="https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi" rel="noopener noreferrer">Firefox Addon (Desktop and Android)</a>
+				<a
+					href="https://ffcs.ooo/files_ext/ffcsooo-1.4-an+fx.xpi"
+					rel="noopener noreferrer"
+				>
+					Firefox Addon (Desktop and Android)
+				</a>
 			</Modal.Body>
 
 			<Modal.Footer className={styles.popup}>
@@ -80,7 +94,10 @@ const CustomNavbar = memo(() => {
 
 				<div className={styles.middleContainer}>
 					<Nav.Link
-						href={`${process.env.REACT_APP_BASE_URL || 'http://localhost:3001'}/about`}
+						href={`
+							${process.env.REACT_APP_BASE_URL
+							|| 'http://localhost:3001'}/about
+						`}
 						className={styles.navLink}
 					>
 							About

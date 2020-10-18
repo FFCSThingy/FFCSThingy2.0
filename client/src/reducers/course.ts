@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+	createSlice,
+	createAsyncThunk,
+	PayloadAction,
+} from '@reduxjs/toolkit';
 
 import { getHeatmap, getAllCourseLists } from '../api/course';
 
@@ -68,7 +72,13 @@ const courseSlice = createSlice({
 			},
 		).addCase(
 			fetchHeatmap.fulfilled,
-			(state, action: PayloadAction<{ heatmap: HeatmapCourse[], timestamp: string }>) => {
+			(
+				state,
+				action: PayloadAction<{
+					heatmap: HeatmapCourse[],
+					timestamp: string
+				}>,
+			) => {
 				const { heatmap, timestamp } = action.payload;
 
 				state.heatmap.data = heatmap;

@@ -42,10 +42,17 @@ import { RootState } from '../app/rootReducer';
 
 const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? (
 	<Row>
-		<Alert className={styles.alert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
+		<Alert
+			className={styles.alert}
+			variant="danger"
+			onClose={() => setShowAlert(false)}
+			dismissible
+		>
 			<Alert.Heading>Courses Updated</Alert.Heading>
 			<p>
-				If you notice courses missing from your timetable, it might be due to them being removed to keep it in sync with the available courses from the Course Allocation Report.
+				If you notice courses missing from your timetable,
+				it might be due to them being removed to keep it in
+				sync with the available courses from the Course Allocation Report.
 			</p>
 		</Alert>
 	</Row>
@@ -88,7 +95,10 @@ const Dashboard = () => {
 		(state: RootState) => state.auth.isAuthenticated,
 	);
 
-	// const [{ data: postGenerateTTResponse, loading: postGenerateTTLoading }, executePostGenerateTT] = useAxiosFFCS({
+	// const [
+	//	{ data: postGenerateTTResponse, loading: postGenerateTTLoading },
+	//	executePostGenerateTT,
+	// ] = useAxiosFFCS({
 	// 	url: '/ttgen/generateTimetable',
 	// 	method: 'POST',
 	// 	headers: {

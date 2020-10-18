@@ -19,7 +19,7 @@ describe('course reducer', () => {
 					type: selectCourse.type,
 					payload: 'ZZZ1001',
 				};
-		
+
 				expect(
 					course(
 						{ ...initialState },
@@ -37,14 +37,14 @@ describe('course reducer', () => {
 		describe(`${fetchHeatmap.typePrefix}`, () => {
 			it('pending: shouldnt change any data, should update syncing status', () => {
 				expect.hasAssertions();
-	
+
 				const state = course(
 					{ ...initialState },
 					fetchHeatmap.pending,
 				);
 				expect(state.heatmap.syncing).toBeTruthy();
 			});
-	
+
 			it('fulfilled: should update state with received data', () => {
 				expect.hasAssertions();
 				const sampleData = {
@@ -69,12 +69,12 @@ describe('course reducer', () => {
 					],
 					timestamp: new Date(Date.now()).toISOString(),
 				};
-	
+
 				const action = {
 					type: fetchHeatmap.fulfilled,
 					payload: sampleData,
 				};
-	
+
 				const state = course(
 					{ ...initialState },
 					action,
@@ -83,10 +83,10 @@ describe('course reducer', () => {
 				expect(state.heatmap.data).toStrictEqual(sampleData.heatmap);
 				expect(state.heatmap.timestamp).toStrictEqual(sampleData.timestamp);
 			});
-	
+
 			it('rejected: shouldnt change any data, should update syncing status', () => {
 				expect.hasAssertions();
-	
+
 				const state = course(
 					{ ...initialState },
 					fetchHeatmap.rejected,
@@ -94,7 +94,7 @@ describe('course reducer', () => {
 				expect(state.heatmap.syncing).toBeFalsy();
 			});
 		});
-	
+
 		describe(`${fetchAllCourseLists.typePrefix}`, () => {
 			it('fulfilled: should update state with received data', () => {
 				expect.hasAssertions();
@@ -130,12 +130,12 @@ describe('course reducer', () => {
 					},
 					timestamp: new Date(Date.now()).toISOString(),
 				};
-	
+
 				const action = {
 					type: fetchAllCourseLists.fulfilled,
 					payload: sampleData,
 				};
-	
+
 				const state = course(
 					{ ...initialState },
 					action,

@@ -11,7 +11,9 @@ const selectActiveTimetable = (state: RootState) => state.timetable.active;
 
 export const selectSlotsForCourse = createSelector(
 	[selectHeatmap, selectSelectedCourse],
-	(heatmap, selectedCourse) => heatmap.filter((course) => course.code === selectedCourse),
+	(heatmap, selectedCourse) => heatmap.filter(
+		(course) => course.code === selectedCourse,
+	),
 );
 
 export const selectClashingSlots = createSelector(
@@ -21,7 +23,15 @@ export const selectClashingSlots = createSelector(
 			if (slot === 'NIL') return [];
 
 			const clashingSlots = slot.replace(' ', '').split('+')
-				.reduce<string[]>((a, v) => Array.from(new Set([...a, ...clashmap[v].currentlyClashesWith])), [])
+				.reduce(
+					(a: string[], v: string) => Array.from(
+						new Set<string>([
+							...a,
+							...clashmap[v].currentlyClashesWith,
+						]),
+					),
+					[],
+				)
 				.filter((v) => v && v.length > 0);
 
 			return clashingSlots;

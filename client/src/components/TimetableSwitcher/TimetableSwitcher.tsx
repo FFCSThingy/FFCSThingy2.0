@@ -134,7 +134,11 @@ const TimetableSwitcher = memo(() => {
 
 			</ButtonGroup>
 
-			<TimetableSwitcherInput value={defaultValue()} okHandler={okHandler} showInput={showInput()} />
+			<TimetableSwitcherInput
+				value={defaultValue()}
+				okHandler={okHandler}
+				showInput={showInput()}
+			/>
 
 		</div>
 	);

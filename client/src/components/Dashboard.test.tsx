@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import configureStore from 'redux-mock-store';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 
 import Dashboard from './Dashboard';
 
@@ -14,10 +14,10 @@ const store = mockStore({
 			timestamp: '',
 		},
 		lists: {
-		  timestamp: '',
-		}
+			timestamp: '',
+		},
 	},
-	timetable: { 
+	timetable: {
 		timestamp: '',
 		data: [],
 	},
@@ -25,15 +25,19 @@ const store = mockStore({
 		selectedPrefix: 'Curriculum',
 		currentData: {},
 	},
-	auth: { isAuthenticated: false, },
+	auth: { isAuthenticated: false },
 });
 
-describe('Dashboard', () => {
+describe('component: Dashboard', () => {
 	it('should render without crashing', () => {
-		shallow(
+		expect.hasAssertions();
+
+		const dashboard = shallow(
 			<Provider store={store}>
 				<Dashboard />
-			</Provider>
+			</Provider>,
 		);
-	});	
+
+		expect(dashboard.contains(<Dashboard />)).toBeTruthy();
+	});
 });

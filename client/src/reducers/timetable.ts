@@ -9,6 +9,7 @@ import Clashmap from '../models/constants/Clashmap';
 import TimetableSlice from '../models/state/TimetableSlice';
 
 const ACTION_BASE = 'timetable';
+const DEFAULT_TT_NAME = 'Default';
 
 export const syncTimetable = createAsyncThunk(
 	`${ACTION_BASE}/syncTimetable`,
@@ -36,31 +37,40 @@ export const convertHeatmapToTimetableCourse = (
 });
 
 export const checkExistsInArray = (
-	array: Array<TimetableCourse>,
+	array: TimetableCourse[],
 	val: TimetableCourse,
 ) => array.reduce((a, v) => (a || (
 	v._id === val._id
 	&& v.timetableName === val.timetableName
 )), false);
 
-export const findFilledSlots = (data: Array<TimetableCourse>, activeTimetable: string): Array<string> => Array.from(
+export const findFilledSlots = (
+	data: TimetableCourse[],
+	activeTimetable: string,
+): string[] => Array.from(
 	new Set(
 		data
 			.filter((v) => v.timetableName === activeTimetable)
-			.reduce<Array<string>>((a, v) => [...a, ...v.slot.replace(' ', '').split('+')], [])
+			.reduce(
+				(a, v) => [...a, ...v.slot.replace(' ', '').split('+')],
+				Array<string>(),
+			)
 			.filter((v) => v !== 'NIL'),
 	),
 );
 
 export const countCredits = (
-	data: Array<TimetableCourse>,
+	data: TimetableCourse[],
 	active: string,
 ) => data.reduce(
 	(a, v) => a + ((v.timetableName === active) ? v.credits : 0),
 	0,
 );
 
-const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
+const updateClashmap = (
+	clashmap: Clashmap,
+	filledSlots: string[],
+) => {
 	const newClashmap = { ...clashmap };
 	Object.keys(newClashmap)
 		.map((slot) => {
@@ -85,8 +95,8 @@ const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 };
 
 export const initialState: TimetableSlice = {
-	active: 'Default',
-	names: ['Default'],
+	active: DEFAULT_TT_NAME,
+	names: [DEFAULT_TT_NAME],
 	filledSlots: [],
 	data: [],
 	timestamp: '',
@@ -100,8 +110,8 @@ const timetableSlice = createSlice({
 	initialState: { ...initialState },
 	reducers: {
 		clearLocalData: (state) => {
-			state.active = 'Default';
-			state.names = ['Default'];
+			state.active = DEFAULT_TT_NAME;
+			state.names = [DEFAULT_TT_NAME];
 			state.filledSlots = [];
 			state.data = [];
 			state.timestamp = '';
@@ -194,7 +204,7 @@ const timetableSlice = createSlice({
 			state.creditCount = creditCount;
 		},
 		removeTimetable: (state) => {
-			if (state.active === 'Default') return;
+			if (state.active === DEFAULT_TT_NAME) return;
 
 			const newData = state.data.filter((v) => v.timetableName !== state.active);
 			const newNames = state.names.filter((v) => v !== state.active);
@@ -215,7 +225,7 @@ const timetableSlice = createSlice({
 		renameTimetable: (state, action: PayloadAction<string>) => {
 			const newName = action.payload;
 
-			if (state.active === 'Default') return;
+			if (state.active === DEFAULT_TT_NAME) return;
 			if (state.names.includes(newName)) return;
 
 			state.data = state.data.map((v) => {
@@ -292,7 +302,7 @@ const timetableSlice = createSlice({
 					(a, v) => a.add(v.timetableName),
 					new Set<string>(),
 				);
-				recvdNames.delete('Default');
+				recvdNames.delete(DEFAULT_TT_NAME);
 				const recvdNamesArray = Array.from(recvdNames);
 				const combinedNameArray = [...state.names, ...recvdNamesArray];
 				const newNameArray = Array.from(
@@ -300,7 +310,7 @@ const timetableSlice = createSlice({
 				);
 
 				if (!newNameArray.includes(state.active)) {
-					state.active = 'Default';
+					state.active = DEFAULT_TT_NAME;
 				}
 
 				const filledSlots = findFilledSlots(timetable, state.active);

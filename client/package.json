@@ -38,6 +38,7 @@
     "react-responsive": "^7.0.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.4.3",
+    "react-test-renderer": "^16.14.0",
     "redux": "^4.0.5",
     "typescript": "^3.8.3"
   },

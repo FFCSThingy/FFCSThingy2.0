@@ -309,9 +309,11 @@ const timetableSlice = createSlice({
 					new Set<string>(combinedNameArray),
 				);
 
-				if (!newNameArray.includes(state.active)) {
-					state.active = DEFAULT_TT_NAME;
-				}
+				// Can't think of a case where this would be useful
+				// Should add test for this branch
+				// if (!newNameArray.includes(state.active)) {
+				// 	state.active = DEFAULT_TT_NAME;
+				// }
 
 				const filledSlots = findFilledSlots(timetable, state.active);
 				const clashmap = updateClashmap(state.clashmap, filledSlots);

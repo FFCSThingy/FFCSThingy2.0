@@ -23,7 +23,7 @@ export const fetchCompletedCourses = createAsyncThunk(
 	},
 );
 
-const initialState: UserSliceModel = {
+export const initialState: UserSliceModel = {
 	details: {
 		google_id: '',
 		display_name: '',

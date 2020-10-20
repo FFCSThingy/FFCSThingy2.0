@@ -13,7 +13,7 @@ export const changeTheme = createAsyncThunk(
 	},
 );
 
-const initialState: MiscSlice = {
+export const initialState: MiscSlice = {
 	theme: localStorage.getItem('theme') ?? 'default',
 };
 

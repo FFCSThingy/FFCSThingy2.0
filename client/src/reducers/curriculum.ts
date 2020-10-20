@@ -27,7 +27,7 @@ export const fetchCurriculumFromPrefix = createAsyncThunk(
 	},
 );
 
-const initialState: CurriculumSlice = {
+export const initialState: CurriculumSlice = {
 	selectedPrefix: 'Curriculum',
 	list: [] as string[],
 	currentData: {

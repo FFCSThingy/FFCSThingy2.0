@@ -20,7 +20,7 @@ export const logout = createAsyncThunk(
 	},
 );
 
-const initialState: AuthSlice = {
+export const initialState: AuthSlice = {
 	isAuthenticated: null,
 };
 

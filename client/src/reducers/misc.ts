@@ -34,4 +34,5 @@ const miscSlice = createSlice({
 
 // export const {  } = miscSlice.actions;
 
+export const { name } = miscSlice;
 export default miscSlice.reducer;

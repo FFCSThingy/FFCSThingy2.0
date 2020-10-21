@@ -7,43 +7,25 @@ import { shallow, mount } from 'enzyme';
 
 import Dashboard from './Dashboard';
 
+import { initialState } from '../app/rootReducer';
+import { syncTimetable } from '../reducers/timetable';
+import { fetchHeatmap, fetchAllCourseLists } from '../reducers/course';
 import {
-	initialState as ttInitState,
-	syncTimetable,
-} from '../reducers/timetable';
-import {
-	initialState as crsInitState,
-	fetchHeatmap, fetchAllCourseLists,
-} from '../reducers/course';
-import { initialState as authInitState } from '../reducers/auth';
-import {
-	initialState as currInitState,
 	fetchCurriculumPrefixes,
 	fetchCurriculumFromPrefix,
 	setCurrentCurriculumData,
 } from '../reducers/curriculum';
-import { initialState as miscInitState } from '../reducers/misc';
 import {
 	fetchCompletedCourses,
 	fetchUserDetails,
-	initialState as userInitState,
 } from '../reducers/user';
-
-const defaultState = {
-	course: crsInitState,
-	timetable: ttInitState,
-	curriculum: currInitState,
-	auth: authInitState,
-	misc: miscInitState,
-	user: userInitState,
-};
 
 const mockStore = configureStore([thunk]);
 
 describe('component: Dashboard', () => {
 	it('should render without crashing', () => {
 		expect.hasAssertions();
-		const store = mockStore(defaultState);
+		const store = mockStore(initialState);
 		const dashboard = shallow(
 			<Provider store={store}>
 				<Dashboard />
@@ -57,7 +39,7 @@ describe('component: Dashboard', () => {
 
 	it('should dispatch certain actions on non-auth state', () => {
 		expect.hasAssertions();
-		const store = mockStore(defaultState);
+		const store = mockStore(initialState);
 		const dashboard = mount(
 			<Provider store={store}>
 				<Dashboard />
@@ -90,9 +72,9 @@ describe('component: Dashboard', () => {
 	it('should dispatch certain actions on auth state', () => {
 		expect.hasAssertions();
 		const store = mockStore({
-			...defaultState,
+			...initialState,
 			auth: {
-				...defaultState.auth,
+				...initialState.auth,
 				isAuthenticated: true,
 			},
 		});
@@ -135,9 +117,9 @@ describe('component: Dashboard', () => {
 
 		const selectedPrefix = '17BCI';
 		const store = mockStore({
-			...defaultState,
+			...initialState,
 			curriculum: {
-				...defaultState.curriculum,
+				...initialState.curriculum,
 				selectedPrefix,
 			},
 		});
@@ -165,7 +147,7 @@ describe('component: Dashboard', () => {
 		jest.spyOn(Object.getPrototypeOf(localStorage), 'getItem')
 			.mockReturnValue(JSON.stringify(mockLocalStorageData));
 
-		const store = mockStore(defaultState);
+		const store = mockStore(initialState);
 		const dashboard = mount(
 			<Provider store={store}>
 				<Dashboard />
@@ -197,9 +179,9 @@ describe('component: Dashboard', () => {
 			reg_prefix: selectedPrefix,
 		};
 		const store = mockStore({
-			...defaultState,
+			...initialState,
 			curriculum: {
-				...defaultState.curriculum,
+				...initialState.curriculum,
 				selectedPrefix,
 				currentData,
 			},
@@ -222,7 +204,7 @@ describe('component: Dashboard', () => {
 		expect.hasAssertions();
 		jest.useFakeTimers();
 
-		const store = mockStore(defaultState);
+		const store = mockStore(initialState);
 		const dashboard = mount(
 			<Provider store={store}>
 				<Dashboard />
@@ -246,9 +228,9 @@ describe('component: Dashboard', () => {
 		jest.useFakeTimers();
 
 		const store = mockStore({
-			...defaultState,
+			...initialState,
 			auth: {
-				...defaultState.auth,
+				...initialState.auth,
 				isAuthenticated: true,
 			},
 		});

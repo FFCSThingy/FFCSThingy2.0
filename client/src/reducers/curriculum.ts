@@ -133,4 +133,5 @@ export const {
 	setCurrentCurriculumData,
 } = curriculumSlice.actions;
 
+export const { name } = curriculumSlice;
 export default curriculumSlice.reducer;

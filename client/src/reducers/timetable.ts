@@ -341,5 +341,5 @@ export const {
 	copyTimetable,
 	clearLocalData,
 } = timetableSlice.actions;
-
+export const { name } = timetableSlice;
 export default timetableSlice.reducer;

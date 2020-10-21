@@ -120,5 +120,5 @@ const courseSlice = createSlice({
 export const {
 	selectCourse,
 } = courseSlice.actions;
-
+export const { name } = courseSlice;
 export default courseSlice.reducer;

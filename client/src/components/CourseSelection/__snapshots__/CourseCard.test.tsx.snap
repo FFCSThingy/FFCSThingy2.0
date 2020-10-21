@@ -1,0 +1,293 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: CourseCard snapshots not-passed, prereq-not-passed, no-completed, >1 credit, >1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          4 Credits
+        </span>
+      </p>
+      <div
+        class="cardCompletedSubtitle card-subtitle h6"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCard snapshots not-selected, no-prereq, completed-fail, >1 credit, >1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          4 Credits
+        </span>
+      </p>
+      <div
+        class="cardCompletionFailedSubtitle card-subtitle h6"
+      >
+        Completed: F
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCard snapshots not-selected, no-prereq, completed-pass, >1 credit, >1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          4 Credits
+        </span>
+      </p>
+      <div
+        class="cardCompletedSubtitle card-subtitle h6"
+      >
+        Completed: A
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCard snapshots not-selected, no-prereq, no-completed, >1 credit, >1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          4 Credits
+        </span>
+      </p>
+      <div
+        class="cardCompletedSubtitle card-subtitle h6"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCard snapshots not-selected, no-prereq, no-completed, >1 credit, 1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          4 Credits
+        </span>
+      </p>
+      <div
+        class="cardCompletedSubtitle card-subtitle h6"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCard snapshots not-selected, no-prereq, no-completed, 1 credit, >1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          1 Credit
+        </span>
+      </p>
+      <div
+        class="cardCompletedSubtitle card-subtitle h6"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCard snapshots selected, no-prereq, no-completed, >1 credit, >1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard active card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          4 Credits
+        </span>
+      </p>
+      <div
+        class="cardCompletedSubtitle card-subtitle h6"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCard snapshots selected-not-passed, no-prereq, no-completed, >1 credit, >1 courseType 1`] = `
+<DocumentFragment>
+  <div
+    class="courseCard card"
+    title="ZZZ1001"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="cardTitle card-title h5"
+      >
+        Sample1
+      </div>
+      <p
+        class="courseSelectDetails card-text"
+      >
+        <span
+          class="courseCodeText"
+        >
+          ZZZ1001
+        </span>
+        <span
+          class="courseCredits"
+        >
+          4 Credits
+        </span>
+      </p>
+      <div
+        class="cardCompletedSubtitle card-subtitle h6"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

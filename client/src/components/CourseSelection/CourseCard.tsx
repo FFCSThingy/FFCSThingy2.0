@@ -19,21 +19,21 @@ const CourseCard: FC<CourseCardProps> = memo(
 
 		const creditText = (credits === 1) ? 'Credit' : 'Credits';
 
-		const valueMap = (value: string) => value.split(',').map((v) => (
-			<>
+		const valueMap = (value: string) => value.split(',').map((v, i) => (
+			<React.Fragment key={`${v}`}>
 				{v}
 				<br />
-			</>
+			</React.Fragment>
 		));
 
 		const CoreqText: FC<PrereqTextProps> = ({ value }) => {
 			if (value) {
 				return (
-					<>
+					<span key={`${code}-Coreq`}>
 						<b>Co-Requisites: </b>
 						{valueMap(value)}
 						<br />
-					</>
+					</span>
 				);
 			}
 			return <></>;
@@ -42,11 +42,11 @@ const CourseCard: FC<CourseCardProps> = memo(
 		const PrereqText: FC<PrereqTextProps> = ({ value }) => {
 			if (value) {
 				return (
-					<>
+					<span key={`${code}-Prereq`}>
 						<b>Pre-Requisites: </b>
 						{valueMap(value)}
 						<br />
-					</>
+					</span>
 				);
 			}
 			return <></>;
@@ -54,11 +54,11 @@ const CourseCard: FC<CourseCardProps> = memo(
 		const AntireqText: FC<PrereqTextProps> = ({ value }) => {
 			if (value) {
 				return (
-					<>
+					<span key={`${code}-Antireq`}>
 						<b>Anti-Requisites: </b>
 						{valueMap(value)}
 						<br />
-					</>
+					</span>
 				);
 			}
 			return <></>;
@@ -87,7 +87,7 @@ const CourseCard: FC<CourseCardProps> = memo(
 				placement="top-start"
 				trigger={['hover', 'focus']}
 				overlay={(
-					<Tooltip id={`${code}-PrereqsTooltip`}>
+					<Tooltip id={`${code}-PrereqsTooltip`} role="tooltip">
 						<PrereqsTooltip />
 						<div className={styles.courseTypes}>
 							<b> Course Type: </b>

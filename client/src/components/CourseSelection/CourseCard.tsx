@@ -6,20 +6,27 @@ import { selectCourse } from '../../reducers/course';
 
 import styles from '../../css/CourseSelectionList.module.scss';
 
-import CourseCardProps, { PrereqTextProps } from '../../models/components/CourseSelection/CourseCard';
+import CourseCardProps,
+{ PrereqTextProps } from '../../models/components/CourseSelection/CourseCard';
 
 const CourseCard: FC<CourseCardProps> = memo(
 	({
-		code, title, credits, shortCourseTypes, completed = '', selected = false, prereqs = null,
+		code, title, credits, shortCourseTypes,
+		completed = '', selected = false, prereqs = null,
 	}) => {
 		const dispatch = useDispatch();
 
-		const cardClass = selected ? `${styles.courseCard} ${styles.active}` : styles.courseCard;
-		const completionClass = ['N', 'F'].includes(completed) ? styles.cardCompletionFailedSubtitle : styles.cardCompletedSubtitle;
+		const cardClass = selected
+			? `${styles.courseCard} ${styles.active}`
+			: styles.courseCard;
+
+		const completionClass = ['N', 'F'].includes(completed)
+			? styles.cardCompletionFailedSubtitle
+			: styles.cardCompletedSubtitle;
 
 		const creditText = (credits === 1) ? 'Credit' : 'Credits';
 
-		const valueMap = (value: string) => value.split(',').map((v, i) => (
+		const valueMap = (value: string) => value.split(',').map((v) => (
 			<React.Fragment key={`${v}`}>
 				{v}
 				<br />

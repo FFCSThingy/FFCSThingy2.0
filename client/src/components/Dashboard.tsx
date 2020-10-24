@@ -215,7 +215,7 @@ const Dashboard = () => {
 				setShowAlert={setShowAlert}
 			/>
 
-			<Row>
+			<Row id="timetable">
 				<Timetable />
 			</Row>
 

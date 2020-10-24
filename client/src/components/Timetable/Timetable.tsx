@@ -9,7 +9,7 @@ import TimetableBody from './TimetableBody';
 import styles from '../../css/Timetable.module.scss';
 
 const MobileTimetable = memo(() => (
-	<Container className={styles.timetableContainer} id='timetable'>
+	<Container className={styles.timetableContainer}>
 		<FaSun className={styles.morningIcon} size="2x" color="yellow" />
 		<table className={styles.timetableA}>
 			<TimetableHeader isMobile />
@@ -31,7 +31,7 @@ const MobileTimetable = memo(() => (
 
 const DesktopTimetable = memo(() => (
 	<Container className={styles.timetableContainer} fluid>
-		<table className={styles.timetable} id='timetable'>
+		<table className={styles.timetable}>
 			<TimetableHeader />
 			<TimetableBody />
 		</table>
@@ -41,16 +41,7 @@ const DesktopTimetable = memo(() => (
 const Timetable = memo(() => (
 	// Media Query for phones
 	<MediaQuery minDeviceWidth={768}>
-		{(matches) => {
-			if (matches) {
-				return (
-					<DesktopTimetable />
-				);
-			}
-			return (
-				<MobileTimetable />
-			);
-		}}
+		{(matches) => (matches ? <DesktopTimetable /> : <MobileTimetable />)}
 	</MediaQuery>
 ));
 

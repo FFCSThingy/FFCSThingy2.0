@@ -2,10 +2,9 @@ import React, { useState, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import {
-	FaTrashAlt, FaPlusSquare, FaPen, FaCopy, FaDownload, FaFileDownload
+	FaTrashAlt, FaPlusSquare, FaPen, FaCopy, FaCamera, FaFileDownload,
 } from 'react-icons/fa';
-import domtoimage from 'dom-to-image';
-import { triggerBase64Download } from 'react-base64-downloader';
+import domToImage from 'dom-to-image';
 
 import styles from '../../css/TimetableSwitcher.module.scss';
 
@@ -18,9 +17,11 @@ import {
 	renameTimetable,
 	copyTimetable,
 } from '../../reducers/timetable';
-import selectFilteredTimetable from '../../selectors/timetable';
+import selectFilteredTimetable, { selectActiveTimetableName } from '../../selectors/timetable';
 
 import { RootState } from '../../app/rootReducer';
+
+import isEmpty from '../../utils/isEmpty';
 
 const TimetableSwitcher = memo(() => {
 	const dispatch = useDispatch();
@@ -28,13 +29,9 @@ const TimetableSwitcher = memo(() => {
 	const timetableNames = useSelector(
 		(state: RootState) => state.timetable.names,
 	);
-	const activeTimetableName = useSelector(
-		(state: RootState) => state.timetable.active,
-	);
-    const timetable = useSelector(
-        (state: RootState) => selectFilteredTimetable(state),
-    );
-    
+	const activeTimetableName = useSelector(selectActiveTimetableName);
+	const timetable = useSelector(selectFilteredTimetable);
+
 	const [action, setAction] = useState('');
 
 	const okHandler = (value: string) => {
@@ -64,24 +61,28 @@ const TimetableSwitcher = memo(() => {
 		else setAction(inputAction);
 	};
 
-    const handleSaveTimetable = async () => {
-        const input = document.getElementById('timetable') as HTMLElement;
-        const imgData = await domtoimage.toPng(input)
-        triggerBase64Download(imgData, 'FFCSThingy - Timetable');
-    };
+	const handleTimetableDownload = async () => {
+		const input = document.getElementById('timetable') as HTMLElement;
+		const imgData = await domToImage.toPng(input);
+		const downloadLink = document.createElement('a');
+		downloadLink.href = imgData;
+		downloadLink.download = `FFCSThingy Timetable - ${activeTimetableName}.png`;
+		downloadLink.target = '_blank';
+		downloadLink.click();
+	};
 
-    const handleSaveCourses = async () => {
-        let csv = '';
-        let header = Object.keys(timetable[0]).filter((val, index) => index!==0).join(',');
-        let values = timetable.map(o => Object.values(o).filter((val, index) => index!==0).join(',')).join('\n');
-        csv += header + '\n' + values;
-        console.log(csv);
-        const downloadLink = document.createElement("a");
-        downloadLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-        downloadLink.download = "FFCSThingy - courses.csv";
-        downloadLink.target = '_blank';
-        downloadLink.click();
-    };
+	const handleCourseCsvDownload = async () => {
+		if (isEmpty(timetable))	return;
+		const fields = ['code', 'title', 'course_type', 'credits', 'slot', 'venue', 'faculty'];
+		const details = timetable.filter((course) => course.timetableName === activeTimetableName)
+			.map((course) => fields.map((field) => Object(course)[field]).join(',')).join('\n');
+		const csv = `${fields.join(',')}\n${details}`;
+		const downloadLink = document.createElement('a');
+		downloadLink.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
+		downloadLink.download = `FFCSThingy courses - ${activeTimetableName}.csv`;
+		downloadLink.target = '_blank';
+		downloadLink.click();
+	};
 
 	const showInput = () => ['New', 'Edit', 'Copy'].includes(action);
 
@@ -156,17 +157,17 @@ const TimetableSwitcher = memo(() => {
 				>
 					<FaTrashAlt />
 				</Button>
-                <Button
+				<Button
 					className={styles.button}
-					onClick={() => handleSaveTimetable()}
+					onClick={() => handleTimetableDownload()}
 				>
-                    <FaDownload />
+					<FaCamera />
 				</Button>
 				<Button
 					className={styles.button}
-					onClick={() => handleSaveCourses()}
+					onClick={() => handleCourseCsvDownload()}
 				>
-                    <FaFileDownload />
+					<FaFileDownload />
 				</Button>
 
 			</ButtonGroup>

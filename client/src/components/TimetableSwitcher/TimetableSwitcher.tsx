@@ -17,7 +17,7 @@ import {
 	renameTimetable,
 	copyTimetable,
 } from '../../reducers/timetable';
-import selectFilteredTimetable, { selectActiveTimetableName } from '../../selectors/timetable';
+import { selectActiveTimetableName, selectFilteredTimetable } from '../../selectors/timetable';
 
 import { RootState } from '../../app/rootReducer';
 
@@ -72,7 +72,7 @@ const TimetableSwitcher = memo(() => {
 	};
 
 	const handleCourseCsvDownload = async () => {
-		if (isEmpty(timetable))	return;
+		if(!(Array.isArray(timetable) && timetable.length))   return;
 		const fields = ['code', 'title', 'course_type', 'credits', 'slot', 'venue', 'faculty'];
 		const details = timetable.filter((course) => course.timetableName === activeTimetableName)
 			.map((course) => fields.map((field) => Object(course)[field]).join(',')).join('\n');

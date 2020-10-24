@@ -6,7 +6,7 @@ import { FaTrashAlt } from 'react-icons/fa';
 import styles from '../../css/SelectedCoursesTable.module.scss';
 
 import { removeCourse } from '../../reducers/timetable';
-import selectFilteredTimetable from '../../selectors/timetable';
+import { selectFilteredTimetable } from '../../selectors/timetable';
 
 import TimetableCourse from '../../models/data/TimetableCourse';
 import { RootState } from '../../app/rootReducer';

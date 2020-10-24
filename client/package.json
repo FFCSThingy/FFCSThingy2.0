@@ -71,7 +71,8 @@
       "^.+\\.tsx?$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "!src/models/**"
+      "!src/models/**",
+      "src/**/*.{js,jsx,ts,tsx}"
     ]
   },
   "devDependencies": {

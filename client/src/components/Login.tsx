@@ -21,15 +21,15 @@ const googleIcon = (
 
 const loginUrl = `${process.env.REACT_APP_BASE_URL || 'http://localhost:3001'}/auth/google`;
 
-const featuresCardDesktop = (
+const FeaturesCardDesktop = () => (
 	<Card className={styles.featuresCard_Desktop}>
 		<Card.Body className={styles.featuresCardBody}>
-			<img className={styles.featuresImage} src={featuresImage} alt="" />
+			<img className={styles.featuresImage} src={featuresImage} alt="features" />
 		</Card.Body>
 	</Card>
 );
 
-const featuresCardMobile = (
+const FeaturesCardMobile = () => (
 	<Card className={styles.featuresCard_Mobile}>
 		<Card.Body className={styles.featuresCardBody}>
 			<ol>
@@ -41,7 +41,7 @@ const featuresCardMobile = (
 	</Card>
 );
 
-const loginCard = (
+const LoginCard = () => (
 	<Card className={styles.loginCard}>
 		<Card.Title className={styles.tagline}>
 			A smarter way to
@@ -64,6 +64,20 @@ const loginCard = (
 	</Card>
 );
 
+const LoginDesktop = () => (
+	<Row className={styles.cards}>
+		<FeaturesCardDesktop />
+		<LoginCard />
+	</Row>
+);
+
+const LoginMobile = () => (
+	<Row className={styles.cards}>
+		<LoginCard />
+		<FeaturesCardMobile />
+	</Row>
+);
+
 const Login = () => (
 	<Container className={styles.loginContainer}>
 		<Row className={styles.brand}>
@@ -76,28 +90,11 @@ const Login = () => (
 		<MediaQuery minDeviceWidth={768}>
 			{(matches) => {
 				if (matches) {
-					return (
-						<Row className={styles.cards}>
-							{featuresCardDesktop}
-							{loginCard}
-						</Row>
-					);
+					return <LoginDesktop />;
 				}
-				return (
-					<Row className={styles.cards}>
-						{loginCard}
-						{featuresCardMobile}
-					</Row>
-				);
+				return <LoginMobile />;
 			}}
 		</MediaQuery>
-
-		<Row className={styles.footer}>
-			{/* <span className={styles.footerText}>
-					Made with <FaHeart /> by CSI-VIT
-				</span> */}
-		</Row>
-
 	</Container>
 );
 

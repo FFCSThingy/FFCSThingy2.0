@@ -7,7 +7,7 @@ import { SLOTS, breakPosition } from '../../constants/Timetable';
 
 import styles from '../../css/Timetable.module.scss';
 
-import selectFilteredTimetable from '../../selectors/timetable';
+import { selectFilteredTimetable } from '../../selectors/timetable';
 
 import { RootState } from '../../app/rootReducer';
 import TimetableBodyProps, { TimetableBodyRowProps } from '../../models/components/Timetable/TimetableBody';

@@ -291,3 +291,86 @@ exports[`component: CourseCard snapshots selected-not-passed, no-prereq, no-comp
   </div>
 </DocumentFragment>
 `;
+
+exports[`component: CourseCard snapshots should show only course types if no prereqs given 1`] = `
+<div
+  class="fade show tooltip bs-tooltip-top-start"
+  id="ZZZ1001-PrereqsTooltip"
+  role="tooltip"
+  style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
+  x-placement="top-start"
+>
+  <div
+    class="arrow"
+  />
+  <div
+    class="tooltip-inner"
+  >
+    <div
+      class="coursePrereq"
+    />
+    <div
+      class="courseTypes"
+    >
+      <b>
+         Course Type: 
+      </b>
+      L | T | P
+    </div>
+  </div>
+</div>
+`;
+
+exports[`component: CourseCard snapshots should show prereq tooltip if prereqs given 1`] = `
+<div
+  class="fade show tooltip bs-tooltip-top-start"
+  id="ZZZ1001-PrereqsTooltip"
+  role="tooltip"
+  style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
+  x-placement="top-start"
+>
+  <div
+    class="arrow"
+  />
+  <div
+    class="tooltip-inner"
+  >
+    <div
+      class="coursePrereq"
+    >
+      <span>
+        <b>
+          Pre-Requisites: 
+        </b>
+        ZZZ1004
+        <br />
+        <br />
+      </span>
+      <span>
+        <b>
+          Co-Requisites: 
+        </b>
+        ZZZ1002
+        <br />
+        <br />
+      </span>
+      <span>
+        <b>
+          Anti-Requisites: 
+        </b>
+        ZZZ1003
+        <br />
+        <br />
+      </span>
+    </div>
+    <div
+      class="courseTypes"
+    >
+      <b>
+         Course Type: 
+      </b>
+      L | T | P
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,217 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: CourseCardList should render completed courses if data present 1`] = `
+<DocumentFragment>
+  <div
+    class="courseList card-columns"
+  >
+    <div
+      class="courseCard card"
+      title="ZZZ1002"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="cardTitle card-title h5"
+        >
+          Sample2
+        </div>
+        <p
+          class="courseSelectDetails card-text"
+        >
+          <span
+            class="courseCodeText"
+          >
+            ZZZ1002
+          </span>
+          <span
+            class="courseCredits"
+          >
+            4 Credits
+          </span>
+        </p>
+        <div
+          class="cardCompletedSubtitle card-subtitle h6"
+        />
+      </div>
+    </div>
+    <div
+      class="courseCard card"
+      title="ZZZ1001"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="cardTitle card-title h5"
+        >
+          Sample1
+        </div>
+        <p
+          class="courseSelectDetails card-text"
+        >
+          <span
+            class="courseCodeText"
+          >
+            ZZZ1001
+          </span>
+          <span
+            class="courseCredits"
+          >
+            4 Credits
+          </span>
+        </p>
+        <div
+          class="cardCompletionFailedSubtitle card-subtitle h6"
+        >
+          Completed: N
+        </div>
+      </div>
+    </div>
+    <div
+      class="courseCard card"
+      title="ZZZ1003"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="cardTitle card-title h5"
+        >
+          Sample3
+        </div>
+        <p
+          class="courseSelectDetails card-text"
+        >
+          <span
+            class="courseCodeText"
+          >
+            ZZZ1003
+          </span>
+          <span
+            class="courseCredits"
+          >
+            4 Credits
+          </span>
+        </p>
+        <div
+          class="cardCompletedSubtitle card-subtitle h6"
+        >
+          Completed: A
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCardList should render with filtered course list 1`] = `
+<DocumentFragment>
+  <div
+    class="courseList card-columns"
+  >
+    <div
+      class="courseCard card"
+      title="ZZZ1001"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="cardTitle card-title h5"
+        >
+          Sample1
+        </div>
+        <p
+          class="courseSelectDetails card-text"
+        >
+          <span
+            class="courseCodeText"
+          >
+            ZZZ1001
+          </span>
+          <span
+            class="courseCredits"
+          >
+            4 Credits
+          </span>
+        </p>
+        <div
+          class="cardCompletedSubtitle card-subtitle h6"
+        />
+      </div>
+    </div>
+    <div
+      class="courseCard card"
+      title="ZZZ1002"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="cardTitle card-title h5"
+        >
+          Sample2
+        </div>
+        <p
+          class="courseSelectDetails card-text"
+        >
+          <span
+            class="courseCodeText"
+          >
+            ZZZ1002
+          </span>
+          <span
+            class="courseCredits"
+          >
+            4 Credits
+          </span>
+        </p>
+        <div
+          class="cardCompletedSubtitle card-subtitle h6"
+        />
+      </div>
+    </div>
+    <div
+      class="courseCard card"
+      title="ZZZ1003"
+    >
+      <div
+        class="card-body"
+      >
+        <div
+          class="cardTitle card-title h5"
+        >
+          Sample3
+        </div>
+        <p
+          class="courseSelectDetails card-text"
+        >
+          <span
+            class="courseCodeText"
+          >
+            ZZZ1003
+          </span>
+          <span
+            class="courseCredits"
+          >
+            4 Credits
+          </span>
+        </p>
+        <div
+          class="cardCompletedSubtitle card-subtitle h6"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`component: CourseCardList should render without explicit props 1`] = `
+<DocumentFragment>
+  <div
+    class="courseList card-columns"
+  />
+</DocumentFragment>
+`;

@@ -2,8 +2,10 @@ import React, { useState, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import {
-	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
+	FaTrashAlt, FaPlusSquare, FaPen, FaCopy, FaDownload, FaFileDownload
 } from 'react-icons/fa';
+import domtoimage from 'dom-to-image';
+import { triggerBase64Download } from 'react-base64-downloader';
 
 import styles from '../../css/TimetableSwitcher.module.scss';
 
@@ -16,6 +18,7 @@ import {
 	renameTimetable,
 	copyTimetable,
 } from '../../reducers/timetable';
+import selectFilteredTimetable from '../../selectors/timetable';
 
 import { RootState } from '../../app/rootReducer';
 
@@ -28,7 +31,10 @@ const TimetableSwitcher = memo(() => {
 	const activeTimetableName = useSelector(
 		(state: RootState) => state.timetable.active,
 	);
-
+    const timetable = useSelector(
+        (state: RootState) => selectFilteredTimetable(state),
+    );
+    
 	const [action, setAction] = useState('');
 
 	const okHandler = (value: string) => {
@@ -57,6 +63,25 @@ const TimetableSwitcher = memo(() => {
 		else if (inputAction === action) setAction('');
 		else setAction(inputAction);
 	};
+
+    const handleSaveTimetable = async () => {
+        const input = document.getElementById('timetable') as HTMLElement;
+        const imgData = await domtoimage.toPng(input)
+        triggerBase64Download(imgData, 'FFCSThingy - Timetable');
+    };
+
+    const handleSaveCourses = async () => {
+        let csv = '';
+        let header = Object.keys(timetable[0]).filter((val, index) => index!==0).join(',');
+        let values = timetable.map(o => Object.values(o).filter((val, index) => index!==0).join(',')).join('\n');
+        csv += header + '\n' + values;
+        console.log(csv);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+        downloadLink.download = "FFCSThingy - courses.csv";
+        downloadLink.target = '_blank';
+        downloadLink.click();
+    };
 
 	const showInput = () => ['New', 'Edit', 'Copy'].includes(action);
 
@@ -130,6 +155,18 @@ const TimetableSwitcher = memo(() => {
 					disabled={activeTimetableName === 'Default'}
 				>
 					<FaTrashAlt />
+				</Button>
+                <Button
+					className={styles.button}
+					onClick={() => handleSaveTimetable()}
+				>
+                    <FaDownload />
+				</Button>
+				<Button
+					className={styles.button}
+					onClick={() => handleSaveCourses()}
+				>
+                    <FaFileDownload />
 				</Button>
 
 			</ButtonGroup>

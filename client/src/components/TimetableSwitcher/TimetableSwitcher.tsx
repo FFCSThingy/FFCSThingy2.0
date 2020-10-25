@@ -119,9 +119,10 @@ const TimetableSwitcher = memo(() => {
 		<div className={styles.dropdownButtonGroupContainer}>
 			<ButtonGroup className={styles.dropdownButtonGroup}>
 
-				<Dropdown onSelect={
-					(selected: string) => dispatch(changeTimetable(selected))
-				}
+				<Dropdown
+					onSelect={
+						(selected: string) => dispatch(changeTimetable(selected))
+					}
 				>
 					<Dropdown.Toggle
 						id="DropdownToggle"

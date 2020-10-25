@@ -127,6 +127,7 @@ const TimetableSwitcher = memo(() => {
 					<Dropdown.Toggle
 						id="DropdownToggle"
 						className={styles.dropdownButton}
+						title="Switch Timetable"
 					>
 						{activeTimetableName}
 					</Dropdown.Toggle>
@@ -139,6 +140,7 @@ const TimetableSwitcher = memo(() => {
 				<Button
 					className={styles.button}
 					onClick={() => handleAction('New')}
+					title="New Timetable"
 				>
 					<FaPlusSquare />
 				</Button>
@@ -146,6 +148,7 @@ const TimetableSwitcher = memo(() => {
 				<Button
 					className={styles.button}
 					onClick={() => handleAction('Copy')}
+					title="Copy Timetable"
 				>
 					<FaCopy />
 				</Button>
@@ -154,6 +157,7 @@ const TimetableSwitcher = memo(() => {
 					className={styles.button}
 					onClick={() => handleAction('Edit')}
 					disabled={activeTimetableName === 'Default'}
+					title="Edit Timetable"
 				>
 					<FaPen />
 				</Button>
@@ -162,18 +166,23 @@ const TimetableSwitcher = memo(() => {
 					className={styles.button}
 					onClick={() => handleAction('Delete')}
 					disabled={activeTimetableName === 'Default'}
+					title="Delete Timetable"
 				>
 					<FaTrashAlt />
 				</Button>
+
 				<Button
 					className={styles.button}
 					onClick={() => handleTimetableDownload()}
+					title="Download Timetable as Image"
 				>
 					<FaCamera />
 				</Button>
+
 				<Button
 					className={styles.button}
 					onClick={() => handleCourseCsvDownload()}
+					title="Download Timetable as CSV"
 				>
 					<FaFileDownload />
 				</Button>

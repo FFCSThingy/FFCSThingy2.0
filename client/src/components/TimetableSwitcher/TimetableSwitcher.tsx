@@ -73,11 +73,16 @@ const TimetableSwitcher = memo(() => {
 	};
 
 	const handleCourseCsvDownload = async () => {
-		if(!(Array.isArray(timetable) && timetable.length))   return;
 		const fields = ['code', 'title', 'course_type', 'credits', 'slot', 'venue', 'faculty'];
-		const details = timetable.filter((course) => course.timetableName === activeTimetableName)
-			.map((course) => fields.map((field) => Object(course)[field]).join(',')).join('\n');
-		const csv = `${fields.join(',')}\n${details}`;
+		const fieldsString = fields.join(',');
+		const details = timetable.map(
+			(course) => fields.map(
+				(field) => Object(course)[field],
+			).join(','),
+		).join('\n');
+
+		const csv = `${fieldsString}\n${details}`;
+
 		const downloadLink = document.createElement('a');
 		downloadLink.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
 		downloadLink.download = `FFCSThingy courses - ${activeTimetableName}.csv`;

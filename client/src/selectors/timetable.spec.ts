@@ -6,6 +6,7 @@ import {
 	selectTimetable,
 	selectTimetableTimestamp,
 	selectClashmap,
+	selectTimetableNames,
 } from './timetable';
 
 const courseDefault: TimetableCourse = {
@@ -60,6 +61,12 @@ describe('selectors: timetable', () => {
 		expect.hasAssertions();
 		expect(selectTimetable(state))
 			.toStrictEqual(timetable);
+	});
+
+	it('selectTimetableNames', () => {
+		expect.hasAssertions();
+		expect(selectTimetableNames(state))
+			.toStrictEqual(state.timetable.names);
 	});
 
 	it('selectActiveTimetableName', () => {

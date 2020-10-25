@@ -20,16 +20,13 @@ import {
 import {
 	selectActiveTimetableName,
 	selectFilteredTimetable,
+	selectTimetableNames,
 } from '../../selectors/timetable';
-
-import { RootState } from '../../app/rootReducer';
 
 const TimetableSwitcher = memo(() => {
 	const dispatch = useDispatch();
 
-	const timetableNames = useSelector(
-		(state: RootState) => state.timetable.names,
-	);
+	const timetableNames = useSelector(selectTimetableNames);
 	const activeTimetableName = useSelector(selectActiveTimetableName);
 	const timetable = useSelector(selectFilteredTimetable);
 

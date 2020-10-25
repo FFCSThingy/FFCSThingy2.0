@@ -2,8 +2,9 @@ import React, { useState, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import {
-	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
+	FaTrashAlt, FaPlusSquare, FaPen, FaCopy, FaCamera, FaFileDownload,
 } from 'react-icons/fa';
+import domToImage from 'dom-to-image';
 
 import styles from '../../css/TimetableSwitcher.module.scss';
 
@@ -16,8 +17,11 @@ import {
 	renameTimetable,
 	copyTimetable,
 } from '../../reducers/timetable';
+import { selectActiveTimetableName, selectFilteredTimetable } from '../../selectors/timetable';
 
 import { RootState } from '../../app/rootReducer';
+
+import isEmpty from '../../utils/isEmpty';
 
 const TimetableSwitcher = memo(() => {
 	const dispatch = useDispatch();
@@ -25,9 +29,8 @@ const TimetableSwitcher = memo(() => {
 	const timetableNames = useSelector(
 		(state: RootState) => state.timetable.names,
 	);
-	const activeTimetableName = useSelector(
-		(state: RootState) => state.timetable.active,
-	);
+	const activeTimetableName = useSelector(selectActiveTimetableName);
+	const timetable = useSelector(selectFilteredTimetable);
 
 	const [action, setAction] = useState('');
 
@@ -56,6 +59,29 @@ const TimetableSwitcher = memo(() => {
 		if (inputAction === 'Delete') dispatch(removeTimetable());
 		else if (inputAction === action) setAction('');
 		else setAction(inputAction);
+	};
+
+	const handleTimetableDownload = async () => {
+		const input = document.getElementById('timetable') as HTMLElement;
+		const imgData = await domToImage.toPng(input);
+		const downloadLink = document.createElement('a');
+		downloadLink.href = imgData;
+		downloadLink.download = `FFCSThingy Timetable - ${activeTimetableName}.png`;
+		downloadLink.target = '_blank';
+		downloadLink.click();
+	};
+
+	const handleCourseCsvDownload = async () => {
+		if(!(Array.isArray(timetable) && timetable.length))   return;
+		const fields = ['code', 'title', 'course_type', 'credits', 'slot', 'venue', 'faculty'];
+		const details = timetable.filter((course) => course.timetableName === activeTimetableName)
+			.map((course) => fields.map((field) => Object(course)[field]).join(',')).join('\n');
+		const csv = `${fields.join(',')}\n${details}`;
+		const downloadLink = document.createElement('a');
+		downloadLink.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
+		downloadLink.download = `FFCSThingy courses - ${activeTimetableName}.csv`;
+		downloadLink.target = '_blank';
+		downloadLink.click();
 	};
 
 	const showInput = () => ['New', 'Edit', 'Copy'].includes(action);
@@ -130,6 +156,18 @@ const TimetableSwitcher = memo(() => {
 					disabled={activeTimetableName === 'Default'}
 				>
 					<FaTrashAlt />
+				</Button>
+				<Button
+					className={styles.button}
+					onClick={() => handleTimetableDownload()}
+				>
+					<FaCamera />
+				</Button>
+				<Button
+					className={styles.button}
+					onClick={() => handleCourseCsvDownload()}
+				>
+					<FaFileDownload />
 				</Button>
 
 			</ButtonGroup>

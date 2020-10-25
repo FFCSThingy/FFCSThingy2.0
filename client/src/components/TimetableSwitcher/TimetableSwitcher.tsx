@@ -63,8 +63,9 @@ const TimetableSwitcher = memo(() => {
 	};
 
 	const handleTimetableDownload = async () => {
-		const input = document.getElementById('timetable') as HTMLElement;
-		const imgData = await domToImage.toPng(input);
+		const timetableElement = document.getElementById('timetable') as HTMLElement;
+		const imgData = await domToImage.toPng(timetableElement);
+
 		const downloadLink = document.createElement('a');
 		downloadLink.href = imgData;
 		downloadLink.download = `FFCSThingy Timetable - ${activeTimetableName}.png`;

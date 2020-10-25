@@ -17,11 +17,12 @@ import {
 	renameTimetable,
 	copyTimetable,
 } from '../../reducers/timetable';
-import { selectActiveTimetableName, selectFilteredTimetable } from '../../selectors/timetable';
+import {
+	selectActiveTimetableName,
+	selectFilteredTimetable,
+} from '../../selectors/timetable';
 
 import { RootState } from '../../app/rootReducer';
-
-import isEmpty from '../../utils/isEmpty';
 
 const TimetableSwitcher = memo(() => {
 	const dispatch = useDispatch();

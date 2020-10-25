@@ -13,12 +13,10 @@ import UserDropdown from './UserDropdown';
 import styles from '../../css/CustomNavbar.module.scss';
 import brandImage from '../../images/logo.1.png';
 
-import { RootState } from '../../app/rootReducer';
+import { selectCreditCount } from '../../selectors/timetable';
 
 const CustomNavbar = memo(() => {
-	const creditCount = useSelector(
-		(state: RootState) => state.timetable.creditCount,
-	);
+	const creditCount = useSelector(selectCreditCount);
 
 	const [showModal, setShowModal] = useState(false);
 

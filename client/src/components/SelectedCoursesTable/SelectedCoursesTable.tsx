@@ -6,22 +6,20 @@ import { FaTrashAlt } from 'react-icons/fa';
 import styles from '../../css/SelectedCoursesTable.module.scss';
 
 import { removeCourse } from '../../reducers/timetable';
-import { selectFilteredTimetable } from '../../selectors/timetable';
+import {
+	selectFilteredTimetable,
+	selectCreditCount,
+} from '../../selectors/timetable';
 
 import TimetableCourse from '../../models/data/TimetableCourse';
-import { RootState } from '../../app/rootReducer';
 
 const sortTimetable = (
 	(a: TimetableCourse, b: TimetableCourse) => a.code.localeCompare(b.code));
 
 const SelectedCoursesTable = () => {
 	const dispatch = useDispatch();
-	const timetable = useSelector(
-		(state: RootState) => selectFilteredTimetable(state),
-	);
-	const creditCount = useSelector(
-		(state: RootState) => state.timetable.creditCount,
-	);
+	const timetable = useSelector(selectFilteredTimetable);
+	const creditCount = useSelector(selectCreditCount);
 
 	return (
 		<Container className={styles.selectedCourseContainer}>

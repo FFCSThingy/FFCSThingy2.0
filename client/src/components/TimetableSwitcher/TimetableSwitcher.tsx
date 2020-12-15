@@ -2,8 +2,9 @@ import React, { useState, memo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import {
-	FaTrashAlt, FaPlusSquare, FaPen, FaCopy,
+	FaTrashAlt, FaPlusSquare, FaPen, FaCopy, FaCamera, FaFileDownload,
 } from 'react-icons/fa';
+import domToImage from 'dom-to-image';
 
 import styles from '../../css/TimetableSwitcher.module.scss';
 
@@ -16,18 +17,18 @@ import {
 	renameTimetable,
 	copyTimetable,
 } from '../../reducers/timetable';
-
-import { RootState } from '../../app/rootReducer';
+import {
+	selectActiveTimetableName,
+	selectFilteredTimetable,
+	selectTimetableNames,
+} from '../../selectors/timetable';
 
 const TimetableSwitcher = memo(() => {
 	const dispatch = useDispatch();
 
-	const timetableNames = useSelector(
-		(state: RootState) => state.timetable.names,
-	);
-	const activeTimetableName = useSelector(
-		(state: RootState) => state.timetable.active,
-	);
+	const timetableNames = useSelector(selectTimetableNames);
+	const activeTimetableName = useSelector(selectActiveTimetableName);
+	const timetable = useSelector(selectFilteredTimetable);
 
 	const [action, setAction] = useState('');
 
@@ -58,6 +59,35 @@ const TimetableSwitcher = memo(() => {
 		else setAction(inputAction);
 	};
 
+	const handleTimetableDownload = async () => {
+		const timetableElement = document.getElementById('timetable') as HTMLElement;
+		const imgData = await domToImage.toPng(timetableElement);
+
+		const downloadLink = document.createElement('a');
+		downloadLink.href = imgData;
+		downloadLink.download = `FFCSThingy Timetable - ${activeTimetableName}.png`;
+		downloadLink.target = '_blank';
+		downloadLink.click();
+	};
+
+	const handleCourseCsvDownload = async () => {
+		const fields = ['code', 'title', 'course_type', 'credits', 'slot', 'venue', 'faculty'];
+		const fieldsString = fields.join(',');
+		const details = timetable.map(
+			(course) => fields.map(
+				(field) => Object(course)[field],
+			).join(','),
+		).join('\n');
+
+		const csv = `${fieldsString}\n${details}`;
+
+		const downloadLink = document.createElement('a');
+		downloadLink.href = `data:text/csv;charset=utf-8,${encodeURI(csv)}`;
+		downloadLink.download = `FFCSThingy courses - ${activeTimetableName}.csv`;
+		downloadLink.target = '_blank';
+		downloadLink.click();
+	};
+
 	const showInput = () => ['New', 'Edit', 'Copy'].includes(action);
 
 	const defaultValue = () => {
@@ -86,13 +116,15 @@ const TimetableSwitcher = memo(() => {
 		<div className={styles.dropdownButtonGroupContainer}>
 			<ButtonGroup className={styles.dropdownButtonGroup}>
 
-				<Dropdown onSelect={
-					(selected: string) => dispatch(changeTimetable(selected))
-				}
+				<Dropdown
+					onSelect={
+						(selected: string) => dispatch(changeTimetable(selected))
+					}
 				>
 					<Dropdown.Toggle
 						id="DropdownToggle"
 						className={styles.dropdownButton}
+						title="Switch Timetable"
 					>
 						{activeTimetableName}
 					</Dropdown.Toggle>
@@ -105,6 +137,7 @@ const TimetableSwitcher = memo(() => {
 				<Button
 					className={styles.button}
 					onClick={() => handleAction('New')}
+					title="New Timetable"
 				>
 					<FaPlusSquare />
 				</Button>
@@ -112,6 +145,7 @@ const TimetableSwitcher = memo(() => {
 				<Button
 					className={styles.button}
 					onClick={() => handleAction('Copy')}
+					title="Copy Timetable"
 				>
 					<FaCopy />
 				</Button>
@@ -120,6 +154,7 @@ const TimetableSwitcher = memo(() => {
 					className={styles.button}
 					onClick={() => handleAction('Edit')}
 					disabled={activeTimetableName === 'Default'}
+					title="Edit Timetable"
 				>
 					<FaPen />
 				</Button>
@@ -128,13 +163,34 @@ const TimetableSwitcher = memo(() => {
 					className={styles.button}
 					onClick={() => handleAction('Delete')}
 					disabled={activeTimetableName === 'Default'}
+					title="Delete Timetable"
 				>
 					<FaTrashAlt />
 				</Button>
 
+				<Button
+					className={styles.button}
+					onClick={() => handleTimetableDownload()}
+					title="Download Timetable as Image"
+				>
+					<FaCamera />
+				</Button>
+
+				<Button
+					className={styles.button}
+					onClick={() => handleCourseCsvDownload()}
+					title="Download Timetable as CSV"
+				>
+					<FaFileDownload />
+				</Button>
+
 			</ButtonGroup>
 
-			<TimetableSwitcherInput value={defaultValue()} okHandler={okHandler} showInput={showInput()} />
+			<TimetableSwitcherInput
+				value={defaultValue()}
+				okHandler={okHandler}
+				showInput={showInput()}
+			/>
 
 		</div>
 	);

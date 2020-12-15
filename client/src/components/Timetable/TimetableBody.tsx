@@ -7,9 +7,11 @@ import { SLOTS, breakPosition } from '../../constants/Timetable';
 
 import styles from '../../css/Timetable.module.scss';
 
-import selectFilteredTimetable from '../../selectors/timetable';
+import {
+	selectFilteredTimetable,
+	selectFilledSlots,
+} from '../../selectors/timetable';
 
-import { RootState } from '../../app/rootReducer';
 import TimetableBodyProps, { TimetableBodyRowProps } from '../../models/components/Timetable/TimetableBody';
 
 const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
@@ -18,12 +20,8 @@ const TimetableBodyRow: FC<TimetableBodyRowProps> = memo(
 		isAfternoon,
 		rowNumber,
 	}) => {
-		const timetable = useSelector(
-			(state: RootState) => selectFilteredTimetable(state),
-		);
-		const filledSlots = useSelector(
-			(state: RootState) => state.timetable.filledSlots,
-		);
+		const timetable = useSelector(selectFilteredTimetable);
+		const filledSlots = useSelector(selectFilledSlots);
 
 		const rowCells = SLOTS[rowNumber].map((slotVal, i) => {
 			let slotString = slotVal;

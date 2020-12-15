@@ -7,13 +7,11 @@ import { changeTheme } from '../../reducers/misc';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import { RootState } from '../../app/rootReducer';
+import { selectTheme } from '../../selectors/misc';
 
 const ThemeDropdown = () => {
 	const dispatch = useDispatch();
-	const theme = useSelector(
-		(state: RootState) => state.misc.theme,
-	);
+	const theme = useSelector(selectTheme);
 
 	return (
 		<NavDropdown

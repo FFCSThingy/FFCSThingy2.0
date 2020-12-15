@@ -13,33 +13,23 @@ import {
 	checkSelected,
 	checkRelated,
 } from '../../selectors/slots';
+import { selectSelectedCourse } from '../../selectors/course';
 import { addCourse } from '../../reducers/timetable';
 
 import styles from '../../css/SlotTable.module.scss';
 
 import HeatmapCourse from '../../models/data/HeatmapCourse';
-import { RootState } from '../../app/rootReducer';
 
 const SlotTable = () => {
 	const dispatch = useDispatch();
 
-	const selectedCourse = useSelector(
-		(state: RootState) => state.course.selected,
-	);
-	const slots = useSelector(
-		(state: RootState) => selectSlotsForCourse(state),
-	);
+	const selectedCourse = useSelector(selectSelectedCourse);
+	const slots = useSelector(selectSlotsForCourse);
 
 	// Custom Selectors
-	const slotClashesWith = useSelector(
-		(state: RootState) => selectClashingSlots(state),
-	);
-	const isSelected = useSelector(
-		(state: RootState) => checkSelected(state),
-	);
-	const checkIsRelated = useSelector(
-		(state: RootState) => checkRelated(state),
-	);
+	const slotClashesWith = useSelector(selectClashingSlots);
+	const isSelected = useSelector(checkSelected);
+	const checkIsRelated = useSelector(checkRelated);
 
 	const [selectedCourseTypes, setSelectedCourseTypes] = useState<string[]>([]);
 	const [typeFilters, setTypeFilters] = useState<string[]>([]);
@@ -150,7 +140,10 @@ const SlotTable = () => {
 				slotDetails={slot}
 				type="normal"
 				onClick={
-					() => dispatch(addCourse(slot))
+					() => dispatch(addCourse({
+						course: slot,
+						timeEpoch: Date.now(),
+					}))
 				}
 				key={`SlotCard-${slot._id}`}
 				isRelated={isRelated}

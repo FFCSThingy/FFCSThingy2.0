@@ -6,16 +6,12 @@ import { setSelectedCurriculum } from '../../reducers/curriculum';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import { RootState } from '../../app/rootReducer';
+import { selectCurriculumList, selectSelectedPrefix } from '../../selectors/curriculum';
 
 const CurriculumDropdown = () => {
 	const dispatch = useDispatch();
-	const curriculumList = useSelector(
-		(state: RootState) => state.curriculum.list,
-	);
-	const selected = useSelector(
-		(state: RootState) => state.curriculum.selectedPrefix,
-	);
+	const curriculumList = useSelector(selectCurriculumList);
+	const selected = useSelector(selectSelectedPrefix);
 
 	return (
 		<NavDropdown

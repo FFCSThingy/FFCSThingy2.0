@@ -41,16 +41,7 @@ const DesktopTimetable = memo(() => (
 const Timetable = memo(() => (
 	// Media Query for phones
 	<MediaQuery minDeviceWidth={768}>
-		{(matches) => {
-			if (matches) {
-				return (
-					<DesktopTimetable />
-				);
-			}
-			return (
-				<MobileTimetable />
-			);
-		}}
+		{(matches) => (matches ? <DesktopTimetable /> : <MobileTimetable />)}
 	</MediaQuery>
 ));
 

@@ -6,8 +6,8 @@ export default interface CourseCardProps {
 	credits: number;
 	shortCourseTypes: string[];
 	completed?: string;
-	selected: boolean;
-	prereqs: CourseReqs;
+	selected?: boolean;
+	prereqs?: CourseReqs;
 }
 
 export interface PrereqTextProps {

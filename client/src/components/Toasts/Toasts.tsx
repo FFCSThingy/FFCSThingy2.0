@@ -3,7 +3,8 @@ import { Toast, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FaCalendar, FaFire, FaSync } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
-import { RootState } from '../../app/rootReducer';
+import { selectIsTimetableSyncing } from '../../selectors/timetable';
+import { selectIsHeatmapSyncing } from '../../selectors/course';
 import styles from '../../css/Toasts.module.scss';
 
 const TimetableIcon = () => (
@@ -41,13 +42,8 @@ const HeatmapIcon = () => (
 );
 
 const SyncToast = () => {
-	const isTimetableSyncing = useSelector(
-		(state: RootState) => state.timetable.syncing,
-	);
-
-	const isHeatmapSyncing = useSelector(
-		(state: RootState) => state.course.heatmap.syncing,
-	);
+	const isTimetableSyncing = useSelector(selectIsTimetableSyncing);
+	const isHeatmapSyncing = useSelector(selectIsHeatmapSyncing);
 
 	return	(
 		<Toast

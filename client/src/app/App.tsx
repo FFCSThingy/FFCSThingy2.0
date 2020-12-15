@@ -9,17 +9,15 @@ import ReactGA from 'react-ga';
 import Login from '../components/Login';
 import Dashboard from '../components/Dashboard';
 
-import { RootState } from './rootReducer';
 import { checkAuth } from '../reducers/auth';
+import { selectIsAuthenticated } from '../selectors/auth';
 
 ReactGA.initialize('UA-156974674-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 const App = () => {
 	const dispatch = useDispatch();
-	const isAuthenticated = useSelector(
-		(state: RootState) => state.auth.isAuthenticated,
-	);
+	const isAuthenticated = useSelector(selectIsAuthenticated);
 
 	useEffect(() => {
 		dispatch(checkAuth());

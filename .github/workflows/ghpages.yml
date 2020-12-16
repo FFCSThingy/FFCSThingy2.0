@@ -1,0 +1,26 @@
+name: deploy
+
+on:
+  push:
+    branches: [ master ]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+    - name: push to gh-pages
+      env:
+          DOTENV: ${{ secrets.DOTENV }}
+          CNAME: emailer.csivit.com
+          FOLDER_NAME: build
+      run: |
+        echo $DOTENV > .env
+        npm ci --only=production
+        npm run build
+        echo $CNAME > build/CNAME
+        git config user.name csivitu
+        git add -f $FOLDER_NAME
+        git commit --amend --no-edit
+        git push origin `git subtree split --prefix $FOLDER_NAME master`:gh-pages --force ||  git subtree push --prefix $FOLDER_NAME origin gh-pages:wq

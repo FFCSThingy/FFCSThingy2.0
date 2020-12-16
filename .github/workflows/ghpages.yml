@@ -13,9 +13,10 @@ jobs:
     - name: push to gh-pages
       env:
           DOTENV: ${{ secrets.DOTENV }}
-          CNAME: emailer.csivit.com
+          CNAME: ffcs.ooo
           FOLDER_NAME: build
       run: |
+        cd client
         echo $DOTENV > .env
         npm ci --only=production
         npm run build

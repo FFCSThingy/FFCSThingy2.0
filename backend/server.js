@@ -132,7 +132,7 @@ app.get('/auth/google', passport.authenticate(
 
 app.get('/auth/google/callback',
     passport.authenticate('google', {
-        successRedirect: process.env.NODE_BASE_URL,
+        successRedirect: '/',
         failureRedirect: '/login',
     }));
 

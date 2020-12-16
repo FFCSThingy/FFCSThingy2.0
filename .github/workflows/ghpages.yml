@@ -19,7 +19,7 @@ jobs:
         cd client
         echo $DOTENV > .env
         npm ci --only=production
-        npm run build
+        npm run build-prod
         echo $CNAME > build/CNAME
         git config user.name csivitu
         git add -f $FOLDER_NAME

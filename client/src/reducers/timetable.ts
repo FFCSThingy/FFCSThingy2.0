@@ -9,6 +9,7 @@ import Clashmap from '../models/constants/Clashmap';
 import TimetableSlice from '../models/state/TimetableSlice';
 
 const ACTION_BASE = 'timetable';
+const DEFAULT_TT_NAME = 'Default';
 
 export const syncTimetable = createAsyncThunk(
 	`${ACTION_BASE}/syncTimetable`,
@@ -19,7 +20,7 @@ export const syncTimetable = createAsyncThunk(
 	},
 );
 
-const convertHeatmapToTimetableCourse = (
+export const convertHeatmapToTimetableCourse = (
 	timetableName: string,
 	course: HeatmapCourse,
 ): TimetableCourse => ({
@@ -35,32 +36,41 @@ const convertHeatmapToTimetableCourse = (
 	timetableName,
 });
 
-const checkExistsInArray = (
-	array: Array<TimetableCourse>,
+export const checkExistsInArray = (
+	array: TimetableCourse[],
 	val: TimetableCourse,
 ) => array.reduce((a, v) => (a || (
 	v._id === val._id
 	&& v.timetableName === val.timetableName
 )), false);
 
-const findFilledSlots = (data: Array<TimetableCourse>, activeTimetable: string): Array<string> => Array.from(
+export const findFilledSlots = (
+	data: TimetableCourse[],
+	activeTimetable: string,
+): string[] => Array.from(
 	new Set(
 		data
 			.filter((v) => v.timetableName === activeTimetable)
-			.reduce<Array<string>>((a, v) => [...a, ...v.slot.replace(' ', '').split('+')], [])
+			.reduce(
+				(a, v) => [...a, ...v.slot.replace(' ', '').split('+')],
+				Array<string>(),
+			)
 			.filter((v) => v !== 'NIL'),
 	),
 );
 
-const countCredits = (
-	data: Array<TimetableCourse>,
+export const countCredits = (
+	data: TimetableCourse[],
 	active: string,
 ) => data.reduce(
 	(a, v) => a + ((v.timetableName === active) ? v.credits : 0),
 	0,
 );
 
-const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
+const updateClashmap = (
+	clashmap: Clashmap,
+	filledSlots: string[],
+) => {
 	const newClashmap = { ...clashmap };
 	Object.keys(newClashmap)
 		.map((slot) => {
@@ -85,8 +95,8 @@ const updateClashmap = (clashmap: Clashmap, filledSlots: Array<string>) => {
 };
 
 export const initialState: TimetableSlice = {
-	active: 'Default',
-	names: ['Default'],
+	active: DEFAULT_TT_NAME,
+	names: [DEFAULT_TT_NAME],
 	filledSlots: [],
 	data: [],
 	timestamp: '',
@@ -100,17 +110,23 @@ const timetableSlice = createSlice({
 	initialState: { ...initialState },
 	reducers: {
 		clearLocalData: (state) => {
-			state.active = 'Default';
-			state.names = ['Default'];
+			state.active = DEFAULT_TT_NAME;
+			state.names = [DEFAULT_TT_NAME];
 			state.filledSlots = [];
 			state.data = [];
 			state.timestamp = '';
 			state.clashmap = updateClashmap(state.clashmap, []);
 			state.creditCount = 0;
 		},
-		addCourse: (state, action: PayloadAction<HeatmapCourse>) => {
-			const course = action.payload;
-			const timestamp = new Date(Date.now()).toISOString();
+		addCourse: (
+			state,
+			action: PayloadAction<{
+				course: HeatmapCourse,
+				timeEpoch: number
+			}>,
+		) => {
+			const { course, timeEpoch } = action.payload;
+			const timestamp = new Date(timeEpoch).toISOString();
 
 			const courseWithTimetableName = convertHeatmapToTimetableCourse(
 				state.active, course,
@@ -129,9 +145,15 @@ const timetableSlice = createSlice({
 			state.creditCount = creditCount;
 			state.timestamp = timestamp;
 		},
-		removeCourse: (state, action: PayloadAction<TimetableCourse>) => {
-			const course = action.payload;
-			const timestamp = new Date(Date.now()).toISOString();
+		removeCourse: (
+			state,
+			action: PayloadAction<{
+				course: TimetableCourse,
+				timeEpoch: number
+			}>,
+		) => {
+			const { course, timeEpoch } = action.payload;
+			const timestamp = new Date(timeEpoch).toISOString();
 
 			const newData = state.data.filter(
 				(v) => !(
@@ -182,7 +204,7 @@ const timetableSlice = createSlice({
 			state.creditCount = creditCount;
 		},
 		removeTimetable: (state) => {
-			if (state.active === 'Default') return;
+			if (state.active === DEFAULT_TT_NAME) return;
 
 			const newData = state.data.filter((v) => v.timetableName !== state.active);
 			const newNames = state.names.filter((v) => v !== state.active);
@@ -203,6 +225,7 @@ const timetableSlice = createSlice({
 		renameTimetable: (state, action: PayloadAction<string>) => {
 			const newName = action.payload;
 
+			if (state.active === DEFAULT_TT_NAME) return;
 			if (state.names.includes(newName)) return;
 
 			state.data = state.data.map((v) => {
@@ -221,14 +244,32 @@ const timetableSlice = createSlice({
 		},
 		copyTimetable: (state, action: PayloadAction<string>) => {
 			const newName = action.payload;
+			let newTimetableName = newName;
+
+			// Shouldn't copy if name alreadt exists
+			if (state.names.includes(newName)) return;
+			// If newName not given, assign the current name
+			if (!newName || newName === '') {
+				newTimetableName = state.active;
+			}
+
+			// Keep adding '-Copy' to the name until one is found
+			// that does not exist already
+			while (
+				!newTimetableName
+				|| newTimetableName === ''
+				|| state.names.includes(newTimetableName)
+			) {
+				newTimetableName = `${newTimetableName}-Copy`;
+			}
 
 			const copiedCourses = state.data
 				.filter((v) => v.timetableName === state.active)
-				.map((v) => ({ ...v, timetableName: newName }));
+				.map((v) => ({ ...v, timetableName: newTimetableName }));
 
 			state.data = [...state.data, ...copiedCourses];
-			state.names = [...state.names, newName];
-			state.active = newName;
+			state.names = [...state.names, newTimetableName];
+			state.active = newTimetableName;
 		},
 	},
 	extraReducers: (builder) => {
@@ -246,17 +287,39 @@ const timetableSlice = createSlice({
 			syncTimetable.fulfilled,
 			(
 				state,
-				action: PayloadAction<{timetable: TimetableCourse[], timestamp: string}>,
+				action: PayloadAction<{
+					timetable: TimetableCourse[],
+					timestamp: string
+				}>,
 			) => {
 				const {
 					timetable,
-					timestamp = new Date(Date.now()).toISOString(),
+					// Timestamp should ideally always be present in server response
+					timestamp,
 				} = action.payload;
+
+				const recvdNames = timetable.reduce(
+					(a, v) => a.add(v.timetableName),
+					new Set<string>(),
+				);
+				recvdNames.delete(DEFAULT_TT_NAME);
+				const recvdNamesArray = Array.from(recvdNames);
+				const combinedNameArray = [...state.names, ...recvdNamesArray];
+				const newNameArray = Array.from(
+					new Set<string>(combinedNameArray),
+				);
+
+				// Can't think of a case where this would be useful
+				// Should add test for this branch
+				// if (!newNameArray.includes(state.active)) {
+				// 	state.active = DEFAULT_TT_NAME;
+				// }
 
 				const filledSlots = findFilledSlots(timetable, state.active);
 				const clashmap = updateClashmap(state.clashmap, filledSlots);
 				const creditCount = countCredits(timetable, state.active);
 
+				state.names = newNameArray;
 				state.clashmap = clashmap;
 				state.filledSlots = filledSlots;
 				state.data = timetable;
@@ -278,5 +341,5 @@ export const {
 	copyTimetable,
 	clearLocalData,
 } = timetableSlice.actions;
-
+export const { name } = timetableSlice;
 export default timetableSlice.reducer;

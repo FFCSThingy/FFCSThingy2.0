@@ -478,7 +478,7 @@ module.exports.addCourseToDB = (course) => {
 		{ upsert: true, new: true, setDefaultsOnInsert: true }).exec();
 };
 
-module.exports.doCleanRemovedCourses = () => new Promise(async (resolve, reject) => {
+module.exports.doCleanRemovedCourses = async () => {
 	try {
 		let current = await this.getCurrentCourseIDs();
 		current = current.map((v) => v._id.toString());
@@ -497,18 +497,18 @@ module.exports.doCleanRemovedCourses = () => new Promise(async (resolve, reject)
 		logger.info('Course Clean Details: ', details);
 
 		const cleanDetails = await this.removeOldCoursesBulk(deletes);
-		return resolve(cleanDetails);
+		return cleanDetails;
 	} catch (err) {
 		logger.error('Error in doCleanRemovedCourses()');
-		return reject(err);
+		throw err;
 	}
-});
+};
 
 module.exports.cleanCoursesAfterRepopulate = (time) => Course.deleteMany({
 	timestamp: { $lt: time },
 }).exec();
 
-module.exports.updateHeatmap = async () => new Promise(async (resolve, reject) => {
+module.exports.updateHeatmap = async () => {
 	try {
 		const initTime = new Date();
 		logger.info(`Heatmap update started at: ${initTime}`);
@@ -521,12 +521,12 @@ module.exports.updateHeatmap = async () => new Promise(async (resolve, reject) =
 		const timestamp = await systemUtility.updateHeatmapUpdateTime();
 		logger.info(`Heatmap update processed at: ${timestamp} in ${timestamp.getTime() - initTime}ms`);
 
-		return resolve({ timestamp, docs: updates });
+		return { timestamp, docs: updates };
 	} catch (err) {
 		logger.error(`Error in updateHeatmap: ${err}`);
-		return reject(err);
+		throw err;
 	}
-});
+};
 
 cron.schedule('*/5 * * * *', () => {
 	if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {

@@ -20,7 +20,7 @@ export const logout = createAsyncThunk(
 	},
 );
 
-const initialState: AuthSlice = {
+export const initialState: AuthSlice = {
 	isAuthenticated: null,
 };
 
@@ -60,5 +60,5 @@ const authSlice = createSlice({
 });
 
 export const { changeAuth } = authSlice.actions;
-
+export const { name } = authSlice;
 export default authSlice.reducer;

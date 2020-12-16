@@ -7,20 +7,15 @@ import CourseCard from './CourseCard';
 import styles from '../../css/CourseSelectionList.module.scss';
 
 import CourseCardListProps from '../../models/components/CourseSelection/CourseCardList';
-import { RootState } from '../../app/rootReducer';
+import { selectPrereqList, selectSelectedCourse } from '../../selectors/course';
+import { selectCompletedCourses } from '../../selectors/user';
 
 const CourseCardList: FC<CourseCardListProps> = ({
 	filteredCourseList = {},
 }) => {
-	const selectedCourse = useSelector(
-		(state: RootState) => state.course.selected,
-	);
-	const prereqList = useSelector(
-		(state: RootState) => state.course.lists.req,
-	);
-	const completedCourses = useSelector(
-		(state: RootState) => state.user.completedCourses,
-	);
+	const selectedCourse = useSelector(selectSelectedCourse);
+	const prereqList = useSelector(selectPrereqList);
+	const completedCourses = useSelector(selectCompletedCourses);
 
 	const completedCourseCards = Object.keys(filteredCourseList)
 		.filter((code) => completedCourses && completedCourses[code])

@@ -6,23 +6,19 @@ import {
 	Tooltip,
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import styles from '../../css/CustomNavbar.module.scss';
 
-import { RootState } from '../../app/rootReducer';
 import { logout } from '../../reducers/auth';
 import { clearLocalData } from '../../reducers/timetable';
+import { selectIsAuthenticated } from '../../selectors/auth';
+import { selectUserDetails } from '../../selectors/user';
 
 const UserDropdown = () => {
 	const dispatch = useDispatch();
-	const userDetails = useSelector(
-		(state: RootState) => state.user.details,
-	);
-	const isAuthenticated = useSelector(
-		(state: RootState) => state.auth.isAuthenticated,
-	);
-	const history = useHistory();
+	const userDetails = useSelector(selectUserDetails);
+	const isAuthenticated = useSelector(selectIsAuthenticated);
 
 	if (!isAuthenticated) {
 		return (
@@ -36,13 +32,6 @@ const UserDropdown = () => {
 					</Tooltip>
 				)}
 			>
-				{/* <Nav.Link
-					href="/login"
-					className={styles.navLink}
-				>
-				Login
-				</Nav.Link> */}
-
 				<NavDropdown
 					id="LoginDropdown"
 					alignRight

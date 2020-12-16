@@ -28,6 +28,12 @@ import {
 import { fetchHeatmap, fetchAllCourseLists } from '../reducers/course';
 import { syncTimetable } from '../reducers/timetable';
 
+// Selectors
+import { selectHeatmapTimestamp, selectListsTimestamp } from '../selectors/course';
+import { selectTimetable, selectTimetableTimestamp } from '../selectors/timetable';
+import { selectCurrentCurriculumData, selectSelectedPrefix } from '../selectors/curriculum';
+import { selectIsAuthenticated } from '../selectors/auth';
+
 // Custom Hooks
 // import useAxiosFFCS from '../hooks/useAxiosFFCS';
 import useInterval from '../hooks/useInterval';
@@ -38,14 +44,20 @@ import {
 	// TTErrorProps,
 } from '../models/components/Dashboard';
 // import TTGenPreferences from '../models/data/TTGenPreferences';
-import { RootState } from '../app/rootReducer';
 
 const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? (
 	<Row>
-		<Alert className={styles.alert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
+		<Alert
+			className={styles.alert}
+			variant="danger"
+			onClose={() => setShowAlert(false)}
+			dismissible
+		>
 			<Alert.Heading>Courses Updated</Alert.Heading>
 			<p>
-				If you notice courses missing from your timetable, it might be due to them being removed to keep it in sync with the available courses from the Course Allocation Report.
+				If you notice courses missing from your timetable,
+				it might be due to them being removed to keep it in
+				sync with the available courses from the Course Allocation Report.
 			</p>
 		</Alert>
 	</Row>
@@ -66,29 +78,18 @@ const AlertRow: FC<AlertRowProps> = ({ show = false, setShowAlert }) => (show ? 
 const Dashboard = () => {
 	const dispatch = useDispatch();
 
-	const heatmapTimestamp = useSelector(
-		(state: RootState) => state.course.heatmap.timestamp,
-	);
-	const listsTimestamp = useSelector(
-		(state: RootState) => state.course.lists.timestamp,
-	);
-	const timetableTimestamp = useSelector(
-		(state: RootState) => state.timetable.timestamp,
-	);
-	const selectedCurriculum = useSelector(
-		(state: RootState) => state.curriculum.selectedPrefix,
-	);
-	const currentCurriculumData = useSelector(
-		(state: RootState) => state.curriculum.currentData,
-	);
-	const timetable = useSelector(
-		(state: RootState) => state.timetable.data,
-	);
-	const isAuthenticated = useSelector(
-		(state: RootState) => state.auth.isAuthenticated,
-	);
+	const heatmapTimestamp = useSelector(selectHeatmapTimestamp);
+	const listsTimestamp = useSelector(selectListsTimestamp);
+	const timetableTimestamp = useSelector(selectTimetableTimestamp);
+	const timetable = useSelector(selectTimetable);
+	const selectedCurriculum = useSelector(selectSelectedPrefix);
+	const currentCurriculumData = useSelector(selectCurrentCurriculumData);
+	const isAuthenticated = useSelector(selectIsAuthenticated);
 
-	// const [{ data: postGenerateTTResponse, loading: postGenerateTTLoading }, executePostGenerateTT] = useAxiosFFCS({
+	// const [
+	//	{ data: postGenerateTTResponse, loading: postGenerateTTLoading },
+	//	executePostGenerateTT,
+	// ] = useAxiosFFCS({
 	// 	url: '/ttgen/generateTimetable',
 	// 	method: 'POST',
 	// 	headers: {
@@ -214,7 +215,7 @@ const Dashboard = () => {
 				setShowAlert={setShowAlert}
 			/>
 
-			<Row>
+			<Row id="timetable">
 				<Timetable />
 			</Row>
 

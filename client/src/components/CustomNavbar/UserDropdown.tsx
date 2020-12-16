@@ -48,7 +48,7 @@ const UserDropdown = () => {
 							Keep local data
 						</NavDropdown.Item>
 
-						<NavDropdown.Item
+						{/* <NavDropdown.Item
 							as={Link}
 							to="/login"
 							key="LoginDropdown_KeepServer"
@@ -58,7 +58,7 @@ const UserDropdown = () => {
 							}}
 						>
 							Keep server data
-						</NavDropdown.Item>
+						</NavDropdown.Item> */}
 					</Dropdown.Menu>
 				</NavDropdown>
 			</OverlayTrigger>

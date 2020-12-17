@@ -17,8 +17,6 @@ jobs:
           port: 22
           script: |
             cd /home/ffcs/FFCSThingy2.0/backend
+            git reset HEAD --hard
             git pull origin master
-            docker kill backend || true  
-            docker container rm backend
-            docker build -t ffcsbackend .
-            docker run -d -p 3001:3001 --name backend ffcsbackend
+            docker-compose up -d --build

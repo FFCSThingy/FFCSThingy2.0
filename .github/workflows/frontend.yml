@@ -29,4 +29,4 @@ jobs:
           key: ${{secrets.ACTIONS_DEPLOY_KEY}}
           port: 22
           source: "client/build/*"
-          target: "/home/ffcs/FFCSThingy2.0/client/build"  
+          target: "/home/ffcs/FFCSThingy2.0"  

@@ -256,6 +256,16 @@ const CLASHMAP: Clashmap = {
 		isFilled: false,
 		currentlyClashesWith: [],
 	},
+	L17: {
+		clashesWith: ['L17', 'V2'],
+		isFilled: false,
+		currentlyClashesWith: []
+	},
+	L18: {
+		clashesWith: ['L18'],
+		isFilled: false,
+		currentlyClashesWith: []
+	},
 	L19: {
 		clashesWith: ['L19', 'D1'],
 		isFilled: false,

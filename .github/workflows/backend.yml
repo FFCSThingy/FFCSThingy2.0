@@ -16,11 +16,9 @@ jobs:
           key: ${{secrets.ACTIONS_DEPLOY_KEY}}
           port: 22
           script: |
-            cd /home/ffcs
-            rm -rf FFCSThingy2.0
-            git clone https://github.com/FFCSThingy/FFCSThingy2.0.git
-            cd FFCSThingy2.0/backend
-            docker build -t ffcs-backend .
-            docker stop ffcs-backend || true
-            docker rm ffcs-backend || true
-            docker run -d -p 3001:3001 --name ffcs-backend ffcs-backend
+            cd /home/ffcs/FFCSThingy2.0/backend
+            git pull origin master
+            docker kill backend || true  
+            docker container rm backend
+            docker build -t ffcsbackend .
+            docker run -d -p 3001:3001 --name backend ffcsbackend

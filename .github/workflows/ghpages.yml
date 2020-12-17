@@ -1,27 +1,29 @@
-name: deploy
-
+name: Deployment
 on:
   push:
-    branches: [ master ]
-    
+    branches:
+      - master
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-    - name: push to gh-pages
-      env:
-          DOTENV: ${{ secrets.DOTENV }}
-          CNAME: ffcs.ooo
-          FOLDER_NAME: build
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install Packages
+      run: npm install --prefix client/
+    - name: Build page
       run: |
-        cd client
-        echo $DOTENV > .env
-        npm ci --only=production
-        npm run build-prod
-        echo $CNAME > build/CNAME
-        git config user.name csivitu
-        git add -f $FOLDER_NAME
-        git commit --amend --no-edit
-        git push origin `git subtree split --prefix $FOLDER_NAME master`:gh-pages --force ||  git subtree push --prefix $FOLDER_NAME origin gh-pages:wq
+        unset CI
+        npm run build --prefix client/
+        echo "ffcs.ooo" > frontend/build/CNAME
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./frontend/build

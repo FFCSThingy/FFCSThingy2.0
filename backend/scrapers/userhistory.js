@@ -61,6 +61,10 @@ module.exports.parseUserHistory = (html, userID = '') => {
 					}
 					return;
 				}
+				var courseRegex = /^\w{3}\d{4}$/;
+				if (!attrs.eq(1).text().match(courseRegex)) {
+					return;
+				}
 
 				console.log(i, attrs.eq(1).text(), attrs.eq(2).text());
 

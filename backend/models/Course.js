@@ -17,3 +17,4 @@ const courseSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('Course', courseSchema);
+// gives course details

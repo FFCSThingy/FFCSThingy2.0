@@ -1,0 +1,5 @@
+node_modules/*
+.eslintrc.js
+.gitignore
+env.md
+Dockerfile

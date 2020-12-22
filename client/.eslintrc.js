@@ -23,7 +23,7 @@ module.exports = {
 		project: './tsconfig.json',
 	},
 	plugins: [
-		// 'react',
+		'react-hooks',
 	],
 	rules: {
 		'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
@@ -35,9 +35,11 @@ module.exports = {
 		'react/destructuring-assignment': [0],
 		'react/prop-types': 0,
 		'react/no-unused-state': 1,
-		'max-len': 0,
+		'max-len': 1,
 		'no-param-reassign': 0,
 		'jsx-a11y/click-events-have-key-events': 0,
 		'no-underscore-dangle': 0,
+		'jest/no-hooks': 0,
+		'react-hooks/exhaustive-deps': 1,
 	},
 };

@@ -1,0 +1,32 @@
+name: Deploy FFCS Frontend
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with: 
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Install Packages
+        run: npm install --prefix client/
+      - name: Build page
+        run: |
+          unset CI
+          export GENERATE_SOURCEMAP=false
+          npm run build-prod --prefix client/
+          echo "ffcs.ooo" > client/build/CNAME
+      - uses: appleboy/scp-action@master
+        with:
+          host: ${{secrets.DEPLOYMENT_HOST}}
+          username: "ffcs"
+          key: ${{secrets.ACTIONS_DEPLOY_KEY}}
+          port: 22
+          source: "client/build/*"
+          target: "/home/ffcs/FFCSThingy2.0"  

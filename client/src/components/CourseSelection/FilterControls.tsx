@@ -12,7 +12,8 @@ import FilterControlsProps from '../../models/components/CourseSelection/FilterC
 
 const FilterControls: FC<FilterControlsProps> = memo(
 	({
-		setSelectedCategory, setSearchString, typeFilters, setTypeFilters, setCreditFilter, tabsDisabled, showPlaceholder,
+		setSelectedCategory, setSearchString, typeFilters, setTypeFilters,
+		setCreditFilter, tabsDisabled, showPlaceholder,
 	}) => {
 		const typeButtons = COURSE.simpleTypes.map((v) => (
 			<ToggleButton
@@ -65,7 +66,11 @@ const FilterControls: FC<FilterControlsProps> = memo(
 								placeholder="Search by"
 								spellCheck="false"
 								autoComplete="off"
-								onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchString(e.target.value)}
+								onChange={
+									(e: React.ChangeEvent<HTMLInputElement>) => setSearchString(
+										e.target.value,
+									)
+								}
 							/>
 						</OverlayTrigger>
 						{renderText()}
@@ -99,7 +104,11 @@ const FilterControls: FC<FilterControlsProps> = memo(
 									max="30"
 									spellCheck="false"
 									autoComplete="off"
-									onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCreditFilter(e.target.value)}
+									onChange={
+										(e: React.ChangeEvent<HTMLInputElement>) => setCreditFilter(
+											e.target.value,
+										)
+									}
 								/>
 							</Col>
 						</Form.Group>
@@ -114,19 +123,48 @@ const FilterControls: FC<FilterControlsProps> = memo(
 						onSelect={(selected: string) => setSelectedCategory(selected)}
 					>
 						<Nav.Item>
-							<Nav.Link className={styles.categoryFilterButton} eventKey="ALL">ALL</Nav.Link>
+							<Nav.Link
+								className={styles.categoryFilterButton}
+								eventKey="ALL"
+							>
+								ALL
+							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className={styles.categoryFilterButton} eventKey="PC" disabled={tabsDisabled}>PC</Nav.Link>
+							<Nav.Link
+								className={styles.categoryFilterButton}
+								eventKey="PC"
+								disabled={tabsDisabled}
+							>
+								PC
+							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className={styles.categoryFilterButton} eventKey="UC" disabled={tabsDisabled}>UC</Nav.Link>
+							<Nav.Link
+								className={styles.categoryFilterButton}
+								eventKey="UC"
+								disabled={tabsDisabled}
+							>
+								UC
+							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className={styles.categoryFilterButton} eventKey="PE" disabled={tabsDisabled}>PE</Nav.Link>
+							<Nav.Link
+								className={styles.categoryFilterButton}
+								eventKey="PE"
+								disabled={tabsDisabled}
+							>
+								PE
+							</Nav.Link>
 						</Nav.Item>
 						<Nav.Item>
-							<Nav.Link className={styles.categoryFilterButton} eventKey="UE" disabled={tabsDisabled}>UE</Nav.Link>
+							<Nav.Link
+								className={styles.categoryFilterButton}
+								eventKey="UE"
+								disabled={tabsDisabled}
+							>
+								UE
+							</Nav.Link>
 						</Nav.Item>
 					</Nav>
 				</Row>

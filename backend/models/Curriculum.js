@@ -69,3 +69,4 @@ const curriculumSchema = mongoose.Schema({	// From My Curriculum
 });
 
 module.exports = mongoose.model('Curriculum', curriculumSchema);
+// Commit message

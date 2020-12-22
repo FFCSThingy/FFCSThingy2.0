@@ -11,27 +11,22 @@ import * as COURSE from '../../constants/Courses';
 
 import { CurriculumCourse } from '../../models/data/Curriculum';
 import { CourseList } from '../../models/data/CourseLists';
-import { RootState } from '../../app/rootReducer';
+
+import {
+	selectCourseList,
+	selectCourseFacultyList,
+	selectCourseSlotList,
+	selectCourseTypeList,
+} from '../../selectors/course';
+import { selectSelectedPrefix, selectCurrentCurriculumData } from '../../selectors/curriculum';
 
 const CourseSelection = () => {
-	const courseList = useSelector(
-		(state: RootState) => state.course.lists.course,
-	);
-	const courseFacultyList = useSelector(
-		(state: RootState) => state.course.lists.faculty,
-	);
-	const courseSlotList = useSelector(
-		(state: RootState) => state.course.lists.slot,
-	);
-	const courseTypeList = useSelector(
-		(state: RootState) => state.course.lists.type,
-	);
-	const selectedCurriculumPrefix = useSelector(
-		(state: RootState) => state.curriculum.selectedPrefix,
-	);
-	const selectedCurriculum = useSelector(
-		(state: RootState) => state.curriculum.currentData,
-	);
+	const courseList = useSelector(selectCourseList);
+	const courseFacultyList = useSelector(selectCourseFacultyList);
+	const courseSlotList = useSelector(selectCourseSlotList);
+	const courseTypeList = useSelector(selectCourseTypeList);
+	const selectedCurriculumPrefix = useSelector(selectSelectedPrefix);
+	const selectedCurriculum = useSelector(selectCurrentCurriculumData);
 
 	const [filteredCourseList, setFilteredCourseList] = useState<CourseList>({});
 

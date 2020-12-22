@@ -6,7 +6,7 @@
 	border-radius: 0.7rem;
 	border: none;
 
-	max-height: 80vh !important;
+	height: 80vh !important;
 
 	@include theme-aware('background-color', 'color-brand');
 }
@@ -26,7 +26,7 @@
 	border-radius: 0 0 0.7rem 0.7rem;
 	cursor: default;
 
-	min-height: 20vh;
+	height: 20vh;
 	overflow: auto;
 
 	scrollbar-width: none;

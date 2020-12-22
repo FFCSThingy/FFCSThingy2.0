@@ -8,7 +8,7 @@
 	border-radius: 0.7rem;
 	border: none;
 
-	max-height: 80vh;
+	height: 80vh;
 
 	@media only screen and (min-width: 768px) and (max-width: 978px) {
 		padding-left: 0;
@@ -21,15 +21,15 @@
 
 .slotTableHeader {
 	@include theme-aware('background-color', 'color-brand');
-	padding: 1.25rem 1rem 0 1rem;
+	padding: 1.25rem 1rem 1.25rem 1rem;
 
 	border-radius: 0.7rem 0.7rem 0 0 !important;
 	border: none;
 
-	min-height: 7.5em;
+	height: 8rem;
 
 	@media only screen and (min-width: 576px) {
-		min-height: 4.95em;
+		height: 5rem;
 	}
 }
 

@@ -3,6 +3,8 @@ name: Node-Server-Deploy
 on:
   push:
     branches: [master]
+    paths:
+      - 'backend/**'
 
 jobs:
   deploy:

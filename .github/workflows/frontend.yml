@@ -3,6 +3,8 @@ name: Deploy FFCS Frontend
 on:
   push:
     branches: [master]
+    paths:
+      - 'client/**'
 
 jobs:
   deploy:

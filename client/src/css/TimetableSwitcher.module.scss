@@ -34,8 +34,6 @@
 
 .dropdownButton {
 	composes: customDropdownButton from './baseStyles/CustomDropdownButton.module.scss';
-
-	height: 2.5rem;
 }
 
 // The Dropdown.Menu item inside NavDropdown

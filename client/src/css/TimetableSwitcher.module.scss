@@ -3,19 +3,39 @@
 .dropdownButtonGroupContainer {
 	font-family: 'Montserrat', sans-serif;
 
-	display: flex;
-	flex-direction: column;
-
-	justify-content: center;
-	align-items: center;
+	& div:global(.btn-group) {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	
+		justify-content: center;
+		align-items: center;
+		align-content: center;
+	}
 }
 
 .button {
 	composes: customButton from './baseStyles/CustomButton.module.scss';
+
+	margin: 0.5rem 1rem;
+	flex-grow: 0 !important;
+	
+	@media only screen and (max-width: 768px) {
+		flex-basis: 25%;
+		
+		// Alternate solution
+		// &:nth-child(3) {
+		// 	page-break-after: always; /* CSS 2.1 syntax */
+		// 	break-after: always; /* New syntax */
+		// }
+	}
+	
 }
 
 .dropdownButton {
 	composes: customDropdownButton from './baseStyles/CustomDropdownButton.module.scss';
+
+	height: 2.5rem;
 }
 
 // The Dropdown.Menu item inside NavDropdown

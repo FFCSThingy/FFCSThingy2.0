@@ -529,8 +529,7 @@ module.exports.updateHeatmap = async () => new Promise(async (resolve, reject) =
 });
 
 cron.schedule('*/5 * * * *', () => {
-	if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-		// if (process.env.NODE_ENV !== 'staging') {
+	if (['development', 'production'].includes(process.env.NODE_ENV)) {
 		logger.info('Updating cached heatmap');
 		module.exports.getFullHeatmap(true).then((dat) => {
 			heatmap = dat;
@@ -544,7 +543,7 @@ cron.schedule('*/5 * * * *', () => {
 });
 
 cron.schedule('*/10 * * * *', () => {
-	if (process.env.NODE_ENV === 'staging' || process.env.NODE_ENV === 'development') {
+	if (['development', 'production'].includes(process.env.NODE_ENV)) {
 		logger.info('Running Heatmap Update');
 		module.exports.updateHeatmap();
 	}

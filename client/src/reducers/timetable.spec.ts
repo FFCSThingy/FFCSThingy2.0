@@ -390,6 +390,34 @@ describe('timetable reducer', () => {
 				expect(timetable(bothCourseSampleSelected, thisAction))
 					.toStrictEqual(bothCourseSampleSelected);
 			});
+
+			it('should not rename current to an empty string', () => {
+				expect.hasAssertions();
+				const thisAction = {
+					type: renameTimetable.type,
+					payload: '',
+				};
+
+				store.dispatch(renameTimetable(thisAction.payload));
+				expect(store.getActions()).toStrictEqual([thisAction]);
+
+				expect(timetable(bothCourseSampleSelected, thisAction))
+					.toStrictEqual(bothCourseSampleSelected);
+			});
+
+			it('should not rename current to a string with just whitespace', () => {
+				expect.hasAssertions();
+				const thisAction = {
+					type: renameTimetable.type,
+					payload: '  ',
+				};
+
+				store.dispatch(renameTimetable(thisAction.payload));
+				expect(store.getActions()).toStrictEqual([thisAction]);
+
+				expect(timetable(bothCourseSampleSelected, thisAction))
+					.toStrictEqual(bothCourseSampleSelected);
+			});
 		});
 
 		describe(`${copyTimetable}`, () => {

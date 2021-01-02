@@ -227,6 +227,8 @@ const timetableSlice = createSlice({
 		renameTimetable: (state, action: PayloadAction<string>) => {
 			const newName = action.payload;
 
+			// Checks if string is blank, null, undefined, or has only whitespace
+			if (!newName || /^\s*$/.test(newName)) return;
 			if (state.active === DEFAULT_TT_NAME) return;
 			if (state.names.includes(newName)) return;
 

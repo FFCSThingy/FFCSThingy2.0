@@ -218,6 +218,56 @@ describe('timetable reducer', () => {
 				// and that a duplicate isn't added
 				expect(timetable(initState, action)).toStrictEqual(finalState);
 			});
+
+			it('should handle new timetable (empty string)', () => {
+				expect.hasAssertions();
+				const emptyAction = {
+					type: addTimetable.type,
+					payload: '',
+				};
+				const initState = {
+					...initialState,
+					active: 'Default',
+					names: ['Default'],
+				};
+				const finalState = {
+					...initialState,
+					active: 'Default', // Active timetable should remain same
+					names: ['Default'], // Empty name shouldn't be added
+				};
+
+				store.dispatch(addTimetable(emptyAction.payload));
+				expect(store.getActions()).toStrictEqual([emptyAction]);
+
+				// To check that active timetable does not change
+				// and that an empty-name isn't added
+				expect(timetable(initState, emptyAction)).toStrictEqual(finalState);
+			});
+
+			it('should handle new timetable (whitespace string)', () => {
+				expect.hasAssertions();
+				const emptyAction = {
+					type: addTimetable.type,
+					payload: '  ',
+				};
+				const initState = {
+					...initialState,
+					active: 'Default',
+					names: ['Default'],
+				};
+				const finalState = {
+					...initialState,
+					active: 'Default', // Active timetable should remain same
+					names: ['Default'], // Empty name shouldn't be added
+				};
+
+				store.dispatch(addTimetable(emptyAction.payload));
+				expect(store.getActions()).toStrictEqual([emptyAction]);
+
+				// To check that active timetable does not change
+				// and that an empty-name isn't added
+				expect(timetable(initState, emptyAction)).toStrictEqual(finalState);
+			});
 		});
 
 		describe(`${changeTimetable}`, () => {

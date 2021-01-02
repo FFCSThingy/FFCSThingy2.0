@@ -190,6 +190,8 @@ const timetableSlice = createSlice({
 		addTimetable: (state, action: PayloadAction<string>) => {
 			const timetableName = action.payload;
 
+			// Checks if string is blank, null, undefined, or has only whitespace
+			if (!timetableName || /^\s*$/.test(timetableName)) return;
 			if (state.names.includes(timetableName)) return;
 
 			state.names.push(timetableName);

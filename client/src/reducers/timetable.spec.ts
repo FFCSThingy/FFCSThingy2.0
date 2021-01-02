@@ -184,7 +184,7 @@ describe('timetable reducer', () => {
 				payload: 'Sample',
 			};
 
-			it('should handle new timetable (no duplicates)', () => {
+			it('should add new timetable and switch to it', () => {
 				expect.hasAssertions();
 				const finalState = {
 					...initialState,
@@ -198,7 +198,7 @@ describe('timetable reducer', () => {
 				expect(timetable(undefined, action)).toStrictEqual(finalState);
 			});
 
-			it('should handle new timetable (new name already present)', () => {
+			it('should not add new timetable if name already exists', () => {
 				expect.hasAssertions();
 				const initState = {
 					...initialState,
@@ -219,7 +219,7 @@ describe('timetable reducer', () => {
 				expect(timetable(initState, action)).toStrictEqual(finalState);
 			});
 
-			it('should handle new timetable (empty string)', () => {
+			it('should not add new timetable if name is empty', () => {
 				expect.hasAssertions();
 				const emptyAction = {
 					type: addTimetable.type,
@@ -244,7 +244,7 @@ describe('timetable reducer', () => {
 				expect(timetable(initState, emptyAction)).toStrictEqual(finalState);
 			});
 
-			it('should handle new timetable (whitespace string)', () => {
+			it('should not add new timetable if name is only whitespace', () => {
 				expect.hasAssertions();
 				const emptyAction = {
 					type: addTimetable.type,

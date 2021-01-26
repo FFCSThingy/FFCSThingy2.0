@@ -294,11 +294,11 @@ exports[`component: CourseCard snapshots selected-not-passed, no-prereq, no-comp
 
 exports[`component: CourseCard snapshots should show only course types if no prereqs given 1`] = `
 <div
-  class="fade show tooltip bs-tooltip-top-start"
+  class="fade show tooltip bs-tooltip-top"
   id="ZZZ1001-PrereqsTooltip"
   role="tooltip"
   style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
-  x-placement="top-start"
+  x-placement="top"
 >
   <div
     class="arrow"
@@ -323,11 +323,11 @@ exports[`component: CourseCard snapshots should show only course types if no pre
 
 exports[`component: CourseCard snapshots should show prereq tooltip if prereqs given 1`] = `
 <div
-  class="fade show tooltip bs-tooltip-top-start"
+  class="fade show tooltip bs-tooltip-top"
   id="ZZZ1001-PrereqsTooltip"
   role="tooltip"
   style="position: absolute; top: 0px; left: 0px; opacity: 0; pointer-events: none;"
-  x-placement="top-start"
+  x-placement="top"
 >
   <div
     class="arrow"

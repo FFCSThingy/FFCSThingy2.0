@@ -120,7 +120,7 @@ const FilterControls: FC<FilterControlsProps> = memo(
 						className={styles.categoryFilterGroup}
 						variant="tabs"
 						defaultActiveKey="ALL"
-						onSelect={(selected: string) => setSelectedCategory(selected)}
+						onSelect={(selected: string | null) => setSelectedCategory(selected ?? 'ALL')}
 					>
 						<Nav.Item>
 							<Nav.Link

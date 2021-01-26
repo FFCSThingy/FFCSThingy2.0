@@ -19,7 +19,7 @@ const CurriculumDropdown = () => {
 			title={selected}
 			className={styles.navbarDropdown}
 			onSelect={
-				(selectedCurr: string) => dispatch(setSelectedCurriculum(selectedCurr))
+				(selectedCurr: string | null) => dispatch(setSelectedCurriculum(selectedCurr ?? ''))
 			}
 		>
 			<Dropdown.Menu className={styles.dropdownMenu}>

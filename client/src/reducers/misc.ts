@@ -6,6 +6,8 @@ const ACTION_BASE = 'misc';
 export const changeTheme = createAsyncThunk(
 	`${ACTION_BASE}/changeTheme`,
 	async (theme: string) => {
+		if (theme === '') return theme;
+
 		document.documentElement.className = '';
 		document.documentElement.classList.add(`theme-${theme}`);
 
@@ -26,6 +28,9 @@ const miscSlice = createSlice({
 			changeTheme.fulfilled,
 			(state, action: PayloadAction<string>) => {
 				const theme = action.payload;
+
+				if (theme === '') return;
+
 				state.theme = theme;
 			},
 		);

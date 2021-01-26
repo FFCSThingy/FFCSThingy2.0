@@ -19,7 +19,7 @@ const ThemeDropdown = () => {
 			title="Theme"
 			className={styles.navbarDropdown}
 			onSelect={
-				(selectedTheme: string) => dispatch(changeTheme(selectedTheme))
+				(selectedTheme: string | null) => dispatch(changeTheme(selectedTheme ?? ''))
 			}
 		>
 			<Dropdown.Menu className={styles.dropdownMenu}>

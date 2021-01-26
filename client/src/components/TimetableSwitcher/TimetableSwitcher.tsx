@@ -118,7 +118,7 @@ const TimetableSwitcher = memo(() => {
 
 				<Dropdown
 					onSelect={
-						(selected: string) => dispatch(changeTimetable(selected))
+						(selected: string | null) => dispatch(changeTimetable(selected ?? ''))
 					}
 				>
 					<Dropdown.Toggle

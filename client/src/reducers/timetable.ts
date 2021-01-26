@@ -175,6 +175,7 @@ const timetableSlice = createSlice({
 		changeTimetable: (state, action: PayloadAction<string>) => {
 			const timetableName = action.payload;
 
+			if (timetableName === '') return;
 			if (!state.names.includes(timetableName)) return;
 
 			state.active = timetableName;

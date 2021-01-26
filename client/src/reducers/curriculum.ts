@@ -67,6 +67,9 @@ const curriculumSlice = createSlice({
 			},
 			reducer(state, action: PayloadAction<{ selectedPrefix: string }, string>) {
 				const { selectedPrefix } = action.payload;
+
+				if (selectedPrefix === '') return;
+
 				state.selectedPrefix = selectedPrefix;
 			},
 		},

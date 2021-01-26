@@ -1,0 +1,40 @@
+server {
+    server_name ffcs.ooo www.ffcs.ooo;
+    
+    location /api/ {
+	    client_max_body_size 50M;
+        
+        proxy_pass http://localhost:3001/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    location / {
+	    root /home/ffcs/FFCSThingy2.0/client/build;
+    }
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/ffcs.ooo/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/ffcs.ooo/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+
+server {
+    if ($host = www.ffcs.ooo) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = ffcs.ooo) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    server_name ffcs.ooo www.ffcs.ooo;
+    return 404; # managed by Certbot
+}

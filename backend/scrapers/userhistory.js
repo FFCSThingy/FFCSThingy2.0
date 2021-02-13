@@ -61,12 +61,12 @@ module.exports.parseUserHistory = (html, userID = '') => {
 					}
 					return;
 				}
-				var courseRegex = /^\w{3}\d{4}$/;
+				const courseRegex = /^\w{3}\d{4}$/;
 				if (!attrs.eq(1).text().match(courseRegex)) {
 					return;
 				}
 
-				console.log(i, attrs.eq(1).text(), attrs.eq(2).text());
+				// console.log(i, attrs.eq(1).text(), attrs.eq(2).text());
 
 				switch (i) {
 					case trCount - (10 + diff):
@@ -144,8 +144,10 @@ module.exports.parseUserHistory = (html, userID = '') => {
 
 				data.completed_courses.push(course);
 
-				// eslint-disable-next-line no-restricted-globals
-				data.completed_courses = data.completed_courses.filter((c) => c.credits != null && !isNaN(c.credits));
+				data.completed_courses = data.completed_courses.filter(
+					// eslint-disable-next-line no-restricted-globals
+					(c) => c.credits != null && !isNaN(c.credits),
+				);
 			});
 
 			return resolve(data);

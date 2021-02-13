@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:server": "NODE_BASE_URL=http://localhost:3001 nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",

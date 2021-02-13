@@ -39,6 +39,8 @@ router.post('/processExtensionData', async (req, res) => {
 		const currDoc = await curriculumUtility.addCurriculumFromExt(curr);
 		return res.send(currDoc);
 	}
+
+	return res.status(404).json(consts.failJson(consts.messages.unknownParam));
 });
 
 router.get('/testCurriculum', (req, res) => {

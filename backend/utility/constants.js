@@ -5,6 +5,7 @@ const messages = {
 	notAuth: 'Not Authenticated',
 	notVtop: 'Not signed in to VTOP',
 	notAdmin: 'Not an admin. Admin privileges required for this action',
+	unknownParam: 'Unknown parameter received',
 };
 
 function failJson(msg = messages.serverError) {

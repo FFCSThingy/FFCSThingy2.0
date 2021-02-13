@@ -4,6 +4,8 @@ const { logger } = require('./loggers.js');
 // Models
 const User = require('../models/User');
 
+const { envs } = require('./constants');
+
 module.exports.findUserByID = (id) => User.findById(id).exec();
 
 module.exports.updateUser = (query, update, upsert = false, newVal = true, setDefaultsVal = true) => {
@@ -108,16 +110,14 @@ module.exports.aggregateCounts = () => User.aggregate([
 ]).exec();
 
 cron.schedule('0 */1 * * *', () => {
-	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-	if (process.env.NODE_ENV !== 'staging') {
+	if ([envs.DEV, envs.PROD].includes(process.env.NODE_ENV)) {
 		logger.info(`Resetting Hourly Counts ${new Date().toLocaleString()}`);
 		module.exports.updateUser({ hourlyCount: { $gt: 0 } }, { hourlyCount: 0 });
 	}
 });
 
 cron.schedule('0 0 */1 * *', () => {
-	// if(process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'production') {
-	if (process.env.NODE_ENV !== 'staging') {
+	if ([envs.DEV, envs.PROD].includes(process.env.NODE_ENV)) {
 		logger.info(`Resetting Daily Counts ${new Date().toLocaleString()}`);
 		module.exports.updateUser({ dailyCount: { $gt: 0 } }, { dailyCount: 0 });
 	}

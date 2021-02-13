@@ -7,6 +7,7 @@ const { logger } = require('./loggers.js');
 const User = require('../models/User');
 const Course = require('../models/Course');
 
+const { envs } = require('./constants');
 const systemUtility = require('./systemUtility');
 const userUtility = require('./userUtility');
 
@@ -529,7 +530,7 @@ module.exports.updateHeatmap = async () => {
 };
 
 cron.schedule('*/5 * * * *', () => {
-	if (['development', 'production'].includes(process.env.NODE_ENV)) {
+	if ([envs.DEV, envs.PROD].includes(process.env.NODE_ENV)) {
 		logger.info('Updating cached heatmap');
 		module.exports.getFullHeatmap(true).then((dat) => {
 			heatmap = dat;
@@ -543,7 +544,7 @@ cron.schedule('*/5 * * * *', () => {
 });
 
 cron.schedule('*/10 * * * *', () => {
-	if (['development', 'production'].includes(process.env.NODE_ENV)) {
+	if ([envs.DEV, envs.PROD].includes(process.env.NODE_ENV)) {
 		logger.info('Running Heatmap Update');
 		module.exports.updateHeatmap();
 	}

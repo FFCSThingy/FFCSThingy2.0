@@ -19,8 +19,15 @@ const userScopes = {
 	admin: 'admin',
 };
 
+const envs = {
+	PROD: 'production',
+	DEV: 'development',
+	STG: 'staging',
+};
+
 module.exports = {
 	messages,
 	failJson,
 	userScopes,
+	envs,
 };

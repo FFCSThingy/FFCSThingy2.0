@@ -10,7 +10,11 @@ router.use(express.json({ limit: '50mb' }));
 router.use(express.urlencoded({ limit: '50mb', extended: false }));
 
 
-const lambda = new sdk.Lambda({ accessKeyId: process.env.NODE_AWS_ACCESS_KEY_ID, secretAccessKey: process.env.NODE_AWS_SECRET_ACCESS_KEY, region: process.env.NODE_AWS_REGION });
+const lambda = new sdk.Lambda({
+	accessKeyId: process.env.NODE_AWS_ACCESS_KEY_ID,
+	secretAccessKey: process.env.NODE_AWS_SECRET_ACCESS_KEY,
+	region: process.env.NODE_AWS_REGION,
+});
 
 const dailyCountLimit = 20;
 const hourlyCountLimit = 10;

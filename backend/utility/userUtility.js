@@ -8,7 +8,9 @@ const { envs } = require('./constants');
 
 module.exports.findUserByID = (id) => User.findById(id).exec();
 
-module.exports.updateUser = (query, update, upsert = false, newVal = true, setDefaultsVal = true) => {
+module.exports.updateUser = (
+	query, update, upsert = false, newVal = true, setDefaultsVal = true,
+) => {
 	update.timestamp = Date.now();
 	return User.findOneAndUpdate(query, update,
 		{ upsert, new: newVal, setDefaultsOnInsert: setDefaultsVal }).exec();

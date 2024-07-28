@@ -2,6 +2,10 @@
 
 FFCSThingy2.0 is a course scheduling helper built for FFCS in VIT, Vellore. 
 
+![Dashboard](./screenshots/Dashboard.png)
+![Timetable](./screenshots/Timetable.png)
+![Mobile Timetable](./screenshots/MobileTimetable.png)
+
 The framework is extensible and modular, allowing use with other timetable structures as well.
 
 ## Built With
